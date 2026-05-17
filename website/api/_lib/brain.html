@@ -665,6 +665,79 @@ function setMode(mode, text) {
 setMode('idle', 'STANDBY');
 
 
+// ── Morning briefing ───────────────────────────────────────────────────
+// Once a day in the 8–11 window (or forced via ?briefing=test) JARVIS
+// reads the top RSS headlines aloud. The briefing text is also pushed
+// into the chat history so "mehr dazu" / follow-ups have context.
+const BRIEFING_KEY  = 'jarvisLastBriefedDate';
+const FORCE_TEST    = new URLSearchParams(location.search).get('briefing') === 'test';
+
+async function morningBriefing() {
+  setMode('thinking', 'NEWS');
+  try {
+    const r = await fetch('/api/brain/news');
+    if (!r.ok) throw new Error('news ' + r.status);
+    const j = await r.json();
+    if (!Array.isArray(j.items) || !j.items.length) {
+      addMessage('bot', 'Konnte keine Nachrichten laden, Sir.');
+      setMode('idle', 'STANDBY');
+      return;
+    }
+
+    const hour = new Date().getHours();
+    const hi   = hour < 11 ? 'Guten Morgen Paul' : hour < 18 ? 'Guten Tag Paul' : 'Guten Abend Paul';
+    const lines = j.items.map((it, i) => `${i + 1}. ${it.title}`).join('. ');
+    const intro = `${hi}. Hier sind die Top-Nachrichten von heute. ${lines}. Sagen Sie "mehr dazu", wenn ich auf eine eingehen soll.`;
+
+    // Put the full structured briefing in chat history so Claude can
+    // expand on individual items when the user asks "mehr dazu zu Punkt 2".
+    const fullContext = intro + '\n\nQuellen:\n' + j.items
+      .map((it, i) => `${i + 1}. [${it.source}] ${it.title} — ${it.description}`)
+      .join('\n');
+
+    _chatHistory.push({ role: 'user',      content: 'Lies mir die Nachrichten von heute vor.' });
+    _chatHistory.push({ role: 'assistant', content: fullContext });
+
+    addMessage('bot', intro);
+    setMode('speaking', 'SPEAKING');
+    await speak(intro);
+  } catch (e) {
+    console.error('[briefing]', e);
+    addMessage('bot', 'Die Nachrichten sind im Moment nicht erreichbar, Sir.');
+  } finally {
+    setMode('idle', 'STANDBY');
+  }
+}
+
+function checkMorningBriefing() {
+  if (FORCE_TEST) {
+    // Honour the manual override once per page load, then strip the
+    // query param so a refresh doesn't trigger again.
+    if (!window._briefingFired) {
+      window._briefingFired = true;
+      const u = new URL(location.href);
+      u.searchParams.delete('briefing');
+      history.replaceState({}, '', u.toString());
+      morningBriefing();
+    }
+    return;
+  }
+  const now   = new Date();
+  const hour  = now.getHours();
+  const today = now.toISOString().slice(0, 10);
+  if (hour < 8 || hour >= 11) return;
+  if (localStorage.getItem(BRIEFING_KEY) === today) return;
+  localStorage.setItem(BRIEFING_KEY, today);
+  morningBriefing();
+}
+
+// Kick the check 3 s after page load (lets stars, neural net, status
+// indicator settle) and again every minute so the briefing fires even
+// when the user has the tab open as the clock crosses 8:00.
+window.addEventListener('load', () => setTimeout(checkMorningBriefing, 3000));
+setInterval(checkMorningBriefing, 60_000);
+
+
 // ── Chat ───────────────────────────────────────────────────────────────
 const $chatPane = document.getElementById('chat-pane');
 const $messages = document.getElementById('messages');
