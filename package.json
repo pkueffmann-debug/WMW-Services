@@ -14,6 +14,7 @@
     "dist:dir": "npm run build && electron-builder --mac --x64 --dir --config",
     "dist:win": "npm run build && electron-builder --win --config",
     "dist:win:portable": "npm run build && electron-builder --win portable --config",
+    "dist:linux": "npm run build && electron-builder --linux --config",
     "dmg": "node scripts/create-dmg.js",
     "backend": "cd backend && node server.js",
     "backend:dev": "cd backend && node --watch server.js",
@@ -95,6 +96,14 @@
     },
     "portable": {
       "artifactName": "JARVIS-Portable-${version}.exe"
+    },
+    "linux": {
+      "icon": "assets/icon-256.png",
+      "category": "Utility",
+      "target": [
+        { "target": "AppImage", "arch": ["x64"] }
+      ],
+      "artifactName": "JARVIS-${version}.AppImage"
     },
     "dmg": {
       "title": "JARVIS",
