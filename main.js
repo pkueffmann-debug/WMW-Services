@@ -614,6 +614,18 @@ app.whenReady().then(() => {
   // this Electron process. Loopback bind only.
   try { wsbridge.start(); } catch (e) { console.error('[main] wsbridge boot failed:', e?.message); }
 
+  // Auto-open the brain web app 2 s after launch so it can find the bridge
+  // already listening on 127.0.0.1:7777 by the time the page-load runs the
+  // WS handshake. Skipped in dev mode (npm run dev) so iterating doesn't
+  // spawn a new browser tab on every hot-reload.
+  if (!isDev) {
+    setTimeout(() => {
+      shell.openExternal('https://daylens.dev/brain').catch((e) =>
+        console.warn('[main] auto-open daylens.dev/brain failed:', e?.message)
+      );
+    }, 2000);
+  }
+
   createWindow();
   createTray();
   globalShortcut.register('CommandOrControl+Shift+J', toggleWindow);
