@@ -1074,16 +1074,30 @@
       .navbar .btn-primary { padding: 12px 16px; font-size: 14px; min-height: 44px; }
       .mobile-nav a { min-height: 44px; display: flex; align-items: center; font-size: 16px; }
 
-      /* Hero — bigger headline (8-12 vw) so it dominates the small screen */
-      .hero { padding: 0 18px; }
-      .hero-content { margin-top: 14vh; }
+      /* Hero — fills the small viewport (without the URL bar), vertically
+         centred, with generous breathing room. Scroll-cue pinned to the
+         very bottom, not floating mid-content. */
+      .hero {
+        min-height: 100vh;
+        min-height: 100svh;   /* mobile-aware: excludes URL bar */
+        padding: 40px 20px 96px;   /* bottom-pad leaves space for scroll-cue */
+        justify-content: center;
+      }
+      .hero-content {
+        margin-top: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
       .hero-title {
         font-size: clamp(40px, 12vw, 88px);
         line-height: 1.02;
-        margin-bottom: 16px;
+        margin-bottom: 24px;
       }
-      .hero-sub { font-size: 16px; margin-bottom: 40px; line-height: 1.5; }
-      .scroll-cue { bottom: 28px; font-size: 12px; letter-spacing: 0.14em; min-height: 44px; }
+      .hero-sub { font-size: 16px; margin: 0 0 8px; line-height: 1.5; }
+      .scroll-cue { bottom: 32px; font-size: 12px; letter-spacing: 0.14em; min-height: 44px; }
 
       /* Statements — keep ~10 vw, give them more breathing room */
       .statement { min-height: 80vh; padding: 0 12px; }
@@ -2019,11 +2033,13 @@ function toggleNav() { document.getElementById('mobileNav').classList.toggle('op
 
 gsap.fromTo('#productMock', { opacity: 0, y: 60, scale: 0.95 }, {
   opacity: 1, y: 0, scale: 1, duration: 1.1, ease: 'power3.out',
-  scrollTrigger: { trigger: '#product', start: 'top 75%' }
+  immediateRender: false,
+  scrollTrigger: { trigger: '#product', start: 'top 92%', once: true }
 });
 gsap.fromTo('.feature-tag', { opacity: 0, scale: 0.7, y: 20 }, {
   opacity: 1, scale: 1, y: 0, duration: 0.6, stagger: 0.15, ease: 'back.out(1.7)',
-  scrollTrigger: { trigger: '#product', start: 'top 55%' }
+  immediateRender: false,
+  scrollTrigger: { trigger: '#product', start: 'top 92%', once: true }
 });
 
 // Section 4: horizontal scroll (desktop only — mobile gets natural vertical)
@@ -2050,19 +2066,23 @@ gsap.fromTo('.feature-tag', { opacity: 0, scale: 0.7, y: 20 }, {
 // Section 5: comparison matrix reveal
 gsap.fromTo('.compare-head > *', { opacity: 0, y: 20 }, {
   opacity: 1, y: 0, duration: 0.7, stagger: 0.08, ease: 'power3.out',
-  scrollTrigger: { trigger: '.compare', start: 'top 70%' }
+  immediateRender: false,
+  scrollTrigger: { trigger: '.compare', start: 'top 92%', once: true }
 });
 gsap.fromTo('.compare-table-wrap', { opacity: 0, y: 40 }, {
   opacity: 1, y: 0, duration: 0.9, ease: 'power3.out',
-  scrollTrigger: { trigger: '.compare-table-wrap', start: 'top 80%' }
+  immediateRender: false,
+  scrollTrigger: { trigger: '.compare-table-wrap', start: 'top 92%', once: true }
 });
 gsap.fromTo('.compare-table tbody tr', { opacity: 0, x: -20 }, {
   opacity: 1, x: 0, duration: 0.5, stagger: 0.06, ease: 'power2.out',
-  scrollTrigger: { trigger: '.compare-table', start: 'top 75%' }
+  immediateRender: false,
+  scrollTrigger: { trigger: '.compare-table', start: 'top 92%', once: true }
 });
 gsap.fromTo('.compare-bottom', { opacity: 0, y: 20 }, {
   opacity: 1, y: 0, duration: 0.9, ease: 'power3.out',
-  scrollTrigger: { trigger: '.compare-bottom', start: 'top 90%' }
+  immediateRender: false,
+  scrollTrigger: { trigger: '.compare-bottom', start: 'top 95%', once: true }
 });
 
 // Compare table — only show the right-edge fade when it actually scrolls.
@@ -2083,23 +2103,27 @@ gsap.fromTo('.compare-bottom', { opacity: 0, y: 20 }, {
 // Section 6: pricing cards scroll-in
 gsap.fromTo('.price-card', { opacity: 0, y: 60 }, {
   opacity: 1, y: 0, duration: 0.9, stagger: 0.15, ease: 'power3.out',
-  scrollTrigger: { trigger: '#pricing', start: 'top 70%' }
+  immediateRender: false,
+  scrollTrigger: { trigger: '#pricing', start: 'top 92%', once: true }
 });
 gsap.fromTo('#pricing .section-tag, #pricing .section-title, #pricing .section-sub, #pricing .price-toggle', { opacity: 0, y: 20 }, {
   opacity: 1, y: 0, duration: 0.7, stagger: 0.08, ease: 'power3.out',
-  scrollTrigger: { trigger: '#pricing', start: 'top 75%' }
+  immediateRender: false,
+  scrollTrigger: { trigger: '#pricing', start: 'top 92%', once: true }
 });
 
 // Section 7: testimonials
 gsap.fromTo('.testi-card', { opacity: 0, y: 40 }, {
   opacity: 1, y: 0, duration: 0.8, stagger: 0.15, ease: 'power3.out',
-  scrollTrigger: { trigger: '.testimonials', start: 'top 70%' }
+  immediateRender: false,
+  scrollTrigger: { trigger: '.testimonials', start: 'top 92%', once: true }
 });
 
 // Section 8: founder
 gsap.fromTo('#founder > *', { opacity: 0, y: 24 }, {
   opacity: 1, y: 0, duration: 0.8, stagger: 0.1, ease: 'power3.out',
-  scrollTrigger: { trigger: '#founder', start: 'top 75%' }
+  immediateRender: false,
+  scrollTrigger: { trigger: '#founder', start: 'top 92%', once: true }
 });
 
 // Pricing toggle (preserved IDs + logic from old version)
@@ -2241,6 +2265,29 @@ window.toggleNav     = toggleNav;
 window.yearly        = false;
 
 window.addEventListener('load', () => ScrollTrigger.refresh());
+
+// Safety net — if fast scrolling caused ScrollTrigger to skip an animation,
+// force every animated section visible after 3.5 s so nothing stays blank.
+// Each cohort already has `once: true` and `immediateRender: false`, but
+// edge cases (cold load + Cmd+End, browser back-forward cache, etc.) can
+// still leave elements at opacity 0. Belt + suspenders.
+setTimeout(() => {
+  const selectors = [
+    '#productMock', '.feature-tag',
+    '.compare-head > *', '.compare-table-wrap', '.compare-table tbody tr', '.compare-bottom',
+    '.price-card', '#pricing .section-tag', '#pricing .section-title', '#pricing .section-sub', '#pricing .price-toggle',
+    '.testi-card',
+    '#founder > *',
+  ];
+  for (const sel of selectors) {
+    document.querySelectorAll(sel).forEach((el) => {
+      const op = parseFloat(window.getComputedStyle(el).opacity);
+      if (!isNaN(op) && op < 0.5) {
+        gsap.set(el, { opacity: 1, x: 0, y: 0, scale: 1, clearProps: 'transform' });
+      }
+    });
+  }
+}, 3500);
 </script>
 </body>
 </html>
