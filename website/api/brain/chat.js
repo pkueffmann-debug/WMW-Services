@@ -417,6 +417,19 @@ module.exports = async (req, res) => {
   const desktopConnected = !!body.desktop_connected;
   const providers = availableProviders();
 
+  // ── SSE response setup ────────────────────────────────────────────────
+  // We stream tokens to the client as Server-Sent Events so the assistant
+  // text appears word-by-word in the browser instead of all-at-once.
+  res.setHeader('Content-Type', 'text/event-stream; charset=utf-8');
+  res.setHeader('Cache-Control', 'no-cache, no-transform');
+  res.setHeader('Connection', 'keep-alive');
+  res.setHeader('X-Accel-Buffering', 'no');  // disable nginx-style buffering
+  if (typeof res.flushHeaders === 'function') res.flushHeaders();
+
+  function sse(obj) {
+    res.write('data: ' + JSON.stringify(obj) + '\n\n');
+  }
+
   try {
     const facts = await loadFactsFor(user.id);
     const system = buildSystemPrompt({ now: new Date(), facts, providers });
@@ -426,21 +439,30 @@ module.exports = async (req, res) => {
     let finalText = '';
     let usedModel = null;
 
-    // 3 iters covers: text-only / single tool / two tools chained. Anything
-    // deeper is rare in normal mode and just adds latency.
+    // Only Anthropic supports our streaming path today. Other providers
+    // run non-streaming and we emit their full text as one chunk.
+    const canStream = provider === 'anthropic';
+
+    // 3 iters covers: text-only / single tool / two tools chained.
     for (let iter = 0; iter < 3; iter++) {
       const result = await askProvider({
         provider, model, tier, system, messages: history, tools: BRAIN_TOOLS,
-        // Keep replies short — voice answers should be 1–3 sentences anyway.
-        max_tokens: 280,
+        max_tokens: 1024,
         temperature: 0.5,
+        stream: canStream,
+        onChunk: canStream ? (t) => sse({ chunk: t }) : undefined,
       });
+
       usedModel = result.raw?.model || result.raw?.candidates?.[0]?.modelVersion || model || provider;
+
+      // Non-streaming providers: emit their final text as one chunk so the
+      // client experience stays uniform.
+      if (!canStream && result.text) sse({ chunk: result.text });
       if (result.text) finalText += result.text;
 
       if (!result.toolCalls.length) break;
 
-      // Append assistant turn (with tool_use blocks in canonical form)
+      // Tool-use loop continues — append assistant + tool_results to history.
       const assistantBlocks = [];
       if (result.text) assistantBlocks.push({ type: 'text', text: result.text });
       for (const tc of result.toolCalls) {
@@ -457,12 +479,10 @@ module.exports = async (req, res) => {
       history.push({ role: 'user', content: toolResults });
     }
 
-    res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify({
-      reply: finalText.trim() || 'Verstanden, Sir.',
-      actions: uiActions,
-      used: { provider, model: usedModel },
-    }));
+    // Emit pending UI actions, then close the stream.
+    for (const a of uiActions) sse({ action: a });
+    sse({ done: true, used: { provider, model: usedModel }, reply: finalText.trim() || 'Verstanden, Sir.' });
+    res.end();
   } catch (e) {
     console.error('[brain/chat] turn failed', {
       provider, model, tier,
@@ -470,12 +490,12 @@ module.exports = async (req, res) => {
       stack:   e?.stack?.split('\n').slice(0, 4).join('\n'),
       lastUserMsg: messages.at(-1)?.content?.toString?.().slice(0, 120),
     });
-    res.statusCode = 500;
-    res.end(JSON.stringify({
+    sse({
       error: e.message,
-      // Friendly fallback the client can show if it wants.
       reply: 'Tut mir leid, Sir — ich habe gerade Probleme einen Provider zu erreichen.',
-    }));
+      done: true,
+    });
+    res.end();
   }
 };
 

@@ -6,7 +6,12 @@ const path = require('path');
 const fs   = require('fs');
 
 const ROOT     = path.join(__dirname, '..');
-const APP_DIR  = path.join(ROOT, 'dist', 'mac');
+// Look for arch-suffixed dirs first (electron-builder produces dist/mac-arm64
+// or dist/mac-x64 when --arm64/--x64 is passed explicitly), then fall back to
+// the unsuffixed dist/mac that --mac --dir creates by default.
+const APP_DIR = ['mac-arm64', 'mac-x64', 'mac']
+  .map(d => path.join(ROOT, 'dist', d))
+  .find(d => fs.existsSync(path.join(d, 'JARVIS.app'))) || path.join(ROOT, 'dist', 'mac');
 const APP      = path.join(APP_DIR, 'JARVIS.app');
 const OUT_DIR  = path.join(ROOT, 'dist');
 const VERSION  = require(path.join(ROOT, 'package.json')).version;

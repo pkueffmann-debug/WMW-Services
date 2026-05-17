@@ -747,6 +747,17 @@ async function fetchWithRetry(endpoint, payload, { timeoutMs = 30000, retries = 
   }
 }
 
+// Append to an existing bot bubble (used during streaming). If the bubble
+// doesn't exist yet, create it.
+function createBotBubble() {
+  const div = document.createElement('div');
+  div.className = 'msg bot';
+  div.textContent = '';
+  $messages.appendChild(div);
+  $messages.scrollTop = $messages.scrollHeight;
+  return div;
+}
+
 async function askJarvis(text) {
   if (_chatPending) {
     console.warn('[askJarvis] already pending, ignoring duplicate send');
@@ -760,6 +771,9 @@ async function askJarvis(text) {
 
   let reply = '';
   let debate = null;
+  let actions = [];
+  let bubble = null;
+
   try {
     const endpoint = _ultraMode ? '/api/brain/debate' : '/api/brain/chat';
     const payload = {
@@ -768,6 +782,7 @@ async function askJarvis(text) {
     };
     if (_explicitProvider) { payload.provider = _explicitProvider; _explicitProvider = null; }
     const r = await fetchWithRetry(endpoint, payload);
+
     if (r.status === 401) {
       reply = 'Sitzung abgelaufen, Sir — bitte erneut anmelden.';
       setTimeout(() => { window.location.href = '/auth.html?next=/brain'; }, 1500);
@@ -775,17 +790,61 @@ async function askJarvis(text) {
       reply = 'Kein aktives Abo, Sir.';
       setTimeout(() => { window.location.href = '/#pricing'; }, 1500);
     } else if (r.ok) {
-      const j = await r.json();
-      reply = (j.reply || '').trim();
-      debate = j.debate || null;
-      for (const a of (j.actions || [])) {
-        if (a.type === 'map' && a.city)  openMap(a.city);
-        if (a.type === 'chat')           openChat();
-        if (a.type === 'local_command')  handleLocalCommand(a);
+      const ct = r.headers.get('content-type') || '';
+      if (ct.includes('text/event-stream')) {
+        // Streaming SSE path (chat endpoint).
+        bubble = createBotBubble();
+        const reader  = r.body.getReader();
+        const decoder = new TextDecoder();
+        let buf = '';
+        outer: while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          buf += decoder.decode(value, { stream: true });
+          let idx;
+          while ((idx = buf.indexOf('\n\n')) >= 0) {
+            const raw = buf.slice(0, idx);
+            buf = buf.slice(idx + 2);
+            const line = raw.split('\n').find(l => l.startsWith('data:'));
+            if (!line) continue;
+            const json = line.slice(5).trim();
+            if (!json) continue;
+            let evt;
+            try { evt = JSON.parse(json); } catch { continue; }
+
+            if (typeof evt.chunk === 'string') {
+              reply += evt.chunk;
+              if (bubble) {
+                bubble.textContent = reply;
+                $messages.scrollTop = $messages.scrollHeight;
+              }
+            } else if (evt.action) {
+              actions.push(evt.action);
+            } else if (evt.error) {
+              console.error('[askJarvis] stream error:', evt.error);
+              if (!reply) reply = evt.reply || 'Tut mir leid, Sir.';
+            } else if (evt.done) {
+              if (!reply && evt.reply) reply = evt.reply;
+              break outer;
+            }
+          }
+        }
+      } else {
+        // JSON fallback (debate endpoint, or any non-streaming response).
+        const j = await r.json();
+        reply  = (j.reply || '').trim();
+        debate = j.debate || null;
+        actions = j.actions || [];
       }
     } else {
       console.error('[askJarvis] server error', r.status);
       reply = 'Tut mir leid, Sir — der Server hat ein Problem (' + r.status + ').';
+    }
+
+    for (const a of actions) {
+      if (a.type === 'map' && a.city)  openMap(a.city);
+      if (a.type === 'chat')           openChat();
+      if (a.type === 'local_command')  handleLocalCommand(a);
     }
   } catch (e) {
     console.error('[askJarvis] request failed:', e);
@@ -796,10 +855,15 @@ async function askJarvis(text) {
     _chatPending = false;
     $chatInput.disabled = false;
   }
+
   if (!reply) reply = 'Verstanden, Sir.';
+  // If we never created a streaming bubble (debate or error path), surface
+  // the reply as a normal message now.
+  if (!bubble) addMessage('bot', reply);
+  else if (bubble.textContent !== reply) bubble.textContent = reply;
+
   _chatHistory.push({ role: 'assistant', content: reply });
   rememberUrlsFrom(reply);
-  addMessage('bot', reply);
   if (debate) renderDebatePanel(debate);
   setMode('speaking', 'SPEAKING');
   await speak(reply);
@@ -1173,20 +1237,42 @@ function isJunkTranscript(t) {
   return false;
 }
 
+// Per-listen threshold below which we ignore a Groq Whisper transcript —
+// stops the model running on background-radio / fans / TV chatter.
+const MIN_CONFIDENCE = 0.6;
+// Sleep between JARVIS finishing his answer and the next listen pass.
+// Prevents JARVIS's own TTS or a half-second of room echo getting picked up.
+const RESPONSE_COOLDOWN_MS = 1500;
+
 async function loop() {
   while (window._wantsVoice) {
     try {
-      const text = await listenOnce();
+      const r = await listenOnce();
       if (!window._wantsVoice) break;
-      if (text && !isJunkTranscript(text)) {
-        console.log('[STT]', text);
-        try {
-          await handleCommand(text);
-        } catch (e) {
-          console.error('[handleCommand crashed]', e);
-        }
-      } else if (text) {
+      if (!r) continue;
+      const { text, confidence } = r;
+      if (text.length < 3) {
+        console.log('[STT] dropping short:', JSON.stringify(text));
+        continue;
+      }
+      if (confidence < MIN_CONFIDENCE) {
+        console.log(`[STT] low confidence ${confidence.toFixed(2)} — dropping "${text}"`);
+        continue;
+      }
+      if (isJunkTranscript(text)) {
         console.log('[STT] dropping junk:', text);
+        continue;
+      }
+      try {
+        await handleCommand(text);
+      } catch (e) {
+        console.error('[handleCommand crashed]', e);
+      }
+      // Cooldown after JARVIS finishes responding so his own voice + room
+      // echo don't immediately re-trigger the loop.
+      if (window._wantsVoice) {
+        setMode('idle', 'COOLDOWN');
+        await new Promise(rs => setTimeout(rs, RESPONSE_COOLDOWN_MS));
       }
     } catch (e) {
       console.error('[listenOnce crashed]', e);
@@ -1208,6 +1294,12 @@ function stopAll() {
   $micBtn.classList.remove('recording');
 }
 
+// listenOnce resolves with { text, confidence, durationMs } on a real
+// speech sample, or null when the user was silent / aborted.
+// The VAD is tighter than before: higher noise-floor multiplier, a
+// consecutive-frames gate so a single mic pop can't start "speech",
+// and a 500 ms minimum total speech duration before we even bother
+// hitting Whisper.
 function listenOnce() {
   return new Promise((resolve) => {
     setMode('listening', 'LISTENING');
@@ -1226,13 +1318,26 @@ function listenOnce() {
     _recorder.ondataavailable = (e) => { if (e.data.size > 0) _chunks.push(e.data); };
     _recorder.start(80);
 
-    // Silence hang: how long after the last loud frame before we submit.
-    // 1500ms tolerates breath pauses mid-sentence without cutting people off.
-    const SILENCE_HANG = 1500, MAX_LISTEN = 20000, MIN_SPEECH = 220;
-    const CALIBRATE = 400, MIN_THR = 0.012, MAX_THR = 0.05;
-    let speechStart = 0, lastLoud = 0, ever = false;
-    let noise = 0, calFrames = 0, thr = MAX_THR;
-    const started = performance.now();
+    // VAD constants. Threshold = max(MIN_THR, noise_floor * 4); single loud
+    // frames don't count — we need CONSEC_FRAMES_TO_START consecutive
+    // frames above threshold before declaring "speech started". Total
+    // speech-frame count must be ≥ MIN_SPEECH_FRAMES (about 500 ms) before
+    // we'll send to Whisper.
+    const SILENCE_HANG          = 1500;
+    const MAX_LISTEN            = 20000;
+    const MIN_SPEECH            = 220;
+    const CALIBRATE             = 400;
+    const MIN_THR               = 0.025;   // raised from 0.012 — drops fans/aircon
+    const MAX_THR               = 0.08;    // raised from 0.05 — works in louder rooms
+    const NOISE_MULTIPLIER      = 4;       // raised from 3 — more headroom over floor
+    const CONSEC_FRAMES_TO_START = 5;      // ~80 ms of continuous loudness
+    const MIN_SPEECH_FRAMES     = 30;      // ~500 ms total speech before we accept
+
+    let speechStart   = 0, lastLoud = 0, ever = false;
+    let noise         = 0, calFrames = 0, thr = MAX_THR;
+    let consecLoud    = 0;
+    let speechFrames  = 0;
+    const started     = performance.now();
 
     function tick() {
       if (!window._wantsVoice) return resolve(null);
@@ -1249,13 +1354,23 @@ function listenOnce() {
       if (el < CALIBRATE) {
         noise = (noise * calFrames + rms) / (calFrames + 1);
         calFrames++;
-        if (el >= CALIBRATE - 16) thr = Math.min(MAX_THR, Math.max(MIN_THR, noise * 3));
+        if (el >= CALIBRATE - 16) {
+          thr = Math.min(MAX_THR, Math.max(MIN_THR, noise * NOISE_MULTIPLIER));
+          console.log(`[VAD] noise=${noise.toFixed(4)} thr=${thr.toFixed(4)}`);
+        }
       }
 
       if (rms >= thr) {
-        if (!ever) speechStart = now;
-        ever = true; lastLoud = now;
+        consecLoud++;
+        if (!ever && consecLoud >= CONSEC_FRAMES_TO_START) {
+          ever = true;
+          speechStart = now - consecLoud * 16;  // back-date to where loudness started
+        }
+        if (ever) { lastLoud = now; speechFrames++; }
+      } else {
+        consecLoud = 0;
       }
+
       if (ever && (now - lastLoud) > SILENCE_HANG && (now - speechStart) > MIN_SPEECH) {
         return finish(true);
       }
@@ -1264,11 +1379,17 @@ function listenOnce() {
     }
 
     function finish(didSpeak) {
+      const speechDurationMs = ever ? (lastLoud - speechStart) : 0;
       try { _ctx?.close(); } catch {}
       _ctx = _analyser = null;
       if (!_recorder || _recorder.state === 'inactive') return resolve(null);
       _recorder.onstop = async () => {
         if (!didSpeak || !_chunks.length) return resolve(null);
+        // Hard floor: too little actual speech → drop without paying for STT.
+        if (speechFrames < MIN_SPEECH_FRAMES) {
+          console.log(`[VAD] speech too short (${speechFrames} frames, ~${(speechFrames * 16) | 0}ms) — dropping`);
+          return resolve(null);
+        }
         const blob = new Blob(_chunks, { type: _mime });
         setMode('thinking', 'TRANSCRIBING');
         try {
@@ -1277,7 +1398,11 @@ function listenOnce() {
           const r = await fetch('/api/brain/transcribe', { method: 'POST', body: fd });
           if (!r.ok) return resolve(null);
           const j = await r.json();
-          resolve((j.text || '').trim() || null);
+          const text = (j.text || '').trim();
+          const confidence = typeof j.confidence === 'number' ? j.confidence : 1;
+          console.log(`[STT] "${text}" (conf=${confidence.toFixed(2)}, ${j.provider || '?'})`);
+          if (!text) return resolve(null);
+          resolve({ text, confidence, durationMs: speechDurationMs });
         } catch (e) {
           console.warn('[STT] transcribe failed:', e.message);
           resolve(null);
