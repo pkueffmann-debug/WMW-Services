@@ -171,6 +171,61 @@
     margin-left: 64px; }
   .msg.bot { background: rgba(120, 235, 255, 0.05); border: 1px solid rgba(120, 235, 255, 0.15);
     margin-right: 64px; color: var(--bright); }
+  .msg .msg-text { white-space: pre-wrap; }
+  .code-panel {
+    margin: 10px 0 6px;
+    border: 1px solid rgba(34, 211, 238, 0.22);
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.4);
+    overflow: hidden;
+  }
+  .code-head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 12px;
+    background: rgba(34, 211, 238, 0.06);
+    border-bottom: 1px solid rgba(34, 211, 238, 0.14);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+  }
+  .code-head .lang { color: var(--cyan); font-weight: 600; }
+  .code-head .code-actions { display: flex; gap: 6px; }
+  .code-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--bright);
+    background: transparent;
+    border: 1px solid rgba(34, 211, 238, 0.35);
+    border-radius: 99px;
+    padding: 5px 11px;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+  }
+  .code-btn:hover { background: rgba(34, 211, 238, 0.12); border-color: var(--cyan); }
+  .code-btn.run { color: #050; border-color: rgba(74, 222, 128, 0.55); background: rgba(74, 222, 128, 0.15); color: #c5fdd9; }
+  .code-btn.run:hover { background: rgba(74, 222, 128, 0.25); }
+  .code-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+  .code-body {
+    margin: 0; padding: 12px 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; line-height: 1.55;
+    color: #d8efff;
+    background: rgba(0, 0, 0, 0.4);
+    overflow-x: auto;
+    white-space: pre;
+    border-bottom: 1px solid rgba(34, 211, 238, 0.10);
+  }
+  .code-output {
+    padding: 10px 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; line-height: 1.55;
+    color: var(--dim);
+    white-space: pre-wrap;
+    border-top: 1px solid rgba(34, 211, 238, 0.10);
+    background: rgba(0, 0, 0, 0.5);
+  }
+  .code-output.running { color: var(--cyan); }
+  .code-output.ok      { color: #c5fdd9; }
+  .code-output.err     { color: #fca5a5; background: rgba(239, 68, 68, 0.06); }
   .chat-box .input-row { display: flex; gap: 8px; margin-top: 8px; }
   .chat-box input {
     flex: 1; background: rgba(0, 0, 0, 0.5); border: 1px solid var(--cyan-soft);
@@ -1010,6 +1065,9 @@ async function askJarvis(text) {
               if (!reply) reply = evt.reply || 'Tut mir leid, Sir.';
             } else if (evt.done) {
               if (!reply && evt.reply) reply = evt.reply;
+              // Once streaming is finished, scan the bubble for ``` code
+              // blocks and convert them into interactive run-able panels.
+              if (bubble) renderCodeBlocks(bubble, reply);
               break outer;
             }
           }
@@ -1044,8 +1102,15 @@ async function askJarvis(text) {
   if (!reply) reply = 'Verstanden, Sir.';
   // If we never created a streaming bubble (debate or error path), surface
   // the reply as a normal message now.
-  if (!bubble) addMessage('bot', reply);
-  else if (bubble.textContent !== reply) bubble.textContent = reply;
+  if (!bubble) {
+    addMessage('bot', reply);
+    // Best-effort: turn any ``` blocks into runnable code panels here too.
+    const last = $messages.lastElementChild;
+    if (last && last.classList.contains('msg')) renderCodeBlocks(last, reply);
+  } else if (bubble.textContent !== reply) {
+    bubble.textContent = reply;
+    renderCodeBlocks(bubble, reply);
+  }
 
   _chatHistory.push({ role: 'assistant', content: reply });
   rememberUrlsFrom(reply);
@@ -1107,6 +1172,145 @@ function renderDebatePanel(debate) {
   $messages.scrollTop = $messages.scrollHeight;
 }
 function escapeHtml(s) { return String(s).replace(/[&<>]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
+
+// ── Code blocks with run button ────────────────────────────────────────
+// Scans assistant text for ```lang\n...\n``` fences, replaces the chat
+// bubble's contents with a mix of paragraphs + interactive code panels.
+// "▶ Ausführen" sends to /api/brain/execute (Piston sandbox).
+const RUNNABLE_LANGS = new Set([
+  'python','py','python3','javascript','js','node','bash','sh','shell',
+  'ts','typescript',
+]);
+
+function renderCodeBlocks(bubbleEl, fullText) {
+  // Only re-render if at least one fence is present, otherwise leave the
+  // already-streamed text alone (saves a flicker on plain replies).
+  if (!/```/.test(fullText)) return;
+
+  const parts = [];
+  const re = /```([a-zA-Z0-9_+-]*)\n?([\s\S]*?)```/g;
+  let lastIdx = 0;
+  let m;
+  while ((m = re.exec(fullText)) !== null) {
+    if (m.index > lastIdx) {
+      parts.push({ type: 'text', text: fullText.slice(lastIdx, m.index) });
+    }
+    parts.push({
+      type: 'code',
+      lang: (m[1] || '').toLowerCase().trim(),
+      code: m[2].replace(/\n+$/, ''),
+    });
+    lastIdx = m.index + m[0].length;
+  }
+  if (lastIdx < fullText.length) {
+    parts.push({ type: 'text', text: fullText.slice(lastIdx) });
+  }
+  if (!parts.some(p => p.type === 'code')) return;
+
+  bubbleEl.innerHTML = '';
+  for (const p of parts) {
+    if (p.type === 'text') {
+      const trimmed = p.text.replace(/^\n+|\n+$/g, '');
+      if (!trimmed) continue;
+      const span = document.createElement('div');
+      span.className = 'msg-text';
+      span.textContent = trimmed;
+      bubbleEl.appendChild(span);
+    } else {
+      bubbleEl.appendChild(buildCodePanel(p.lang, p.code));
+    }
+  }
+}
+
+function buildCodePanel(lang, code) {
+  const panel = document.createElement('div');
+  panel.className = 'code-panel';
+  const isRunnable = RUNNABLE_LANGS.has(lang);
+
+  const header = document.createElement('div');
+  header.className = 'code-head';
+  header.innerHTML = `
+    <span class="lang">${escapeHtml(lang || 'text')}</span>
+    <div class="code-actions"></div>
+  `;
+  const actions = header.querySelector('.code-actions');
+
+  const copyBtn = document.createElement('button');
+  copyBtn.className = 'code-btn';
+  copyBtn.textContent = 'Kopieren';
+  copyBtn.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(code);
+      copyBtn.textContent = 'Kopiert ✓';
+      setTimeout(() => { copyBtn.textContent = 'Kopieren'; }, 1500);
+    } catch (e) {
+      copyBtn.textContent = 'Fehler';
+    }
+  });
+  actions.appendChild(copyBtn);
+
+  let runBtn = null;
+  if (isRunnable) {
+    runBtn = document.createElement('button');
+    runBtn.className = 'code-btn run';
+    runBtn.textContent = '▶ Ausführen';
+    actions.appendChild(runBtn);
+  }
+
+  const pre = document.createElement('pre');
+  pre.className = 'code-body';
+  pre.textContent = code;
+
+  const out = document.createElement('div');
+  out.className = 'code-output';
+  out.style.display = 'none';
+
+  panel.appendChild(header);
+  panel.appendChild(pre);
+  panel.appendChild(out);
+
+  if (runBtn) {
+    runBtn.addEventListener('click', async () => {
+      if (runBtn.disabled) return;
+      runBtn.disabled = true;
+      const origLabel = runBtn.textContent;
+      runBtn.textContent = '⏳ Läuft…';
+      out.style.display = 'block';
+      out.className = 'code-output running';
+      out.textContent = '…';
+      try {
+        const r = await fetch('/api/brain/execute', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ language: lang, code }),
+        });
+        const j = await r.json();
+        if (!r.ok) {
+          out.className = 'code-output err';
+          out.textContent = '⚠ ' + (j.error || `HTTP ${r.status}`);
+        } else {
+          const stdout = (j.stdout || '').trimEnd();
+          const stderr = (j.stderr || '').trimEnd();
+          const exit   = (j.exit_code === null || j.exit_code === undefined) ? '?' : j.exit_code;
+          let body = '';
+          if (stdout) body += stdout;
+          if (stderr) body += (body ? '\n\n' : '') + '[stderr]\n' + stderr;
+          if (!body) body = '(kein Output)';
+          out.className = 'code-output ' + (j.success ? 'ok' : 'err');
+          out.textContent = body + `\n\n[exit ${exit} · ${j.language || lang} ${j.version || ''}]`;
+        }
+      } catch (e) {
+        out.className = 'code-output err';
+        out.textContent = '⚠ Netzwerkfehler: ' + e.message;
+      } finally {
+        runBtn.disabled = false;
+        runBtn.textContent = origLabel;
+      }
+    });
+  }
+
+  return panel;
+}
 
 $chatForm.addEventListener('submit', (e) => {
   e.preventDefault();
