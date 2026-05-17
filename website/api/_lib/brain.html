@@ -70,7 +70,7 @@
   #hint b { color: var(--bright); font-weight: 600; }
 
   /* Mic button (toggle) */
-  #mic-btn, #ultra-btn {
+  #mic-btn, #ultra-btn, #hand-btn {
     position: fixed; top: 24px; padding: 8px 16px;
     background: rgba(0, 30, 50, 0.5); color: var(--bright);
     border: 1px solid var(--cyan-soft); border-radius: 99px;
@@ -80,7 +80,53 @@
   }
   #mic-btn { right: 24px; }
   #ultra-btn { right: 168px; }
-  #mic-btn:hover, #ultra-btn:hover { background: rgba(0, 60, 90, 0.7); }
+  #hand-btn { right: 312px; }
+  #mic-btn:hover, #ultra-btn:hover, #hand-btn:hover { background: rgba(0, 60, 90, 0.7); }
+  #hand-btn.active {
+    background: rgba(0, 60, 90, 0.85);
+    border-color: var(--bright);
+  }
+
+  /* Webcam preview, top-left, lazily shown when hand tracking is on */
+  #hand-cam {
+    position: fixed;
+    top: 80px; left: 24px;
+    width: 180px; height: 135px;
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid var(--cyan-soft);
+    border-radius: 12px;
+    z-index: 8;
+    overflow: hidden;
+    display: none;
+    box-shadow: 0 18px 36px rgba(0, 0, 0, 0.45), 0 0 24px rgba(34, 211, 238, 0.12);
+  }
+  #hand-cam.active { display: block; }
+  #hand-cam video, #hand-cam canvas {
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transform: scaleX(-1);   /* mirror so it feels like a mirror */
+  }
+  #hand-cam canvas { pointer-events: none; }
+  #hand-label {
+    position: absolute;
+    bottom: 6px; left: 6px; right: 6px;
+    background: rgba(0, 0, 0, 0.65);
+    color: var(--bright);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 4px 6px;
+    border-radius: 6px;
+    text-align: center;
+    backdrop-filter: blur(4px);
+  }
+  #hand-cam.fired { animation: hand-flash 0.4s ease-out; }
+  @keyframes hand-flash {
+    0%   { box-shadow: 0 18px 36px rgba(0,0,0,0.45), 0 0 0 4px rgba(34,211,238,0.8); }
+    100% { box-shadow: 0 18px 36px rgba(0,0,0,0.45), 0 0 0 0 rgba(34,211,238,0); }
+  }
   /* Active recording: cyan border + outward-pulse glow so the user
      can see at a glance that JARVIS is currently listening. */
   #mic-btn.recording {
@@ -220,6 +266,7 @@
   /* mic-btn is at top: 24px, right: 24px — push it left when badge present */
   body.has-desktop-badge #mic-btn { right: 24px; top: 60px; }
   body.has-desktop-badge #ultra-btn { right: 168px; top: 60px; }
+  body.has-desktop-badge #hand-btn { right: 312px; top: 60px; }
 
   /* Feature availability popover */
   #desktop-modal {
@@ -285,8 +332,14 @@
     <span class="dot"></span>
     <span id="desktop-badge-text">Nur Browser-Modus</span>
   </div>
+  <button id="hand-btn">✋ HAND</button>
   <button id="ultra-btn">◌ ULTRA MODE</button>
   <button id="mic-btn">◉ ENABLE VOICE</button>
+  <div id="hand-cam">
+    <video id="hand-video" playsinline muted></video>
+    <canvas id="hand-canvas"></canvas>
+    <div id="hand-label">—</div>
+  </div>
   <div id="status" class="idle"><span class="dot"></span><span id="status-text">STANDBY</span></div>
   <div id="jarvis-badge">JARVIS</div>
 
@@ -1320,6 +1373,235 @@ const desktop = (() => {
 
   return { isConnected, send };
 })();
+
+
+// ── Hand-tracking via MediaPipe Hands (CDN, lazy-loaded) ──────────────
+// Toggle with the ✋ HAND pill. When active a small mirrored webcam
+// preview shows top-left with landmark dots painted on. Gestures map:
+//   ✋ open hand  → stop everything (cancel TTS, stop voice loop)
+//   ✊ fist        → trigger send / start voice if off
+//   ☝ index up   → activate voice (start listening)
+//   ← swipe left → close chat pane
+//   → swipe right→ open chat pane
+const $handBtn    = document.getElementById('hand-btn');
+const $handCam    = document.getElementById('hand-cam');
+const $handVideo  = document.getElementById('hand-video');
+const $handCanvas = document.getElementById('hand-canvas');
+const $handLabel  = document.getElementById('hand-label');
+
+let _handsActive       = false;
+let _handsSolution     = null;     // MediaPipe Hands instance
+let _handCamera        = null;     // MediaPipe Camera helper
+let _lastGestureAt     = 0;
+const HAND_COOLDOWN_MS = 1500;
+const _swipeHistory    = [];       // {t, x} of palm position
+
+function loadScript(src) {
+  return new Promise((resolve, reject) => {
+    if (document.querySelector(`script[data-src="${src}"]`)) return resolve();
+    const s = document.createElement('script');
+    s.src = src; s.dataset.src = src; s.crossOrigin = 'anonymous';
+    s.onload = resolve;
+    s.onerror = () => reject(new Error('failed to load ' + src));
+    document.head.appendChild(s);
+  });
+}
+
+async function loadMediaPipeHands() {
+  if (window.Hands && window.Camera) return;
+  // Pinned versions — newer @mediapipe/hands releases sometimes break the
+  // browser-script shape. These two together are known good.
+  await loadScript('https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1675469240/hands.js');
+  await loadScript('https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils@0.3.1675466124/camera_utils.js');
+}
+
+// Returns true if the tip is further from the wrist than the proximal-
+// interphalangeal joint — a cheap "finger extended" test.
+function fingerExtended(lm, tipIdx, pipIdx, mul = 1.05) {
+  const w = lm[0];
+  const tip = lm[tipIdx], pip = lm[pipIdx];
+  const dTip = Math.hypot(tip.x - w.x, tip.y - w.y);
+  const dPip = Math.hypot(pip.x - w.x, pip.y - w.y);
+  return dTip > dPip * mul;
+}
+
+function classifyGesture(lm) {
+  const thumb  = fingerExtended(lm, 4,  2, 1.0);
+  const index  = fingerExtended(lm, 8,  6, 1.10);
+  const middle = fingerExtended(lm, 12, 10, 1.10);
+  const ring   = fingerExtended(lm, 16, 14, 1.10);
+  const pinky  = fingerExtended(lm, 20, 18, 1.10);
+  const ext = [thumb, index, middle, ring, pinky];
+  const n = ext.filter(Boolean).length;
+
+  if (n >= 4)                                       return { kind: 'open',  label: '✋ OFFEN' };
+  if (n <= 1 && !index && !middle && !ring && !pinky) return { kind: 'fist',  label: '✊ FAUST' };
+  if (index && !middle && !ring && !pinky)          return { kind: 'index', label: '☝ INDEX' };
+  return { kind: 'unknown', label: 'GESTE ?' };
+}
+
+function flashHandCam() {
+  $handCam.classList.remove('fired');
+  void $handCam.offsetWidth;
+  $handCam.classList.add('fired');
+}
+
+function fireGesture(kind) {
+  _lastGestureAt = performance.now();
+  flashHandCam();
+  console.log('[hand] →', kind);
+  switch (kind) {
+    case 'open':
+      // Stop everything
+      try { _audioQueueCancel?.(); } catch {}
+      try { stopRecog(); } catch {}
+      $handLabel.textContent = '✋ STOP';
+      break;
+    case 'fist':
+      // Confirm — submit chat input if there's text, else start voice
+      try {
+        const v = $chatInput.value.trim();
+        if (v) { $chatInput.value = ''; askJarvis(v); }
+        else if (!_voiceLoopActive) startRecog();
+      } catch {}
+      $handLabel.textContent = '✊ BESTÄTIGT';
+      break;
+    case 'index':
+      // Activate JARVIS
+      try { if (!_voiceLoopActive) startRecog(); } catch {}
+      $handLabel.textContent = '☝ JARVIS AN';
+      break;
+    case 'swipe-left':
+      try { closeChat(); } catch {}
+      $handLabel.textContent = '← CHAT ZU';
+      break;
+    case 'swipe-right':
+      try { openChat(); } catch {}
+      $handLabel.textContent = '→ CHAT AUF';
+      break;
+  }
+}
+
+function handleHandResults(results) {
+  const ctx = $handCanvas.getContext('2d');
+  $handCanvas.width  = $handVideo.videoWidth  || 320;
+  $handCanvas.height = $handVideo.videoHeight || 240;
+  ctx.clearRect(0, 0, $handCanvas.width, $handCanvas.height);
+
+  if (!results.multiHandLandmarks || !results.multiHandLandmarks.length) {
+    $handLabel.textContent = '—';
+    _swipeHistory.length = 0;
+    return;
+  }
+
+  const lm = results.multiHandLandmarks[0];
+
+  // Paint landmarks (cyan dots) and a thin skeleton (a few key bones).
+  ctx.fillStyle = 'rgba(34, 211, 238, 0.9)';
+  for (const p of lm) {
+    ctx.beginPath();
+    ctx.arc(p.x * $handCanvas.width, p.y * $handCanvas.height, 3, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  ctx.strokeStyle = 'rgba(34, 211, 238, 0.55)';
+  ctx.lineWidth = 1.2;
+  const bones = [[0,5],[5,9],[9,13],[13,17],[0,17],[0,1],[1,2],[2,3],[3,4],
+                 [5,6],[6,7],[7,8],[9,10],[10,11],[11,12],
+                 [13,14],[14,15],[15,16],[17,18],[18,19],[19,20]];
+  for (const [a, b] of bones) {
+    ctx.beginPath();
+    ctx.moveTo(lm[a].x * $handCanvas.width, lm[a].y * $handCanvas.height);
+    ctx.lineTo(lm[b].x * $handCanvas.width, lm[b].y * $handCanvas.height);
+    ctx.stroke();
+  }
+
+  const g = classifyGesture(lm);
+  $handLabel.textContent = g.label;
+
+  // Track palm x for swipe detection (lm[0] = wrist).
+  const now = performance.now();
+  _swipeHistory.push({ t: now, x: lm[0].x });
+  while (_swipeHistory.length && now - _swipeHistory[0].t > 600) _swipeHistory.shift();
+
+  if (now - _lastGestureAt < HAND_COOLDOWN_MS) return;
+
+  // Swipe wins over static gestures if we see a fast horizontal move.
+  if (_swipeHistory.length >= 8) {
+    const first = _swipeHistory[0], last = _swipeHistory[_swipeHistory.length - 1];
+    const dx = last.x - first.x;
+    const dt = last.t - first.t;
+    if (Math.abs(dx) > 0.25 && dt < 550) {
+      // Video is mirrored on screen — so dx > 0 in landmark space (which
+      // is NOT mirrored) means the hand went left in the user's view.
+      fireGesture(dx > 0 ? 'swipe-left' : 'swipe-right');
+      _swipeHistory.length = 0;
+      return;
+    }
+  }
+
+  if (g.kind === 'open' || g.kind === 'fist' || g.kind === 'index') {
+    fireGesture(g.kind);
+  }
+}
+
+async function startHandTracking() {
+  if (_handsActive) return;
+  $handBtn.textContent = '✋ LÄDT…';
+  try {
+    await loadMediaPipeHands();
+  } catch (e) {
+    console.error('[hand] MediaPipe load failed:', e);
+    $handBtn.textContent = '✋ HAND';
+    return;
+  }
+  if (!_handsSolution) {
+    _handsSolution = new Hands({
+      locateFile: (f) => `https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.4.1675469240/${f}`,
+    });
+    _handsSolution.setOptions({
+      maxNumHands: 1,
+      modelComplexity: 0,         // 0 = lite (faster on laptops)
+      minDetectionConfidence: 0.6,
+      minTrackingConfidence: 0.5,
+    });
+    _handsSolution.onResults(handleHandResults);
+  }
+  if (!_handCamera) {
+    _handCamera = new Camera($handVideo, {
+      onFrame: async () => { if (_handsActive) await _handsSolution.send({ image: $handVideo }); },
+      width: 320, height: 240,
+    });
+  }
+  $handCam.classList.add('active');
+  try {
+    await _handCamera.start();
+    _handsActive = true;
+    $handBtn.textContent = '✋ HAND AN';
+    $handBtn.classList.add('active');
+  } catch (e) {
+    console.error('[hand] camera start failed:', e?.message);
+    stopHandTracking();
+  }
+}
+
+function stopHandTracking() {
+  _handsActive = false;
+  $handCam.classList.remove('active');
+  $handBtn.textContent = '✋ HAND';
+  $handBtn.classList.remove('active');
+  try { _handCamera?.stop(); } catch {}
+  // Release the camera stream so the green dot in the menubar goes away.
+  try {
+    const tracks = $handVideo.srcObject?.getTracks?.() || [];
+    tracks.forEach(t => t.stop());
+    $handVideo.srcObject = null;
+  } catch {}
+}
+
+$handBtn.addEventListener('click', () => {
+  if (_handsActive) stopHandTracking();
+  else              startHandTracking();
+});
 
 
 // ── Speech-to-text via MediaRecorder + /api/brain/transcribe (Whisper) ──
