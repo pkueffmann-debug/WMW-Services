@@ -738,6 +738,64 @@ window.addEventListener('load', () => setTimeout(checkMorningBriefing, 3000));
 setInterval(checkMorningBriefing, 60_000);
 
 
+// ── Idle proactivity ───────────────────────────────────────────────────
+// If the user has voice on and goes silent for IDLE_TIMEOUT, JARVIS
+// pings once: "Sir? Anything I can help with?". We rotate phrasings
+// so it doesn't feel scripted, and we wait a long gap between pings
+// so it never feels like nagging.
+const IDLE_TIMEOUT_MS    = 5 * 60 * 1000;   // 5 min of silence
+const IDLE_GAP_MIN_MS    = 8 * 60 * 1000;   // never less than 8 min between pings
+const IDLE_PROMPTS = [
+  'Sir? Etwas, womit ich helfen kann?',
+  'Sir, brauchen Sie etwas?',
+  'Ich stehe bereit, falls Sie etwas benötigen, Sir.',
+  'Soll ich irgendwo nachhelfen, Sir?',
+  'Stille Wasser, Sir. Etwas im Sinn?',
+];
+let _lastUserActivity = Date.now();
+let _lastIdlePromptAt = 0;
+let _idlePromptIdx    = 0;
+
+function markUserActive() { _lastUserActivity = Date.now(); }
+// Bind to anything that proves the user is around.
+window.addEventListener('mousemove', markUserActive, { passive: true });
+window.addEventListener('keydown',   markUserActive);
+window.addEventListener('click',     markUserActive);
+window.addEventListener('touchstart',markUserActive, { passive: true });
+
+async function checkIdle() {
+  // Only nudge when:
+  //  - voice loop is active (user is actually using JARVIS),
+  //  - no chat request is in flight,
+  //  - not currently listening (avoid talking over the mic),
+  //  - briefing wasn't running (would conflict),
+  //  - we haven't pinged in the last IDLE_GAP_MIN_MS.
+  if (typeof window._wantsVoice === 'undefined' || !window._wantsVoice) return;
+  if (typeof _chatPending !== 'undefined' && _chatPending) return;
+  const $statusEl = document.getElementById('status');
+  if ($statusEl?.classList.contains('listening') || $statusEl?.classList.contains('speaking') || $statusEl?.classList.contains('thinking')) return;
+  const now = Date.now();
+  if (now - _lastUserActivity < IDLE_TIMEOUT_MS) return;
+  if (now - _lastIdlePromptAt < IDLE_GAP_MIN_MS) return;
+
+  _lastIdlePromptAt = now;
+  const line = IDLE_PROMPTS[_idlePromptIdx % IDLE_PROMPTS.length];
+  _idlePromptIdx++;
+  try {
+    addMessage('bot', line);
+    setMode('speaking', 'SPEAKING');
+    await speak(line);
+  } catch (e) {
+    console.warn('[idle-prompt]', e?.message);
+  } finally {
+    setMode('idle', 'STANDBY');
+    // Reset activity so the next ping waits the full IDLE_TIMEOUT_MS
+    _lastUserActivity = Date.now();
+  }
+}
+setInterval(checkIdle, 30_000);
+
+
 // ── Chat ───────────────────────────────────────────────────────────────
 const $chatPane = document.getElementById('chat-pane');
 const $messages = document.getElementById('messages');
@@ -836,6 +894,7 @@ async function askJarvis(text) {
     console.warn('[askJarvis] already pending, ignoring duplicate send');
     return;
   }
+  if (typeof markUserActive === 'function') markUserActive();
   _chatPending = true;
   $chatInput.disabled = true;
   addMessage('user', text);
