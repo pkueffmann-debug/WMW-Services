@@ -141,9 +141,47 @@
       color: var(--text-2);
       font-size: clamp(14px, 1.4vw, 17px);
       max-width: 540px;
-      margin: 0 auto 56px;
+      margin: 0 auto 32px;
       opacity: 0;
       font-weight: 400;
+    }
+    .hero-cta {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 56px;
+      opacity: 0;
+    }
+    .btn-download {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 22px;
+      border-radius: var(--radius-btn);
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.02);
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      text-decoration: none;
+      font-family: 'Inter', sans-serif;
+      line-height: 1;
+      transition: border-color 0.2s, background 0.2s, transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-download:hover {
+      border-color: rgba(34,211,238,0.5);
+      background: rgba(34,211,238,0.06);
+      transform: translateY(-1px);
+      box-shadow: 0 12px 32px rgba(34,211,238,0.15);
+    }
+    .btn-download svg { color: var(--cyan); }
+    .hero-cta-hint {
+      font-size: 12px;
+      color: var(--text-3);
+      letter-spacing: 0.04em;
+      margin: 0;
     }
     .scroll-cue {
       position: absolute;
@@ -1238,6 +1276,19 @@
       </span>
     </h1>
     <p class="hero-sub" id="heroSub">Wake Word. Screen Vision. Gmail. Multi-AI. Lokal auf deinem Mac.</p>
+    <div class="hero-cta" id="heroCta">
+      <a href="https://github.com/pkueffmann-debug/Jarvis/releases/latest/download/JARVIS-0.2.3.dmg"
+         class="btn btn-download"
+         download>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        Download für Mac
+      </a>
+      <p class="hero-cta-hint">Öffnet automatisch daylens.dev/brain</p>
+    </div>
   </div>
   <a href="#statements" class="scroll-cue" id="scrollCue">
     <span>Erlebe JARVIS</span>
@@ -1720,6 +1771,7 @@ function toggleNav() { document.getElementById('mobileNav').classList.toggle('op
     .to('.hero-title .line[data-line="2"]', { opacity: 1, duration: 0.1 }, '+=0.2')
     .to('.hero-title .line[data-line="2"] .w', { opacity: 1, y: 0, duration: 0.7, stagger: 0.1, ease: 'power3.out' })
     .to('#heroSub', { opacity: 1, duration: 0.8, ease: 'power2.out' }, '-=0.2')
+    .to('#heroCta', { opacity: 1, duration: 0.7, ease: 'power2.out' }, '-=0.4')
     .to('#scrollCue', { opacity: 1, duration: 0.8, ease: 'power2.out' }, '-=0.3');
 })();
 
