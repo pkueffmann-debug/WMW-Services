@@ -79,6 +79,7 @@ const newsHandler       = require('./api/brain/news');
 const weatherHandler    = require('./api/brain/weather');
 const dashboardHandler  = require('./api/brain/dashboard');
 const executeHandler    = require('./api/brain/execute');
+const visionHandler     = require('./api/brain/vision');
 let transcribeHandler;
 try { transcribeHandler = require('./api/brain/transcribe'); } catch (_) {}
 
@@ -90,6 +91,7 @@ app.get ('/api/brain/news',     (req, res) => newsHandler(req, res));
 app.get ('/api/brain/weather',  (req, res) => weatherHandler(req, res));
 app.get ('/api/brain/dashboard',(req, res) => dashboardHandler(req, res));
 app.post('/api/brain/execute',  (req, res) => executeHandler(req, res));
+app.post('/api/brain/vision',   (req, res) => visionHandler(req, res));
 
 // Local dev: mirror the Vercel rewrite /brain → /api/brain so the page
 // loads the same way locally as on daylens.dev.

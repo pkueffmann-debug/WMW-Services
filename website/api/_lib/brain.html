@@ -70,7 +70,7 @@
   #hint b { color: var(--bright); font-weight: 600; }
 
   /* Mic button (toggle) */
-  #mic-btn, #ultra-btn, #hand-btn {
+  #mic-btn, #ultra-btn, #hand-btn, #vision-btn {
     position: fixed; top: 24px; padding: 8px 16px;
     background: rgba(0, 30, 50, 0.5); color: var(--bright);
     border: 1px solid var(--cyan-soft); border-radius: 99px;
@@ -81,7 +81,9 @@
   #mic-btn { right: 24px; }
   #ultra-btn { right: 168px; }
   #hand-btn { right: 312px; }
-  #mic-btn:hover, #ultra-btn:hover, #hand-btn:hover { background: rgba(0, 60, 90, 0.7); }
+  #vision-btn { right: 456px; }
+  #vision-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+  #mic-btn:hover, #ultra-btn:hover, #hand-btn:hover, #vision-btn:hover { background: rgba(0, 60, 90, 0.7); }
   #hand-btn.active {
     background: rgba(0, 60, 90, 0.85);
     border-color: var(--bright);
@@ -322,6 +324,7 @@
   body.has-desktop-badge #mic-btn { right: 24px; top: 60px; }
   body.has-desktop-badge #ultra-btn { right: 168px; top: 60px; }
   body.has-desktop-badge #hand-btn { right: 312px; top: 60px; }
+  body.has-desktop-badge #vision-btn { right: 456px; top: 60px; }
 
   /* Feature availability popover */
   #desktop-modal {
@@ -387,6 +390,7 @@
     <span class="dot"></span>
     <span id="desktop-badge-text">Nur Browser-Modus</span>
   </div>
+  <button id="vision-btn">👁 SEHEN</button>
   <button id="hand-btn">✋ HAND</button>
   <button id="ultra-btn">◌ ULTRA MODE</button>
   <button id="mic-btn">◉ ENABLE VOICE</button>
@@ -1806,6 +1810,120 @@ $handBtn.addEventListener('click', () => {
   if (_handsActive) stopHandTracking();
   else              startHandTracking();
 });
+
+
+// ── Vision — "Was siehst du?" ──────────────────────────────────────────
+// Captures the current screen (prefers desktop bridge via take_screenshot
+// because it grabs the whole display; falls back to getDisplayMedia in
+// the browser, which makes the user choose a screen/window). The PNG is
+// sent to /api/brain/vision where Claude Sonnet describes what it sees
+// and suggests a next step.
+const $visionBtn = document.getElementById('vision-btn');
+let _visionBusy = false;
+
+async function captureViaDisplayMedia() {
+  if (!navigator.mediaDevices?.getDisplayMedia) {
+    throw new Error('Browser kennt getDisplayMedia nicht');
+  }
+  const stream = await navigator.mediaDevices.getDisplayMedia({
+    video: { cursor: 'never' },
+    audio: false,
+  });
+  const video = document.createElement('video');
+  video.srcObject = stream;
+  video.muted = true;
+  await video.play();
+  // Wait two frames so the video has actually pulled a frame.
+  await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+  const canvas = document.createElement('canvas');
+  canvas.width  = video.videoWidth  || 1280;
+  canvas.height = video.videoHeight || 720;
+  canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+  stream.getTracks().forEach((t) => t.stop());
+  // PNG is lossless but big. Convert to JPEG @ 0.85 to shrink the upload.
+  return canvas.toDataURL('image/jpeg', 0.85).split(',')[1];
+}
+
+function attachImagePreview(bubbleClass, base64, mime = 'image/jpeg') {
+  const wrap = document.createElement('div');
+  wrap.className = 'msg ' + bubbleClass;
+  const img = document.createElement('img');
+  img.src = 'data:' + mime + ';base64,' + base64;
+  img.style.cssText = 'max-width:100%;border-radius:8px;border:1px solid rgba(34,211,238,0.2);display:block;';
+  wrap.appendChild(img);
+  $messages.appendChild(wrap);
+  $messages.scrollTop = $messages.scrollHeight;
+}
+
+async function visionLook() {
+  if (_visionBusy) return;
+  _visionBusy = true;
+  if (typeof markUserActive === 'function') markUserActive();
+  $visionBtn.disabled = true;
+  $visionBtn.textContent = '👁 CAPTURE…';
+  setMode('thinking', 'CAPTURE');
+
+  let image_base64 = null;
+  let mime = 'image/png';
+  try {
+    if (desktop.isConnected()) {
+      try {
+        const result = await desktop.send('take_screenshot');
+        if (result?.png_base64) {
+          image_base64 = result.png_base64;
+          mime = 'image/png';
+        }
+      } catch (e) {
+        console.warn('[vision] desktop screenshot failed, falling back:', e?.message);
+      }
+    }
+    if (!image_base64) {
+      image_base64 = await captureViaDisplayMedia();
+      mime = 'image/jpeg';
+    }
+  } catch (e) {
+    console.error('[vision] capture failed:', e);
+    addMessage('bot', 'Konnte den Bildschirm nicht erfassen, Sir. ' + (e.message || ''));
+    _visionBusy = false;
+    $visionBtn.disabled = false;
+    $visionBtn.textContent = '👁 SEHEN';
+    setMode('idle', 'STANDBY');
+    return;
+  }
+
+  attachImagePreview('user', image_base64, mime);
+  $visionBtn.textContent = '👁 DENKT…';
+  setMode('thinking', 'VISION');
+
+  try {
+    const r = await fetch('/api/brain/vision', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ image_base64 }),
+    });
+    const j = await r.json();
+    if (!r.ok) {
+      addMessage('bot', '⚠ Vision-Fehler: ' + (j.error || ('HTTP ' + r.status)));
+    } else {
+      const analysis = (j.analysis || '').trim() || 'Nichts Interessantes auf dem Bildschirm, Sir.';
+      _chatHistory.push({ role: 'user',      content: '[Screenshot zur Analyse geschickt]' });
+      _chatHistory.push({ role: 'assistant', content: analysis });
+      addMessage('bot', analysis);
+      setMode('speaking', 'SPEAKING');
+      await speak(analysis);
+    }
+  } catch (e) {
+    console.error('[vision] request failed:', e);
+    addMessage('bot', '⚠ Verbindungsfehler bei der Vision-Analyse.');
+  } finally {
+    _visionBusy = false;
+    $visionBtn.disabled = false;
+    $visionBtn.textContent = '👁 SEHEN';
+    setMode('idle', 'STANDBY');
+  }
+}
+
+$visionBtn.addEventListener('click', visionLook);
 
 
 // ── Speech-to-text via MediaRecorder + /api/brain/transcribe (Whisper) ──
