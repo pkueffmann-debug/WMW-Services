@@ -363,7 +363,16 @@ async function execBrainTool(userId, name, input, uiActions, ctx = {}) {
 }
 
 // ── System prompt builder ─────────────────────────────────────────────────
-function buildSystemPrompt({ now, facts, providers }) {
+// Mood → short adjustment hint that gets appended to the system prompt.
+// Claude's existing personality rules cover "stressed → leiser Ton" etc.;
+// this just gives the model the current signal.
+const MOOD_HINTS = {
+  stressed:  'TON-HINWEIS: Der Nutzer klingt aktuell angespannt. Antworte kürzer und ruhiger als sonst. Kein Mitleids-Theater, aber sanfter Ton („Was als Erstes, Sir?"). Wenn die Situation offensichtlich stressig ist, biete genau eine konkrete Hilfe an.',
+  tired:     'TON-HINWEIS: Der Nutzer klingt müde. Antworte sehr knapp. Keine Begeisterung, keine Vorschläge wenn nicht gefragt.',
+  energetic: 'TON-HINWEIS: Der Nutzer klingt aufgekratzt. Antworte gerne mit einem Hauch trockener Ironie, leg ruhig nach.',
+};
+
+function buildSystemPrompt({ now, facts, providers, mood }) {
   const dateStr = now.toLocaleDateString('de-DE', { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' });
   const timeStr = now.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
 
@@ -372,6 +381,11 @@ function buildSystemPrompt({ now, facts, providers }) {
     memSection = '\n\nWAS DU ÜBER DEN NUTZER WEISST (langfristige Memory):\n'
       + facts.map(f => `- [${f.category}] ${f.fact}`).join('\n')
       + '\n(Falls etwas neu auftaucht, ruf remember_fact auf. Falls etwas falsch ist, forget_fact + remember_fact.)';
+  }
+
+  let moodSection = '';
+  if (mood && MOOD_HINTS[mood]) {
+    moodSection = '\n\n' + MOOD_HINTS[mood];
   }
 
   return `Du bist JARVIS — Pauls persönlicher Butler-Assistent.
@@ -414,7 +428,7 @@ PROAKTIVITÄT
   fragt — biete dezent an: „Soll ich das übernehmen?"
 - Bei Mustern in der Memory (z.B. „fragt jeden Morgen nach Wetter"):
   schlage einmal vor das automatisch zu machen. Wenn er ablehnt: nie
-  wieder fragen.${memSection}`;
+  wieder fragen.${memSection}${moodSection}`;
 }
 
 module.exports = async (req, res) => {
@@ -438,6 +452,10 @@ module.exports = async (req, res) => {
   // refused with a desktop_required error so Claude apologises instead
   // of pretending to have run them.
   const desktopConnected = !!body.desktop_connected;
+  // Optional voice-mood hint from the browser's RMS / speech-rate analyser.
+  // Whitelist allowed values so a malformed body can't inject prompt text.
+  const ALLOWED_MOODS = new Set(['stressed', 'tired', 'energetic']);
+  const mood = ALLOWED_MOODS.has(body.mood) ? body.mood : null;
   const providers = availableProviders();
 
   // ── SSE response setup ────────────────────────────────────────────────
@@ -455,7 +473,7 @@ module.exports = async (req, res) => {
 
   try {
     const facts = await loadFactsFor(user.id);
-    const system = buildSystemPrompt({ now: new Date(), facts, providers });
+    const system = buildSystemPrompt({ now: new Date(), facts, providers, mood });
 
     const history = [...messages];
     const uiActions = [];

@@ -1024,6 +1024,12 @@ async function askJarvis(text) {
       messages: _chatHistory.slice(-4),
       desktop_connected: desktop.isConnected(),
     };
+    // Attach voice mood if the last STT pass detected one — chat.js will
+    // splice it into the system prompt so Claude adjusts tone.
+    if (typeof window !== 'undefined' && window._lastMood && window._lastMood !== 'neutral') {
+      payload.mood = window._lastMood;
+      window._lastMood = null;   // one-shot — only used for the next turn
+    }
     if (_explicitProvider) { payload.provider = _explicitProvider; _explicitProvider = null; }
     const r = await fetchWithRetry(endpoint, payload);
 
@@ -1986,7 +1992,7 @@ async function loop() {
       const r = await listenOnce();
       if (!window._wantsVoice) break;
       if (!r) continue;
-      const { text, confidence } = r;
+      const { text, confidence, mood } = r;
       if (text.length < 3) {
         console.log('[STT] dropping short:', JSON.stringify(text));
         continue;
@@ -2000,6 +2006,10 @@ async function loop() {
         continue;
       }
       try {
+        // Stash mood so the next askJarvis() call can append it to the
+        // chat request body. We don't want every API surface to grow a
+        // mood parameter so a module-level latch is simpler.
+        window._lastMood = mood || null;
         await handleCommand(text);
       } catch (e) {
         console.error('[handleCommand crashed]', e);
@@ -2029,6 +2039,22 @@ function stopAll() {
   $micBtn.textContent = '◉ ENABLE VOICE';
   $micBtn.classList.remove('recording');
 }
+
+// deriveMood — coarse heuristic over RMS + word-rate features. Returns
+// 'stressed' | 'tired' | 'energetic' | 'neutral'. The mood is passed to
+// chat.js so Claude can soften / adjust the response tone. Thresholds
+// are guesses — iterate based on real samples.
+function deriveMood({ meanRms = 0, rmsStd = 0, peakRms = 0, speechMs = 0, pauseRatio = 0, wordCount = 0 }) {
+  const wps = wordCount / Math.max(1, speechMs / 1000);     // words per second
+  // High peak + fast + variable amplitude → stressed.
+  if (peakRms > 0.15 && wps > 3 && rmsStd > 0.04) return 'stressed';
+  // Quiet + slow + long pauses → tired.
+  if (meanRms < 0.025 && wps < 2 && pauseRatio > 0.35) return 'tired';
+  // Decent volume + brisk pace → energetic.
+  if (meanRms > 0.06 && wps > 2.5 && rmsStd < 0.05) return 'energetic';
+  return 'neutral';
+}
+
 
 // listenOnce resolves with { text, confidence, durationMs } on a real
 // speech sample, or null when the user was silent / aborted.
@@ -2073,6 +2099,10 @@ function listenOnce() {
     let noise         = 0, calFrames = 0, thr = MAX_THR;
     let consecLoud    = 0;
     let speechFrames  = 0;
+    // Voice-feature samples for mood detection (filled while speech active).
+    const _rmsSamples = [];
+    let _peakRms = 0;
+    let _silentFramesDuringSpeech = 0;
     const started     = performance.now();
 
     function tick() {
@@ -2102,9 +2132,15 @@ function listenOnce() {
           ever = true;
           speechStart = now - consecLoud * 16;  // back-date to where loudness started
         }
-        if (ever) { lastLoud = now; speechFrames++; }
+        if (ever) {
+          lastLoud = now;
+          speechFrames++;
+          _rmsSamples.push(rms);
+          if (rms > _peakRms) _peakRms = rms;
+        }
       } else {
         consecLoud = 0;
+        if (ever) _silentFramesDuringSpeech++;
       }
 
       if (ever && (now - lastLoud) > SILENCE_HANG && (now - speechStart) > MIN_SPEECH) {
@@ -2126,6 +2162,21 @@ function listenOnce() {
           console.log(`[VAD] speech too short (${speechFrames} frames, ~${(speechFrames * 16) | 0}ms) — dropping`);
           return resolve(null);
         }
+        // Compute voice features for mood detection.
+        let meanRms = 0, rmsStd = 0;
+        if (_rmsSamples.length) {
+          meanRms = _rmsSamples.reduce((a, b) => a + b, 0) / _rmsSamples.length;
+          const v = _rmsSamples.reduce((s, x) => s + (x - meanRms) ** 2, 0) / _rmsSamples.length;
+          rmsStd = Math.sqrt(v);
+        }
+        const totalFrames = speechFrames + _silentFramesDuringSpeech;
+        const pauseRatio  = totalFrames ? _silentFramesDuringSpeech / totalFrames : 0;
+        const voiceFeatures = {
+          meanRms, rmsStd, peakRms: _peakRms,
+          speechMs: speechDurationMs,
+          pauseRatio,
+        };
+
         const blob = new Blob(_chunks, { type: _mime });
         setMode('thinking', 'TRANSCRIBING');
         try {
@@ -2138,7 +2189,12 @@ function listenOnce() {
           const confidence = typeof j.confidence === 'number' ? j.confidence : 1;
           console.log(`[STT] "${text}" (conf=${confidence.toFixed(2)}, ${j.provider || '?'})`);
           if (!text) return resolve(null);
-          resolve({ text, confidence, durationMs: speechDurationMs });
+          const wordCount = text.split(/\s+/).filter(Boolean).length;
+          const mood = deriveMood({ ...voiceFeatures, wordCount });
+          if (mood !== 'neutral') {
+            console.log(`[mood] ${mood} (rms=${meanRms.toFixed(3)} σ=${rmsStd.toFixed(3)} peak=${_peakRms.toFixed(3)} wps=${(wordCount/Math.max(1,speechDurationMs/1000)).toFixed(2)} pause=${pauseRatio.toFixed(2)})`);
+          }
+          resolve({ text, confidence, durationMs: speechDurationMs, mood, voiceFeatures });
         } catch (e) {
           console.warn('[STT] transcribe failed:', e.message);
           resolve(null);
