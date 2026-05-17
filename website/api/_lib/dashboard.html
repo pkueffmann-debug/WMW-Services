@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JARVIS · Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #050a0d;
+  --panel: rgba(10, 24, 32, 0.55);
+  --panel-2: rgba(14, 30, 38, 0.75);
+  --border: rgba(0, 220, 255, 0.18);
+  --cyan: #22d3ee;
+  --cyan-soft: rgba(34, 211, 238, 0.4);
+  --bright: #C8E8F5;
+  --dim: #7aa2b8;
+  --warm: #fbbf24;
+  --orange: #FF7A1F;
+  --green: #4ade80;
+  --red: #ef4444;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html, body { background: var(--bg); color: var(--bright); min-height: 100vh; }
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background:
+    radial-gradient(ellipse at 20% 0%, rgba(34,211,238,0.06), transparent 50%),
+    radial-gradient(ellipse at 80% 100%, rgba(99,102,241,0.05), transparent 50%),
+    var(--bg);
+  background-attachment: fixed;
+}
+a { color: var(--cyan); text-decoration: none; }
+.wrap { max-width: 1200px; margin: 0 auto; padding: 24px; }
+
+/* ── Header ─────────────────────────────────────────────────────────── */
+header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 28px;
+  gap: 16px; flex-wrap: wrap;
+}
+header .titles h1 {
+  font-size: 14px; font-weight: 600;
+  letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--cyan);
+  margin-bottom: 6px;
+}
+header .titles h2 {
+  font-size: clamp(22px, 3vw, 32px);
+  font-weight: 700; letter-spacing: -0.01em;
+  color: #fff;
+}
+header .titles .clock {
+  display: inline-block;
+  margin-top: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  color: var(--dim);
+  letter-spacing: 0.1em;
+}
+header .actions { display: flex; gap: 10px; align-items: center; }
+header .btn-pill {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 8px 14px;
+  background: rgba(0,30,50,0.5);
+  border: 1px solid var(--cyan-soft);
+  border-radius: 99px;
+  font-family: inherit; font-size: 11px;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--bright);
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+header .btn-pill:hover { background: rgba(0,60,90,0.7); border-color: var(--bright); }
+header .btn-pill .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--green); box-shadow: 0 0 8px var(--green);
+}
+header .btn-pill.muted .dot { background: var(--dim); box-shadow: none; }
+
+/* ── Grid ──────────────────────────────────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  align-items: stretch;
+}
+@media (max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .grid { grid-template-columns: 1fr; } }
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 22px;
+  backdrop-filter: blur(12px);
+  display: flex; flex-direction: column;
+  min-height: 180px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.card:hover { border-color: rgba(34,211,238,0.4); }
+.card.span-2 { grid-column: span 2; }
+@media (max-width: 600px) { .card.span-2 { grid-column: span 1; } }
+
+.card .label {
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--cyan);
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.card .label .src { color: var(--dim); margin-left: 8px; font-weight: 400; letter-spacing: 0.15em; }
+.card.placeholder { opacity: 0.55; }
+.card.placeholder::after {
+  content: 'OAuth setup required';
+  position: absolute; top: 22px; right: 22px;
+  font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--dim);
+}
+
+.card .status-msg { color: var(--dim); font-size: 13px; font-style: italic; }
+
+/* ── Greeting card ─────────────────────────────────────────────────── */
+.greet h3 {
+  font-size: clamp(20px, 2.4vw, 28px);
+  font-weight: 700; letter-spacing: -0.01em;
+  margin-bottom: 8px; color: #fff;
+}
+.greet p { color: var(--dim); font-size: 14px; line-height: 1.5; }
+.greet .open-brain {
+  margin-top: 14px;
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--cyan);
+}
+
+/* ── Weather card ──────────────────────────────────────────────────── */
+.weather .temp {
+  font-size: 56px; font-weight: 700; line-height: 1;
+  letter-spacing: -0.04em;
+  color: #fff;
+  margin-bottom: 8px;
+}
+.weather .temp .unit { font-size: 22px; color: var(--dim); margin-left: 4px; font-weight: 500; }
+.weather .location { font-size: 14px; color: var(--dim); margin-bottom: 4px; }
+.weather .condition { font-size: 15px; color: var(--bright); margin-bottom: 14px; }
+.weather .details {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 8px 18px;
+  font-size: 12px; color: var(--dim);
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding-top: 12px;
+}
+.weather .details strong { color: var(--bright); font-weight: 500; }
+
+/* ── News card ─────────────────────────────────────────────────────── */
+.news ul { list-style: none; display: flex; flex-direction: column; gap: 11px; }
+.news li {
+  font-size: 13.5px; line-height: 1.45;
+  color: var(--bright);
+  padding-left: 22px;
+  position: relative;
+}
+.news li::before {
+  content: counter(news-counter);
+  counter-increment: news-counter;
+  position: absolute; left: 0; top: 1px;
+  width: 16px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--cyan);
+  font-weight: 600;
+}
+.news ul { counter-reset: news-counter; }
+.news li .src {
+  display: inline-block; margin-left: 6px;
+  font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--dim);
+  vertical-align: 1px;
+}
+
+/* ── Memory card ───────────────────────────────────────────────────── */
+.memory ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.memory li {
+  font-size: 13px; line-height: 1.5;
+  color: var(--bright);
+  padding-left: 20px;
+  position: relative;
+}
+.memory li::before {
+  content: '✦';
+  position: absolute; left: 0; top: 0;
+  color: var(--cyan); font-size: 11px;
+}
+.memory .cat {
+  display: inline-block;
+  margin-right: 7px;
+  padding: 1px 7px;
+  font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--cyan); background: rgba(34,211,238,0.08);
+  border-radius: 8px; border: 1px solid rgba(34,211,238,0.2);
+}
+
+/* ── Skeleton ──────────────────────────────────────────────────────── */
+.skeleton { animation: pulse 1.4s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 0.9; } }
+
+/* ── Last updated ──────────────────────────────────────────────────── */
+.foot {
+  text-align: center; margin-top: 28px;
+  font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--dim);
+}
+.foot .next { color: var(--cyan); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="titles">
+      <h1>JARVIS · Dashboard</h1>
+      <h2 id="hello">Guten Tag.</h2>
+      <span class="clock" id="clock">--:--</span>
+    </div>
+    <div class="actions">
+      <a href="/brain" class="btn-pill"><span class="dot"></span>Brain öffnen</a>
+      <button class="btn-pill muted" id="refreshBtn"><span class="dot"></span>Refresh</button>
+    </div>
+  </header>
+
+  <div class="grid">
+
+    <!-- Greeting / quick CTA -->
+    <div class="card greet">
+      <div class="label">Heute</div>
+      <h3 id="today-line">…</h3>
+      <p>Sag JARVIS Bescheid was heute ansteht — oder öffne das Brain für ein direktes Gespräch.</p>
+      <a class="open-brain" href="/brain">JARVIS sprechen →</a>
+    </div>
+
+    <!-- Weather -->
+    <div class="card weather">
+      <div class="label">Wetter <span class="src" id="weather-loc"></span></div>
+      <div id="weather-body">
+        <p class="status-msg skeleton">Lade…</p>
+      </div>
+    </div>
+
+    <!-- News -->
+    <div class="card span-2 news">
+      <div class="label">News <span class="src" id="news-src"></span></div>
+      <div id="news-body">
+        <p class="status-msg skeleton">Lade…</p>
+      </div>
+    </div>
+
+    <!-- Memory / Facts -->
+    <div class="card memory">
+      <div class="label">JARVIS Memory</div>
+      <div id="memory-body">
+        <p class="status-msg skeleton">Lade…</p>
+      </div>
+    </div>
+
+    <!-- Calendar placeholder -->
+    <div class="card placeholder">
+      <div class="label">Kalender</div>
+      <p class="status-msg">Google Calendar Integration kommt — OAuth-Flow muss noch eingerichtet werden.</p>
+    </div>
+
+    <!-- Email placeholder -->
+    <div class="card placeholder">
+      <div class="label">Email</div>
+      <p class="status-msg">Gmail Integration kommt — OAuth-Flow muss noch eingerichtet werden.</p>
+    </div>
+
+  </div>
+
+  <p class="foot">Auto-refresh alle 5 Minuten · letzte Aktualisierung <span class="next" id="last-updated">—</span></p>
+
+</div>
+
+<script>
+// ── Clock + greeting ───────────────────────────────────────────────────
+function tickClock() {
+  const now = new Date();
+  const hh = String(now.getHours()).padStart(2, '0');
+  const mm = String(now.getMinutes()).padStart(2, '0');
+  document.getElementById('clock').textContent = `${hh}:${mm}`;
+  const h = now.getHours();
+  const greet = h < 11 ? 'Guten Morgen.'
+              : h < 13 ? 'Guten Vormittag.'
+              : h < 18 ? 'Guten Tag.'
+              :          'Guten Abend.';
+  document.getElementById('hello').textContent = greet;
+  const date = now.toLocaleDateString('de-DE', { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' });
+  document.getElementById('today-line').textContent = date;
+}
+tickClock();
+setInterval(tickClock, 30_000);
+
+function setLastUpdated() {
+  const now = new Date();
+  document.getElementById('last-updated').textContent =
+    `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+}
+
+// ── Weather ────────────────────────────────────────────────────────────
+async function loadWeather() {
+  const body = document.getElementById('weather-body');
+  const loc  = document.getElementById('weather-loc');
+  try {
+    // Prefer browser geolocation; fall back to Berlin so the card is never empty.
+    const coords = await new Promise((resolve) => {
+      if (!navigator.geolocation) return resolve(null);
+      navigator.geolocation.getCurrentPosition(
+        (p) => resolve({ lat: p.coords.latitude, lon: p.coords.longitude }),
+        () => resolve(null),
+        { timeout: 4000, maximumAge: 300_000 }
+      );
+    });
+    const qs = coords ? `?lat=${coords.lat}&lon=${coords.lon}` : '';
+    const r = await fetch('/api/brain/weather' + qs);
+    if (!r.ok) throw new Error('weather ' + r.status);
+    const w = await r.json();
+    loc.textContent = w.location + (w.country ? ' · ' + w.country : '');
+    body.innerHTML = `
+      <div class="temp">${Math.round(w.temp_c)}<span class="unit">°C</span></div>
+      <p class="location"></p>
+      <p class="condition">${w.condition || ''}</p>
+      <div class="details">
+        <div>Gefühlt <strong>${Math.round(w.feels_like_c)}°</strong></div>
+        <div>Wind <strong>${Math.round(w.wind_kmh)} km/h</strong></div>
+        <div>Heute <strong>${Math.round(w.today.min_c)}° / ${Math.round(w.today.max_c)}°</strong></div>
+        <div>Morgen <strong>${Math.round(w.tomorrow.min_c)}° / ${Math.round(w.tomorrow.max_c)}°</strong></div>
+      </div>
+    `;
+  } catch (e) {
+    body.innerHTML = `<p class="status-msg">Wetter nicht erreichbar: ${escapeHtml(e.message)}</p>`;
+  }
+}
+
+// ── News ───────────────────────────────────────────────────────────────
+async function loadNews() {
+  const body = document.getElementById('news-body');
+  const src  = document.getElementById('news-src');
+  try {
+    const r = await fetch('/api/brain/news');
+    if (!r.ok) throw new Error('news ' + r.status);
+    const j = await r.json();
+    if (!j.items?.length) {
+      body.innerHTML = `<p class="status-msg">Keine News verfügbar.</p>`;
+      return;
+    }
+    src.textContent = (j.sources || []).join(' · ');
+    body.innerHTML = '<ul>' + j.items.map(it => `
+      <li>
+        ${escapeHtml(it.title)}
+        <span class="src">${escapeHtml(it.source)}</span>
+      </li>
+    `).join('') + '</ul>';
+  } catch (e) {
+    body.innerHTML = `<p class="status-msg">News nicht erreichbar: ${escapeHtml(e.message)}</p>`;
+  }
+}
+
+// ── Memory ─────────────────────────────────────────────────────────────
+async function loadMemory() {
+  const body = document.getElementById('memory-body');
+  try {
+    const r = await fetch('/api/brain/memory');
+    if (!r.ok) throw new Error('memory ' + r.status);
+    const j = await r.json();
+    const facts = (j.facts || []).slice(0, 6);
+    if (!facts.length) {
+      body.innerHTML = `<p class="status-msg">Noch keine gespeicherten Fakten — erzähl JARVIS etwas über dich.</p>`;
+      return;
+    }
+    body.innerHTML = '<ul>' + facts.map(f => `
+      <li>
+        ${f.category ? `<span class="cat">${escapeHtml(f.category)}</span>` : ''}
+        ${escapeHtml(f.fact)}
+      </li>
+    `).join('') + '</ul>';
+  } catch (e) {
+    body.innerHTML = `<p class="status-msg">Memory nicht erreichbar: ${escapeHtml(e.message)}</p>`;
+  }
+}
+
+// ── Helpers ────────────────────────────────────────────────────────────
+function escapeHtml(s) {
+  return String(s || '').replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+}
+
+async function refreshAll() {
+  await Promise.all([loadWeather(), loadNews(), loadMemory()]);
+  setLastUpdated();
+}
+
+document.getElementById('refreshBtn').addEventListener('click', refreshAll);
+
+// Initial load + 5 min interval
+refreshAll();
+setInterval(refreshAll, 5 * 60 * 1000);
+</script>
+</body>
+</html>

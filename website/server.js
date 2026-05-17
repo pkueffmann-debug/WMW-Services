@@ -76,20 +76,26 @@ const ttsHandler        = require('./api/brain/tts');
 const debateHandler     = require('./api/brain/debate');
 const memoryHandler     = require('./api/brain/memory');
 const newsHandler       = require('./api/brain/news');
+const weatherHandler    = require('./api/brain/weather');
+const dashboardHandler  = require('./api/brain/dashboard');
 let transcribeHandler;
 try { transcribeHandler = require('./api/brain/transcribe'); } catch (_) {}
 
-app.post('/api/brain/chat',    (req, res) => chatHandler(req, res));
-app.post('/api/brain/tts',     (req, res) => ttsHandler(req, res));
-app.post('/api/brain/debate',  (req, res) => debateHandler(req, res));
-app.all ('/api/brain/memory',  (req, res) => memoryHandler(req, res));
-app.get ('/api/brain/news',    (req, res) => newsHandler(req, res));
+app.post('/api/brain/chat',     (req, res) => chatHandler(req, res));
+app.post('/api/brain/tts',      (req, res) => ttsHandler(req, res));
+app.post('/api/brain/debate',   (req, res) => debateHandler(req, res));
+app.all ('/api/brain/memory',   (req, res) => memoryHandler(req, res));
+app.get ('/api/brain/news',     (req, res) => newsHandler(req, res));
+app.get ('/api/brain/weather',  (req, res) => weatherHandler(req, res));
+app.get ('/api/brain/dashboard',(req, res) => dashboardHandler(req, res));
 
 // Local dev: mirror the Vercel rewrite /brain → /api/brain so the page
 // loads the same way locally as on daylens.dev.
 const brainPageHandler = require('./api/brain');
-app.get('/brain',  (req, res) => brainPageHandler(req, res));
-app.get('/brain/', (req, res) => brainPageHandler(req, res));
+app.get('/brain',           (req, res) => brainPageHandler(req, res));
+app.get('/brain/',          (req, res) => brainPageHandler(req, res));
+app.get('/brain/dashboard', (req, res) => dashboardHandler(req, res));
+app.get('/brain/dashboard/',(req, res) => dashboardHandler(req, res));
 if (transcribeHandler) {
   app.post('/api/brain/transcribe', (req, res) => transcribeHandler(req, res));
 }

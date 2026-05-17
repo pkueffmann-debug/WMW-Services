@@ -1,12 +1,17 @@
 {
   "cleanUrls": true,
   "rewrites": [
-    { "source": "/brain",  "destination": "/api/brain" },
-    { "source": "/brain/", "destination": "/api/brain" }
+    { "source": "/brain",            "destination": "/api/brain" },
+    { "source": "/brain/",           "destination": "/api/brain" },
+    { "source": "/brain/dashboard",  "destination": "/api/brain/dashboard" },
+    { "source": "/brain/dashboard/", "destination": "/api/brain/dashboard" }
   ],
   "functions": {
     "api/brain.js": {
       "includeFiles": "api/_lib/brain.html"
+    },
+    "api/brain/dashboard.js": {
+      "includeFiles": "api/_lib/dashboard.html"
     }
   }
 }
