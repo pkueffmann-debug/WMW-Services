@@ -1,0 +1,2371 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JARVIS — Dein KI-Assistent. Der denkt bevor du fragst.</title>
+  <meta name="description" content="JARVIS — der KI-Assistent der deinen Mac wirklich versteht. Wake Word, Screen Vision, Gmail, Multi-AI. Kein Suchen mehr. Kein Klicken mehr. Nur sprechen.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #080808;
+      --bg-2: #0a0a0f;
+      --surface: #0e0e14;
+      --border: rgba(255,255,255,0.06);
+      --border-2: rgba(255,255,255,0.12);
+      --text: #FFFFFF;
+      --text-2: #A1A1AA;
+      --text-3: #52525B;
+      --accent: #6366F1;
+      --accent-hover: #818CF8;
+      --cyan: #22D3EE;
+      --cyan-glow: rgba(34,211,238,0.35);
+      --indigo-glow: rgba(99,102,241,0.35);
+      --radius-card: 16px;
+      --radius-btn: 10px;
+    }
+    *, *::before, *::after {
+      box-sizing: border-box; margin: 0; padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+    html { scroll-behavior: smooth; background: var(--bg); }
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      overflow-x: hidden;
+      position: relative;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+    button, a, .btn, .price-btn, .founder-cta, .hamburger,
+    .pt-switch, .testi-card, .price-card, .founder-card { touch-action: manipulation; }
+
+    /* Stars background — fixed, behind everything */
+    #stars {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.6;
+    }
+
+    /* NAVBAR — minimal, dark, only sticky after scroll */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 0 32px; height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: background 0.3s, backdrop-filter 0.3s, border-color 0.3s;
+      border-bottom: 1px solid transparent;
+    }
+    .navbar.scrolled {
+      background: rgba(8,8,8,0.75);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-color: var(--border);
+    }
+    .navbar-logo { font-size: 18px; font-weight: 800; letter-spacing: 0.12em; color: var(--text); text-decoration: none; }
+    .navbar-logo span { color: var(--accent); }
+    .navbar-links { display: flex; gap: 32px; list-style: none; }
+    .navbar-links a { color: var(--text-2); text-decoration: none; font-size: 13px; font-weight: 500; letter-spacing: 0.04em; transition: color 0.2s; }
+    .navbar-links a:hover { color: var(--text); }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 18px; border-radius: var(--radius-btn);
+      font-size: 14px; font-weight: 600; text-decoration: none;
+      cursor: pointer; transition: all 0.2s; border: none;
+      font-family: 'Inter', sans-serif; line-height: 1;
+    }
+    .btn-outlined { border: 1px solid rgba(255,255,255,0.15); background: transparent; color: var(--text); }
+    .btn-outlined:hover { border-color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.05); }
+    .btn-primary { background: var(--accent); color: #fff; border: 1px solid transparent; }
+    .btn-primary:hover { background: var(--accent-hover); transform: translateY(-1px); box-shadow: 0 12px 32px var(--indigo-glow); }
+    .btn-ghost { background: transparent; color: var(--text-2); border: 1px solid var(--border-2); }
+    .btn-ghost:hover { color: var(--text); border-color: rgba(255,255,255,0.25); }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+    .hamburger span { width: 22px; height: 2px; background: var(--text); transition: 0.3s; }
+    .mobile-nav { display: none; position: fixed; top: 64px; left: 0; right: 0; background: rgba(8,8,8,0.96); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); padding: 24px 32px; flex-direction: column; gap: 16px; z-index: 99; transform: translateY(-110%); transition: transform 0.3s; }
+    .mobile-nav.open { transform: translateY(0); }
+    .mobile-nav a { color: var(--text-2); text-decoration: none; font-size: 15px; }
+
+    /* ───────── SECTION 1 — HERO ───────── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      min-height: 100dvh; /* iOS Safari: dynamic viewport height accounts for URL bar */
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column;
+      padding: 0 24px;
+      isolation: isolate;
+    }
+    #hero-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      z-index: 1;
+      opacity: 1;
+      display: block;
+      touch-action: none;
+    }
+    .hero-vignette {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse at center, transparent 0%, transparent 55%, var(--bg) 95%);
+      z-index: 2;
+      pointer-events: none;
+    }
+    .hero-content { pointer-events: none; }
+    .hero-content > * { pointer-events: auto; }
+    .hero-content {
+      position: relative;
+      z-index: 3;
+      text-align: center;
+      max-width: 900px;
+      margin-top: 12vh;
+    }
+    .hero-title {
+      font-size: clamp(40px, 7vw, 88px);
+      font-weight: 800;
+      line-height: 1.04;
+      letter-spacing: -0.03em;
+      margin-bottom: 18px;
+    }
+    .hero-title .line { display: block; opacity: 0; }
+    .hero-title .w { display: inline-block; opacity: 0; transform: translateY(24px); margin-right: 0.22em; }
+    .hero-title .accent { background: linear-gradient(135deg, var(--cyan), var(--accent-hover)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .hero-sub {
+      color: var(--text-2);
+      font-size: clamp(14px, 1.4vw, 17px);
+      max-width: 540px;
+      margin: 0 auto 32px;
+      opacity: 0;
+      font-weight: 400;
+    }
+    .hero-cta {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 56px;
+      opacity: 0;
+    }
+    .hero-cta-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .btn-download {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 18px;
+      border-radius: var(--radius-btn);
+      border: 1px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.02);
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      text-decoration: none;
+      font-family: 'Inter', sans-serif;
+      line-height: 1;
+      transition: border-color 0.2s, background 0.2s, transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-download:hover {
+      border-color: rgba(34,211,238,0.5);
+      background: rgba(34,211,238,0.06);
+      transform: translateY(-1px);
+      box-shadow: 0 12px 32px rgba(34,211,238,0.15);
+    }
+    .btn-download svg { color: var(--cyan); flex-shrink: 0; }
+    .hero-cta-hint {
+      font-size: 12px;
+      color: var(--text-3);
+      letter-spacing: 0.04em;
+      margin: 0;
+      text-align: center;
+    }
+    @media (max-width: 480px) {
+      .hero-cta-row { gap: 8px; }
+      .btn-download { padding: 10px 14px; font-size: 12px; }
+    }
+    .scroll-cue {
+      position: absolute;
+      bottom: 48px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+      color: var(--text-2);
+      font-size: 13px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      font-weight: 500;
+      opacity: 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: pulse-cue 2.4s ease-in-out infinite;
+    }
+    .scroll-cue:hover { color: var(--text); }
+    .scroll-cue .arrow { width: 12px; height: 12px; border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor; transform: rotate(45deg); margin-top: -4px; }
+    @keyframes pulse-cue {
+      0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.55; }
+      50% { transform: translateX(-50%) translateY(6px); opacity: 1; }
+    }
+
+    /* ───────── SECTION 2 — STATEMENTS ───────── */
+    .statements { position: relative; z-index: 2; }
+    .statement {
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 0 6vw;
+      position: relative;
+      overflow: hidden;
+    }
+    .statement-inner {
+      position: relative;
+      will-change: transform;
+    }
+    .statement-text {
+      font-size: clamp(40px, 9vw, 160px);
+      font-weight: 900;
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+      color: #fff;
+      text-align: center;
+      will-change: transform;
+      display: inline-block;
+      position: relative;
+      max-width: 100%;
+      overflow-wrap: anywhere;
+    }
+    .statement-text.muted { color: var(--text-3); }
+    .statement-text .grad {
+      background: linear-gradient(135deg, var(--cyan), var(--accent-hover));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .statement-text .char {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(8px);
+      will-change: transform, opacity, filter;
+    }
+    .statement-cursor { display: none; }
+    @keyframes blink { 0%, 50% { opacity: 1; } 50.01%, 100% { opacity: 0; } }
+    .statement-particles {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: visible;
+    }
+    .stmt-particle {
+      position: absolute;
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 12px var(--cyan);
+      opacity: 0;
+      pointer-events: none;
+    }
+    .snake-line {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+      overflow: visible;
+    }
+    .snake-line path {
+      fill: none;
+      stroke: url(#snakeGradient);
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      filter: drop-shadow(0 0 8px rgba(34,211,238,0.85)) drop-shadow(0 0 22px rgba(99,102,241,0.55));
+    }
+    .statement-inner { z-index: 2; position: relative; }
+
+    /* ───────── SECTION 3 — PRODUCT VISUAL ───────── */
+    .product {
+      position: relative;
+      z-index: 2;
+      min-height: 110vh;
+      padding: 120px 24px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .product-stage {
+      position: relative;
+      width: min(960px, 100%);
+      perspective: 1600px;
+    }
+    .product-mock {
+      position: relative;
+      aspect-ratio: 16/10;
+      border-radius: 20px;
+      background: linear-gradient(180deg, #0f0f17 0%, #07070a 100%);
+      border: 1px solid var(--border-2);
+      box-shadow:
+        0 60px 120px rgba(0,0,0,0.6),
+        0 0 0 1px rgba(255,255,255,0.04) inset,
+        0 0 80px rgba(99,102,241,0.15);
+      overflow: hidden;
+      transform-style: preserve-3d;
+      will-change: transform;
+      transition: transform 0.2s ease-out;
+    }
+    .mock-glow {
+      position: absolute;
+      width: 60%; height: 60%;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--cyan-glow) 0%, transparent 65%);
+      filter: blur(40px);
+      animation: glow-breathe 4s ease-in-out infinite;
+      z-index: 0;
+    }
+    @keyframes glow-breathe {
+      0%, 100% { opacity: 0.45; transform: translate(-50%, -50%) scale(1); }
+      50% { opacity: 0.85; transform: translate(-50%, -50%) scale(1.08); }
+    }
+
+    /* Brain interface mock — neural network canvas + UI chrome */
+    .brain-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      z-index: 1;
+    }
+    .brain-cmds {
+      position: absolute;
+      top: 18px; left: 22px;
+      z-index: 3;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-family: 'JetBrains Mono', 'Menlo', monospace;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      color: var(--text-2);
+      text-transform: uppercase;
+      max-width: 55%;
+    }
+    .brain-cmds .cmd { display: inline-flex; align-items: center; gap: 6px; }
+    .brain-cmds .cmd .arg { color: var(--cyan); }
+    .brain-cmds .cmd .x   { color: #ef4444; font-weight: 700; }
+    .brain-cmds .sep { color: var(--text-3); }
+
+    .brain-toggles {
+      position: absolute;
+      top: 16px; right: 16px;
+      z-index: 3;
+      display: flex;
+      gap: 10px;
+    }
+    .brain-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px 6px 10px;
+      font-family: 'JetBrains Mono', 'Menlo', monospace;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-2);
+      background: rgba(14,14,20,0.6);
+      border: 1px solid rgba(34,211,238,0.3);
+      border-radius: 100px;
+      backdrop-filter: blur(8px);
+    }
+    .brain-toggle .led {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 8px var(--cyan);
+    }
+    .brain-toggle.off .led {
+      background: transparent;
+      border: 1px solid var(--text-3);
+      box-shadow: none;
+    }
+
+    .brain-standby {
+      position: absolute;
+      bottom: 22px; left: 24px;
+      z-index: 3;
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      font-family: 'JetBrains Mono', 'Menlo', monospace;
+      font-size: 11px;
+      letter-spacing: 0.45em;
+      color: var(--text-2);
+      text-transform: uppercase;
+    }
+    .brain-standby .led {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 12px var(--cyan);
+      animation: pulse-led 1.6s ease-in-out infinite;
+    }
+    @keyframes pulse-led {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.45; transform: scale(0.8); }
+    }
+
+    .brain-jarvis {
+      position: absolute;
+      bottom: 18px; right: 18px;
+      z-index: 3;
+      width: 72px; height: 72px;
+      border-radius: 50%;
+      border: 1.4px solid rgba(34,211,238,0.5);
+      background: radial-gradient(circle, rgba(34,211,238,0.08), transparent 70%);
+      box-shadow: 0 0 22px rgba(34,211,238,0.18), inset 0 0 18px rgba(99,102,241,0.15);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      font-family: 'JetBrains Mono', 'Menlo', monospace;
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      color: var(--cyan);
+    }
+    .brain-jarvis .mic {
+      width: 14px; height: 14px;
+      margin-bottom: 4px;
+    }
+    .brain-jarvis::before {
+      content: '';
+      position: absolute; inset: -6px;
+      border-radius: 50%;
+      border: 1px dashed rgba(99,102,241,0.25);
+    }
+
+    @media (max-width: 600px) {
+      .brain-cmds { font-size: 9px; gap: 10px; max-width: 60%; top: 14px; left: 16px; }
+      .brain-toggle { font-size: 9px; padding: 5px 10px 5px 9px; }
+      .brain-jarvis { width: 56px; height: 56px; font-size: 8px; }
+      .brain-standby { font-size: 9px; bottom: 16px; left: 18px; }
+    }
+    .feature-tag {
+      position: absolute;
+      background: rgba(14,14,20,0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-2);
+      border-radius: 100px;
+      padding: 8px 14px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--text);
+      white-space: nowrap;
+      opacity: 0;
+      transform: scale(0.7) translateY(20px);
+      display: flex; align-items: center; gap: 6px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    }
+    .feature-tag .check { color: var(--cyan); font-weight: 700; }
+    .ft-1 { top: 8%;  left: -4%; }
+    .ft-2 { top: 22%; right: -6%; }
+    .ft-3 { bottom: 26%; left: -8%; }
+    .ft-4 { bottom: 8%;  right: -2%; }
+    @media (max-width: 768px) {
+      .ft-1 { top: -10%; left: 8%; }
+      .ft-2 { top: -4%; right: 6%; }
+      .ft-3 { bottom: -8%; left: 6%; }
+      .ft-4 { bottom: -12%; right: 8%; }
+    }
+
+    /* ───────── SECTION 4 — HOW IT WORKS (horizontal) ───────── */
+    .how { position: relative; z-index: 2; overflow: hidden; }
+    .how-pin {
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      will-change: transform;
+    }
+    .how-track {
+      display: flex;
+      height: 100%;
+      align-items: center;
+      gap: 6vw;
+      padding-left: 12vw;
+      padding-right: 12vw;
+    }
+    .how-step {
+      flex: 0 0 78vw;
+      max-width: 900px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6vw;
+      align-items: center;
+    }
+    .how-step .num {
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      color: var(--cyan);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .how-step h3 {
+      font-size: clamp(36px, 5vw, 64px);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      margin-bottom: 18px;
+    }
+    .how-step p {
+      color: var(--text-2);
+      font-size: 16px;
+      max-width: 420px;
+      line-height: 1.6;
+    }
+    .how-vis {
+      aspect-ratio: 1;
+      max-width: 360px;
+      margin: 0 auto;
+      border-radius: 24px;
+      background: radial-gradient(circle at center, rgba(99,102,241,0.12), transparent 70%);
+      border: 1px solid var(--border-2);
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .vis-mic {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: rgba(34,211,238,0.08);
+      border: 1.5px solid rgba(34,211,238,0.4);
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+    }
+    .vis-mic::before, .vis-mic::after {
+      content: '';
+      position: absolute;
+      inset: -8px;
+      border-radius: 50%;
+      border: 1px solid rgba(34,211,238,0.3);
+      animation: ripple 2s ease-out infinite;
+    }
+    .vis-mic::after { animation-delay: 1s; }
+    @keyframes ripple {
+      0% { transform: scale(0.9); opacity: 1; }
+      100% { transform: scale(2); opacity: 0; }
+    }
+    .vis-mic svg { color: var(--cyan); }
+    .vis-circle {
+      width: 160px; height: 160px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(99,102,241,0.5);
+      position: relative;
+      box-shadow: 0 0 50px rgba(99,102,241,0.25), inset 0 0 30px rgba(34,211,238,0.15);
+      animation: spin-slow 8s linear infinite;
+    }
+    .vis-circle::before {
+      content: '';
+      position: absolute; inset: -16px;
+      border-radius: 50%;
+      border: 1px dashed rgba(34,211,238,0.3);
+    }
+    .vis-circle::after {
+      content: '';
+      position: absolute;
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: var(--cyan);
+      top: -5px; left: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 0 16px var(--cyan);
+    }
+    .vis-check {
+      width: 120px; height: 120px;
+      border-radius: 50%;
+      border: 1.5px solid rgba(34,211,238,0.5);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 0 50px rgba(34,211,238,0.25);
+    }
+    .vis-check svg { color: var(--cyan); }
+
+    @media (max-width: 768px) {
+      .how-step { grid-template-columns: 1fr; gap: 32px; flex: 0 0 86vw; }
+      .how-vis { max-width: 220px; }
+    }
+
+    /* ───────── SECTION 5 — COMPARISON MATRIX ───────── */
+    .compare {
+      position: relative;
+      z-index: 2;
+      padding: 140px 24px 120px;
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+    .compare-head { text-align: center; margin-bottom: 56px; }
+    .compare-head h2 {
+      font-size: clamp(34px, 5vw, 56px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+    .compare-head h2 .accent {
+      background: linear-gradient(135deg, var(--cyan), var(--accent-hover));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .compare-head p {
+      color: var(--text-2);
+      font-size: 17px;
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    .compare-table-wrap {
+      position: relative;
+      border: 1px solid var(--border-2);
+      border-radius: var(--radius-card);
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.005));
+      overflow: hidden;
+    }
+    /* Fade-out hint on the right edge when the table is scrollable */
+    .compare-table-wrap::after {
+      content: '';
+      position: absolute;
+      top: 0; right: 0; bottom: 0;
+      width: 32px;
+      background: linear-gradient(90deg, transparent, var(--bg-2));
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .compare-table-wrap.scrollable::after { opacity: 1; }
+    .compare-swipe-hint {
+      display: none;
+      text-align: center;
+      margin-top: 12px;
+      font-size: 12px;
+      color: var(--text-3);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      animation: swipe-bounce 1.8s ease-in-out infinite;
+    }
+    @keyframes swipe-bounce {
+      0%, 100% { transform: translateX(0); opacity: 0.5; }
+      50%      { transform: translateX(6px); opacity: 1; }
+    }
+    .compare-table-scroll {
+      overflow-x: auto;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(34,211,238,0.3) transparent;
+    }
+    .compare-table-scroll::-webkit-scrollbar { height: 6px; }
+    .compare-table-scroll::-webkit-scrollbar-thumb { background: rgba(34,211,238,0.3); border-radius: 3px; }
+
+    .compare-table {
+      width: 100%;
+      min-width: 720px;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    .compare-table th,
+    .compare-table td {
+      padding: 18px 20px;
+      text-align: center;
+      border-bottom: 1px solid var(--border);
+    }
+    .compare-table tbody tr:last-child td { border-bottom: none; }
+    .compare-table thead th {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-3);
+      padding-top: 24px;
+      padding-bottom: 18px;
+      background: rgba(255,255,255,0.015);
+    }
+    .compare-table thead th.col-jarvis {
+      color: var(--cyan);
+      background: linear-gradient(180deg, rgba(34,211,238,0.12), rgba(99,102,241,0.06));
+    }
+    .compare-table th.col-jarvis .logo {
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: 0.05em;
+      color: transparent;
+      background: linear-gradient(135deg, var(--cyan), var(--accent-hover));
+      -webkit-background-clip: text; background-clip: text;
+      display: block;
+      filter: drop-shadow(0 0 12px rgba(34,211,238,0.5));
+    }
+    .compare-table th.feat,
+    .compare-table td.feat {
+      text-align: left;
+      color: var(--text);
+      font-weight: 500;
+      letter-spacing: -0.005em;
+      padding-left: 24px;
+      min-width: 220px;
+    }
+    .compare-table td.col-jarvis {
+      background: rgba(34,211,238,0.05);
+      border-left: 1px solid rgba(34,211,238,0.15);
+      border-right: 1px solid rgba(34,211,238,0.15);
+    }
+    .compare-table tbody tr:hover { background: rgba(255,255,255,0.015); }
+    .compare-table tbody tr:hover td.col-jarvis { background: rgba(34,211,238,0.08); }
+
+    .mark-cell {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .mark-cell.ok {
+      background: rgba(34,211,238,0.12);
+      color: var(--cyan);
+      box-shadow: 0 0 16px rgba(34,211,238,0.25);
+    }
+    .mark-cell.x {
+      background: rgba(239,68,68,0.08);
+      color: #ef4444;
+    }
+    .mark-cell.partial {
+      background: rgba(161,161,170,0.08);
+      color: var(--text-2);
+      font-size: 16px;
+    }
+
+    .compare-bottom {
+      color: var(--text-2);
+      font-size: clamp(15px, 1.8vw, 18px);
+      text-align: center;
+      margin-top: 40px;
+      font-weight: 400;
+    }
+    .compare-bottom strong {
+      color: transparent;
+      background: linear-gradient(135deg, var(--cyan), var(--accent-hover));
+      -webkit-background-clip: text; background-clip: text;
+      font-weight: 700;
+    }
+
+    @media (max-width: 768px) {
+      .compare-table th, .compare-table td { padding: 12px 14px; }
+      .compare-table th.feat, .compare-table td.feat { min-width: 180px; padding-left: 16px; }
+      .compare-table { font-size: 12px; min-width: 600px; }
+    }
+
+    /* ───────── SECTION 6 — PRICING ───────── */
+    .pricing-wrap {
+      position: relative;
+      z-index: 2;
+      padding: 140px 24px;
+      background: linear-gradient(180deg, transparent 0%, var(--bg-2) 30%, var(--bg-2) 70%, transparent 100%);
+    }
+    .pricing-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .section-tag {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      color: var(--cyan);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-size: clamp(34px, 5vw, 56px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 18px;
+    }
+    .section-sub {
+      color: var(--text-2);
+      font-size: 17px;
+      max-width: 560px;
+      margin: 0 auto 48px;
+    }
+    .price-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      padding: 8px 14px;
+      border: 1px solid var(--border);
+      border-radius: 100px;
+      background: rgba(255,255,255,0.02);
+      margin-bottom: 56px;
+    }
+    .pt-label { font-size: 14px; color: var(--text-3); font-weight: 500; cursor: pointer; transition: color 0.2s; }
+    .pt-label.on { color: var(--text); }
+    .pt-switch { width: 44px; height: 24px; border-radius: 100px; background: rgba(255,255,255,0.1); position: relative; cursor: pointer; transition: background 0.25s; }
+    .pt-switch.on { background: var(--accent); }
+    .pt-knob { position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: #fff; transition: transform 0.25s; }
+    .pt-switch.on .pt-knob { transform: translateX(20px); }
+    .pt-badge {
+      padding: 4px 10px;
+      border-radius: 100px;
+      background: rgba(34,211,238,0.1);
+      color: var(--cyan);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      text-align: left;
+    }
+    @media (max-width: 900px) {
+      .pricing-grid { grid-template-columns: 1fr; max-width: 460px; margin: 0 auto; }
+    }
+    .price-card {
+      position: relative;
+      padding: 36px 28px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0.005));
+      border: 1px solid var(--border-2);
+      border-radius: var(--radius-card);
+      transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+      will-change: transform;
+    }
+    .price-card:hover { transform: translateY(-4px); border-color: rgba(34,211,238,0.3); box-shadow: 0 24px 60px rgba(0,0,0,0.4), 0 0 40px rgba(34,211,238,0.15); }
+    .price-card.pop {
+      border-color: rgba(99,102,241,0.45);
+      background: linear-gradient(180deg, rgba(99,102,241,0.08), rgba(255,255,255,0.005));
+      box-shadow: 0 0 60px rgba(99,102,241,0.18);
+    }
+    .price-card.pop:hover { box-shadow: 0 24px 60px rgba(0,0,0,0.5), 0 0 80px rgba(99,102,241,0.3); }
+    .pop-badge {
+      position: absolute;
+      top: -12px; left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, var(--cyan), var(--accent));
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 100px;
+    }
+    .price-plan { font-size: 14px; font-weight: 600; letter-spacing: 0.04em; color: var(--text-2); margin-bottom: 8px; }
+    .price-amount { font-size: 56px; font-weight: 800; letter-spacing: -0.04em; line-height: 1; }
+    .price-amount sup { font-size: 22px; font-weight: 600; color: var(--text-2); vertical-align: super; margin-right: 2px; }
+    .price-period { color: var(--text-3); font-size: 14px; margin-top: 6px; }
+    .price-desc { color: var(--text-2); font-size: 14px; margin-top: 14px; min-height: 40px; }
+    .price-divider { height: 1px; background: var(--border); margin: 22px 0 22px; }
+    .price-features { list-style: none; display: flex; flex-direction: column; gap: 12px; margin-bottom: 28px; }
+    .price-features li {
+      font-size: 14px;
+      color: var(--text);
+      padding-left: 24px;
+      position: relative;
+    }
+    .price-features li::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 7px;
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      background: rgba(34,211,238,0.15);
+      border: 1px solid rgba(34,211,238,0.5);
+    }
+    .price-features li::after {
+      content: '';
+      position: absolute;
+      left: 4px; top: 11px;
+      width: 6px; height: 3px;
+      border-left: 1.5px solid var(--cyan);
+      border-bottom: 1.5px solid var(--cyan);
+      transform: rotate(-45deg);
+    }
+    .price-btn { width: 100%; justify-content: center; padding: 13px 18px; font-size: 14px; }
+    .btn-spinner {
+      width: 14px; height: 14px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      display: inline-block;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .payment-methods {
+      margin-top: 48px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+    }
+    .pm-label { font-size: 12px; color: var(--text-3); letter-spacing: 0.1em; text-transform: uppercase; }
+    .pm-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      color: var(--text-2);
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    /* ───────── SECTION 7 — TESTIMONIALS ───────── */
+    .testimonials {
+      position: relative;
+      z-index: 2;
+      padding: 140px 24px;
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+    .testi-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+    }
+    @media (max-width: 900px) {
+      .testi-grid {
+        display: flex;
+        grid-template-columns: none;
+        gap: 20px;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        padding: 8px 4px 24px;
+        margin: 0 -24px;
+        padding-left: 24px;
+        padding-right: 24px;
+        scrollbar-width: none;
+      }
+      .testi-grid::-webkit-scrollbar { display: none; }
+      .testi-card { flex: 0 0 82vw; scroll-snap-align: center; }
+    }
+    .testi-card {
+      position: relative;
+      padding: 48px 32px 36px;
+      border: 1px solid var(--border-2);
+      border-radius: var(--radius-card);
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .testi-card:hover { border-color: rgba(34,211,238,0.25); transform: translateY(-2px); }
+    .testi-quote {
+      position: absolute;
+      top: 12px; left: 22px;
+      font-size: 100px;
+      line-height: 1;
+      font-weight: 900;
+      font-family: 'Inter', serif;
+      color: var(--cyan);
+      opacity: 0.18;
+      pointer-events: none;
+    }
+    .testi-text {
+      font-size: 17px;
+      line-height: 1.5;
+      color: var(--text);
+      margin-bottom: 24px;
+      font-weight: 400;
+      position: relative;
+      z-index: 1;
+    }
+    .testi-author {
+      font-size: 13px;
+      color: var(--text-2);
+      letter-spacing: 0.02em;
+    }
+    .testi-author strong { color: var(--text); font-weight: 600; }
+
+    /* ───────── SECTION 8 — TEAM CTA ───────── */
+    .founder {
+      position: relative;
+      z-index: 2;
+      padding: 160px 24px 120px;
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+    .founder-head { text-align: center; margin-bottom: 64px; }
+    .founder-head h2 {
+      font-size: clamp(34px, 5vw, 56px);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 16px;
+    }
+    .founder-head p {
+      color: var(--text-2);
+      font-size: 17px;
+      max-width: 560px;
+      margin: 0 auto;
+    }
+    .founder-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-bottom: 72px;
+    }
+    @media (max-width: 900px) {
+      .founder-grid { grid-template-columns: 1fr; max-width: 480px; margin-left: auto; margin-right: auto; }
+    }
+    .founder-card {
+      position: relative;
+      padding: 32px 28px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.005));
+      border: 1px solid var(--border-2);
+      border-radius: var(--radius-card);
+      transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+    }
+    .founder-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(34,211,238,0.35);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.5), 0 0 40px rgba(34,211,238,0.15);
+    }
+    .founder-card.lead {
+      border-color: rgba(99,102,241,0.45);
+      background: linear-gradient(180deg, rgba(99,102,241,0.08), rgba(255,255,255,0.005));
+      box-shadow: 0 0 60px rgba(99,102,241,0.18);
+    }
+    .founder-card .avatar {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--cyan), var(--accent));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; font-weight: 800;
+      color: #fff;
+      margin-bottom: 20px;
+      box-shadow: 0 0 30px var(--indigo-glow);
+    }
+    .founder-card .role {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      color: var(--cyan);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .founder-card .name {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 18px;
+    }
+    .founder-card .row {
+      display: flex; align-items: center; gap: 10px;
+      color: var(--text-2);
+      font-size: 14px;
+      padding: 10px 0;
+      border-top: 1px solid var(--border);
+      text-decoration: none;
+      transition: color 0.2s;
+      word-break: break-all;
+    }
+    .founder-card .row:hover { color: var(--text); }
+    .founder-card .row svg { flex-shrink: 0; color: var(--cyan); }
+    .founder-card .row.first { border-top: none; padding-top: 4px; }
+    .founder-cta-wrap { text-align: center; }
+    .founder-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 20px 36px;
+      font-size: 17px;
+      font-weight: 600;
+      border-radius: 100px;
+      background: linear-gradient(135deg, var(--cyan), var(--accent));
+      color: #fff;
+      text-decoration: none;
+      transition: transform 0.25s, box-shadow 0.25s;
+      box-shadow: 0 12px 40px var(--indigo-glow);
+    }
+    .founder-cta:hover { transform: translateY(-2px); box-shadow: 0 20px 60px rgba(34,211,238,0.45); }
+    .founder-cta .arrow { transition: transform 0.25s; }
+    .founder-cta:hover .arrow { transform: translateX(4px); }
+
+    /* Minimal footer */
+    footer {
+      position: relative;
+      z-index: 2;
+      padding: 48px 24px 40px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+    .footer-row {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 28px;
+      margin-bottom: 16px;
+    }
+    .footer-row a { color: var(--text-3); font-size: 13px; text-decoration: none; transition: color 0.2s; }
+    .footer-row a:hover { color: var(--text-2); }
+    .footer-copy { color: var(--text-3); font-size: 12px; letter-spacing: 0.04em; }
+
+    /* MOBILE */
+    @media (max-width: 768px) {
+      /* Page can never scroll horizontally on mobile */
+      html, body { overflow-x: hidden; max-width: 100vw; }
+
+      .navbar { padding: 0 16px; height: 60px; }
+      .navbar-logo { font-size: 16px; }
+      .navbar-links { display: none; }
+      .hamburger { display: flex; }
+      .mobile-nav { display: flex; top: 60px; padding: 20px 24px; }
+      /* Touch target ≥ 44 px tall */
+      .navbar .btn-primary { padding: 12px 16px; font-size: 14px; min-height: 44px; }
+      .mobile-nav a { min-height: 44px; display: flex; align-items: center; font-size: 16px; }
+
+      /* Hero — fills the small viewport (without the URL bar), vertically
+         centred, with generous breathing room. Scroll-cue pinned to the
+         very bottom, not floating mid-content. */
+      .hero {
+        min-height: 100vh;
+        min-height: 100svh;   /* mobile-aware: excludes URL bar */
+        padding: 40px 20px 96px;   /* bottom-pad leaves space for scroll-cue */
+        justify-content: center;
+      }
+      .hero-content {
+        margin-top: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+      .hero-title {
+        font-size: clamp(40px, 12vw, 88px);
+        line-height: 1.02;
+        margin-bottom: 24px;
+      }
+      .hero-sub { font-size: 16px; margin: 0 0 8px; line-height: 1.5; }
+      .scroll-cue { bottom: 32px; font-size: 12px; letter-spacing: 0.14em; min-height: 44px; }
+
+      /* Statements — keep ~10 vw, give them more breathing room */
+      .statement { min-height: 80vh; padding: 0 12px; }
+      .statement-text {
+        font-size: clamp(40px, 10vw, 88px);
+        white-space: normal;
+        line-height: 1.02;
+        letter-spacing: -0.035em;
+      }
+
+      /* Product mock — 90 vw wide, fits any phone, hide the floating
+         feature tags so the brain visualization is unobstructed */
+      .product { padding: 70px 12px; min-height: auto; }
+      .product-stage { width: 90vw; max-width: 90vw; margin: 0 auto; }
+      .product-mock { aspect-ratio: 4/3; }
+      .feature-tag { display: none; }
+
+      /* How it works — vertical scroll with reduced padding */
+      .how-pin { height: auto; }
+      .how-track { flex-direction: column; padding: 60px 16px; gap: 60px; }
+      .how-step { flex: 1; width: 100%; }
+
+      /* Compare matrix — denser cells, smaller font */
+      .compare { padding: 80px 16px; }
+      .compare-table-wrap { border-radius: 12px; }
+      .compare-table { min-width: 540px; font-size: 12px; }
+      .compare-table th, .compare-table td { padding: 11px 8px; }
+      .compare-table th.feat, .compare-table td.feat { min-width: 160px; padding-left: 14px; }
+      .compare-table th.col-jarvis .logo { font-size: 14px; }
+      .mark-cell { width: 24px; height: 24px; font-size: 13px; }
+      .compare-swipe-hint { display: block; }
+
+      /* Section paddings — uniform mobile rhythm */
+      .pricing-wrap { padding: 80px 16px; }
+      .testimonials { padding: 80px 16px; }
+      .founder      { padding: 90px 16px 80px; }
+      .pricing-inner .section-title,
+      .compare-head h2,
+      .founder-head h2,
+      .testimonials .section-title { font-size: clamp(28px, 7vw, 40px); }
+      .section-sub, .compare-head p, .founder-head p { font-size: 16px; }
+
+      /* Cards — full width on mobile, generous padding */
+      .price-card     { padding: 28px 22px; }
+      .founder-card   { padding: 26px 22px; }
+      .testi-card     { padding: 40px 22px 28px; }
+
+      /* Testimonials — stack vertically instead of horizontal scroll */
+      .testi-grid {
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+        overflow: visible !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        max-width: 480px;
+        margin-left: auto !important;
+        margin-right: auto !important;
+      }
+      .testi-card { flex: none !important; scroll-snap-align: none !important; width: 100%; }
+
+      /* Footer — centered, stacked */
+      footer { padding: 40px 20px 32px; }
+      .footer-row { flex-direction: column; gap: 14px; align-items: center; }
+      .footer-row a { min-height: 44px; display: flex; align-items: center; font-size: 14px; }
+      .footer-copy { font-size: 12px; }
+
+      /* Buttons & inputs — 44 px touch target + 16 px font on inputs
+         (anything smaller triggers iOS auto-zoom on focus) */
+      .btn, .btn-primary, .btn-ghost, .btn-outlined, .price-btn, .founder-cta { min-height: 44px; font-size: 15px; }
+      input, textarea, select { font-size: 16px !important; }
+
+      /* Founder team — keep CTA tight */
+      .founder-grid { gap: 18px; margin-bottom: 56px; }
+      .founder-cta { padding: 16px 28px; font-size: 16px; min-height: 48px; }
+    }
+
+    /* Extra-tight breakpoint for very small phones (≤ 380 px) */
+    @media (max-width: 380px) {
+      .hero-title { font-size: clamp(28px, 9vw, 52px); }
+      .statement-text { font-size: clamp(30px, 11vw, 64px); }
+      .compare-table { min-width: 480px; }
+      .navbar .btn-primary { padding: 7px 12px; font-size: 12px; }
+      .navbar .btn-primary svg { display: none; }
+    }
+
+    /* Reduced motion respect */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+      .scroll-cue { animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="stars"></canvas>
+
+<nav class="navbar" id="nav">
+  <a href="#home" class="navbar-logo">JAR<span>V</span>IS</a>
+  <ul class="navbar-links">
+    <li><a href="#statements">Story</a></li>
+    <li><a href="#how">Wie es funktioniert</a></li>
+    <li><a href="#pricing">Preise</a></li>
+    <li><a href="#founder">Über mich</a></li>
+  </ul>
+  <div style="display:flex;gap:10px;align-items:center;">
+    <a href="/brain" class="btn btn-primary" style="display:flex;align-items:center;gap:6px;">
+      JARVIS öffnen
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </a>
+    <button class="hamburger" onclick="toggleNav()" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-nav" id="mobileNav">
+  <a href="#statements" onclick="toggleNav()">Story</a>
+  <a href="#how" onclick="toggleNav()">Wie es funktioniert</a>
+  <a href="#pricing" onclick="toggleNav()">Preise</a>
+  <a href="#founder" onclick="toggleNav()">Über mich</a>
+  <a href="/brain" class="btn btn-primary" onclick="toggleNav()">JARVIS öffnen</a>
+</div>
+
+<!-- SECTION 1 — HERO -->
+<section class="hero" id="home">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-vignette"></div>
+  <div class="hero-content">
+    <h1 class="hero-title" id="heroTitle">
+      <span class="line" data-line="1">
+        <span class="w">Dein</span>
+        <span class="w">KI-Assistent.</span>
+      </span>
+      <span class="line" data-line="2">
+        <span class="w">Der</span>
+        <span class="w">denkt</span>
+        <span class="w accent">bevor</span>
+        <span class="w accent">du</span>
+        <span class="w accent">fragst.</span>
+      </span>
+    </h1>
+    <p class="hero-sub" id="heroSub">Wake Word. Screen Vision. Gmail. Multi-AI. Lokal auf deinem Mac.</p>
+    <div class="hero-cta" id="heroCta">
+      <div class="hero-cta-row">
+        <a href="https://github.com/pkueffmann-debug/Jarvis/releases/latest/download/JARVIS-0.2.3.dmg"
+           class="btn btn-download" download>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M16.365 12.36a4.36 4.36 0 0 1 2.073-3.66 4.473 4.473 0 0 0-3.518-1.9c-1.482-.153-2.892.875-3.643.875-.766 0-1.91-.852-3.149-.827a4.69 4.69 0 0 0-3.952 2.404c-1.69 2.93-.43 7.255 1.21 9.628.81 1.16 1.756 2.46 3 2.416 1.21-.05 1.665-.78 3.122-.78 1.45 0 1.864.78 3.14.756 1.296-.025 2.114-1.18 2.906-2.348a10.4 10.4 0 0 0 1.32-2.7 4.21 4.21 0 0 1-2.51-3.864z"/>
+            <path d="M13.91 5.235a4.272 4.272 0 0 0 .992-3.05 4.347 4.347 0 0 0-2.815 1.45c-.59.69-1.108 1.795-.97 2.864 1.077.087 2.18-.55 2.793-1.264z"/>
+          </svg>
+          macOS
+        </a>
+        <a href="https://github.com/pkueffmann-debug/Jarvis/releases/latest/download/JARVIS-Setup-0.2.3.exe"
+           class="btn btn-download" download>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M3 5.5L10.5 4.5V11.5H3V5.5zM3 12.5H10.5V19.5L3 18.5V12.5zM11.5 4.35L21 3V11.5H11.5V4.35zM11.5 12.5H21V21L11.5 19.65V12.5z"/>
+          </svg>
+          Windows
+        </a>
+        <a href="https://github.com/pkueffmann-debug/Jarvis/releases/latest/download/JARVIS-0.2.3.AppImage"
+           class="btn btn-download" download>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M12 2C9.5 2 7.5 4 7.5 6.5c0 .5.1 1 .2 1.5C7 9 6 11 6 13c0 1 .3 1.8.8 2.5L4 19.5l1 1.5 3-2c.7.6 1.6 1 2.5 1h3c.9 0 1.8-.4 2.5-1l3 2 1-1.5-2.8-4c.5-.7.8-1.5.8-2.5 0-2-1-4-1.7-5 .1-.5.2-1 .2-1.5C16.5 4 14.5 2 12 2zm-2 8.5a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm4 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm-2 4c1 0 1.8.5 2.2 1.3-.6.5-1.4.7-2.2.7-.8 0-1.6-.2-2.2-.7.4-.8 1.2-1.3 2.2-1.3z"/>
+          </svg>
+          Linux
+        </a>
+      </div>
+      <p class="hero-cta-hint">Öffnet automatisch daylens.dev/brain</p>
+    </div>
+  </div>
+  <a href="#statements" class="scroll-cue" id="scrollCue">
+    <span>Erlebe JARVIS</span>
+    <span class="arrow"></span>
+  </a>
+</section>
+
+<!-- SECTION 2 — STATEMENTS -->
+<section class="statements" id="statements">
+  <svg width="0" height="0" style="position:absolute;pointer-events:none;">
+    <defs>
+      <linearGradient id="snakeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+        <stop offset="0%"   stop-color="#22D3EE"/>
+        <stop offset="50%"  stop-color="#818CF8"/>
+        <stop offset="100%" stop-color="#22D3EE"/>
+      </linearGradient>
+    </defs>
+  </svg>
+  <div class="statement">
+    <svg class="snake-line" preserveAspectRatio="none" viewBox="0 0 1200 600"><path d=""/></svg>
+    <div class="statement-particles"></div>
+    <div class="statement-inner">
+      <h2 class="statement-text muted" data-text="Kein Suchen mehr."></h2>
+    </div>
+  </div>
+  <div class="statement">
+    <svg class="snake-line" preserveAspectRatio="none" viewBox="0 0 1200 600"><path d=""/></svg>
+    <div class="statement-particles"></div>
+    <div class="statement-inner">
+      <h2 class="statement-text muted" data-text="Kein Klicken mehr."></h2>
+    </div>
+  </div>
+  <div class="statement">
+    <svg class="snake-line" preserveAspectRatio="none" viewBox="0 0 1200 600"><path d=""/></svg>
+    <div class="statement-particles"></div>
+    <div class="statement-inner">
+      <h2 class="statement-text" data-text="Nur sprechen." data-accent="sprechen"></h2>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 3 — PRODUCT VISUAL (Brain Interface Mock) -->
+<section class="product" id="product">
+  <div class="product-stage" id="productStage">
+    <div class="product-mock" id="productMock">
+      <div class="mock-glow"></div>
+      <canvas class="brain-canvas" id="brainCanvas"></canvas>
+
+      <div class="brain-cmds">
+        <span class="cmd">OPEN <span class="arg">YOUTUBE</span></span>
+        <span class="sep">·</span>
+        <span class="cmd">MAP OF <span class="arg">LONDON</span></span>
+        <span class="sep">·</span>
+        <span class="cmd">ASK GEMINI <span class="x">×</span></span>
+        <span class="sep">·</span>
+        <span class="cmd">ULTRA MODE</span>
+        <span class="sep">·</span>
+        <span class="cmd">REMEMBER <span class="x">×</span></span>
+      </div>
+
+      <div class="brain-toggles">
+        <span class="brain-toggle off"><span class="led"></span>Ultra Mode</span>
+        <span class="brain-toggle"><span class="led"></span>Enable Voice</span>
+      </div>
+
+      <div class="brain-standby">
+        <span class="led"></span> Standby
+      </div>
+
+      <div class="brain-jarvis">
+        <svg class="mic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="9" y="2" width="6" height="13" rx="3"/>
+          <path d="M19 11a7 7 0 0 1-14 0"/>
+          <line x1="12" y1="19" x2="12" y2="22"/>
+        </svg>
+        JARVIS
+      </div>
+
+      <div class="feature-tag ft-1"><span class="check">✓</span> Wake Word</div>
+      <div class="feature-tag ft-2"><span class="check">✓</span> Screen Vision</div>
+      <div class="feature-tag ft-3"><span class="check">✓</span> Gmail</div>
+      <div class="feature-tag ft-4"><span class="check">✓</span> Multi-AI</div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 4 — HOW IT WORKS (horizontal) -->
+<section class="how" id="how">
+  <div class="how-pin" id="howPin">
+    <div class="how-track" id="howTrack">
+      <div class="how-step">
+        <div>
+          <p class="num">Schritt 01</p>
+          <h3>Sag "Hey JARVIS"</h3>
+          <p>Kein Tippen, kein App-Wechsel. JARVIS hört immer mit — lokal auf deinem Mac, ohne Cloud-Lauschangriff.</p>
+        </div>
+        <div class="how-vis">
+          <div class="vis-mic">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="2" width="6" height="13" rx="3"/>
+              <path d="M19 11a7 7 0 0 1-14 0"/>
+              <line x1="12" y1="19" x2="12" y2="22"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div class="how-step">
+        <div>
+          <p class="num">Schritt 02</p>
+          <h3>JARVIS denkt</h3>
+          <p>Versteht den Kontext deines Bildschirms, deiner Emails, deines Kalenders. Wählt das beste Modell für die Aufgabe — Claude, GPT oder lokal.</p>
+        </div>
+        <div class="how-vis">
+          <div class="vis-circle"></div>
+        </div>
+      </div>
+      <div class="how-step">
+        <div>
+          <p class="num">Schritt 03</p>
+          <h3>Fertig.</h3>
+          <p>Email beantwortet, Termin verschoben, Spotify gestartet. Während du noch überlegst was du als nächstes fragen willst.</p>
+        </div>
+        <div class="how-vis">
+          <div class="vis-check">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 5 — COMPARISON MATRIX -->
+<section class="compare" id="compare">
+  <div class="compare-head">
+    <p class="section-tag">Vergleich</p>
+    <h2><span class="accent">JARVIS</span> vs. der Rest.</h2>
+    <p>Acht Features. Vier Konkurrenten. Eine ehrliche Tabelle.</p>
+  </div>
+
+  <div class="compare-table-wrap">
+    <div class="compare-table-scroll">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th class="feat">Feature</th>
+            <th class="col-jarvis"><span class="logo">JARVIS</span></th>
+            <th>Siri</th>
+            <th>ChatGPT</th>
+            <th>Copilot</th>
+            <th>Alexa</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="feat">Wake Word ("Hey ___")</td>
+            <td class="col-jarvis"><span class="mark-cell ok">✓</span></td>
+            <td><span class="mark-cell ok">✓</span></td>
+            <td><span class="mark-cell x">✗</span></td>
+            <td><span class="mark-cell x">✗</span></td>
+            <td><span class="mark-cell ok">✓</span></td>
+          </tr>
+          <tr>
+            <td class="feat">Screen Vision (sieht was du siehst)</td>
+            <td class="col-jarvis"><span class="mark-cell ok">✓</span></td>
+            <td><span class="mark-cell x">✗</span></td>
+            <td><span class="mark-cell x">✗</span></td>
+            <td><span class="mark-cell x">✗</span></td>
+            <td><span class="mark-cell x">✗</span></td>
+          </tr>
+          <tr>
+            <td class="feat">Email- &amp; Kalender-Integration</td>
+            <td class="col-jarvis"><span class="mark-cell ok">✓</span></td>
+            <td><span class="mark-cell x">✗</span></td>
+            <td><span class="mark-cell x">✗</span></td>
+            <td><span class="mark-cell partial">~</span></td>
+            <td><span class="mark-cell x">✗</span></td>
+          </tr>
+          <tr>
+            <td class="feat">Mac-nativ (Apps öffnen, Shell, Volume)</td>
+            <td class="col-jarvis"><span class="mark-cell ok">✓</span></td>
+            <td><span class="mark-cell partial">~</span></td>
+            <td><span class="mark-cell x">✗</span></td>
+            <td><span class="mark-cell partial">~</span></td>
+            <td><span class="mark-cell x">✗</span></td>
+          </tr>
+          <tr>
+            <td class="feat">Multi-AI (Claude, GPT, Gemini)</td>
+            <td class="col-jarvis"><span class="mark-cell ok">✓</span></td>
+            <td><span class="mark-cell x">✗</span></td>
+            <td><span class="mark-cell x">✗</span></td>
+            <td><span class="mark-cell x">✗</span></td>
+            <td><span class="mark-cell x">✗</span></td>
+          </tr>
+          <tr>
+            <td class="feat">Lokales Modell (offline-fähig)</td>
+            <td class="col-jarvis"><span class="mark-cell ok">✓</span></td>
+            <td><span class="mark-cell x">✗</span></td>
+            <td><span class="mark-cell x">✗</span></td>
+            <td><span class="mark-cell x">✗</span></td>
+            <td><span class="mark-cell x">✗</span></td>
+          </tr>
+          <tr>
+            <td class="feat">Persistentes Gedächtnis</td>
+            <td class="col-jarvis"><span class="mark-cell ok">✓</span></td>
+            <td><span class="mark-cell x">✗</span></td>
+            <td><span class="mark-cell partial">~</span></td>
+            <td><span class="mark-cell partial">~</span></td>
+            <td><span class="mark-cell x">✗</span></td>
+          </tr>
+          <tr>
+            <td class="feat">Proaktive Briefings &amp; Reminders</td>
+            <td class="col-jarvis"><span class="mark-cell ok">✓</span></td>
+            <td><span class="mark-cell x">✗</span></td>
+            <td><span class="mark-cell x">✗</span></td>
+            <td><span class="mark-cell x">✗</span></td>
+            <td><span class="mark-cell partial">~</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <p class="compare-swipe-hint">← Wischen zum Vergleichen →</p>
+
+  <p class="compare-bottom">
+    <strong>JARVIS</strong> ist der einzige Assistent der deinen Mac wirklich versteht.
+  </p>
+</section>
+
+<!-- SECTION 6 — PRICING -->
+<div class="pricing-wrap" id="pricing">
+  <div class="pricing-inner">
+    <p class="section-tag">Preise</p>
+    <h2 class="section-title">Starte heute. Stop wann du willst.</h2>
+    <p class="section-sub">Monatlich oder jährlich. Kein Lock-In. Kein Kleingedrucktes.</p>
+    <div class="price-toggle">
+      <span class="pt-label on" id="labM">Monatlich</span>
+      <div class="pt-switch" id="ptSwitch" onclick="togglePrice()">
+        <div class="pt-knob"></div>
+      </div>
+      <span class="pt-label" id="labY">Jährlich</span>
+      <span class="pt-badge">2 Monate gratis</span>
+    </div>
+    <div class="pricing-grid">
+      <div class="price-card pop">
+        <div class="pop-badge">Most Popular</div>
+        <p class="price-plan">Pro</p>
+        <div class="price-amount"><sup>€</sup><span id="proNum">49</span></div>
+        <p class="price-period" id="proP">pro Monat</p>
+        <p class="price-desc">Für Power-User die das Maximum herausholen wollen.</p>
+        <div class="price-divider"></div>
+        <ul class="price-features">
+          <li>Unlimited Nachrichten</li>
+          <li>Alle Integrationen</li>
+          <li>Wake Word &amp; Voice</li>
+          <li>Gmail &amp; Kalender</li>
+          <li>Lokales Gedächtnis</li>
+          <li>Priority Support</li>
+        </ul>
+        <button class="btn btn-primary price-btn" id="btnPro" onclick="startCheckout('pro')">Pro starten</button>
+      </div>
+      <div class="price-card">
+        <p class="price-plan">Team</p>
+        <div class="price-amount"><sup>€</sup><span id="teamNum">149</span></div>
+        <p class="price-period" id="teamP">pro Monat</p>
+        <p class="price-desc">Für Teams die gemeinsam produktiver werden.</p>
+        <div class="price-divider"></div>
+        <ul class="price-features">
+          <li>Bis zu 10 User</li>
+          <li>Admin Panel</li>
+          <li>Team-Gedächtnis</li>
+          <li>Shared Integrationen</li>
+          <li>Priority Support</li>
+          <li>Custom Wake Word</li>
+        </ul>
+        <button class="btn btn-ghost price-btn" id="btnTeam" onclick="startCheckout('team')">Team starten</button>
+      </div>
+      <div class="price-card">
+        <p class="price-plan">Enterprise</p>
+        <div class="price-amount"><sup>€</sup><span id="entNum">399</span></div>
+        <p class="price-period" id="entP">pro Monat</p>
+        <p class="price-desc">Für Unternehmen mit maximalen Anforderungen.</p>
+        <div class="price-divider"></div>
+        <ul class="price-features">
+          <li>Unlimited User</li>
+          <li>On-Premise Option</li>
+          <li>SLA Garantie</li>
+          <li>Dedizierter Support</li>
+          <li>Custom Integrationen</li>
+          <li>Security Review</li>
+        </ul>
+        <button class="btn btn-ghost price-btn" id="btnEnterprise" onclick="startCheckout('enterprise')">Enterprise starten</button>
+      </div>
+    </div>
+    <div class="payment-methods">
+      <span class="pm-label">Bezahlen mit</span>
+      <span class="pm-badge">
+        <svg width="14" height="10" viewBox="0 0 38 24" fill="none"><rect width="38" height="24" rx="4" fill="#1A1F71"/><path d="M16.5 16.5H14l1.5-9h2.5L16.5 16.5zM23.3 7.7c-.5-.2-1.3-.4-2.2-.4-2.5 0-4.2 1.3-4.2 3.1 0 1.4 1.2 2.1 2.2 2.6 1 .5 1.3.8 1.3 1.2 0 .7-.8 1-1.5 1-.9 0-1.8-.2-2.5-.6l-.3-.2-.4 2.2c.7.3 1.9.6 3.2.6 2.7 0 4.4-1.3 4.4-3.3 0-1.1-.7-1.9-2.1-2.6-.9-.4-1.4-.7-1.4-1.2 0-.4.5-.8 1.4-.8.8 0 1.4.2 1.9.4l.2.1.4-2.1zM29.5 7.5h-1.9c-.6 0-1 .2-1.3.7l-3.6 8.3h2.5l.5-1.4h3l.3 1.4h2.2L29.5 7.5zm-3.1 5.7l.9-2.5.5 2.5h-1.4zM13.5 7.5l-2.4 6.1-.3-1.2c-.5-1.6-1.8-3.3-3.4-4.1l2.2 8.2H12l3.8-9H13.5z" fill="white"/><path d="M8.7 7.5H4.5L4.4 7.7c3.3.8 5.5 2.8 6.4 5.2L9.9 8.2c-.2-.5-.6-.7-1.2-.7z" fill="#F9A533"/></svg>
+        Visa / MC
+      </span>
+      <span class="pm-badge">
+        <svg width="14" height="10" viewBox="0 0 38 24" fill="none"><rect width="38" height="24" rx="4" fill="#003087"/><circle cx="15" cy="12" r="5" fill="#EB001B"/><circle cx="23" cy="12" r="5" fill="#F79E1B"/><path d="M19 8.3a5 5 0 0 1 0 7.4A5 5 0 0 1 19 8.3z" fill="#FF5F00"/></svg>
+        Mastercard
+      </span>
+      <span class="pm-badge">
+        <svg width="14" height="10" viewBox="0 0 38 24" fill="none"><rect width="38" height="24" rx="4" fill="#F5F5F5"/><text x="4" y="16" font-size="9" font-weight="700" fill="#003087" font-family="Arial">SEPA</text></svg>
+        SEPA Debit
+      </span>
+      <span class="pm-badge" style="color:var(--text-3);font-size:11px;">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        SSL-verschlüsselt
+      </span>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 7 — TESTIMONIALS -->
+<section class="testimonials" id="testimonials">
+  <p class="section-tag" style="text-align:center;">Stimmen</p>
+  <h2 class="section-title" style="text-align:center;margin-bottom:64px;">Was Nutzer wirklich sagen.</h2>
+  <div class="testi-grid">
+    <div class="testi-card">
+      <div class="testi-quote">"</div>
+      <p class="testi-text">Ich öffne Spotlight nicht mehr. JARVIS hört mich aus der Küche und beantwortet Emails während ich koche. Surreal.</p>
+      <p class="testi-author"><strong>Markus</strong>, Berlin</p>
+    </div>
+    <div class="testi-card">
+      <div class="testi-quote">"</div>
+      <p class="testi-text">Hab Siri seit Jahren auf stumm. JARVIS war der erste Assistent dem ich tatsächlich erlaube auf meinen Bildschirm zu schauen.</p>
+      <p class="testi-author"><strong>Lisa</strong>, München</p>
+    </div>
+    <div class="testi-card">
+      <div class="testi-quote">"</div>
+      <p class="testi-text">Drei Stunden pro Woche weniger Email-Triage. Allein das hat den Preis vom Pro-Plan zehnfach reingespielt.</p>
+      <p class="testi-author"><strong>Jonas</strong>, Hamburg</p>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 8 — TEAM -->
+<section class="founder" id="founder">
+  <div class="founder-head">
+    <p class="section-tag">Das Team</p>
+    <h2>Wer hinter JARVIS steht.</h2>
+    <p>WMW Services — drei Köpfe, ein Produkt. Frag uns direkt, ruf an oder schreib eine Mail.</p>
+  </div>
+
+  <div class="founder-grid">
+    <div class="founder-card lead">
+      <div class="avatar">P</div>
+      <p class="role">Founder</p>
+      <p class="name">Paul Küffmann</p>
+      <a class="row first" href="tel:+491752895869">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.72 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0 1 22 16.92z"/></svg>
+        +49 175 2895869
+      </a>
+      <a class="row" href="mailto:p.kueffmann@icloud.com">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        p.kueffmann@icloud.com
+      </a>
+    </div>
+
+    <div class="founder-card">
+      <div class="avatar">T</div>
+      <p class="role">Team</p>
+      <p class="name">Tom Henseling</p>
+      <a class="row first" href="tel:+4917674200516">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.72 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0 1 22 16.92z"/></svg>
+        +49 176 74200516
+      </a>
+      <a class="row" href="mailto:T.Henseling@gmx.de">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        T.Henseling@gmx.de
+      </a>
+    </div>
+
+    <div class="founder-card">
+      <div class="avatar">J</div>
+      <p class="role">Team</p>
+      <p class="name">Jannis Timm</p>
+      <a class="row first" href="tel:+4917646790514">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.72 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0 1 22 16.92z"/></svg>
+        +49 176 46790514
+      </a>
+      <a class="row" href="mailto:jannis.l.timm@gmail.com">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        jannis.l.timm@gmail.com
+      </a>
+    </div>
+  </div>
+
+  <div class="founder-cta-wrap">
+    <a href="/brain" class="founder-cta">
+      JARVIS jetzt testen
+      <span class="arrow">→</span>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-row">
+    <a href="#pricing">Preise</a>
+    <a href="/brain">JARVIS öffnen</a>
+    <a href="/auth.html">Anmelden</a>
+    <a href="/help">Anleitung</a>
+    <a href="/contact">Kontakt</a>
+  </div>
+  <p class="footer-copy">© 2026 JARVIS · ein Produkt von WMW Services</p>
+  <p class="footer-copy" style="margin-top:6px;opacity:0.7;">
+    Impressum: WMW Services · Inhaber: Paul Küffmann · Adresse: Auf Anfrage · <a href="mailto:p.kueffmann@icloud.com" style="color:inherit;text-decoration:underline;">p.kueffmann@icloud.com</a>
+  </p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+// Navbar scroll
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 20);
+});
+function toggleNav() { document.getElementById('mobileNav').classList.toggle('open'); }
+
+// Stars background (subtle, like a sky)
+(function stars() {
+  const c = document.getElementById('stars');
+  const ctx = c.getContext('2d');
+  let stars = [];
+  function resize() {
+    c.width  = window.innerWidth  * devicePixelRatio;
+    c.height = window.innerHeight * devicePixelRatio;
+    c.style.width  = window.innerWidth  + 'px';
+    c.style.height = window.innerHeight + 'px';
+    const density = isMobile ? 80 : 160;
+    stars = Array.from({length: density}, () => ({
+      x: Math.random() * c.width,
+      y: Math.random() * c.height,
+      r: Math.random() * 1.2 * devicePixelRatio + 0.3 * devicePixelRatio,
+      a: Math.random() * 0.6 + 0.2,
+      tw: Math.random() * 0.02 + 0.005,
+      dir: Math.random() > 0.5 ? 1 : -1
+    }));
+  }
+  function draw() {
+    ctx.clearRect(0,0,c.width,c.height);
+    for (const s of stars) {
+      s.a += s.tw * s.dir;
+      if (s.a > 0.85) s.dir = -1;
+      if (s.a < 0.15) s.dir = 1;
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(255,255,255,${s.a})`;
+      ctx.fill();
+    }
+    requestAnimationFrame(draw);
+  }
+  resize();
+  window.addEventListener('resize', resize);
+  if (!reduceMotion) draw();
+  else {
+    for (const s of stars) {
+      ctx.beginPath(); ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(255,255,255,${s.a})`; ctx.fill();
+    }
+  }
+})();
+
+// Hero: word-by-word build
+(function heroBuild() {
+  const tl = gsap.timeline({ delay: 0.4 });
+  tl.to('.hero-title .line[data-line="1"]', { opacity: 1, duration: 0.1 })
+    .to('.hero-title .line[data-line="1"] .w', { opacity: 1, y: 0, duration: 0.7, stagger: 0.14, ease: 'power3.out' })
+    .to('.hero-title .line[data-line="2"]', { opacity: 1, duration: 0.1 }, '+=0.2')
+    .to('.hero-title .line[data-line="2"] .w', { opacity: 1, y: 0, duration: 0.7, stagger: 0.1, ease: 'power3.out' })
+    .to('#heroSub', { opacity: 1, duration: 0.8, ease: 'power2.out' }, '-=0.2')
+    .to('#heroCta', { opacity: 1, duration: 0.7, ease: 'power2.out' }, '-=0.4')
+    .to('#scrollCue', { opacity: 1, duration: 0.8, ease: 'power2.out' }, '-=0.3');
+})();
+
+// Section 2: typewriter statements with cursor, char-explosion, particles, mouse parallax
+(function statementChoreo() {
+  const statements = document.querySelectorAll('.statement');
+  if (!statements.length) return;
+
+  // 1) Split each statement into char-spans + add cursor.
+  statements.forEach((sect) => {
+    const el     = sect.querySelector('.statement-text');
+    const text   = el.dataset.text || el.textContent;
+    const accent = el.dataset.accent;
+    el.textContent = '';
+    const accentStart = accent ? text.toLowerCase().indexOf(accent.toLowerCase()) : -1;
+    const accentEnd   = accent ? accentStart + accent.length : -1;
+    [...text].forEach((ch, idx) => {
+      const span = document.createElement('span');
+      span.className = 'char';
+      if (accentStart >= 0 && idx >= accentStart && idx < accentEnd) {
+        span.classList.add('grad');
+      }
+      span.textContent = ch === ' ' ? ' ' : ch;
+      el.appendChild(span);
+    });
+    const cursor = document.createElement('span');
+    cursor.className = 'statement-cursor';
+    el.appendChild(cursor);
+  });
+
+  // 2) Mouse parallax — every statement gets a subtle drift.
+  if (!isMobile) {
+    let mx = 0, my = 0;
+    window.addEventListener('mousemove', (e) => {
+      mx = (e.clientX / window.innerWidth  - 0.5) * 2;
+      my = (e.clientY / window.innerHeight - 0.5) * 2;
+    });
+    function tick() {
+      document.querySelectorAll('.statement-inner').forEach((inner) => {
+        gsap.set(inner, { x: mx * 24, y: my * 16 });
+      });
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  // 3) Particle helper — emit n dots that drift outward and fade.
+  function emitParticles(container, count = 14) {
+    if (reduceMotion) return;
+    const rect = container.getBoundingClientRect();
+    const cx = rect.width / 2;
+    const cy = rect.height / 2;
+    for (let i = 0; i < count; i++) {
+      const p = document.createElement('div');
+      p.className = 'stmt-particle';
+      p.style.left = cx + 'px';
+      p.style.top  = cy + 'px';
+      container.appendChild(p);
+      const angle = Math.random() * Math.PI * 2;
+      const dist  = 80 + Math.random() * 220;
+      gsap.fromTo(p,
+        { opacity: 0.9, x: 0, y: 0, scale: 1 },
+        {
+          opacity: 0,
+          x: Math.cos(angle) * dist,
+          y: Math.sin(angle) * dist,
+          scale: 0.3,
+          duration: 1.2 + Math.random() * 0.6,
+          ease: 'power2.out',
+          onComplete: () => p.remove()
+        });
+    }
+  }
+
+  // 4) Per-statement scroll choreography: typewriter in, explode out.
+  statements.forEach((sect) => {
+    const el     = sect.querySelector('.statement-text');
+    const chars  = el.querySelectorAll('.char');
+    const cursor = el.querySelector('.statement-cursor');
+    const partBox = sect.querySelector('.statement-particles');
+
+    // Initial state: cursor hidden, chars hidden.
+    gsap.set(cursor, { opacity: 0 });
+    gsap.set(chars, { opacity: 0, y: 8 });
+
+    let played = false;
+
+    ScrollTrigger.create({
+      trigger: sect,
+      start: 'top 70%',
+      end:   'bottom 30%',
+      onEnter: () => {
+        if (played) return;
+        played = true;
+        gsap.set(cursor, { opacity: 1 });
+        // Typewriter: ~28ms per char, faster ease near the end.
+        gsap.to(chars, {
+          opacity: 1, y: 0,
+          duration: 0.05,
+          stagger: 0.028,
+          ease: 'none'
+        });
+      },
+      onLeave: () => {
+        // Explode out — chars scatter, then particles spray.
+        gsap.set(cursor, { opacity: 0 });
+        gsap.to(chars, {
+          opacity: 0,
+          y: () => -40 - Math.random() * 60,
+          x: () => (Math.random() - 0.5) * 120,
+          rotate: () => (Math.random() - 0.5) * 60,
+          filter: 'blur(4px)',
+          duration: 0.6,
+          ease: 'power2.in',
+          stagger: { each: 0.008, from: 'random' }
+        });
+        if (partBox) emitParticles(partBox, 18);
+      },
+      onEnterBack: () => {
+        // Coming back up — reset, then typewriter again.
+        gsap.set(chars, { opacity: 0, y: 8, x: 0, rotate: 0, filter: 'blur(0px)' });
+        gsap.set(cursor, { opacity: 1 });
+        gsap.to(chars, {
+          opacity: 1, y: 0,
+          duration: 0.05,
+          stagger: 0.022,
+          ease: 'none'
+        });
+      },
+      onLeaveBack: () => {
+        gsap.set(cursor, { opacity: 0 });
+        gsap.to(chars, { opacity: 0, y: 8, duration: 0.3 });
+      }
+    });
+  });
+})();
+
+// Section 2b: snake-line that draws itself around the statement text on scroll.
+(function snakeLines() {
+  const sections = document.querySelectorAll('.statement');
+  if (!sections.length) return;
+
+  function buildPath(width, height, segments = 7, amp = 0.34) {
+    // Snake path: starts at left-mid, weaves up/down across `segments`
+    // peaks, ends at right-mid. Amplitude tapers near edges.
+    const cy = height / 2;
+    const ampPx = height * amp;
+    const points = [];
+    for (let i = 0; i <= segments; i++) {
+      const x = (i / segments) * width;
+      const y = cy + Math.sin(i * 1.45 + 0.6) * ampPx * (1 - Math.abs(i / segments - 0.5) * 0.4);
+      points.push({ x, y });
+    }
+    let d = `M ${points[0].x.toFixed(1)} ${points[0].y.toFixed(1)}`;
+    for (let i = 0; i < points.length - 1; i++) {
+      const p1 = points[i], p2 = points[i + 1];
+      const dx = (p2.x - p1.x) / 2;
+      d += ` C ${(p1.x + dx).toFixed(1)} ${p1.y.toFixed(1)}, ${(p2.x - dx).toFixed(1)} ${p2.y.toFixed(1)}, ${p2.x.toFixed(1)} ${p2.y.toFixed(1)}`;
+    }
+    return d;
+  }
+
+  sections.forEach((sect, idx) => {
+    const svg  = sect.querySelector('.snake-line');
+    if (!svg) return;
+    const path = svg.querySelector('path');
+    const W = 1200, H = 600;
+    const segments = [6, 8, 7][idx % 3];
+    const amp      = [0.32, 0.38, 0.34][idx % 3];
+    path.setAttribute('d', buildPath(W, H, segments, amp));
+
+    const len = path.getTotalLength();
+    path.style.strokeDasharray  = len;
+    path.style.strokeDashoffset = len;
+
+    ScrollTrigger.create({
+      trigger: sect,
+      start: 'top bottom',
+      end:   'bottom top',
+      scrub: 0.4,
+      onUpdate: (self) => {
+        const p = Math.min(1, self.progress / 0.55);
+        path.style.strokeDashoffset = len * (1 - p);
+      }
+    });
+  });
+})();
+
+// Section 3a: Brain interface neural-network canvas inside the product mock.
+(function brainNetwork() {
+  const canvas = document.getElementById('brainCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const dpr = window.devicePixelRatio || 1;
+
+  let W = 0, H = 0;
+  let nodes = [];
+  let cx = 0, cy = 0;
+
+  function resize() {
+    const rect = canvas.getBoundingClientRect();
+    W = rect.width; H = rect.height;
+    canvas.width  = Math.floor(W * dpr);
+    canvas.height = Math.floor(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    cx = W / 2; cy = H / 2;
+    seed();
+  }
+
+  function seed() {
+    nodes = [];
+    const count = isMobile ? 80 : 140;
+    const R = Math.min(W, H) * 0.42;
+    for (let i = 0; i < count; i++) {
+      // Slightly elongated horizontal blob, like the daylens.dev/brain mesh.
+      const theta = Math.random() * Math.PI * 2;
+      const r = Math.pow(Math.random(), 0.7) * R;
+      const x = cx + Math.cos(theta) * r * 1.15;
+      const y = cy + Math.sin(theta) * r * 0.85;
+      nodes.push({
+        x, y,
+        baseX: x, baseY: y,
+        // Drift speed & amplitude — small, organic motion.
+        vx: (Math.random() - 0.5) * 0.18,
+        vy: (Math.random() - 0.5) * 0.18,
+        // Some nodes glow brighter ("active" nodes).
+        bright: Math.random() < 0.12,
+        phase: Math.random() * Math.PI * 2,
+      });
+    }
+  }
+
+  resize();
+  window.addEventListener('resize', resize);
+
+  const LINK_DIST = () => Math.min(W, H) * 0.13;
+
+  let t = 0;
+  function frame() {
+    ctx.clearRect(0, 0, W, H);
+
+    // Drift nodes.
+    for (const n of nodes) {
+      n.x += n.vx;
+      n.y += n.vy;
+      // Gentle pull back to base so the cloud doesn't disperse.
+      n.x += (n.baseX - n.x) * 0.003;
+      n.y += (n.baseY - n.y) * 0.003;
+    }
+
+    // Draw connections.
+    const ld = LINK_DIST();
+    ctx.lineWidth = 0.6;
+    for (let i = 0; i < nodes.length; i++) {
+      for (let j = i + 1; j < nodes.length; j++) {
+        const a = nodes[i], b = nodes[j];
+        const dx = a.x - b.x, dy = a.y - b.y;
+        const d  = Math.sqrt(dx*dx + dy*dy);
+        if (d < ld) {
+          const alpha = (1 - d / ld) * 0.45;
+          ctx.strokeStyle = `rgba(140, 200, 240, ${alpha})`;
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    // Draw nodes (with glow for bright ones).
+    for (const n of nodes) {
+      if (n.bright) {
+        const breath = 0.6 + 0.4 * Math.sin(t * 0.0024 + n.phase);
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, 3.5, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(180, 230, 255, ${0.75 + breath * 0.25})`;
+        ctx.shadowBlur = 14;
+        ctx.shadowColor = 'rgba(34,211,238,0.9)';
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      } else {
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, 1.4, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(180, 220, 240, 0.75)';
+        ctx.fill();
+      }
+    }
+
+    t += 16;
+    if (!reduceMotion) requestAnimationFrame(frame);
+  }
+  frame();
+})();
+
+// Section 3: product mock parallax tilt
+(function productTilt() {
+  if (isMobile) return;
+  const stage = document.getElementById('productStage');
+  const mock  = document.getElementById('productMock');
+  if (!stage || !mock) return;
+  stage.addEventListener('mousemove', (e) => {
+    const r = stage.getBoundingClientRect();
+    const px = (e.clientX - r.left) / r.width  - 0.5;
+    const py = (e.clientY - r.top)  / r.height - 0.5;
+    gsap.to(mock, { rotateY: px * 12, rotateX: -py * 8, duration: 0.6, ease: 'power2.out' });
+  });
+  stage.addEventListener('mouseleave', () => {
+    gsap.to(mock, { rotateY: 0, rotateX: 0, duration: 1, ease: 'power3.out' });
+  });
+})();
+
+gsap.fromTo('#productMock', { opacity: 0, y: 60, scale: 0.95 }, {
+  opacity: 1, y: 0, scale: 1, duration: 1.1, ease: 'power3.out',
+  immediateRender: false,
+  scrollTrigger: { trigger: '#product', start: 'top 92%', once: true }
+});
+gsap.fromTo('.feature-tag', { opacity: 0, scale: 0.7, y: 20 }, {
+  opacity: 1, scale: 1, y: 0, duration: 0.6, stagger: 0.15, ease: 'back.out(1.7)',
+  immediateRender: false,
+  scrollTrigger: { trigger: '#product', start: 'top 92%', once: true }
+});
+
+// Section 4: horizontal scroll (desktop only — mobile gets natural vertical)
+(function horizontalHow() {
+  if (isMobile) return;
+  const pin   = document.getElementById('howPin');
+  const track = document.getElementById('howTrack');
+  if (!pin || !track) return;
+  const distance = () => track.scrollWidth - window.innerWidth;
+  gsap.to(track, {
+    x: () => -distance(),
+    ease: 'none',
+    scrollTrigger: {
+      trigger: pin,
+      start: 'top top',
+      end: () => '+=' + distance(),
+      pin: true,
+      scrub: 0.6,
+      invalidateOnRefresh: true
+    }
+  });
+})();
+
+// Section 5: comparison matrix reveal
+gsap.fromTo('.compare-head > *', { opacity: 0, y: 20 }, {
+  opacity: 1, y: 0, duration: 0.7, stagger: 0.08, ease: 'power3.out',
+  immediateRender: false,
+  scrollTrigger: { trigger: '.compare', start: 'top 92%', once: true }
+});
+gsap.fromTo('.compare-table-wrap', { opacity: 0, y: 40 }, {
+  opacity: 1, y: 0, duration: 0.9, ease: 'power3.out',
+  immediateRender: false,
+  scrollTrigger: { trigger: '.compare-table-wrap', start: 'top 92%', once: true }
+});
+gsap.fromTo('.compare-table tbody tr', { opacity: 0, x: -20 }, {
+  opacity: 1, x: 0, duration: 0.5, stagger: 0.06, ease: 'power2.out',
+  immediateRender: false,
+  scrollTrigger: { trigger: '.compare-table', start: 'top 92%', once: true }
+});
+gsap.fromTo('.compare-bottom', { opacity: 0, y: 20 }, {
+  opacity: 1, y: 0, duration: 0.9, ease: 'power3.out',
+  immediateRender: false,
+  scrollTrigger: { trigger: '.compare-bottom', start: 'top 95%', once: true }
+});
+
+// Compare table — only show the right-edge fade when it actually scrolls.
+(function compareScrollable() {
+  const wrap   = document.querySelector('.compare-table-wrap');
+  const scroll = document.querySelector('.compare-table-scroll');
+  if (!wrap || !scroll) return;
+  function update() {
+    const isScrollable = scroll.scrollWidth - scroll.clientWidth > 4
+                       && scroll.scrollLeft + scroll.clientWidth < scroll.scrollWidth - 4;
+    wrap.classList.toggle('scrollable', isScrollable);
+  }
+  update();
+  scroll.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+})();
+
+// Section 6: pricing cards scroll-in
+gsap.fromTo('.price-card', { opacity: 0, y: 60 }, {
+  opacity: 1, y: 0, duration: 0.9, stagger: 0.15, ease: 'power3.out',
+  immediateRender: false,
+  scrollTrigger: { trigger: '#pricing', start: 'top 92%', once: true }
+});
+gsap.fromTo('#pricing .section-tag, #pricing .section-title, #pricing .section-sub, #pricing .price-toggle', { opacity: 0, y: 20 }, {
+  opacity: 1, y: 0, duration: 0.7, stagger: 0.08, ease: 'power3.out',
+  immediateRender: false,
+  scrollTrigger: { trigger: '#pricing', start: 'top 92%', once: true }
+});
+
+// Section 7: testimonials
+gsap.fromTo('.testi-card', { opacity: 0, y: 40 }, {
+  opacity: 1, y: 0, duration: 0.8, stagger: 0.15, ease: 'power3.out',
+  immediateRender: false,
+  scrollTrigger: { trigger: '.testimonials', start: 'top 92%', once: true }
+});
+
+// Section 8: founder
+gsap.fromTo('#founder > *', { opacity: 0, y: 24 }, {
+  opacity: 1, y: 0, duration: 0.8, stagger: 0.1, ease: 'power3.out',
+  immediateRender: false,
+  scrollTrigger: { trigger: '#founder', start: 'top 92%', once: true }
+});
+
+// Pricing toggle (preserved IDs + logic from old version)
+let yearly = false;
+function togglePrice() {
+  yearly = !yearly;
+  document.getElementById('ptSwitch').classList.toggle('on', yearly);
+  document.getElementById('labM').classList.toggle('on', !yearly);
+  document.getElementById('labY').classList.toggle('on', yearly);
+  const pN = document.getElementById('proNum');
+  const tN = document.getElementById('teamNum');
+  const eN = document.getElementById('entNum');
+  if (yearly) {
+    pN.textContent = '41'; tN.textContent = '124'; eN.textContent = '332';
+    document.getElementById('proP').textContent  = 'pro Monat, jährlich';
+    document.getElementById('teamP').textContent = 'pro Monat, jährlich';
+    document.getElementById('entP').textContent  = 'pro Monat, jährlich';
+  } else {
+    pN.textContent = '49'; tN.textContent = '149'; eN.textContent = '399';
+    document.getElementById('proP').textContent  = 'pro Monat';
+    document.getElementById('teamP').textContent = 'pro Monat';
+    document.getElementById('entP').textContent  = 'pro Monat';
+  }
+  gsap.fromTo([pN, tN, eN], {scale:1.2}, {scale:1, duration:0.35, ease:'back.out(2)'});
+}
+
+// Hero — interactive 3D Tubes Background (cursor-following neon tubes).
+// Lib: threejs-components tubes1. Click anywhere on the hero randomises
+// the tube + light colours.
+(async function tubesHero() {
+  const canvas = document.getElementById('hero-canvas');
+  if (!canvas) return;
+
+  // Random hex helper (matches the reference implementation).
+  function randomColors(n) {
+    return Array.from({length: n}, () =>
+      '#' + Math.floor(Math.random() * 0xffffff).toString(16).padStart(6, '0'));
+  }
+
+  let app = null;
+  try {
+    const mod = await import('https://cdn.jsdelivr.net/npm/threejs-components@0.0.19/build/cursors/tubes1.min.js');
+    const TubesCursor = mod.default;
+    app = TubesCursor(canvas, {
+      tubes: {
+        // On-brand cyan / indigo / violet so first impression matches the
+        // rest of the site. Click randomises into full neon territory.
+        colors: ['#22D3EE', '#818CF8', '#A78BFA'],
+        lights: {
+          intensity: 200,
+          colors: ['#22D3EE', '#A78BFA', '#7C3AED', '#06B6D4']
+        }
+      }
+    });
+  } catch (e) {
+    console.warn('Tubes background failed to load:', e);
+    return;
+  }
+
+  // Click anywhere on the hero (except actual links/buttons) → randomise.
+  document.getElementById('home').addEventListener('click', (e) => {
+    if (e.target.closest('a, button')) return;
+    if (!app || !app.tubes) return;
+    try {
+      app.tubes.setColors(randomColors(3));
+      app.tubes.setLightsColors(randomColors(4));
+    } catch (err) {
+      console.warn('Tubes color update failed:', err);
+    }
+  });
+})();
+
+// Supabase client (same project as auth.html)
+const _SUPABASE_URL = 'https://jhoddyugadidfkycldnr.supabase.co';
+const _SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Impob2RkeXVnYWRpZGZreWNsZG5yIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg0Mjk3NjEsImV4cCI6MjA5NDAwNTc2MX0.9oVlV4Rj8VC_SqQNJBZZxjj17olS0jPX2V-QZ0VP8u8';
+const _sb = (window.supabase ? window.supabase.createClient(_SUPABASE_URL, _SUPABASE_ANON) : null);
+
+// Stripe Checkout (carry over verbatim from old version)
+async function startCheckout(plan, yearlyFlag) {
+  const planCapitalized = plan === 'enterprise' ? 'Enterprise' : plan.charAt(0).toUpperCase() + plan.slice(1);
+  const btn = document.getElementById('btn' + planCapitalized);
+  const origHTML = btn ? btn.innerHTML : '';
+  if (btn) {
+    btn.disabled = true;
+    btn.innerHTML = '<div class="btn-spinner"></div> Weiterleitung…';
+  }
+
+  let userId = null;
+  let email  = null;
+  try {
+    const { data } = await (_sb ? _sb.auth.getSession() : { data: { session: null } });
+    if (data?.session?.user) {
+      userId = data.session.user.id;
+      email  = data.session.user.email;
+    }
+  } catch (_) {}
+
+  const isYearly = (yearlyFlag !== undefined) ? !!yearlyFlag : !!window.yearly;
+  if (!userId) {
+    const next = `checkout-${plan}${isYearly ? '-yearly' : ''}`;
+    window.location.href = '/auth.html?next=' + encodeURIComponent(next);
+    return;
+  }
+
+  try {
+    const res  = await fetch('/api/checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ plan, yearly: isYearly, user_id: userId, email }),
+    });
+    const data = await res.json();
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      alert('Fehler: ' + (data.error || 'Unbekannter Fehler'));
+      if (btn) { btn.disabled = false; btn.innerHTML = origHTML; }
+    }
+  } catch (e) {
+    alert('Verbindungsfehler. Bitte versuche es erneut.');
+    if (btn) { btn.disabled = false; btn.innerHTML = origHTML; }
+  }
+}
+
+// Auto-resume checkout after auth bounce
+(function autoResumeCheckout() {
+  const params = new URLSearchParams(window.location.search);
+  const go = params.get('go');
+  const m = go && /^checkout-(pro|team|enterprise)(?:-(yearly))?$/.exec(go);
+  if (!m) return;
+  params.delete('go');
+  const newSearch = params.toString();
+  history.replaceState({}, '', window.location.pathname + (newSearch ? '?' + newSearch : '') + window.location.hash);
+  setTimeout(() => startCheckout(m[1], !!m[2]), 200);
+})();
+
+window.startCheckout = startCheckout;
+window.togglePrice   = togglePrice;
+window.toggleNav     = toggleNav;
+window.yearly        = false;
+
+window.addEventListener('load', () => ScrollTrigger.refresh());
+
+// Safety net — if fast scrolling caused ScrollTrigger to skip an animation,
+// force every animated section visible after 3.5 s so nothing stays blank.
+// Each cohort already has `once: true` and `immediateRender: false`, but
+// edge cases (cold load + Cmd+End, browser back-forward cache, etc.) can
+// still leave elements at opacity 0. Belt + suspenders.
+setTimeout(() => {
+  const selectors = [
+    '#productMock', '.feature-tag',
+    '.compare-head > *', '.compare-table-wrap', '.compare-table tbody tr', '.compare-bottom',
+    '.price-card', '#pricing .section-tag', '#pricing .section-title', '#pricing .section-sub', '#pricing .price-toggle',
+    '.testi-card',
+    '#founder > *',
+  ];
+  for (const sel of selectors) {
+    document.querySelectorAll(sel).forEach((el) => {
+      const op = parseFloat(window.getComputedStyle(el).opacity);
+      if (!isNaN(op) && op < 0.5) {
+        gsap.set(el, { opacity: 1, x: 0, y: 0, scale: 1, clearProps: 'transform' });
+      }
+    });
+  }
+}, 3500);
+</script>
+</body>
+</html>

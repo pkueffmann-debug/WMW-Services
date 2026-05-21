@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-label="Daylens — A calm AI system for reflection, clarity, and intentional living.">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0d0907"/>
+      <stop offset="100%" stop-color="#15100c"/>
+    </linearGradient>
+    <radialGradient id="orbA" cx="0.18" cy="0.30" r="0.55">
+      <stop offset="0%" stop-color="#e8c89a" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#e8c89a" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="orbB" cx="0.85" cy="0.80" r="0.55">
+      <stop offset="0%" stop-color="#b89968" stop-opacity="0.28"/>
+      <stop offset="100%" stop-color="#b89968" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="dotG" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#e8c89a" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#e8c89a" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="grain">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/>
+      <feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.05 0"/>
+    </filter>
+  </defs>
+
+  <!-- background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#orbA)"/>
+  <rect width="1200" height="630" fill="url(#orbB)"/>
+
+  <!-- subtle mesh constellation -->
+  <g stroke="#e8c89a" stroke-opacity="0.15" stroke-width="0.6" fill="none">
+    <path d="M120,440 L320,340 L520,400 L720,260 L920,350 L1080,220" />
+    <path d="M160,540 L380,460 L600,490 L820,420 L1040,450" />
+    <path d="M200,200 L420,280 L640,180 L860,260 L1060,160" />
+  </g>
+  <g>
+    <circle cx="120"  cy="440" r="3"   fill="url(#dotG)"/>
+    <circle cx="320"  cy="340" r="2.5" fill="url(#dotG)"/>
+    <circle cx="520"  cy="400" r="2"   fill="url(#dotG)"/>
+    <circle cx="720"  cy="260" r="3"   fill="url(#dotG)"/>
+    <circle cx="920"  cy="350" r="2.5" fill="url(#dotG)"/>
+    <circle cx="1080" cy="220" r="2.5" fill="url(#dotG)"/>
+    <circle cx="380"  cy="460" r="2"   fill="url(#dotG)"/>
+    <circle cx="600"  cy="490" r="2.5" fill="url(#dotG)"/>
+    <circle cx="820"  cy="420" r="3"   fill="url(#dotG)"/>
+    <circle cx="640"  cy="180" r="2.5" fill="url(#dotG)"/>
+    <circle cx="860"  cy="260" r="2"   fill="url(#dotG)"/>
+    <circle cx="1060" cy="160" r="3"   fill="url(#dotG)"/>
+  </g>
+
+  <!-- logo mark -->
+  <g transform="translate(80, 80)">
+    <circle cx="18" cy="18" r="17" fill="none" stroke="#e8c89a" stroke-width="1.8"/>
+    <circle cx="18" cy="18" r="5" fill="#e8c89a"/>
+    <text x="50" y="26" font-family="Fraunces, Georgia, serif" font-weight="400" font-size="26" fill="#f5ead8" letter-spacing="0.4">Daylens</text>
+  </g>
+
+  <!-- eyebrow -->
+  <g transform="translate(80, 230)">
+    <line x1="0" y1="0" x2="24" y2="0" stroke="#e8c89a" stroke-opacity="0.6" stroke-width="1"/>
+    <text x="36" y="5" font-family="Inter, sans-serif" font-weight="500" font-size="14" fill="#e8c89a" letter-spacing="4.5">DAYLENS · 2026</text>
+  </g>
+
+  <!-- headline -->
+  <text x="80" y="350" font-family="Fraunces, Georgia, serif" font-weight="300" font-size="92" fill="#f5ead8" letter-spacing="-3">Quiet clarity</text>
+  <text x="80" y="450" font-family="Fraunces, Georgia, serif" font-weight="300" font-style="italic" font-size="92" fill="#e8c89a" letter-spacing="-3">in a chaotic world.</text>
+
+  <!-- lead line -->
+  <text x="80" y="525" font-family="Inter, sans-serif" font-weight="400" font-size="22" fill="#c4b39a" letter-spacing="0.2">A calm AI system for reflection, clarity, and intentional living.</text>
+
+  <!-- footer meta -->
+  <g font-family="Inter, sans-serif" font-weight="500" font-size="13" fill="#8b7c66" letter-spacing="4">
+    <text x="80"  y="585">REFLECTION</text>
+    <text x="225" y="585">CLARITY</text>
+    <text x="340" y="585">RHYTHM</text>
+    <text x="455" y="585">RECOVERY</text>
+    <text x="580" y="585">FOCUS</text>
+  </g>
+
+  <!-- url -->
+  <text x="1120" y="585" text-anchor="end" font-family="Inter, sans-serif" font-weight="500" font-size="13" fill="#e8c89a" letter-spacing="4">DAYLENS.DEV</text>
+
+  <!-- subtle grain overlay -->
+  <rect width="1200" height="630" filter="url(#grain)" opacity="0.5"/>
+</svg>

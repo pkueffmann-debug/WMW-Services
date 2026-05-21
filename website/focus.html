@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Focus Systems — Daylens</title>
+<meta name="description" content="Deep work, gently. No timers shouting at you. The focus ecosystem inside Daylens.">
+<meta name="theme-color" content="#0d0907">
+<meta property="og:title" content="Focus Systems — Daylens">
+<meta property="og:description" content="Deep work, gently.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://daylens.dev/focus">
+<meta property="og:image" content="https://daylens.dev/assets/og-image.svg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://daylens.dev/assets/og-image.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230d0907'/%3E%3Ccircle cx='16' cy='16' r='6' fill='none' stroke='%23b89968' stroke-width='1.5'/%3E%3Ccircle cx='16' cy='16' r='2' fill='%23b89968'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/assets/daylens.css">
+<style>
+:root {
+  --accent: #b89968;
+  --accent-bright: #d0b27e;
+  --accent-deep: #8c724a;
+  --accent-glow: rgba(184, 153, 104, 0.22);
+  --accent-glow-soft: rgba(184, 153, 104, 0.08);
+}
+</style>
+</head>
+<body class="subpage">
+
+<nav class="nav" id="nav" aria-label="Main">
+  <div class="shell nav__inner">
+    <a href="/" class="logo"><span class="logo__mark"></span><span class="logo__name">Daylens</span></a>
+    <ul class="nav__links">
+      <li><a href="/journaling">Journaling</a></li>
+      <li><a href="/recovery">Recovery</a></li>
+      <li><a href="/adhd">ADHD</a></li>
+      <li><a href="/#ecosystem">All ecosystems</a></li>
+    </ul>
+    <div class="nav__actions">
+      <a href="/" class="nav__back">Daylens</a>
+      <a href="/#start" class="btn btn--primary">Get access</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero hero--sub">
+  <div class="hero__bg" aria-hidden="true"></div>
+  <div class="shell hero__inner">
+    <span class="eyebrow hero__eyebrow reveal">— Ecosystem · 04</span>
+    <h1 class="h-display t-hero hero__title reveal" data-delay="1">
+      Deep work, <span class="italic">gently.</span>
+    </h1>
+    <p class="t-lead hero__lead reveal" data-delay="2">
+      Focus that doesn't shout. A quiet structure for the few hours that matter most — and the
+      permission to stop when you're done.
+    </p>
+    <div class="hero__ctas reveal" data-delay="3">
+      <a href="/#start" class="btn btn--primary">Begin →</a>
+      <a href="#sessions" class="btn btn--ghost">Today's sessions</a>
+    </div>
+  </div>
+</header>
+
+<section class="section" id="sessions">
+  <div class="shell story story--reverse">
+    <div class="story__copy reveal">
+      <span class="eyebrow">Sessions · This week</span>
+      <h2 class="h-display t-h2">A record of <span class="italic">where you went.</span></h2>
+      <p class="t-body">Each focus session is one quiet entry — duration, energy, what you actually worked on. Searchable, reviewable, never aggregated into a score.</p>
+    </div>
+    <div class="reveal" data-delay="2">
+      <div class="preview-pane">
+        <div class="preview-pane__glow"></div>
+        <div class="timeline">
+          <div class="timeline__row"><time>Mon 9:12</time><span>"Wrote the second half of the proposal."</span><span class="badge">92m</span></div>
+          <div class="timeline__row"><time>Mon 14:40</time><span>"Reviewed the spec. Distracted twice — phone."</span><span class="badge">48m</span></div>
+          <div class="timeline__row"><time>Tue 8:55</time><span>"Quiet morning. Real depth."</span><span class="badge">110m</span></div>
+          <div class="timeline__row"><time>Wed 11:30</time><span>"Pair session. Slower but worth it."</span><span class="badge">72m</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="shell">
+    <div class="reveal" style="text-align:center;max-width:720px;margin:0 auto 5rem">
+      <span class="eyebrow" style="display:inline-flex">— Inside focus</span>
+      <h2 class="h-display t-h2" style="margin-top:1.5rem">Three quiet tools. <span class="italic">No timers shouting.</span></h2>
+    </div>
+    <div class="feature-grid">
+      <div class="feature-card reveal">
+        <div class="feature-card__num">01</div>
+        <div class="feature-card__title">Time blocking</div>
+        <p class="feature-card__desc">Drag a block, name it, start. Daylens learns when your deep hours actually are — not when you wish they were.</p>
+      </div>
+      <div class="feature-card reveal" data-delay="1">
+        <div class="feature-card__num">02</div>
+        <div class="feature-card__title">Soft distraction</div>
+        <p class="feature-card__desc">A short pause, not a wall. Daylens nudges instead of blocks — because adults make their own choices.</p>
+      </div>
+      <div class="feature-card reveal" data-delay="2">
+        <div class="feature-card__num">03</div>
+        <div class="feature-card__title">Session memory</div>
+        <p class="feature-card__desc">Each session leaves a trace. Search for what you worked on last Tuesday and you'll actually find it.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--xl final-cta" id="start">
+  <div class="final-cta__bg"></div>
+  <div class="shell final-cta__inner">
+    <span class="eyebrow reveal" style="display:inline-flex">— Continue</span>
+    <h2 class="h-display t-h2 reveal" data-delay="1" style="margin-top:1.5rem">A calmer kind <span class="italic">of deep work.</span></h2>
+    <p class="t-lead reveal" data-delay="2">Focus is one of eight ecosystems inside Daylens. The others know when you need a break.</p>
+    <div class="final-cta__ctas reveal" data-delay="3">
+      <a href="/#ecosystem" class="btn btn--primary">All ecosystems →</a>
+      <a href="/" class="btn btn--ghost">Back to Daylens</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="shell">
+    <div class="footer__top">
+      <div class="footer__brand"><a href="/" class="logo"><span class="logo__mark"></span><span class="logo__name">Daylens</span></a><p>A calm AI system for reflection, clarity, and intentional living. Berlin · 2026.</p></div>
+      <div class="footer__col"><h4>Platform</h4><ul><li><a href="/#system">Reflection</a></li><li><a href="/#ecosystem">Ecosystem</a></li><li><a href="/jarvis">JARVIS</a></li><li><a href="/#trust">Trust</a></li></ul></div>
+      <div class="footer__col"><h4>Ecosystem</h4><ul><li><a href="/wellness">Wellness</a></li><li><a href="/journaling">Journaling</a></li><li><a href="/recovery">Recovery</a></li><li><a href="/focus">Focus</a></li></ul></div>
+      <div class="footer__col"><h4>Company</h4><ul><li><a href="/contact.html">Contact</a></li><li><a href="/pricing.html">Pricing</a></li><li><a href="#">Impressum</a></li><li><a href="#">Privacy</a></li></ul></div>
+    </div>
+    <div class="footer__bottom"><span>© 2026 Daylens · Berlin</span><span class="italic">Quiet clarity, by design.</span></div>
+  </div>
+</footer>
+
+<div class="mobile-cta" id="mobileCta"><a href="/#start" class="btn btn--primary">Get access →</a></div>
+<script src="/assets/daylens.js" defer></script>
+</body>
+</html>

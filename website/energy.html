@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Energy Tracking — Daylens</title>
+<meta name="description" content="Notice when you bloom. Notice when you wilt. The energy ecosystem inside Daylens.">
+<meta name="theme-color" content="#0d0907">
+<meta property="og:title" content="Energy — Daylens">
+<meta property="og:description" content="Notice when you bloom. Notice when you wilt.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://daylens.dev/energy">
+<meta property="og:image" content="https://daylens.dev/assets/og-image.svg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://daylens.dev/assets/og-image.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230d0907'/%3E%3Ccircle cx='16' cy='16' r='6' fill='none' stroke='%2388a08a' stroke-width='1.5'/%3E%3Ccircle cx='16' cy='16' r='2' fill='%2388a08a'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/assets/daylens.css">
+<style>
+:root {
+  --accent: #88a08a;
+  --accent-bright: #a4baa4;
+  --accent-deep: #5e7560;
+  --accent-glow: rgba(136, 160, 138, 0.22);
+  --accent-glow-soft: rgba(136, 160, 138, 0.08);
+}
+.chart { width: 100%; height: 280px; }
+.chart .line { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.chart .fill { fill: url(#chart-g); opacity: 0.6; }
+.chart .dot  { fill: var(--accent); }
+.chart .axis { stroke: var(--line); stroke-width: 1; }
+.chart .label { fill: var(--text-muted); font-family: 'Inter', sans-serif; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; }
+</style>
+</head>
+<body class="subpage">
+
+<nav class="nav" id="nav" aria-label="Main">
+  <div class="shell nav__inner">
+    <a href="/" class="logo"><span class="logo__mark"></span><span class="logo__name">Daylens</span></a>
+    <ul class="nav__links">
+      <li><a href="/recovery">Recovery</a></li>
+      <li><a href="/wellness">Wellness</a></li>
+      <li><a href="/protocols">Protocols</a></li>
+      <li><a href="/#ecosystem">All ecosystems</a></li>
+    </ul>
+    <div class="nav__actions">
+      <a href="/" class="nav__back">Daylens</a>
+      <a href="/#start" class="btn btn--primary">Get access</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero hero--sub">
+  <div class="hero__bg" aria-hidden="true"></div>
+  <div class="shell hero__inner">
+    <span class="eyebrow hero__eyebrow reveal">— Ecosystem · 07 · Q4 2026</span>
+    <h1 class="h-display t-hero hero__title reveal" data-delay="1">
+      Notice when you <span class="italic">bloom.</span>
+    </h1>
+    <p class="t-lead hero__lead reveal" data-delay="2">
+      Energy is the most honest signal you have, and the one that gets measured least. Daylens
+      tracks the shape of your day — softly, without scoring.
+    </p>
+    <div class="hero__ctas reveal" data-delay="3">
+      <a href="/#start" class="btn btn--primary">Join the waitlist →</a>
+      <a href="#shape" class="btn btn--ghost">See the shape</a>
+    </div>
+  </div>
+</header>
+
+<section class="section" id="shape">
+  <div class="shell story">
+    <div class="story__copy reveal">
+      <span class="eyebrow">Today · Energy</span>
+      <h2 class="h-display t-h2">The shape of <span class="italic">your day.</span></h2>
+      <p class="t-body">One soft line — a calm reading of your morning, midday and evening. No 0–10 sliders to dread. Just a tap, a tag, a glance.</p>
+    </div>
+    <div class="reveal" data-delay="2">
+      <div class="preview-pane">
+        <div class="preview-pane__glow"></div>
+        <svg class="chart" viewBox="0 0 480 240" preserveAspectRatio="none" aria-hidden="true">
+          <defs>
+            <linearGradient id="chart-g" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#88a08a" stop-opacity="0.55"/>
+              <stop offset="100%" stop-color="#88a08a" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <line class="axis" x1="20" y1="220" x2="460" y2="220"/>
+          <path class="fill" d="M20,180 C70,160 100,90 150,90 C200,90 220,160 260,170 C300,180 320,120 360,100 C400,80 430,110 460,90 L460,220 L20,220 Z"/>
+          <path class="line" d="M20,180 C70,160 100,90 150,90 C200,90 220,160 260,170 C300,180 320,120 360,100 C400,80 430,110 460,90"/>
+          <circle class="dot" cx="150" cy="90"  r="3.5"/>
+          <circle class="dot" cx="260" cy="170" r="3.5"/>
+          <circle class="dot" cx="360" cy="100" r="3.5"/>
+          <text class="label" x="20"  y="234">06</text>
+          <text class="label" x="155" y="234">10</text>
+          <text class="label" x="260" y="234">14</text>
+          <text class="label" x="365" y="234">18</text>
+          <text class="label" x="445" y="234">22</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="shell">
+    <div class="reveal" style="text-align:center;max-width:720px;margin:0 auto 5rem">
+      <span class="eyebrow" style="display:inline-flex">— Inside energy</span>
+      <h2 class="h-display t-h2" style="margin-top:1.5rem">Three quiet readings. <span class="italic">No score.</span></h2>
+    </div>
+    <div class="feature-grid">
+      <div class="feature-card reveal">
+        <div class="feature-card__num">01</div>
+        <div class="feature-card__title">Mood + energy</div>
+        <p class="feature-card__desc">Two soft dials at morning, midday, evening. A single tap each — over time, a shape.</p>
+      </div>
+      <div class="feature-card reveal" data-delay="1">
+        <div class="feature-card__num">02</div>
+        <div class="feature-card__title">Pattern detection</div>
+        <p class="feature-card__desc">Daylens notices what your good days have in common. Sometimes it's surprising. Sometimes it's protein.</p>
+      </div>
+      <div class="feature-card reveal" data-delay="2">
+        <div class="feature-card__num">03</div>
+        <div class="feature-card__title">Tags + triggers</div>
+        <p class="feature-card__desc">Tag a moment with one word. Daylens correlates patiently — caffeine, sleep, conversations, walks.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--xl final-cta" id="start">
+  <div class="final-cta__bg"></div>
+  <div class="shell final-cta__inner">
+    <span class="eyebrow reveal" style="display:inline-flex">— Waitlist</span>
+    <h2 class="h-display t-h2 reveal" data-delay="1" style="margin-top:1.5rem">Energy, <span class="italic">arriving Q4.</span></h2>
+    <p class="t-lead reveal" data-delay="2">A slow build. We'd rather get the shape right than ship a fast version.</p>
+    <div class="final-cta__ctas reveal" data-delay="3">
+      <a href="mailto:hello@daylens.dev?subject=Energy%20waitlist" class="btn btn--primary">Request access →</a>
+      <a href="/#ecosystem" class="btn btn--ghost">Other ecosystems</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="shell">
+    <div class="footer__top">
+      <div class="footer__brand"><a href="/" class="logo"><span class="logo__mark"></span><span class="logo__name">Daylens</span></a><p>A calm AI system for reflection, clarity, and intentional living. Berlin · 2026.</p></div>
+      <div class="footer__col"><h4>Platform</h4><ul><li><a href="/#system">Reflection</a></li><li><a href="/#ecosystem">Ecosystem</a></li><li><a href="/jarvis">JARVIS</a></li><li><a href="/#trust">Trust</a></li></ul></div>
+      <div class="footer__col"><h4>Ecosystem</h4><ul><li><a href="/wellness">Wellness</a></li><li><a href="/journaling">Journaling</a></li><li><a href="/recovery">Recovery</a></li><li><a href="/focus">Focus</a></li></ul></div>
+      <div class="footer__col"><h4>Company</h4><ul><li><a href="/contact.html">Contact</a></li><li><a href="/pricing.html">Pricing</a></li><li><a href="#">Impressum</a></li><li><a href="#">Privacy</a></li></ul></div>
+    </div>
+    <div class="footer__bottom"><span>© 2026 Daylens · Berlin</span><span class="italic">Quiet clarity, by design.</span></div>
+  </div>
+</footer>
+
+<div class="mobile-cta" id="mobileCta"><a href="/#start" class="btn btn--primary">Get access →</a></div>
+<script src="/assets/daylens.js" defer></script>
+</body>
+</html>

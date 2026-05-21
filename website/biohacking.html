@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Performance — Daylens</title>
+<meta name="description" content="HRV, sleep, training, lab work. The biohacking ecosystem inside Daylens — for deeper signal.">
+<meta name="theme-color" content="#0d0907">
+<meta property="og:title" content="Performance — Daylens">
+<meta property="og:description" content="HRV. Sleep. Training. Lab work. For deeper signal.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://daylens.dev/biohacking">
+<meta property="og:image" content="https://daylens.dev/assets/og-image.svg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://daylens.dev/assets/og-image.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230d0907'/%3E%3Ccircle cx='16' cy='16' r='6' fill='none' stroke='%23c89070' stroke-width='1.5'/%3E%3Ccircle cx='16' cy='16' r='2' fill='%23c89070'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/assets/daylens.css">
+<style>
+:root {
+  --bg-base: #0a0604;
+  --bg-elev-1: #110a07;
+  --bg-elev-2: #1a120c;
+  --bg-elev-3: #221810;
+  --accent: #c89070;
+  --accent-bright: #dda88a;
+  --accent-deep: #9a6a4f;
+  --accent-glow: rgba(200, 144, 112, 0.22);
+  --accent-glow-soft: rgba(200, 144, 112, 0.08);
+  --line: rgba(245, 234, 216, 0.05);
+  --line-strong: rgba(245, 234, 216, 0.12);
+}
+.metric-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.9rem; }
+@media (min-width: 700px) { .metric-grid { grid-template-columns: repeat(4, 1fr); } }
+.metric { background: var(--bg-elev-2); border: 1px solid var(--line); border-radius: 14px; padding: 1.1rem 1.2rem; }
+.metric__label { font-size: 0.62rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.5rem; }
+.metric__value { font-family: 'Fraunces', serif; font-weight: 300; font-size: 1.85rem; letter-spacing: -0.03em; color: var(--text-primary); }
+.metric__delta { display: inline-block; margin-top: 0.5rem; font-size: 0.72rem; letter-spacing: 0.05em; color: var(--accent); }
+</style>
+</head>
+<body class="subpage">
+
+<nav class="nav" id="nav" aria-label="Main">
+  <div class="shell nav__inner">
+    <a href="/" class="logo"><span class="logo__mark"></span><span class="logo__name">Daylens</span></a>
+    <ul class="nav__links">
+      <li><a href="/recovery">Recovery</a></li>
+      <li><a href="/focus">Focus</a></li>
+      <li><a href="/energy">Energy</a></li>
+      <li><a href="/#ecosystem">All ecosystems</a></li>
+    </ul>
+    <div class="nav__actions">
+      <a href="/" class="nav__back">Daylens</a>
+      <a href="/#start" class="btn btn--primary">Get access</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero hero--sub">
+  <div class="hero__bg" aria-hidden="true"></div>
+  <div class="shell hero__inner">
+    <span class="eyebrow hero__eyebrow reveal">— Ecosystem · 05 · Q3 2026</span>
+    <h1 class="h-display t-hero hero__title reveal" data-delay="1">
+      Performance <span class="italic">signal.</span>
+    </h1>
+    <p class="t-lead hero__lead reveal" data-delay="2">
+      For when you want the deeper read. HRV, sleep architecture, training load, lab work — held
+      together by an AI that doesn't fetishize the metric.
+    </p>
+    <div class="hero__ctas reveal" data-delay="3">
+      <a href="/#start" class="btn btn--primary">Join the waitlist →</a>
+      <a href="#signals" class="btn btn--ghost">See the signals</a>
+    </div>
+  </div>
+</header>
+
+<section class="section" id="signals">
+  <div class="shell story">
+    <div class="story__copy reveal">
+      <span class="eyebrow">Signals · Today</span>
+      <h2 class="h-display t-h2">Four numbers. <span class="italic">In context.</span></h2>
+      <p class="t-body">No leaderboards. No fake "scores". Just four signals that actually matter, with a calm record of how they move together over weeks.</p>
+    </div>
+    <div class="reveal" data-delay="2">
+      <div class="preview-pane">
+        <div class="preview-pane__glow"></div>
+        <div class="metric-grid" style="width:100%">
+          <div class="metric"><div class="metric__label">HRV</div><div class="metric__value">62</div><span class="metric__delta">+4 wk</span></div>
+          <div class="metric"><div class="metric__label">RHR</div><div class="metric__value">54</div><span class="metric__delta">−2 wk</span></div>
+          <div class="metric"><div class="metric__label">Sleep</div><div class="metric__value">7h 22</div><span class="metric__delta">stable</span></div>
+          <div class="metric"><div class="metric__label">Load</div><div class="metric__value">412</div><span class="metric__delta">moderate</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="shell">
+    <div class="reveal" style="text-align:center;max-width:720px;margin:0 auto 5rem">
+      <span class="eyebrow" style="display:inline-flex">— Inside performance</span>
+      <h2 class="h-display t-h2" style="margin-top:1.5rem">For the serious <span class="italic">but not obsessive.</span></h2>
+    </div>
+    <div class="feature-grid">
+      <div class="feature-card reveal">
+        <div class="feature-card__num">01</div>
+        <div class="feature-card__title">HRV pattern</div>
+        <p class="feature-card__desc">Multi-week HRV with context — sleep, alcohol, late nights, travel. The pattern, not the panic.</p>
+      </div>
+      <div class="feature-card reveal" data-delay="1">
+        <div class="feature-card__num">02</div>
+        <div class="feature-card__title">Training load</div>
+        <p class="feature-card__desc">Sessions in, recovery out. Daylens flags overreaching before your body has to.</p>
+      </div>
+      <div class="feature-card reveal" data-delay="2">
+        <div class="feature-card__num">03</div>
+        <div class="feature-card__title">Lab integration</div>
+        <p class="feature-card__desc">Blood, hormonal, micronutrient panels — uploaded once, read in context, never alone.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section section--xl final-cta" id="start">
+  <div class="final-cta__bg"></div>
+  <div class="shell final-cta__inner">
+    <span class="eyebrow reveal" style="display:inline-flex">— Waitlist</span>
+    <h2 class="h-display t-h2 reveal" data-delay="1" style="margin-top:1.5rem">
+      Performance, <span class="italic">arriving Q3.</span>
+    </h2>
+    <p class="t-lead reveal" data-delay="2">We're building the performance ecosystem slowly, with sports physicians and lab partners. Join the waitlist if that sounds like the right kind of careful.</p>
+    <div class="final-cta__ctas reveal" data-delay="3">
+      <a href="mailto:hello@daylens.dev?subject=Performance%20waitlist" class="btn btn--primary">Request access →</a>
+      <a href="/#ecosystem" class="btn btn--ghost">Other ecosystems</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="shell">
+    <div class="footer__top">
+      <div class="footer__brand"><a href="/" class="logo"><span class="logo__mark"></span><span class="logo__name">Daylens</span></a><p>A calm AI system for reflection, clarity, and intentional living. Berlin · 2026.</p></div>
+      <div class="footer__col"><h4>Platform</h4><ul><li><a href="/#system">Reflection</a></li><li><a href="/#ecosystem">Ecosystem</a></li><li><a href="/jarvis">JARVIS</a></li><li><a href="/#trust">Trust</a></li></ul></div>
+      <div class="footer__col"><h4>Ecosystem</h4><ul><li><a href="/wellness">Wellness</a></li><li><a href="/journaling">Journaling</a></li><li><a href="/recovery">Recovery</a></li><li><a href="/focus">Focus</a></li></ul></div>
+      <div class="footer__col"><h4>Company</h4><ul><li><a href="/contact.html">Contact</a></li><li><a href="/pricing.html">Pricing</a></li><li><a href="#">Impressum</a></li><li><a href="#">Privacy</a></li></ul></div>
+    </div>
+    <div class="footer__bottom"><span>© 2026 Daylens · Berlin</span><span class="italic">Quiet clarity, by design.</span></div>
+  </div>
+</footer>
+
+<div class="mobile-cta" id="mobileCta"><a href="/#start" class="btn btn--primary">Get access →</a></div>
+<script src="/assets/daylens.js" defer></script>
+</body>
+</html>
