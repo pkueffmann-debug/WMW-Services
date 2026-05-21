@@ -1,490 +1,940 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Daylens — A calm AI system for reflection, clarity, and intentional living.</title>
-  <meta name="description" content="Daylens is a calm operating system for modern life. AI reflection, gentle journaling, and quiet ecosystems for wellness, focus, recovery and more." />
-  <meta name="theme-color" content="#0d0907" />
-  <meta property="og:title" content="Daylens — A calm AI system for intentional living." />
-  <meta property="og:description" content="Quiet clarity in a chaotic digital world." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://daylens.dev/" />
-  <meta property="og:image" content="https://daylens.dev/assets/og-image.svg" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Daylens — Quiet clarity in a chaotic world." />
-  <meta name="twitter:description" content="A calm AI system for reflection, clarity, and intentional living." />
-  <meta name="twitter:image" content="https://daylens.dev/assets/og-image.svg" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230d0907'/%3E%3Ccircle cx='16' cy='16' r='6' fill='none' stroke='%23e8c89a' stroke-width='1.5'/%3E%3Ccircle cx='16' cy='16' r='2' fill='%23e8c89a'/%3E%3C/svg%3E">
-  <link rel="stylesheet" href="/assets/daylens.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>WMW Services — Web Design + AI Integration für Berliner Unternehmen</title>
+<meta name="description" content="Web-Studio aus Berlin. Moderne Websites mit AI-Integration für kleine und mittlere Unternehmen. Von einem 15-jährigen Entwickler und seinem Team." />
+<meta name="theme-color" content="#faf6f0" />
+<meta property="og:title" content="WMW Services — Web Design aus Berlin" />
+<meta property="og:description" content="Moderne Websites mit AI-Integration für Berliner KMU. Festpreis, transparent, fair." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://daylens.dev/" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23faf6f0'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='Georgia,serif' font-size='18' font-weight='500' fill='%23c8884a'%3EW%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="/assets/wmw.css">
+<style>
+/* ============================================
+   Main landing — page-specific styles
+   ============================================ */
+body.landing { background: var(--bg-cream); }
+
+/* ---- Hero with 3D canvas ---- */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 7rem 0 4rem;
+  overflow: hidden;
+}
+.hero__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+@media (min-width: 900px) {
+  .hero__grid { grid-template-columns: 7fr 5fr; gap: 4rem; }
+}
+.hero__copy { position: relative; z-index: 5; }
+.hero__title { max-width: 14ch; }
+.hero__title .line2 {
+  display: block;
+  margin-top: 0.1em;
+}
+.hero__title .italic-accent {
+  display: block;
+  margin-top: 0.35em;
+  font-size: 0.7em;
+  line-height: 1.1;
+}
+.hero__lead {
+  margin-top: 2rem;
+  max-width: 42ch;
+  font-size: clamp(1rem, 1.3vw, 1.2rem);
+  color: var(--text-soft);
+  line-height: 1.55;
+}
+.hero__ctas {
+  margin-top: 2.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+.hero__canvas-holder {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  max-width: 520px;
+  margin: 0 auto;
+}
+#hero3d {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+/* Fallback orb shown when JS / Three disabled */
+.hero__fallback {
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, var(--accent-amber) 0%, var(--bg-warm) 60%, var(--bg-deep) 100%);
+  box-shadow: 0 30px 80px -30px rgba(200, 136, 74, 0.4);
+  animation: heroOrb 6s ease-in-out infinite alternate;
+}
+@keyframes heroOrb {
+  from { transform: scale(0.96); }
+  to   { transform: scale(1.04); }
+}
+@media (max-width: 899px) {
+  #hero3d { display: none; }
+  .hero__fallback { aspect-ratio: 1/1; max-width: 380px; }
+}
+
+.hero__meta {
+  margin-top: 5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-warm);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.2rem 3rem;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  color: var(--text-muted);
+}
+
+/* ---- Section A: Services ---- */
+#services { background: var(--bg-cream); }
+.services__intro h2 { max-width: 14ch; margin-top: 1.5rem; }
+.services__intro p {
+  max-width: 44ch;
+  margin-top: 1.75rem;
+  color: var(--text-soft);
+}
+.services__list { margin-top: 5rem; }
+.services__item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 2rem 3rem;
+  align-items: baseline;
+  padding: 2.2rem 0;
+  border-top: 1px solid var(--border-warm);
+  font-family: 'Fraunces', serif;
+  font-weight: 400;
+  font-size: clamp(1.5rem, 3.2vw, 2.5rem);
+  letter-spacing: -0.02em;
+  color: var(--text-muted);
+  transition: color 600ms var(--ease-out);
+  line-height: 1.1;
+}
+.services__item:last-child { border-bottom: 1px solid var(--border-warm); }
+.services__item.is-active { color: var(--text-dark); }
+.services__num {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: 0.5em;
+  color: var(--accent-caramel);
+  opacity: 0.8;
+  letter-spacing: 0.04em;
+}
+.services__detail {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 400;
+  font-size: 0.42em;
+  color: var(--text-muted);
+  letter-spacing: 0;
+  margin-top: 0.6rem;
+  line-height: 1.55;
+  max-width: 48ch;
+}
+
+/* ---- Section B: Process ---- */
+#process { background: var(--bg-warm); }
+.process__intro { text-align: center; max-width: 700px; margin: 0 auto 5rem; }
+.process__intro h2 { margin-top: 1.5rem; }
+.process__steps {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  position: relative;
+}
+@media (min-width: 900px) { .process__steps { grid-template-columns: repeat(3, 1fr); gap: 3rem; } }
+.process__step h3 {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: clamp(1.4rem, 2.4vw, 1.85rem);
+  margin-top: 1.25rem;
+  color: var(--text-dark);
+}
+.process__step p {
+  margin-top: 1rem;
+  color: var(--text-soft);
+  font-size: 0.98rem;
+  line-height: 1.65;
+  max-width: 34ch;
+}
+.process__num {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(3rem, 5vw, 4.5rem);
+  color: var(--accent-caramel);
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+/* ---- Section C: Portfolio ---- */
+#portfolio { background: var(--bg-cream); }
+.portfolio__intro {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  margin-bottom: 4.5rem;
+}
+@media (min-width: 900px) {
+  .portfolio__intro { grid-template-columns: 1.4fr 1fr; align-items: end; gap: 4rem; }
+}
+.portfolio__intro h2 { max-width: 14ch; }
+.portfolio__intro p { max-width: 42ch; color: var(--text-soft); }
+
+.portfolio__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.4rem;
+}
+@media (min-width: 700px) { .portfolio__grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { .portfolio__grid { grid-template-columns: repeat(3, 1fr); } }
+
+.work {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-warm);
+  border: 1px solid var(--border-warm);
+  border-radius: var(--r-card);
+  padding: 2.1rem 1.9rem 1.85rem;
+  transition: transform 380ms var(--ease-out), border-color 380ms var(--ease-out),
+              background 380ms var(--ease-out), box-shadow 380ms var(--ease-out);
+  min-height: 250px;
+}
+.work:hover {
+  transform: translateY(-3px);
+  border-color: var(--border-strong);
+  background: var(--bg-deep);
+  box-shadow: var(--shadow-soft);
+}
+.work__industry {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.26em;
+  color: var(--accent-cognac);
+}
+.work__title {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: clamp(1.35rem, 2.2vw, 1.65rem);
+  margin-top: 1.3rem;
+  color: var(--text-dark);
+  line-height: 1.15;
+}
+.work__desc {
+  margin-top: 0.8rem;
+  font-size: 0.92rem;
+  color: var(--text-soft);
+  line-height: 1.6;
+  flex: 1;
+}
+.work__cta {
+  margin-top: 1.8rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 600;
+  font-size: 0.86rem;
+  color: var(--accent-cognac);
+}
+.work__cta::after { content: '→'; transition: transform 320ms var(--ease-out); }
+.work:hover .work__cta::after { transform: translateX(4px); }
+.work__live {
+  position: absolute;
+  top: 1.4rem;
+  right: 1.4rem;
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.55rem;
+  border-radius: 999px;
+  background: var(--accent-caramel);
+  color: #fff;
+  font-weight: 600;
+}
+
+/* ---- Section D: About ---- */
+#about { background: var(--bg-warm); }
+.about__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+}
+@media (min-width: 900px) { .about__grid { grid-template-columns: 4fr 6fr; gap: 5rem; } }
+.about__meta dl { display: grid; gap: 2rem; }
+.about__meta dt {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  color: var(--text-muted);
+  margin-bottom: 0.45rem;
+}
+.about__meta dd {
+  font-family: 'Fraunces', serif;
+  font-weight: 400;
+  font-size: 1.1rem;
+  color: var(--text-dark);
+}
+
+.about__copy h2 { max-width: 16ch; margin-bottom: 2.5rem; }
+.about__copy p { max-width: 58ch; color: var(--text-soft); margin-bottom: 1.5rem; }
+.about__copy .dropcap::first-letter {
+  font-family: 'Fraunces', serif;
+  font-weight: 400;
+  font-size: clamp(4rem, 7vw, 5.5rem);
+  line-height: 0.85;
+  float: left;
+  padding: 0.4rem 0.6rem 0 0;
+  color: var(--accent-cognac);
+}
+.pullquote {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(1.65rem, 3.5vw, 2.5rem);
+  line-height: 1.25;
+  color: var(--accent-cognac);
+  max-width: 28ch;
+  margin: 3.5rem 0;
+  text-indent: -0.4em;
+}
+.about__stats {
+  margin-top: 3.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.5rem 4rem;
+}
+.about__stat {
+  font-family: 'Fraunces', serif;
+}
+.about__stat .num {
+  font-weight: 300;
+  font-size: clamp(2.4rem, 4.5vw, 3.6rem);
+  color: var(--accent-caramel);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+.about__stat .label {
+  margin-top: 0.5rem;
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--text-muted);
+}
+
+/* ---- Section E: Contact ---- */
+#contact { background: var(--bg-cream); }
+.contact__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+}
+@media (min-width: 900px) { .contact__grid { grid-template-columns: 4fr 6fr; gap: 5rem; } }
+.contact__intro h2 { max-width: 13ch; margin-top: 1.5rem; }
+.contact__intro p {
+  margin-top: 1.75rem;
+  max-width: 38ch;
+  color: var(--text-soft);
+}
+.contact__direct {
+  margin-top: 2.5rem;
+  display: grid;
+  gap: 0.6rem;
+}
+.contact__direct .label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--text-muted);
+}
+.contact__direct a {
+  font-family: 'Fraunces', serif;
+  font-size: 1.2rem;
+  color: var(--accent-cognac);
+  font-weight: 400;
+}
+.contact__form { display: grid; gap: 1.25rem; }
+.contact__form .row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+@media (max-width: 600px) { .contact__form .row { grid-template-columns: 1fr; } }
+.contact__sent {
+  padding: 2.5rem;
+  border: 1px solid var(--border-strong);
+  background: var(--bg-warm);
+  border-radius: var(--r-card);
+}
+.contact__sent p {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-size: 1.4rem;
+  color: var(--accent-cognac);
+}
+</style>
 </head>
 
-<body>
+<body class="landing">
 
-<nav class="nav" id="nav" aria-label="Main">
+<!-- ============================ NAV ============================ -->
+<nav class="nav" id="nav" aria-label="Hauptnavigation">
   <div class="shell nav__inner">
-    <a href="/" class="logo" aria-label="Daylens">
-      <span class="logo__mark" aria-hidden="true"></span>
-      <span class="logo__name">Daylens</span>
+    <a href="/" class="logo" aria-label="WMW Services">
+      <span class="logo__mark">WMW</span><span class="logo__suffix">.services</span>
     </a>
     <ul class="nav__links">
-      <li><a href="#system">System</a></li>
-      <li><a href="#ecosystem">Ecosystem</a></li>
-      <li><a href="#trust">Trust</a></li>
-      <li><a href="/jarvis">JARVIS</a></li>
+      <li><a href="#services">Leistungen</a></li>
+      <li><a href="#portfolio">Arbeiten</a></li>
+      <li><a href="#about">Studio</a></li>
+      <li><a href="#contact">Kontakt</a></li>
     </ul>
     <div class="nav__actions">
-      <a href="/auth.html" class="nav__signin">Sign in</a>
-      <a href="#start" class="btn btn--primary">Get Daylens</a>
+      <a href="#contact" class="btn btn--primary" style="display:none">Projekt anfragen</a>
+      <a href="#contact" class="btn btn--primary hide-mobile" id="navCta">Projekt anfragen</a>
+      <button class="nav__menu-btn" id="navMenuBtn" aria-label="Menü öffnen"><span></span></button>
     </div>
   </div>
 </nav>
 
-<header class="hero">
-  <div class="hero__bg" aria-hidden="true"></div>
-  <svg class="mesh" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-    <defs>
-      <radialGradient id="dot-g" cx="50%" cy="50%" r="50%">
-        <stop offset="0%" stop-color="#e8c89a" stop-opacity="0.9"/>
-        <stop offset="100%" stop-color="#e8c89a" stop-opacity="0"/>
-      </radialGradient>
-    </defs>
-    <g stroke="#e8c89a" stroke-opacity="0.18" stroke-width="0.5" fill="none">
-      <path d="M120,420 L320,300 L520,360 L720,220 L920,310 L1080,180" />
-      <path d="M160,520 L380,440 L600,470 L820,400 L1040,420" />
-      <path d="M200,180 L420,260 L640,160 L860,240 L1060,140" />
-    </g>
-    <g>
-      <circle cx="120" cy="420" r="3" fill="url(#dot-g)"/>
-      <circle cx="320" cy="300" r="2.5" fill="url(#dot-g)"/>
-      <circle cx="520" cy="360" r="2" fill="url(#dot-g)"/>
-      <circle cx="720" cy="220" r="3" fill="url(#dot-g)"/>
-      <circle cx="920" cy="310" r="2.5" fill="url(#dot-g)"/>
-      <circle cx="1080" cy="180" r="2.5" fill="url(#dot-g)"/>
-      <circle cx="380" cy="440" r="2" fill="url(#dot-g)"/>
-      <circle cx="600" cy="470" r="2.5" fill="url(#dot-g)"/>
-      <circle cx="820" cy="400" r="3" fill="url(#dot-g)"/>
-      <circle cx="1040" cy="420" r="2" fill="url(#dot-g)"/>
-      <circle cx="420" cy="260" r="2" fill="url(#dot-g)"/>
-      <circle cx="640" cy="160" r="2.5" fill="url(#dot-g)"/>
-      <circle cx="860" cy="240" r="2" fill="url(#dot-g)"/>
-      <circle cx="1060" cy="140" r="3" fill="url(#dot-g)"/>
-    </g>
-  </svg>
+<style>.hide-mobile{display:inline-flex}@media(max-width:599px){.hide-mobile{display:none}}</style>
 
-  <div class="shell hero__inner">
-    <span class="eyebrow hero__eyebrow reveal">Daylens · 2026</span>
-    <h1 class="h-display t-hero hero__title reveal" data-delay="1">
-      Quiet clarity
-      <span class="italic">in a chaotic world.</span>
-    </h1>
-    <p class="t-lead hero__lead reveal" data-delay="2">
-      Daylens is a calm AI system for reflection, clarity, and intentional living. One quiet place
-      for your thoughts, your rhythm, and the small ecosystems that make life feel held.
-    </p>
-    <div class="hero__ctas reveal" data-delay="3">
-      <a href="#start" class="btn btn--primary">Get Daylens →</a>
-      <a href="#system" class="btn btn--ghost">See the system</a>
+<!-- ============================ MOBILE MENU ============================ -->
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu__head">
+    <a href="/" class="logo"><span class="logo__mark">WMW</span><span class="logo__suffix">.services</span></a>
+    <button class="nav__menu-btn" id="mobileClose" aria-label="Menü schließen" style="position:relative">
+      <span style="background:transparent">
+        <span style="background:var(--text-dark);transform:rotate(45deg);top:0"></span>
+        <span style="background:var(--text-dark);transform:rotate(-45deg);top:0"></span>
+      </span>
+    </button>
+  </div>
+  <nav aria-label="Mobile Navigation">
+    <a href="#services">Leistungen</a>
+    <a href="#portfolio">Arbeiten</a>
+    <a href="#about">Studio</a>
+    <a href="#contact">Kontakt</a>
+  </nav>
+  <a href="#contact" class="btn btn--primary">Projekt anfragen</a>
+</div>
+
+<main id="main">
+
+<!-- ============================ HERO ============================ -->
+<section class="hero" id="hero">
+  <div class="shell hero__grid">
+    <div class="hero__copy">
+      <span class="eyebrow reveal">Berlin · Web Studio · Est. 2025</span>
+      <h1 class="h-display t-hero hero__title reveal" data-delay="1" style="margin-top:1.5rem">
+        Websites,
+        <span class="line2">die wir selbst bauen würden.</span>
+        <span class="italic-accent">Für Berliner Unternehmen.</span>
+      </h1>
+      <p class="hero__lead reveal" data-delay="2">
+        Web Design mit AI-Integration. Von einem 15-jährigen Entwickler und seinem Team —
+        schnell, transparent, faire Preise.
+      </p>
+      <div class="hero__ctas reveal" data-delay="3">
+        <a href="#contact" class="btn btn--primary">Projekt anfragen →</a>
+        <a href="#portfolio" class="btn--link">Arbeiten ansehen</a>
+      </div>
+    </div>
+    <div class="hero__canvas-holder reveal" data-delay="2">
+      <canvas id="hero3d" aria-hidden="true"></canvas>
+      <div class="hero__fallback" id="heroFallback" aria-hidden="true" style="display:none"></div>
     </div>
   </div>
 
   <div class="shell hero__meta reveal" data-delay="4">
-    <span>Reflection</span><span>Clarity</span><span>Rhythm</span><span>Recovery</span><span>Focus</span>
-  </div>
-</header>
-
-<section class="positioning" aria-label="Platform positioning">
-  <div class="shell positioning__inner">
-    <span>Daylens is not an app.</span>
-    <span>It is a calm operating system.</span>
-    <span>Designed for intentional modern life.</span>
+    <span>(01) Strategie</span>
+    <span>(02) Design</span>
+    <span>(03) Engineering</span>
+    <span>(04) AI</span>
+    <span>(05) Wartung</span>
   </div>
 </section>
 
-<section class="section reflection" id="system">
-  <div class="shell reflection__grid">
-    <div class="reflection__copy reveal">
-      <span class="eyebrow">The core · Reflection</span>
-      <h2 class="h-display t-h2">An AI that <span class="italic">listens first.</span></h2>
-      <p class="t-body">
-        Speak a thought. Type a sentence. Daylens reflects it back with the patience of something
-        that has time. No streaks. No badges. No noise. Just a quieter version of you, returning
-        when you need it.
-      </p>
-      <div style="margin-top: 2.25rem">
-        <a href="#ecosystem" class="btn--link">Explore the ecosystem →</a>
-      </div>
-    </div>
-
-    <div class="reflection__preview reveal" data-delay="2">
-      <div class="insights">
-        <div class="insight insight--a" aria-hidden="true">
-          <span class="insight__label">Pattern</span>
-          You reflect deeper on Sundays. Want a quieter Monday morning?
-        </div>
-        <div class="insight insight--b" aria-hidden="true">
-          <span class="insight__label">Rhythm</span>
-          Energy recovers fastest after a 14 min walk before noon.
-        </div>
-
-        <div class="app-card">
-          <div class="app-card__header">
-            <span class="app-card__handle">Daylens · Reflection</span>
-            <span class="app-card__time">21:42</span>
-          </div>
-          <div class="app-msg app-msg--user">
-            I keep moving too fast through the day. I don't really land anywhere.
-          </div>
-          <div class="app-msg app-msg--ai">
-            <span class="label">Daylens</span>
-            That sounds heavy. Three of your recent reflections mention the same — fast, unland.
-            Want to look at what your slow moments usually have in common?
-          </div>
-          <div class="app-msg app-msg--user">
-            Yeah. Show me.
-          </div>
-          <div class="waveform">
-            <span class="waveform__dot" aria-hidden="true"></span>
-            <div class="waveform__bars" aria-hidden="true">
-              <span style="height:8px"></span><span style="height:14px"></span>
-              <span style="height:6px"></span><span style="height:22px"></span>
-              <span style="height:10px"></span><span style="height:18px"></span>
-              <span style="height:8px"></span><span style="height:16px"></span>
-              <span style="height:12px"></span><span style="height:20px"></span>
-              <span style="height:6px"></span><span style="height:14px"></span>
-              <span style="height:8px"></span><span style="height:18px"></span>
-              <span style="height:10px"></span><span style="height:12px"></span>
-              <span style="height:16px"></span><span style="height:8px"></span>
-              <span style="height:20px"></span><span style="height:14px"></span>
-            </div>
-            <span class="waveform__label">Voice</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="shell"><div class="divider"></div></div>
-
-<section class="section">
-  <div class="shell story">
-    <div class="story__copy reveal">
-      <span class="eyebrow">Memory · Connections</span>
-      <h2 class="h-display t-h2">Your thoughts <span class="italic">remember each other.</span></h2>
-      <p class="t-body">
-        Daylens quietly notices what you keep returning to. Without dashboards, without scoring.
-        Just a soft map of what you've thought about — so you can stop carrying everything in
-        your head.
-      </p>
-    </div>
-    <div class="reveal" data-delay="2">
-      <div class="preview-pane">
-        <div class="preview-pane__glow" aria-hidden="true"></div>
-        <div class="memory-map">
-          <svg viewBox="0 0 500 320" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-            <g class="edge">
-              <line x1="120" y1="80"  x2="250" y2="150" />
-              <line x1="250" y1="150" x2="380" y2="90"  />
-              <line x1="250" y1="150" x2="370" y2="220" />
-              <line x1="250" y1="150" x2="130" y2="220" />
-              <line x1="370" y1="220" x2="450" y2="280" />
-            </g>
-            <g class="edge edge--soft">
-              <line x1="80"  y1="180" x2="130" y2="220" />
-              <line x1="130" y1="220" x2="200" y2="280" />
-              <line x1="380" y1="90"  x2="430" y2="40"  />
-            </g>
-            <circle class="node" cx="250" cy="150" r="6" />
-            <circle class="node" cx="120" cy="80"  r="4" />
-            <circle class="node" cx="380" cy="90"  r="4" />
-            <circle class="node" cx="370" cy="220" r="4.5" />
-            <circle class="node" cx="130" cy="220" r="4" />
-            <circle class="node--soft" cx="80"  cy="180" r="2.5" />
-            <circle class="node--soft" cx="200" cy="280" r="2.5" />
-            <circle class="node--soft" cx="450" cy="280" r="3" />
-            <circle class="node--soft" cx="430" cy="40"  r="3" />
-            <g font-family="Fraunces, serif" font-style="italic" font-size="11" fill="#c4b39a" opacity="0.7">
-              <text x="262" y="146">overwhelm</text>
-              <text x="62"  y="74">mornings</text>
-              <text x="390" y="86">sleep</text>
-              <text x="380" y="218">walk</text>
-              <text x="60"  y="226">food</text>
-            </g>
-          </svg>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="shell story story--reverse">
-    <div class="story__copy reveal">
-      <span class="eyebrow">Rhythm · Daily</span>
-      <h2 class="h-display t-h2">A day, <span class="italic">held gently.</span></h2>
-      <p class="t-body">
-        Three soft check-ins — morning, midday, evening. Voice, text, or a single tap. Daylens
-        learns your shape and stops asking when it shouldn't.
-      </p>
-    </div>
-    <div class="reveal" data-delay="2">
-      <div class="preview-pane">
-        <div class="preview-pane__glow" aria-hidden="true"></div>
-        <div class="rhythm">
-          <svg viewBox="0 0 240 240" aria-hidden="true">
-            <circle cx="120" cy="120" r="100" fill="none" stroke="#15100c" stroke-width="14" />
-            <circle cx="120" cy="120" r="100" fill="none"
-                    stroke="#e8c89a" stroke-width="14"
-                    stroke-dasharray="500" stroke-dashoffset="180"
-                    transform="rotate(-90 120 120)" stroke-linecap="round" />
-            <g stroke="#c4b39a" stroke-width="2">
-              <line x1="120" y1="10"  x2="120" y2="22" />
-              <line x1="225" y1="120" x2="213" y2="120" />
-              <line x1="120" y1="225" x2="120" y2="213" />
-            </g>
-          </svg>
-          <div class="rhythm__label">
-            <div class="big">68%</div>
-            <div class="small">Today's rhythm</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section">
-  <div class="shell story">
-    <div class="story__copy reveal">
-      <span class="eyebrow">Reflection · Timeline</span>
-      <h2 class="h-display t-h2">Not a journal. <span class="italic">A long memory.</span></h2>
-      <p class="t-body">
-        Every reflection lives in a calm, scrollable thread. No streaks. No empty squares. Just
-        the quiet record of your year — searchable, returnable, yours.
-      </p>
-    </div>
-    <div class="reveal" data-delay="2">
-      <div class="preview-pane">
-        <div class="preview-pane__glow" aria-hidden="true"></div>
-        <div class="timeline" role="list">
-          <div class="timeline__row" role="listitem">
-            <time>Mon 7:42</time>
-            <span>"Slept badly. Want a slower start."</span>
-            <span class="badge">voice</span>
-          </div>
-          <div class="timeline__row" role="listitem">
-            <time>Mon 13:10</time>
-            <span>"The 14-min walk helped. Surprising."</span>
-            <span class="badge">text</span>
-          </div>
-          <div class="timeline__row" role="listitem">
-            <time>Tue 22:18</time>
-            <span>"Feels lighter. Maybe Monday was the wave."</span>
-            <span class="badge">voice</span>
-          </div>
-          <div class="timeline__row" role="listitem">
-            <time>Wed 9:02</time>
-            <span>"Energy is back. Three things matter today."</span>
-            <span class="badge">text</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="section section--xl ecosystem" id="ecosystem">
+<!-- ============================ SERVICES ============================ -->
+<section class="section" id="services">
   <div class="shell">
-    <div class="ecosystem__intro">
+    <div class="services__intro reveal" style="max-width:780px">
+      <span class="eyebrow">Was wir bauen</span>
+      <h2 class="h-display t-h2">Fünf Bausteine. <span class="italic-accent">Ein System.</span></h2>
+      <p>
+        Aus einer Idee entstehen die Komponenten, die deine Website tragen. Vom Layout bis
+        zum AI-Chatbot — alles modular, transparent, auf deine Anforderungen zugeschnitten.
+      </p>
+    </div>
+
+    <div class="services__list">
+      <div class="services__item" data-svc="01">
+        <span class="services__num">01.</span>
+        <div>
+          Website Design &amp; Entwicklung
+          <div class="services__detail">Figma → fertiger Code → live. Lighthouse ≥ 90, mobile-optimiert, in 7 Werktagen für Landing Pages.</div>
+        </div>
+      </div>
+      <div class="services__item" data-svc="02">
+        <span class="services__num">02.</span>
+        <div>
+          AI Chatbot Integration
+          <div class="services__detail">Chatbot auf deiner Speisekarte oder Preisliste trainiert. Beantwortet echte Kundenfragen — direkt in der Website.</div>
+        </div>
+      </div>
+      <div class="services__item" data-svc="03">
+        <span class="services__num">03.</span>
+        <div>
+          Smart Forms &amp; Lead-Automation
+          <div class="services__detail">Kontaktformular mit AI-Vorfilter. Echte Anfragen sofort aufs Handy, Spam wird ausgemustert.</div>
+        </div>
+      </div>
+      <div class="services__item" data-svc="04">
+        <span class="services__num">04.</span>
+        <div>
+          Mobile-First &amp; Performance
+          <div class="services__detail">Mobile-First, Local-SEO für Berlin, Google Business angebunden — Standard, kein Aufpreis.</div>
+        </div>
+      </div>
+      <div class="services__item" data-svc="05">
+        <span class="services__num">05.</span>
+        <div>
+          Wartung &amp; Updates
+          <div class="services__detail">Monatliche Sicherheits-Updates, Bug-Fixes binnen 7 Tagen, ein Content-Change pro Monat inklusive.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ PROCESS ============================ -->
+<section class="section" id="process">
+  <div class="shell">
+    <div class="process__intro reveal">
+      <span class="eyebrow">Wie wir arbeiten</span>
+      <h2 class="h-display t-h2">Drei Schritte. <span class="italic-accent">Keine Eile.</span></h2>
+    </div>
+    <div class="process__steps">
+      <div class="process__step reveal">
+        <div class="process__num">01</div>
+        <h3>Gespräch</h3>
+        <p>15-Minuten-Call oder Email-Austausch. Du erzählst uns dein Projekt, wir hören zu und stellen die richtigen Fragen.</p>
+      </div>
+      <div class="process__step reveal" data-delay="1">
+        <div class="process__num">02</div>
+        <h3>Angebot</h3>
+        <p>Innerhalb von 48 Stunden bekommst du ein konkretes Festpreis-Angebot mit klarem Umfang und Zeitplan.</p>
+      </div>
+      <div class="process__step reveal" data-delay="2">
+        <div class="process__num">03</div>
+        <h3>Umsetzung</h3>
+        <p>Wir bauen — du gibst Feedback. Erste Vorschau nach 7 Tagen, Live-Schaltung wenn du happy bist.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ PORTFOLIO ============================ -->
+<section class="section" id="portfolio">
+  <div class="shell">
+    <div class="portfolio__intro">
       <div class="reveal">
-        <span class="eyebrow">Ecosystem</span>
-        <h2 class="h-display t-h2" style="margin-top:1.2rem">
-          One platform. <span class="italic">Connected systems.</span>
-        </h2>
+        <span class="eyebrow">Unsere Arbeiten</span>
+        <h2 class="h-display t-h2" style="margin-top:1.2rem">Gebaut für <span class="italic-accent">echte Branchen.</span></h2>
       </div>
-      <div class="reveal" data-delay="2">
-        <p class="t-body">
-          Daylens grows with you. Each subpage is its own quiet world — with its own atmosphere,
-          tools, and depth. Use what helps. Ignore what doesn't.
-        </p>
-      </div>
-    </div>
-
-    <div class="eco-grid">
-      <a href="/wellness" class="eco-card reveal">
-        <span class="eco-card__halo" style="background: radial-gradient(circle, #d49a78 0%, transparent 70%)"></span>
-        <div class="eco-card__num">01 · Wellness</div>
-        <div class="eco-card__title">Wellness</div>
-        <div class="eco-card__desc">Calm rituals, slow mornings, recovery rhythms.</div>
-        <span class="eco-card__arrow">Enter</span>
-      </a>
-      <a href="/journaling" class="eco-card reveal" data-delay="1">
-        <span class="eco-card__halo" style="background: radial-gradient(circle, #e8c89a 0%, transparent 70%)"></span>
-        <div class="eco-card__num">02 · Reflection</div>
-        <div class="eco-card__title">AI Journaling</div>
-        <div class="eco-card__desc">Voice or text. The page that remembers you.</div>
-        <span class="eco-card__arrow">Enter</span>
-      </a>
-      <a href="/recovery" class="eco-card reveal" data-delay="2">
-        <span class="eco-card__halo" style="background: radial-gradient(circle, #8ba0a8 0%, transparent 70%)"></span>
-        <div class="eco-card__num">03 · Recovery</div>
-        <div class="eco-card__title">Recovery</div>
-        <div class="eco-card__desc">Sleep, energy, return. Without the dashboard noise.</div>
-        <span class="eco-card__arrow">Enter</span>
-      </a>
-      <a href="/focus" class="eco-card reveal" data-delay="3">
-        <span class="eco-card__halo" style="background: radial-gradient(circle, #b89968 0%, transparent 70%)"></span>
-        <div class="eco-card__num">04 · Focus</div>
-        <div class="eco-card__title">Focus Systems</div>
-        <div class="eco-card__desc">Deep work, gently. No timers shouting at you.</div>
-        <span class="eco-card__arrow">Enter</span>
-      </a>
-      <a href="/biohacking" class="eco-card reveal">
-        <span class="eco-card__halo" style="background: radial-gradient(circle, #c89070 0%, transparent 70%)"></span>
-        <div class="eco-card__num">05 · Performance</div>
-        <div class="eco-card__title">Biohacking</div>
-        <div class="eco-card__desc">For deeper signal: HRV, sleep, training, lab work.</div>
-        <span class="eco-card__arrow">Enter</span>
-        <span class="eco-card__soon">Q3</span>
-      </a>
-      <a href="/adhd" class="eco-card reveal" data-delay="1">
-        <span class="eco-card__halo" style="background: radial-gradient(circle, #a89c8a 0%, transparent 70%)"></span>
-        <div class="eco-card__num">06 · Clarity</div>
-        <div class="eco-card__title">ADHD Support</div>
-        <div class="eco-card__desc">Structured calm. For brains that move sideways.</div>
-        <span class="eco-card__arrow">Enter</span>
-        <span class="eco-card__soon">Q3</span>
-      </a>
-      <a href="/energy" class="eco-card reveal" data-delay="2">
-        <span class="eco-card__halo" style="background: radial-gradient(circle, #88a08a 0%, transparent 70%)"></span>
-        <div class="eco-card__num">07 · Rhythm</div>
-        <div class="eco-card__title">Energy Tracking</div>
-        <div class="eco-card__desc">Notice when you bloom. Notice when you wilt.</div>
-        <span class="eco-card__arrow">Enter</span>
-        <span class="eco-card__soon">Q4</span>
-      </a>
-      <a href="/protocols" class="eco-card reveal" data-delay="3">
-        <span class="eco-card__halo" style="background: radial-gradient(circle, #9eb098 0%, transparent 70%)"></span>
-        <div class="eco-card__num">08 · Practice</div>
-        <div class="eco-card__title">Protocols</div>
-        <div class="eco-card__desc">Daily, weekly, seasonal. Yours to keep or skip.</div>
-        <span class="eco-card__arrow">Enter</span>
-        <span class="eco-card__soon">Q4</span>
-      </a>
-    </div>
-  </div>
-</section>
-
-<section class="section trust" id="trust">
-  <div class="shell">
-    <div class="trust__intro reveal">
-      <span class="eyebrow" style="justify-content: center; display:inline-flex">— Trust</span>
-      <h2 class="h-display t-h2" style="margin-top:1.5rem">
-        Your inner life <span class="italic">stays yours.</span>
-      </h2>
-      <p class="t-lead" style="margin: 1.5rem auto 0; max-width: 50ch">
-        Daylens is built around one quiet principle: nothing about you should ever feel sold.
+      <p class="reveal" data-delay="2">
+        Eine Auswahl von Designstudien und Live-Projekten. JARVIS ist eine echte AI-App, der Rest
+        sind Konzepte für Berliner Geschäfte. Klick rein.
       </p>
     </div>
-    <div class="trust__grid">
-      <div class="trust__card reveal">
-        <div class="trust__icon" aria-hidden="true">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-        </div>
-        <h3>End-to-end encrypted</h3>
-        <p>Reflections are encrypted on your device before they leave it. We host the calm — not the contents.</p>
-      </div>
-      <div class="trust__card reveal" data-delay="1">
-        <div class="trust__icon" aria-hidden="true">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5 3.5 9 8 10 4.5-1 8-5 8-10V6l-8-4Z"/></svg>
-        </div>
-        <h3>No data sold. Ever.</h3>
-        <p>No ads. No third-party tracking. Daylens is paid for by you, not by advertisers buying your patterns.</p>
-      </div>
-      <div class="trust__card reveal" data-delay="2">
-        <div class="trust__icon" aria-hidden="true">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
-        </div>
-        <h3>Delete anytime</h3>
-        <p>One tap. Everything. We don't hold copies, mirrors, or "for safety" backups you didn't ask for.</p>
+
+    <div class="portfolio__grid">
+      <a href="/cafe" class="work reveal">
+        <span class="work__industry">Gastronomie</span>
+        <span class="work__title">Café Halbmond</span>
+        <p class="work__desc">Bistro in Kreuzberg mit Online-Menü, Tisch-Reservierung und Sonntagsbrunch.</p>
+        <span class="work__cta">Ansehen </span>
+      </a>
+      <a href="/yoga" class="work reveal" data-delay="1">
+        <span class="work__industry">Wellness</span>
+        <span class="work__title">Atemraum Berlin</span>
+        <p class="work__desc">Yoga- und Meditationsstudio mit Buchung und AI-Chatbot für FAQs.</p>
+        <span class="work__cta">Ansehen </span>
+      </a>
+      <a href="/tischlerei" class="work reveal" data-delay="2">
+        <span class="work__industry">Handwerk</span>
+        <span class="work__title">Hartmann Tischlerei</span>
+        <p class="work__desc">Bautischlerei in dritter Generation. Lead-Formular und Portfolio-Galerie.</p>
+        <span class="work__cta">Ansehen </span>
+      </a>
+      <a href="/kanzlei" class="work reveal">
+        <span class="work__industry">Recht</span>
+        <span class="work__title">Müller &amp; Partner</span>
+        <p class="work__desc">Anwaltskanzlei für Wirtschafts-, Steuer- und Erbrecht. Vertrauen statt Effekte.</p>
+        <span class="work__cta">Ansehen </span>
+      </a>
+      <a href="/trainer" class="work reveal" data-delay="1">
+        <span class="work__industry">Sport</span>
+        <span class="work__title">Max Berlin</span>
+        <p class="work__desc">Personal Trainer mit Online-Coaching und Probetraining. Kinetik statt Wellness.</p>
+        <span class="work__cta">Ansehen </span>
+      </a>
+      <a href="/architektur" class="work reveal" data-delay="2">
+        <span class="work__industry">Architektur</span>
+        <span class="work__title">Studio Nord</span>
+        <p class="work__desc">Architekturbüro mit großformatigen Projekt-Visualisierungen und ruhiger Typo.</p>
+        <span class="work__cta">Ansehen </span>
+      </a>
+      <a href="/zahnarzt" class="work reveal">
+        <span class="work__industry">Medizin</span>
+        <span class="work__title">Dr. Weber Zahnarztpraxis</span>
+        <p class="work__desc">Zahnarztpraxis in Friedenau mit Online-Termin und freundlichem Team-Bild.</p>
+        <span class="work__cta">Ansehen </span>
+      </a>
+      <a href="/jarvis" class="work reveal" data-delay="1">
+        <span class="work__live">Live</span>
+        <span class="work__industry">AI · Custom</span>
+        <span class="work__title">JARVIS</span>
+        <p class="work__desc">Persönlicher AI-Assistent mit eigener Persönlichkeit, gebaut von Grund auf. Live unter daylens.dev/jarvis.</p>
+        <span class="work__cta">Live ansehen </span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ ABOUT ============================ -->
+<section class="section" id="about">
+  <div class="shell about__grid">
+    <aside class="about__meta reveal" style="position:sticky;top:120px;align-self:start">
+      <span class="eyebrow">Studio</span>
+      <dl style="margin-top:2.5rem">
+        <div><dt>Gegründet</dt><dd>2025</dd></div>
+        <div><dt>Standort</dt><dd>Berlin</dd></div>
+        <div><dt>Team</dt><dd>Paul · Tom · Jannis</dd></div>
+        <div><dt>Disziplinen</dt><dd>Design · Engineering · AI</dd></div>
+      </dl>
+    </aside>
+
+    <div class="about__copy reveal" data-delay="1">
+      <h2 class="h-display t-h2">Hi, ich bin Paul. Ich baue Websites, <span class="italic-accent">seit ich elf bin.</span></h2>
+
+      <p class="dropcap">
+        Die meisten Leute fangen mit fünfzehn an, sich für ihre Zukunft zu interessieren. Ich habe damit mit elf
+        angefangen — und mit Code. Vier Jahre später habe ich mehr Zeilen Python, JavaScript und React geschrieben
+        als die meisten Informatik-Studenten im ersten Semester.
+      </p>
+      <p>
+        WMW Services habe ich 2025 gegründet, weil ich gemerkt habe: kleine Unternehmen in Berlin brauchen keine
+        10.000-Euro-Agentur-Website. Sie brauchen jemanden, der versteht, wie moderne Tools (inklusive AI)
+        funktionieren, fair abrechnet und nicht von oben herab redet.
+      </p>
+      <p>
+        Unterstützt werde ich von Tom Henseling und Jannis Timm — zwei Freunde, die mir bei Recherche,
+        Kundenkontakt und Operations helfen. Wir sind kein „Team" im klassischen Sinne. Wir sind drei Leute,
+        die etwas Ordentliches bauen wollen.
+      </p>
+
+      <p class="pullquote">
+        „Wenn ein 15-Jähriger deine Website baut, dann auch nur, weil sie besser wird — nicht billiger."
+      </p>
+
+      <p>
+        Wenn dich das anspricht: schreib uns. Wenn nicht: auch in Ordnung. Berlin ist groß genug für mehr als ein Studio.
+      </p>
+
+      <div class="about__stats">
+        <div class="about__stat"><div class="num">4</div><div class="label">Jahre Coding</div></div>
+        <div class="about__stat"><div class="num">15</div><div class="label">Jahre alt</div></div>
+        <div class="about__stat"><div class="num">100%</div><div class="label">lokal in Berlin</div></div>
       </div>
     </div>
   </div>
 </section>
 
-<section class="section section--xl final-cta" id="start">
-  <div class="final-cta__bg" aria-hidden="true"></div>
-  <div class="shell final-cta__inner">
-    <span class="eyebrow reveal" style="display:inline-flex">— Begin</span>
-    <h2 class="h-display t-h2 reveal" data-delay="1" style="margin-top:1.5rem">
-      A quieter way <span class="italic">to live online.</span>
-    </h2>
-    <p class="t-lead reveal" data-delay="2">
-      Daylens is in private beta. Leave your email and we'll let you in soon — without queues,
-      without urgency, without noise.
-    </p>
-    <div class="final-cta__ctas reveal" data-delay="3">
-      <a href="mailto:hello@daylens.dev?subject=Daylens%20beta" class="btn btn--primary">Request access →</a>
-      <a href="/jarvis" class="btn btn--ghost">See JARVIS in action</a>
+<!-- ============================ CONTACT ============================ -->
+<section class="section" id="contact">
+  <div class="shell contact__grid">
+    <div class="contact__intro reveal">
+      <span class="eyebrow">Lass uns reden</span>
+      <h2 class="h-display t-h2">Hast du ein <span class="italic-accent">Projekt im Kopf?</span></h2>
+      <p>
+        Schreib uns kurz, was du brauchst — Branche, ungefähre Größe, Wunschtermin. Wir melden uns
+        innerhalb von 48 Stunden mit einer Einschätzung und einem unverbindlichen Angebot.
+      </p>
+      <div class="contact__direct">
+        <span class="label">Oder direkt</span>
+        <a href="mailto:p.kueffmann@icloud.com">p.kueffmann@icloud.com</a>
+        <a href="tel:+4917528958690" style="color:var(--text-soft);font-size:0.95rem;font-family:'Manrope',sans-serif">+49 175 2895869</a>
+      </div>
+    </div>
+
+    <form class="contact__form reveal" data-delay="1" id="contactForm">
+      <div class="row">
+        <div class="field">
+          <label for="cname">Name</label>
+          <input id="cname" name="name" required placeholder="Dein Name" />
+        </div>
+        <div class="field">
+          <label for="cemail">E-Mail</label>
+          <input id="cemail" name="email" type="email" required placeholder="name@beispiel.de" />
+        </div>
+      </div>
+      <div class="field">
+        <label for="ccompany">Unternehmen / Branche</label>
+        <input id="ccompany" name="company" placeholder="Optional" />
+      </div>
+      <div class="field">
+        <label for="cmsg">Was schwebt dir vor?</label>
+        <textarea id="cmsg" name="message" rows="5" required placeholder="Erzähl kurz, was du brauchst — Branche, ungefähre Größe, Wunschtermin…"></textarea>
+      </div>
+      <button type="submit" class="btn btn--primary" style="justify-self:start;margin-top:0.5rem">
+        Angebot anfordern →
+      </button>
+    </form>
+
+    <div class="contact__sent" id="contactSent" hidden>
+      <p>Danke! Wir melden uns innerhalb von <span style="font-style:italic">48 Stunden</span> persönlich bei dir.</p>
     </div>
   </div>
 </section>
 
-<footer class="footer">
+</main>
+
+<!-- ============================ FOOTER ============================ -->
+<footer class="footer-wmw">
   <div class="shell">
-    <div class="footer__top">
-      <div class="footer__brand">
-        <a href="/" class="logo" aria-label="Daylens">
-          <span class="logo__mark" aria-hidden="true"></span>
-          <span class="logo__name">Daylens</span>
-        </a>
-        <p>A calm AI system for reflection, clarity, and intentional living. Berlin · 2026.</p>
+    <div class="footer-wmw__top">
+      <div class="footer-wmw__brand">
+        <a href="/" class="logo"><span class="logo__mark">WMW</span><span class="logo__suffix">.services</span></a>
+        <p>Web-Studio aus Berlin. Moderne Websites mit AI-Integration für KMU. Seit 2025.</p>
       </div>
-      <div class="footer__col">
-        <h4>Platform</h4>
+      <div>
+        <h4>Studio</h4>
         <ul>
-          <li><a href="#system">Reflection</a></li>
-          <li><a href="#ecosystem">Ecosystem</a></li>
+          <li><a href="#services">Leistungen</a></li>
+          <li><a href="#about">Über uns</a></li>
+          <li><a href="#contact">Kontakt</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Arbeiten</h4>
+        <ul>
+          <li><a href="/cafe">Café Halbmond</a></li>
+          <li><a href="/yoga">Atemraum</a></li>
+          <li><a href="/tischlerei">Hartmann Tischlerei</a></li>
+          <li><a href="/kanzlei">Müller &amp; Partner</a></li>
+          <li><a href="/trainer">Max Berlin</a></li>
+          <li><a href="/architektur">Studio Nord</a></li>
+          <li><a href="/zahnarzt">Dr. Weber</a></li>
           <li><a href="/jarvis">JARVIS</a></li>
-          <li><a href="#trust">Trust</a></li>
         </ul>
       </div>
-      <div class="footer__col">
-        <h4>Ecosystem</h4>
+      <div>
+        <h4>Rechtliches</h4>
         <ul>
-          <li><a href="/wellness">Wellness</a></li>
-          <li><a href="/journaling">Journaling</a></li>
-          <li><a href="/recovery">Recovery</a></li>
-          <li><a href="/focus">Focus</a></li>
-        </ul>
-      </div>
-      <div class="footer__col">
-        <h4>Company</h4>
-        <ul>
-          <li><a href="/contact.html">Contact</a></li>
-          <li><a href="/pricing.html">Pricing</a></li>
-          <li><a href="#">Impressum</a></li>
-          <li><a href="#">Privacy</a></li>
+          <li><a href="/impressum">Impressum</a></li>
+          <li><a href="/datenschutz">Datenschutz</a></li>
         </ul>
       </div>
     </div>
-    <div class="footer__bottom">
-      <span>© 2026 Daylens · Berlin</span>
-      <span class="italic">Quiet clarity, by design.</span>
+
+    <div class="footer-wmw__bottom">
+      <span>© 2026 WMW Services · Berlin</span>
+      <span class="italic">Built in Berlin. Mit Liebe zum Detail.</span>
     </div>
   </div>
 </footer>
 
-<div class="mobile-cta" id="mobileCta" aria-hidden="true">
-  <a href="#start" class="btn btn--primary">Get Daylens →</a>
-</div>
+<!-- ============================ SCRIPTS ============================ -->
+<script src="/assets/wmw.js" defer></script>
 
-<script src="/assets/daylens.js" defer></script>
+<!-- Three.js + GSAP only on desktop -->
+<script>
+(function() {
+  const isMobile = window.innerWidth < 900 || /Mobi/i.test(navigator.userAgent);
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const canvas = document.getElementById('hero3d');
+  const fallback = document.getElementById('heroFallback');
+
+  if (isMobile || reduced || !canvas) {
+    if (canvas) canvas.style.display = 'none';
+    if (fallback) fallback.style.display = 'block';
+    return;
+  }
+
+  // Defer-load GSAP + Three.js
+  function load(src) {
+    return new Promise((res, rej) => {
+      const s = document.createElement('script');
+      s.src = src; s.async = false;
+      s.onload = res; s.onerror = rej;
+      document.head.appendChild(s);
+    });
+  }
+
+  Promise.all([
+    load('https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js'),
+    load('https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js'),
+    load('https://cdnjs.cloudflare.com/ajax/libs/three.js/r158/three.min.js'),
+  ]).then(initScene).catch(() => {
+    canvas.style.display = 'none';
+    if (fallback) fallback.style.display = 'block';
+  });
+
+  function initScene() {
+    gsap.registerPlugin(ScrollTrigger);
+
+    const holder = canvas.parentElement;
+    function size() { return { w: holder.clientWidth, h: holder.clientHeight }; }
+
+    const scene = new THREE.Scene();
+    const cam = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+    cam.position.z = 4.5;
+
+    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setClearColor(0x000000, 0);
+
+    // Lighting — warm, soft
+    scene.add(new THREE.AmbientLight(0xfaf6f0, 0.55));
+    const k = new THREE.DirectionalLight(0xd4a373, 1.4);
+    k.position.set(3, 4, 5);
+    scene.add(k);
+    const f = new THREE.DirectionalLight(0xc8884a, 0.55);
+    f.position.set(-4, -2, -3);
+    scene.add(f);
+    const r = new THREE.DirectionalLight(0xf5d9a8, 0.4);
+    r.position.set(0, -4, 4);
+    scene.add(r);
+
+    // Octahedron — glass
+    const geo = new THREE.OctahedronGeometry(1.1, 0);
+    const mat = new THREE.MeshPhysicalMaterial({
+      color: 0xf5d9a8,
+      transmission: 0.9,
+      opacity: 1,
+      metalness: 0.0,
+      roughness: 0.12,
+      ior: 1.45,
+      thickness: 1.0,
+      specularIntensity: 1,
+      clearcoat: 1,
+      clearcoatRoughness: 0.18,
+      attenuationColor: 0xd4a373,
+      attenuationDistance: 0.7,
+      envMapIntensity: 0.8,
+    });
+    const octa = new THREE.Mesh(geo, mat);
+    scene.add(octa);
+
+    // Soft "rim" — second smaller wire octahedron behind for depth
+    const wireGeo = new THREE.OctahedronGeometry(1.4, 0);
+    const wireMat = new THREE.LineBasicMaterial({ color: 0xc8884a, transparent: true, opacity: 0.18 });
+    const wireEdges = new THREE.LineSegments(new THREE.EdgesGeometry(wireGeo), wireMat);
+    scene.add(wireEdges);
+
+    function resize() {
+      const { w, h } = size();
+      renderer.setSize(w, h, false);
+      cam.aspect = w / h;
+      cam.updateProjectionMatrix();
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    // State driven by scroll
+    const S = { rotX: 0.2, rotY: 0, posX: 0, posY: 0, scale: 1, hue: 1 };
+
+    function tick() {
+      S.rotY += 0.0035;
+      octa.rotation.x = S.rotX + S.rotY * 0.35;
+      octa.rotation.y = S.rotY;
+      octa.position.set(S.posX, S.posY, 0);
+      octa.scale.setScalar(S.scale);
+      wireEdges.rotation.x = octa.rotation.x * 0.8;
+      wireEdges.rotation.y = octa.rotation.y * 0.6;
+      wireEdges.position.copy(octa.position);
+      wireEdges.scale.setScalar(S.scale * 1.05);
+      mat.attenuationDistance = 0.4 + S.hue * 0.6;
+      renderer.render(scene, cam);
+      requestAnimationFrame(tick);
+    }
+    tick();
+
+    // Make the canvas-holder sticky between sections so the orb seems to travel
+    // We keep the actual canvas in the hero card; for scroll positions further
+    // down, we morph S to suggest the object "follows" the page.
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: '#main',
+        start: 'top top',
+        end: 'bottom bottom',
+        scrub: 1.5,
+      },
+    });
+    // Section A: services — drift right + slight rotation
+    tl.to(S, { posX: 1.4, posY: -0.2, rotX: 0.4, scale: 0.95, ease: 'none' }, 0);
+    // Section B: process — upper area, smaller
+    tl.to(S, { posX: 0, posY: 1.1, rotX: -0.3, scale: 0.55, hue: 0.8, ease: 'none' }, 0.25);
+    // Section C: portfolio — to top-right small
+    tl.to(S, { posX: 2.1, posY: 1.4, scale: 0.4, ease: 'none' }, 0.45);
+    // Section D: about — bottom-left, larger
+    tl.to(S, { posX: -1.8, posY: -1.0, scale: 1.05, rotX: 0.5, hue: 1.1, ease: 'none' }, 0.7);
+    // Section E: contact — center, large, calm
+    tl.to(S, { posX: 0, posY: 0, scale: 1.15, rotX: 0.15, hue: 1.3, ease: 'none' }, 0.9);
+
+    // Highlight current service line based on scroll
+    const items = document.querySelectorAll('.services__item');
+    items.forEach((el, i) => {
+      ScrollTrigger.create({
+        trigger: el,
+        start: 'top 75%',
+        end: 'bottom 25%',
+        onToggle: (self) => el.classList.toggle('is-active', self.isActive),
+      });
+    });
+
+    ScrollTrigger.refresh();
+  }
+})();
+</script>
+
+<script>
+// Contact form — local-only
+(function() {
+  const form = document.getElementById('contactForm');
+  const sent = document.getElementById('contactSent');
+  if (!form || !sent) return;
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(form).entries());
+    console.log('WMW contact:', data);
+    form.style.display = 'none';
+    sent.hidden = false;
+  });
+})();
+</script>
 </body>
 </html>

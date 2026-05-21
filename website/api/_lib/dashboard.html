@@ -184,6 +184,33 @@ header .btn-pill.muted .dot { background: var(--dim); box-shadow: none; }
   vertical-align: 1px;
 }
 
+/* ── Tasks card ────────────────────────────────────────────────────── */
+.tasks-card ul { list-style: none; display: flex; flex-direction: column; gap: 9px; }
+.tasks-card li {
+  font-size: 13px; line-height: 1.4; color: var(--bright);
+  display: flex; align-items: flex-start; gap: 8px;
+}
+.tasks-card .ttype {
+  display: inline-block; flex-shrink: 0;
+  padding: 1px 7px; font-size: 9px; letter-spacing: 0.15em; text-transform: uppercase;
+  border-radius: 8px; font-weight: 600;
+  border: 1px solid currentColor;
+}
+.tasks-card .ttype.feature  { color: var(--cyan); }
+.tasks-card .ttype.bug      { color: var(--red); }
+.tasks-card .ttype.refactor { color: #a78bfa; }
+.tasks-card .ttype.test     { color: var(--green); }
+.tasks-card .ttype.docs     { color: #60a5fa; }
+.tasks-card .ttype.idea     { color: var(--warm); }
+.tasks-card .ttitle { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tasks-card .tprio { color: var(--warm); font-size: 11px; flex-shrink: 0; }
+.tasks-card .open-all {
+  margin-top: 12px;
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--cyan);
+}
+
 /* ── Memory card ───────────────────────────────────────────────────── */
 .memory ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
 .memory li {
@@ -266,6 +293,15 @@ header .btn-pill.muted .dot { background: var(--dim); box-shadow: none; }
       <div id="memory-body">
         <p class="status-msg skeleton">Lade…</p>
       </div>
+    </div>
+
+    <!-- Open Tasks -->
+    <div class="card tasks-card">
+      <div class="label">Open Tasks</div>
+      <div id="tasks-body">
+        <p class="status-msg skeleton">Lade…</p>
+      </div>
+      <a class="open-all" href="/brain/tasks">Alle Tasks →</a>
     </div>
 
     <!-- Calendar placeholder -->
@@ -393,13 +429,37 @@ async function loadMemory() {
   }
 }
 
+// ── Tasks ──────────────────────────────────────────────────────────────
+async function loadTasks() {
+  const body = document.getElementById('tasks-body');
+  try {
+    const r = await fetch('/api/brain/tasks?status=open&limit=5');
+    if (!r.ok) throw new Error('tasks ' + r.status);
+    const j = await r.json();
+    const tasks = (j.tasks || []).slice(0, 5);
+    if (!tasks.length) {
+      body.innerHTML = `<p class="status-msg">Keine offenen Tasks — alles erledigt.</p>`;
+      return;
+    }
+    body.innerHTML = '<ul>' + tasks.map(t => `
+      <li>
+        <span class="ttype ${escapeHtml(t.type)}">${escapeHtml(t.type)}</span>
+        <span class="ttitle">${escapeHtml(t.title)}</span>
+        <span class="tprio">${'★'.repeat(Math.max(1, Math.min(5, parseInt(t.priority) || 3)))}</span>
+      </li>
+    `).join('') + '</ul>';
+  } catch (e) {
+    body.innerHTML = `<p class="status-msg">Tasks nicht erreichbar: ${escapeHtml(e.message)}</p>`;
+  }
+}
+
 // ── Helpers ────────────────────────────────────────────────────────────
 function escapeHtml(s) {
   return String(s || '').replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
 }
 
 async function refreshAll() {
-  await Promise.all([loadWeather(), loadNews(), loadMemory()]);
+  await Promise.all([loadWeather(), loadNews(), loadMemory(), loadTasks()]);
   setLastUpdated();
 }
 

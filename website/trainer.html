@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Max Berlin — Personal Training · Demo von WMW Services</title>
+<meta name="description" content="Konzept für einen Personal Trainer mit Online-Coaching und High-Energy-Branding. Entwickelt von WMW Services Berlin." />
+<meta name="theme-color" content="#0d0d0d" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='2' fill='%230d0d0d'/%3E%3Crect x='4' y='14' width='24' height='4' fill='%23ff5b35'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="/assets/wmw.css">
+<style>
+/* ============================================
+   Max Berlin — bold high-energy
+   ============================================ */
+:root {
+  --bg-cream:        #0d0d0d;
+  --bg-warm:         #1a1a1a;
+  --bg-deep:         #232323;
+  --text-dark:       #ffffff;
+  --text-soft:       #d4d4d4;
+  --text-muted:      #888888;
+  --text-faint:      #555555;
+  --accent-caramel:  #ff5b35;
+  --accent-cognac:   #ff7d5e;
+  --accent-amber:    #ffaa88;
+  --border-warm:     rgba(255, 91, 53, 0.20);
+  --border-strong:   rgba(255, 91, 53, 0.45);
+  --glass-bg:        rgba(13, 13, 13, 0.85);
+}
+body {
+  background: var(--bg-cream);
+  color: var(--text-dark);
+  font-family: 'Space Grotesk', sans-serif;
+  position: relative;
+}
+body::before { mix-blend-mode: screen; opacity: 0.04; }
+.h-display, .serif { font-family: 'Archivo Black', sans-serif; }
+.italic-accent { color: var(--accent-caramel); font-style: normal; font-weight: 400; }
+.eyebrow { color: var(--accent-caramel); }
+.eyebrow::before { background: var(--accent-caramel); }
+.btn--primary {
+  background: var(--accent-caramel);
+  color: #0d0d0d;
+  font-family: 'Space Grotesk';
+  font-weight: 700;
+  border-radius: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 1.1rem 2rem;
+  box-shadow: 0 10px 40px -10px rgba(255, 91, 53, 0.55);
+}
+.btn--primary:hover { background: var(--accent-cognac); transform: translate(2px, -2px); box-shadow: -2px 12px 40px -10px rgba(255, 91, 53, 0.65); }
+.btn--ghost { color: var(--text-dark); border-color: var(--text-dark); border-radius: 0; padding: 1.1rem 2rem; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; }
+.btn--ghost:hover { background: var(--text-dark); color: var(--bg-cream); border-color: var(--text-dark); }
+
+/* Hero — full-bleed text explosion */
+.t-hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+.t-hero::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 70%; height: 100%;
+  background: linear-gradient(115deg, transparent 40%, var(--accent-caramel) 40%, var(--accent-caramel) 42%, transparent 42%);
+  opacity: 0.85;
+  pointer-events: none;
+}
+.t-hero__inner { position: relative; z-index: 2; }
+.t-hero__words {
+  font-family: 'Archivo Black', sans-serif;
+  text-transform: uppercase;
+  font-size: clamp(3.5rem, 13vw, 11rem);
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+  color: var(--text-dark);
+}
+.t-hero__words span { display: block; }
+.t-hero__words .accent { color: var(--accent-caramel); }
+.t-hero__tag {
+  margin-top: 2rem;
+  font-family: 'Space Grotesk';
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  font-weight: 500;
+  color: var(--text-soft);
+  max-width: 38ch;
+  line-height: 1.4;
+}
+.t-hero__cta {
+  margin-top: 3rem;
+  display: inline-flex;
+}
+
+/* Services — pinned horizontal scroll */
+.t-services {
+  background: var(--bg-warm);
+  padding: 7rem 0;
+  border-top: 4px solid var(--accent-caramel);
+}
+@media (min-width: 768px) { .t-services { padding: 10rem 0; } }
+.t-services h2 {
+  font-family: 'Archivo Black';
+  text-transform: uppercase;
+  font-size: clamp(2rem, 5vw, 4rem);
+  letter-spacing: -0.02em;
+  margin-bottom: 4rem;
+  max-width: 18ch;
+  line-height: 1;
+}
+.t-services h2 .accent { color: var(--accent-caramel); }
+.t-services__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+@media (min-width: 700px) { .t-services__grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1100px) { .t-services__grid { grid-template-columns: repeat(4, 1fr); } }
+.t-svc {
+  background: var(--bg-cream);
+  border: 1px solid var(--text-faint);
+  padding: 2.5rem 2rem;
+  position: relative;
+  transition: transform 280ms ease, background 280ms ease, border-color 280ms ease;
+}
+.t-svc:hover {
+  transform: translate(-3px, -3px);
+  background: var(--accent-caramel);
+  border-color: var(--accent-caramel);
+  color: var(--bg-cream);
+  box-shadow: 6px 6px 0 var(--text-dark);
+}
+.t-svc:hover * { color: var(--bg-cream); }
+.t-svc__num {
+  font-family: 'Archivo Black';
+  font-size: 4rem;
+  color: var(--accent-caramel);
+  line-height: 0.9;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.04em;
+}
+.t-svc__title {
+  font-family: 'Archivo Black';
+  text-transform: uppercase;
+  font-size: 1.25rem;
+  letter-spacing: 0.02em;
+  margin-bottom: 1rem;
+}
+.t-svc__desc {
+  font-size: 0.95rem;
+  color: var(--text-soft);
+  line-height: 1.6;
+}
+
+/* About — split screen */
+.t-about { padding: 7rem 0; border-top: 1px solid var(--text-faint); }
+@media (min-width: 768px) { .t-about { padding: 10rem 0; } }
+.t-about__inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+@media (min-width: 900px) { .t-about__inner { grid-template-columns: 5fr 7fr; gap: 5rem; } }
+.t-about__portrait {
+  aspect-ratio: 3/4;
+  width: 100%;
+  max-width: 420px;
+  background:
+    linear-gradient(135deg, var(--accent-caramel) 0%, transparent 50%),
+    linear-gradient(45deg, var(--bg-deep) 0%, var(--bg-warm) 100%);
+  position: relative;
+}
+.t-about__portrait::after {
+  content: 'MAX';
+  position: absolute;
+  bottom: 1.5rem; left: 1.5rem;
+  font-family: 'Archivo Black';
+  font-size: 4rem;
+  color: var(--text-dark);
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+.t-about__copy h2 {
+  font-family: 'Archivo Black';
+  text-transform: uppercase;
+  font-size: clamp(2rem, 5vw, 4rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  margin-bottom: 2rem;
+}
+.t-about__copy h2 .accent { color: var(--accent-caramel); }
+.t-about__copy p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--text-soft);
+  margin-bottom: 1.4rem;
+  max-width: 52ch;
+}
+
+/* Pricing */
+.t-pricing { padding: 7rem 0; background: var(--bg-warm); border-top: 4px solid var(--accent-caramel); }
+@media (min-width: 768px) { .t-pricing { padding: 10rem 0; } }
+.t-pricing h2 {
+  font-family: 'Archivo Black';
+  text-transform: uppercase;
+  font-size: clamp(2rem, 5vw, 4rem);
+  letter-spacing: -0.02em;
+  text-align: center;
+  margin-bottom: 4rem;
+}
+.t-pricing h2 .accent { color: var(--accent-caramel); }
+.t-pricing__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+@media (min-width: 800px) { .t-pricing__grid { grid-template-columns: repeat(3, 1fr); } }
+.t-pack {
+  background: var(--bg-cream);
+  border: 1px solid var(--text-faint);
+  padding: 3rem 2.2rem;
+  display: flex; flex-direction: column;
+}
+.t-pack--feat {
+  background: var(--accent-caramel);
+  color: var(--bg-cream);
+  border-color: var(--accent-caramel);
+  transform: scale(1.03);
+  position: relative;
+}
+.t-pack--feat .t-pack__price { color: var(--bg-cream); }
+.t-pack--feat ul li::before { color: var(--bg-cream); }
+.t-pack__label {
+  font-family: 'Space Grotesk';
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--accent-caramel);
+  margin-bottom: 1rem;
+}
+.t-pack--feat .t-pack__label { color: var(--bg-cream); opacity: 0.85; }
+.t-pack__price {
+  font-family: 'Archivo Black';
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  color: var(--text-dark);
+  letter-spacing: -0.04em;
+  line-height: 1;
+  margin-bottom: 0.4rem;
+}
+.t-pack__unit {
+  font-family: 'Space Grotesk';
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+}
+.t-pack--feat .t-pack__unit { color: var(--bg-cream); opacity: 0.85; }
+.t-pack ul {
+  list-style: none;
+  display: grid; gap: 0.8rem;
+  margin-bottom: 2rem;
+  flex: 1;
+  font-size: 0.95rem;
+}
+.t-pack li { padding-left: 1.4rem; position: relative; line-height: 1.45; }
+.t-pack li::before {
+  content: '+';
+  position: absolute;
+  left: 0;
+  color: var(--accent-caramel);
+  font-weight: 700;
+}
+
+/* Final CTA */
+.t-final {
+  background: var(--accent-caramel);
+  color: var(--bg-cream);
+  padding: 5rem 0;
+  text-align: center;
+}
+.t-final h2 {
+  font-family: 'Archivo Black';
+  text-transform: uppercase;
+  font-size: clamp(2.5rem, 7vw, 5rem);
+  letter-spacing: -0.03em;
+  line-height: 0.95;
+  margin-bottom: 2rem;
+}
+.t-final .btn {
+  background: var(--bg-cream);
+  color: var(--accent-caramel);
+}
+.t-final .btn:hover {
+  background: var(--text-dark);
+  color: var(--accent-caramel);
+}
+
+/* WMW credit — adjusted for dark theme */
+.wmw-credit { background: var(--bg-cream); border-top: 1px solid var(--text-faint); }
+.wmw-credit p { color: var(--text-soft); }
+.wmw-credit .italic-accent { color: var(--accent-caramel); }
+</style>
+</head>
+<body>
+
+<div class="demo-strip" style="background:var(--bg-cream);border-color:var(--text-faint);color:var(--text-muted)">
+  <div class="demo-strip__inner">
+    <span>DEMO · DESIGNSTUDIE FÜR PERSONAL TRAINER</span>
+    <a href="/" style="color:var(--accent-caramel)">← WMW SERVICES</a>
+  </div>
+</div>
+
+<!-- Hero -->
+<section class="t-hero shell">
+  <div class="t-hero__inner">
+    <div class="t-hero__words reveal">
+      <span>Körper</span>
+      <span>baut</span>
+      <span>man</span>
+      <span class="accent">nicht.</span>
+      <span style="font-size:0.5em;font-family:'Space Grotesk';text-transform:none;font-weight:500;color:var(--text-soft);margin-top:0.6em">Man trainiert ihn.</span>
+    </div>
+    <div class="t-hero__cta reveal" data-delay="2">
+      <a href="#buchen" class="btn btn--primary">Probetraining buchen →</a>
+    </div>
+  </div>
+</section>
+
+<!-- Services -->
+<section class="t-services" id="leistungen">
+  <div class="shell">
+    <span class="eyebrow reveal">Was ich anbiete</span>
+    <h2 class="reveal" data-delay="1" style="margin-top:1.5rem">Vier Wege, <span class="accent">hart zu werden.</span></h2>
+    <div class="t-services__grid">
+      <article class="t-svc reveal">
+        <div class="t-svc__num">01</div>
+        <div class="t-svc__title">1:1 Personal Training</div>
+        <p class="t-svc__desc">Studio in Friedrichshain. 60 Minuten pure Fokussierung. Plan, Kontrolle, Progression.</p>
+      </article>
+      <article class="t-svc reveal" data-delay="1">
+        <div class="t-svc__num">02</div>
+        <div class="t-svc__title">Gruppenkurse</div>
+        <p class="t-svc__desc">Funktionelles Training in Kleingruppen. Max. 6 Personen. Sieben Termine pro Woche.</p>
+      </article>
+      <article class="t-svc reveal" data-delay="2">
+        <div class="t-svc__num">03</div>
+        <div class="t-svc__title">Online-Coaching</div>
+        <p class="t-svc__desc">Plan per App, Video-Calls für Check-ins. Für Leute, die nicht in Berlin sind oder Schicht arbeiten.</p>
+      </article>
+      <article class="t-svc reveal" data-delay="3">
+        <div class="t-svc__num">04</div>
+        <div class="t-svc__title">Ernährungsberatung</div>
+        <p class="t-svc__desc">Ehrliche Pläne. Kein Pulver, keine Wunder. Was du isst, wie viel, warum.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- About -->
+<section class="t-about">
+  <div class="shell t-about__inner">
+    <div class="t-about__portrait reveal" aria-hidden="true"></div>
+    <div class="t-about__copy reveal" data-delay="1">
+      <span class="eyebrow">Über mich</span>
+      <h2 style="margin-top:1.5rem">Ich bin Max. <span class="accent">Ich kenne das Gefühl.</span></h2>
+      <p>
+        Bundeswehr. Marathon. Niederlage. Ich kenne, was du gerade fühlst — wenn nichts mehr geht,
+        wenn der Spiegel sich falsch anfühlt, wenn alle „macht ihr das mal" sagen.
+      </p>
+      <p>
+        Ich coache seit 2019 Menschen, die wieder einen Anfang brauchen. Keine Quick-Fixes. Kein
+        Lifestyle-Content. Nur ein Plan, eine Stimme, und jemand, der dich wirklich kennt.
+      </p>
+      <p style="font-family:'Archivo Black';font-size:clamp(1.25rem,2.5vw,1.8rem);text-transform:uppercase;color:var(--accent-caramel);line-height:1.1;letter-spacing:-0.02em;margin-top:2rem">
+        „Du kommst zu mir, wenn du müde bist. Du gehst, wenn du angefangen hast."
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing -->
+<section class="t-pricing" id="buchen">
+  <div class="shell">
+    <h2 class="reveal">Drei Pakete. <span class="accent">Eine Wahl.</span></h2>
+    <div class="t-pricing__grid">
+      <div class="t-pack reveal">
+        <div class="t-pack__label">Probetraining</div>
+        <div class="t-pack__price">0 €</div>
+        <div class="t-pack__unit">einmalig · 60 Min</div>
+        <ul>
+          <li>60 Min Einzeltraining</li>
+          <li>Erstgespräch + Anamnese</li>
+          <li>Kostenlos, einmalig</li>
+          <li>Du entscheidest danach</li>
+        </ul>
+        <a href="#" class="btn btn--ghost">Termin buchen</a>
+      </div>
+      <div class="t-pack t-pack--feat reveal" data-delay="1">
+        <div class="t-pack__label">Empfohlen</div>
+        <div class="t-pack__price">450 €</div>
+        <div class="t-pack__unit">10er-Karte · 8 Wochen gültig</div>
+        <ul>
+          <li>10 × 60 Min Einzeltraining</li>
+          <li>Trainingsplan in der App</li>
+          <li>Wöchentliche Reflexion</li>
+          <li>Ernährungs-Check inklusive</li>
+        </ul>
+        <a href="#" class="btn btn--primary" style="background:var(--bg-cream);color:var(--accent-caramel)">Paket buchen</a>
+      </div>
+      <div class="t-pack reveal" data-delay="2">
+        <div class="t-pack__label">Monatsabo</div>
+        <div class="t-pack__price">180 €</div>
+        <div class="t-pack__unit">monatlich · jederzeit kündbar</div>
+        <ul>
+          <li>2 × Gruppenkurs / Woche</li>
+          <li>App-Plan + Video-Library</li>
+          <li>Monats-Check-in via Video</li>
+          <li>Community-Access</li>
+        </ul>
+        <a href="#" class="btn btn--ghost">Abo starten</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Final CTA -->
+<section class="t-final">
+  <div class="shell">
+    <h2 class="reveal">Bereit? <br>Dann fang an.</h2>
+    <a href="mailto:max@example.de" class="btn btn--primary reveal" data-delay="1">Jetzt schreiben →</a>
+  </div>
+</section>
+
+<!-- WMW Credit -->
+<section class="wmw-credit">
+  <div class="shell">
+    <p>Dieses Konzept entstand bei <span class="italic-accent">WMW Services</span>. Möchtest du eine ähnliche Website?</p>
+    <a href="/#contact" class="btn btn--primary" style="background:var(--accent-caramel);color:var(--bg-cream)">Anfrage stellen →</a>
+  </div>
+</section>
+
+<script src="/assets/wmw.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JARVIS · Tasks</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #050a0d;
+  --panel: rgba(10, 24, 32, 0.55);
+  --panel-2: rgba(14, 30, 38, 0.85);
+  --border: rgba(0, 220, 255, 0.18);
+  --cyan: #22d3ee;
+  --cyan-soft: rgba(34, 211, 238, 0.4);
+  --bright: #C8E8F5;
+  --dim: #7aa2b8;
+  --warm: #fbbf24;
+  --orange: #FF7A1F;
+  --green: #4ade80;
+  --red: #ef4444;
+  --purple: #a78bfa;
+  --blue: #60a5fa;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html, body { background: var(--bg); color: var(--bright); min-height: 100vh; }
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background:
+    radial-gradient(ellipse at 20% 0%, rgba(34,211,238,0.06), transparent 50%),
+    radial-gradient(ellipse at 80% 100%, rgba(99,102,241,0.05), transparent 50%),
+    var(--bg);
+  background-attachment: fixed;
+}
+a { color: var(--cyan); text-decoration: none; }
+.wrap { max-width: 1100px; margin: 0 auto; padding: 24px; }
+
+/* ── Header ───────────────────────────────────────────────────────── */
+header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 24px; gap: 16px; flex-wrap: wrap;
+}
+header .titles h1 {
+  font-size: 14px; font-weight: 600;
+  letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--cyan); margin-bottom: 6px;
+}
+header .titles h2 {
+  font-size: clamp(22px, 3vw, 32px);
+  font-weight: 700; letter-spacing: -0.01em; color: #fff;
+}
+header .actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.btn-pill {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 8px 14px;
+  background: rgba(0,30,50,0.5);
+  border: 1px solid var(--cyan-soft);
+  border-radius: 99px;
+  font-family: inherit; font-size: 11px;
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--bright); cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+.btn-pill:hover { background: rgba(0,60,90,0.7); border-color: var(--bright); }
+.btn-pill.primary { background: rgba(34,211,238,0.15); border-color: var(--cyan); color: #fff; }
+.btn-pill.primary:hover { background: rgba(34,211,238,0.28); }
+.btn-pill.danger { border-color: rgba(239,68,68,0.55); color: #fecaca; }
+.btn-pill.danger:hover { background: rgba(239,68,68,0.18); }
+
+/* ── Filter bar ──────────────────────────────────────────────────── */
+.filters {
+  display: flex; gap: 10px; flex-wrap: wrap;
+  padding: 14px 16px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  margin-bottom: 20px;
+  align-items: center;
+}
+.filters label {
+  font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--cyan); font-weight: 600; margin-right: 4px;
+}
+.filters select {
+  background: rgba(0,20,30,0.7);
+  border: 1px solid var(--cyan-soft);
+  color: var(--bright);
+  padding: 7px 10px;
+  border-radius: 8px;
+  font-family: inherit; font-size: 13px;
+  cursor: pointer;
+}
+.filters select:focus { outline: none; border-color: var(--cyan); }
+.filters .grow { flex: 1; }
+
+/* ── Task list ───────────────────────────────────────────────────── */
+.tasks { display: flex; flex-direction: column; gap: 12px; }
+.task-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 18px;
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+  transition: border-color 0.2s, transform 0.15s;
+  position: relative;
+}
+.task-card:hover { border-color: rgba(34,211,238,0.45); transform: translateY(-1px); }
+.task-card .row1 {
+  display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+.task-card .title {
+  font-size: 15px; font-weight: 600; color: #fff; line-height: 1.35;
+  flex: 1; min-width: 0;
+}
+.task-card .desc {
+  font-size: 13px; color: var(--dim); line-height: 1.5;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.task-card .row2 {
+  display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+  margin-top: 10px;
+  font-size: 11px; color: var(--dim);
+}
+
+.badge {
+  display: inline-block;
+  padding: 2px 9px;
+  font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+  border-radius: 99px;
+  font-weight: 600;
+  border: 1px solid currentColor;
+  background: rgba(255,255,255,0.02);
+}
+.badge.type-feature  { color: var(--cyan); }
+.badge.type-bug      { color: var(--red); }
+.badge.type-refactor { color: var(--purple); }
+.badge.type-test     { color: var(--green); }
+.badge.type-docs     { color: var(--blue); }
+.badge.type-idea     { color: var(--warm); }
+
+.pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 2px 9px;
+  font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+  border-radius: 99px;
+  font-weight: 500;
+}
+.pill.status-open        { background: rgba(96,165,250,0.12); color: var(--blue); }
+.pill.status-in_progress { background: rgba(251,191,36,0.14); color: var(--warm); }
+.pill.status-done        { background: rgba(74,222,128,0.12); color: var(--green); }
+.pill.status-cancelled   { background: rgba(122,162,184,0.12); color: var(--dim); }
+.pill.status-blocked     { background: rgba(239,68,68,0.14); color: #fca5a5; }
+
+.stars { font-family: 'JetBrains Mono', monospace; letter-spacing: 1px; color: var(--warm); }
+.stars .off { color: rgba(122,162,184,0.3); }
+
+.creator { display: inline-flex; align-items: center; gap: 5px; }
+.creator .icon {
+  width: 14px; height: 14px; display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 50%; font-size: 9px;
+  font-family: 'JetBrains Mono', monospace; font-weight: 700;
+}
+.creator.human  .icon { background: rgba(96,165,250,0.18); color: var(--blue); }
+.creator.claude .icon { background: rgba(34,211,238,0.18); color: var(--cyan); }
+.creator.system .icon { background: rgba(122,162,184,0.15); color: var(--dim); }
+
+.empty {
+  text-align: center; padding: 60px 20px;
+  color: var(--dim); font-size: 14px;
+}
+.skeleton { animation: pulse 1.4s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 0.9; } }
+
+/* ── Modal ───────────────────────────────────────────────────────── */
+.backdrop {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.65);
+  backdrop-filter: blur(6px);
+  display: none; align-items: center; justify-content: center;
+  padding: 20px; z-index: 50;
+}
+.backdrop.open { display: flex; }
+.modal {
+  background: var(--panel-2);
+  border: 1px solid var(--cyan-soft);
+  border-radius: 14px;
+  padding: 22px 22px 18px;
+  width: 100%; max-width: 560px;
+  max-height: 90vh; overflow-y: auto;
+  box-shadow: 0 0 40px rgba(34,211,238,0.15);
+}
+.modal h3 {
+  font-size: 11px; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--cyan); margin-bottom: 14px; font-weight: 600;
+}
+.modal .field { margin-bottom: 14px; }
+.modal label {
+  display: block;
+  font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--dim); margin-bottom: 5px; font-weight: 600;
+}
+.modal input, .modal select, .modal textarea {
+  width: 100%;
+  background: rgba(0,15,25,0.7);
+  border: 1px solid var(--border);
+  color: var(--bright);
+  padding: 9px 12px;
+  border-radius: 8px;
+  font-family: inherit; font-size: 14px;
+}
+.modal textarea { min-height: 90px; resize: vertical; font-family: inherit; line-height: 1.5; }
+.modal input:focus, .modal select:focus, .modal textarea:focus {
+  outline: none; border-color: var(--cyan);
+}
+.modal .actions {
+  display: flex; gap: 10px; justify-content: flex-end; flex-wrap: wrap;
+  margin-top: 16px;
+}
+.modal .meta {
+  font-size: 11px; color: var(--dim); margin-bottom: 14px;
+  font-family: 'JetBrains Mono', monospace; line-height: 1.6;
+}
+.modal .meta strong { color: var(--bright); font-weight: 500; }
+.modal .err { color: #fca5a5; font-size: 12px; margin-top: 8px; min-height: 16px; }
+
+@media (max-width: 600px) {
+  .wrap { padding: 16px; }
+  .filters { padding: 12px; }
+  .filters select { font-size: 14px; padding: 9px 10px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="titles">
+      <h1>JARVIS · Tasks</h1>
+      <h2>Agent Backlog</h2>
+    </div>
+    <div class="actions">
+      <a href="/brain/dashboard" class="btn-pill">← Dashboard</a>
+      <a href="/brain" class="btn-pill">Brain</a>
+    </div>
+  </header>
+
+  <div class="filters">
+    <label for="f-status">Status</label>
+    <select id="f-status">
+      <option value="">alle</option>
+      <option value="open" selected>open</option>
+      <option value="in_progress">in_progress</option>
+      <option value="done">done</option>
+      <option value="blocked">blocked</option>
+      <option value="cancelled">cancelled</option>
+    </select>
+    <label for="f-type">Type</label>
+    <select id="f-type">
+      <option value="">alle</option>
+      <option value="feature">feature</option>
+      <option value="bug">bug</option>
+      <option value="refactor">refactor</option>
+      <option value="test">test</option>
+      <option value="docs">docs</option>
+      <option value="idea">idea</option>
+    </select>
+    <span class="grow"></span>
+    <button class="btn-pill primary" id="newBtn">+ Neue Task</button>
+  </div>
+
+  <div class="tasks" id="tasks">
+    <p class="empty skeleton">Lade…</p>
+  </div>
+</div>
+
+<!-- Detail / Edit Modal -->
+<div class="backdrop" id="editBackdrop">
+  <div class="modal">
+    <h3 id="editTitle">Task bearbeiten</h3>
+    <div class="meta" id="editMeta"></div>
+
+    <div class="field">
+      <label>Title</label>
+      <input id="editTitleInput" type="text">
+    </div>
+    <div class="field">
+      <label>Description</label>
+      <textarea id="editDesc"></textarea>
+    </div>
+    <div class="field">
+      <label>Status</label>
+      <select id="editStatus">
+        <option value="open">open</option>
+        <option value="in_progress">in_progress</option>
+        <option value="done">done</option>
+        <option value="blocked">blocked</option>
+        <option value="cancelled">cancelled</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Priority (1–5)</label>
+      <select id="editPriority">
+        <option value="1">1 — niedrig</option>
+        <option value="2">2</option>
+        <option value="3" selected>3 — normal</option>
+        <option value="4">4</option>
+        <option value="5">5 — kritisch</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Result Summary</label>
+      <textarea id="editResult" placeholder="Was wurde gemacht / warum erledigt"></textarea>
+    </div>
+    <div class="err" id="editErr"></div>
+    <div class="actions">
+      <button class="btn-pill danger" id="deleteBtn">Löschen</button>
+      <button class="btn-pill" id="editCancel">Abbrechen</button>
+      <button class="btn-pill primary" id="editSave">Speichern</button>
+    </div>
+  </div>
+</div>
+
+<!-- New Task Modal -->
+<div class="backdrop" id="newBackdrop">
+  <div class="modal">
+    <h3>Neue Task</h3>
+    <div class="field">
+      <label>Type</label>
+      <select id="newType">
+        <option value="feature">feature</option>
+        <option value="bug">bug</option>
+        <option value="refactor">refactor</option>
+        <option value="test">test</option>
+        <option value="docs">docs</option>
+        <option value="idea">idea</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Title</label>
+      <input id="newTitleInput" type="text" placeholder="Kurzbeschreibung">
+    </div>
+    <div class="field">
+      <label>Description</label>
+      <textarea id="newDesc" placeholder="Details, Kontext, Akzeptanzkriterien"></textarea>
+    </div>
+    <div class="field">
+      <label>Priority (1–5)</label>
+      <select id="newPriority">
+        <option value="1">1 — niedrig</option>
+        <option value="2">2</option>
+        <option value="3" selected>3 — normal</option>
+        <option value="4">4</option>
+        <option value="5">5 — kritisch</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Related Files (komma-getrennt)</label>
+      <input id="newFiles" type="text" placeholder="src/foo.js, api/bar.js">
+    </div>
+    <div class="err" id="newErr"></div>
+    <div class="actions">
+      <button class="btn-pill" id="newCancel">Abbrechen</button>
+      <button class="btn-pill primary" id="newCreate">Erstellen</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const tasksEl = $('tasks');
+
+const STATE = { tasks: [], editing: null };
+
+function escapeHtml(s) {
+  return String(s ?? '').replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+}
+function stars(n) {
+  const v = Math.max(1, Math.min(5, parseInt(n) || 3));
+  return '<span class="stars">' +
+    '★'.repeat(v) + '<span class="off">' + '★'.repeat(5 - v) + '</span>' +
+    '</span>';
+}
+function creatorBadge(c) {
+  const map = { human: 'H', claude: 'C', system: 'S' };
+  const key = (c || 'human').toLowerCase();
+  const cls = ['human','claude','system'].includes(key) ? key : 'system';
+  const letter = map[cls] || '?';
+  return `<span class="creator ${cls}"><span class="icon">${letter}</span>${escapeHtml(cls)}</span>`;
+}
+function fmtDate(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  if (isNaN(d)) return '';
+  return d.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: '2-digit' })
+    + ' ' + String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
+}
+
+function renderTasks() {
+  if (!STATE.tasks.length) {
+    tasksEl.innerHTML = '<p class="empty">Keine Tasks für diesen Filter.</p>';
+    return;
+  }
+  tasksEl.innerHTML = STATE.tasks.map(t => `
+    <div class="task-card" data-id="${escapeHtml(t.id)}">
+      <div class="row1">
+        <span class="badge type-${escapeHtml(t.type)}">${escapeHtml(t.type)}</span>
+        <span class="title">${escapeHtml(t.title)}</span>
+        ${stars(t.priority)}
+      </div>
+      ${t.description ? `<div class="desc">${escapeHtml(t.description)}</div>` : ''}
+      <div class="row2">
+        <span class="pill status-${escapeHtml(t.status)}">${escapeHtml(t.status)}</span>
+        ${creatorBadge(t.created_by)}
+        <span>· ${fmtDate(t.created_at)}</span>
+      </div>
+    </div>
+  `).join('');
+  tasksEl.querySelectorAll('.task-card').forEach(el => {
+    el.addEventListener('click', () => openEdit(el.dataset.id));
+  });
+}
+
+async function loadTasks() {
+  tasksEl.innerHTML = '<p class="empty skeleton">Lade…</p>';
+  const status = $('f-status').value;
+  const type = $('f-type').value;
+  const qs = new URLSearchParams();
+  if (status) qs.set('status', status);
+  if (type) qs.set('type', type);
+  qs.set('limit', '100');
+  try {
+    const r = await fetch('/api/brain/tasks?' + qs.toString());
+    if (r.status === 401) { window.location.href = '/auth.html?next=/brain/tasks'; return; }
+    if (!r.ok) throw new Error('tasks ' + r.status);
+    const j = await r.json();
+    STATE.tasks = j.tasks || [];
+    renderTasks();
+  } catch (e) {
+    tasksEl.innerHTML = `<p class="empty">Tasks nicht erreichbar: ${escapeHtml(e.message)}</p>`;
+  }
+}
+
+// ── Edit modal ────────────────────────────────────────────────────────
+function openEdit(id) {
+  const t = STATE.tasks.find(x => x.id === id);
+  if (!t) return;
+  STATE.editing = t;
+  $('editMeta').innerHTML =
+    `<div><strong>ID</strong> ${escapeHtml(t.id)}</div>` +
+    `<div><strong>Type</strong> ${escapeHtml(t.type)} · <strong>By</strong> ${escapeHtml(t.created_by || 'human')} · <strong>Erstellt</strong> ${fmtDate(t.created_at)}</div>` +
+    (t.related_files && t.related_files.length ? `<div><strong>Files</strong> ${escapeHtml((Array.isArray(t.related_files) ? t.related_files : []).join(', '))}</div>` : '');
+  $('editTitleInput').value = t.title || '';
+  $('editDesc').value = t.description || '';
+  $('editStatus').value = t.status || 'open';
+  $('editPriority').value = String(t.priority || 3);
+  $('editResult').value = t.result_summary || '';
+  $('editErr').textContent = '';
+  $('editBackdrop').classList.add('open');
+}
+function closeEdit() {
+  $('editBackdrop').classList.remove('open');
+  STATE.editing = null;
+}
+$('editCancel').addEventListener('click', closeEdit);
+$('editBackdrop').addEventListener('click', (e) => { if (e.target === $('editBackdrop')) closeEdit(); });
+
+$('editSave').addEventListener('click', async () => {
+  if (!STATE.editing) return;
+  const title = $('editTitleInput').value.trim();
+  if (!title) { $('editErr').textContent = 'Title darf nicht leer sein.'; return; }
+  const body = {
+    id: STATE.editing.id,
+    title,
+    description: $('editDesc').value || null,
+    status: $('editStatus').value,
+    priority: parseInt($('editPriority').value, 10),
+    result_summary: $('editResult').value || null,
+  };
+  try {
+    const r = await fetch('/api/brain/tasks', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    if (!r.ok) {
+      const j = await r.json().catch(() => ({}));
+      throw new Error(j.error || ('HTTP ' + r.status));
+    }
+    await loadTasks();
+    closeEdit();
+  } catch (e) {
+    $('editErr').textContent = 'Fehler: ' + e.message;
+  }
+});
+
+$('deleteBtn').addEventListener('click', async () => {
+  if (!STATE.editing) return;
+  if (!confirm('Task wirklich löschen?')) return;
+  try {
+    const r = await fetch('/api/brain/tasks', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: STATE.editing.id }),
+    });
+    if (!r.ok && r.status !== 204) {
+      const j = await r.json().catch(() => ({}));
+      throw new Error(j.error || ('HTTP ' + r.status));
+    }
+    await loadTasks();
+    closeEdit();
+  } catch (e) {
+    $('editErr').textContent = 'Fehler: ' + e.message;
+  }
+});
+
+// ── New task modal ────────────────────────────────────────────────────
+$('newBtn').addEventListener('click', () => {
+  $('newType').value = 'feature';
+  $('newTitleInput').value = '';
+  $('newDesc').value = '';
+  $('newPriority').value = '3';
+  $('newFiles').value = '';
+  $('newErr').textContent = '';
+  $('newBackdrop').classList.add('open');
+});
+$('newCancel').addEventListener('click', () => $('newBackdrop').classList.remove('open'));
+$('newBackdrop').addEventListener('click', (e) => { if (e.target === $('newBackdrop')) $('newBackdrop').classList.remove('open'); });
+
+$('newCreate').addEventListener('click', async () => {
+  const title = $('newTitleInput').value.trim();
+  if (!title) { $('newErr').textContent = 'Title fehlt.'; return; }
+  const filesRaw = $('newFiles').value.trim();
+  const related_files = filesRaw ? filesRaw.split(',').map(s => s.trim()).filter(Boolean) : null;
+  const body = {
+    type: $('newType').value,
+    title,
+    description: $('newDesc').value || null,
+    priority: parseInt($('newPriority').value, 10),
+    related_files,
+    created_by: 'human',
+  };
+  try {
+    const r = await fetch('/api/brain/tasks', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+    if (!r.ok) {
+      const j = await r.json().catch(() => ({}));
+      throw new Error(j.error || ('HTTP ' + r.status));
+    }
+    $('newBackdrop').classList.remove('open');
+    // Re-load with relaxed filters so the newly created task is visible.
+    await loadTasks();
+  } catch (e) {
+    $('newErr').textContent = 'Fehler: ' + e.message;
+  }
+});
+
+// ── Filters + init ────────────────────────────────────────────────────
+$('f-status').addEventListener('change', loadTasks);
+$('f-type').addEventListener('change', loadTasks);
+
+loadTasks();
+</script>
+</body>
+</html>

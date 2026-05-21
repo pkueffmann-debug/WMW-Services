@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Müller &amp; Partner Rechtsanwaltskanzlei — Demo von WMW Services</title>
+<meta name="description" content="Konzept für eine traditionsreiche Anwaltskanzlei, entwickelt von WMW Services Berlin." />
+<meta name="theme-color" content="#f7f4ed" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='2' fill='%231a2845'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='Cormorant Garamond,serif' font-size='20' font-weight='500' fill='%238a7a5a'%3EM%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="/assets/wmw.css">
+<style>
+/* ============================================
+   Müller & Partner — formal, restrained
+   ============================================ */
+:root {
+  --bg-cream:        #f7f4ed;
+  --bg-warm:         #efeadf;
+  --bg-deep:         #e3ddc9;
+  --text-dark:       #14181f;
+  --text-soft:       #2b3340;
+  --text-muted:      #5a6470;
+  --accent-caramel:  #8a7a5a;
+  --accent-cognac:   #1a2845;
+  --accent-amber:    #b29a6a;
+  --border-warm:     rgba(26, 40, 69, 0.16);
+  --border-strong:   rgba(26, 40, 69, 0.32);
+}
+body { background: var(--bg-cream); color: var(--text-dark); font-family: 'Source Sans 3', sans-serif; }
+.h-display, .serif { font-family: 'Cormorant Garamond', serif; }
+.eyebrow { color: var(--accent-caramel); }
+.eyebrow::before { background: var(--accent-caramel); }
+.italic-accent { color: var(--accent-cognac); font-style: italic; font-weight: 400; }
+.btn--primary { background: var(--accent-cognac); color: var(--bg-cream); box-shadow: none; border-radius: 0; padding: 1rem 2rem; font-family: 'Source Sans 3'; font-weight: 500; font-size: 0.88rem; letter-spacing: 0.08em; text-transform: uppercase; }
+.btn--primary:hover { background: var(--text-dark); transform: none; box-shadow: none; }
+.btn--link { color: var(--accent-cognac); }
+
+/* Hero — minimal, formal */
+.k-hero {
+  padding: 10rem 0 6rem;
+  border-bottom: 1px solid var(--border-warm);
+}
+.k-hero__inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+}
+@media (min-width: 900px) { .k-hero__inner { grid-template-columns: 7fr 5fr; gap: 4rem; } }
+.k-hero__eyebrow {
+  font-size: 0.72rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--accent-caramel);
+  margin-bottom: 2rem;
+  display: block;
+}
+.k-hero__title {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 400;
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  max-width: 18ch;
+  color: var(--text-dark);
+}
+.k-hero__title em { font-style: italic; color: var(--accent-cognac); font-weight: 500; }
+.k-hero__lead {
+  margin-top: 2rem;
+  max-width: 50ch;
+  font-size: 1.1rem;
+  line-height: 1.65;
+  color: var(--text-soft);
+}
+.k-hero__cta { margin-top: 2.5rem; }
+.k-hero__visual {
+  background: linear-gradient(165deg, #1a2845 0%, #0a1a3a 70%, #051028 100%);
+  aspect-ratio: 3/4;
+  width: 100%; max-width: 420px;
+  margin: 0 auto;
+  position: relative;
+  overflow: hidden;
+}
+.k-hero__visual::after {
+  content: 'M & P';
+  position: absolute;
+  bottom: 1.5rem; left: 1.75rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.6rem;
+  color: var(--accent-caramel);
+  letter-spacing: 0.1em;
+}
+.k-hero__visual::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(circle at 30% 30%, rgba(178, 154, 106, 0.12) 0%, transparent 60%);
+}
+
+/* Sections */
+.k-section { padding: 7rem 0; border-bottom: 1px solid var(--border-warm); }
+@media (min-width: 768px) { .k-section { padding: 9rem 0; } }
+.k-section h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 400;
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  margin-bottom: 3rem;
+  max-width: 16ch;
+}
+
+/* Tätigkeitsfelder — 3 columns with dividers */
+.felder {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+}
+@media (min-width: 768px) {
+  .felder { grid-template-columns: repeat(3, 1fr); gap: 0; }
+  .felder > div + div {
+    border-left: 1px solid var(--border-warm);
+    padding-left: 2.5rem;
+  }
+  .felder > div { padding-right: 2.5rem; }
+}
+.felder h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 500;
+  font-size: 1.6rem;
+  color: var(--text-dark);
+  margin-bottom: 1rem;
+}
+.felder p { color: var(--text-soft); font-size: 1rem; line-height: 1.65; }
+.felder ul {
+  list-style: none;
+  margin-top: 1.4rem;
+  display: grid; gap: 0.5rem;
+  font-size: 0.92rem; color: var(--text-muted);
+}
+.felder li::before { content: '· '; color: var(--accent-caramel); }
+
+/* Anwälte — 4 cards */
+.anwaelte {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+}
+@media (min-width: 700px) { .anwaelte { grid-template-columns: repeat(2, 1fr); gap: 2.5rem 3rem; } }
+@media (min-width: 1024px) { .anwaelte { grid-template-columns: repeat(4, 1fr); } }
+.anwalt__portrait {
+  width: 84px; height: 84px;
+  border-radius: 50%;
+  background: var(--accent-cognac);
+  color: var(--accent-caramel);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1.6rem;
+  font-weight: 400;
+  margin-bottom: 1.4rem;
+  letter-spacing: 0.05em;
+}
+.anwalt__name {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 500;
+  font-size: 1.3rem;
+  color: var(--text-dark);
+}
+.anwalt__role {
+  margin-top: 0.4rem;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--accent-caramel);
+}
+.anwalt__spec {
+  margin-top: 0.85rem;
+  font-size: 0.95rem;
+  color: var(--text-soft);
+  line-height: 1.55;
+}
+.anwalt__cta {
+  margin-top: 1.2rem;
+  display: inline-block;
+  font-size: 0.85rem;
+  color: var(--accent-cognac);
+  font-weight: 500;
+  border-bottom: 1px solid var(--accent-cognac);
+  padding-bottom: 2px;
+}
+
+/* Contact form */
+.k-contact { background: var(--bg-warm); padding: 7rem 0; }
+@media (min-width: 768px) { .k-contact { padding: 9rem 0; } }
+.k-contact__inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+}
+@media (min-width: 900px) { .k-contact__inner { grid-template-columns: 5fr 7fr; gap: 5rem; } }
+.k-contact__intro h2 { margin-bottom: 1.5rem; }
+.k-contact__intro p {
+  font-size: 1.05rem; color: var(--text-soft); line-height: 1.65;
+  max-width: 38ch;
+}
+.k-contact__details {
+  margin-top: 2.5rem;
+  display: grid; gap: 1.5rem;
+  font-size: 0.95rem; color: var(--text-soft);
+}
+.k-contact__details strong {
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.72rem;
+  color: var(--accent-caramel);
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+.k-form {
+  display: grid; gap: 1.4rem;
+}
+.k-form label {
+  display: block;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--accent-caramel);
+  margin-bottom: 0.5rem;
+}
+.k-form input, .k-form select, .k-form textarea {
+  width: 100%;
+  background: var(--bg-cream);
+  border: 1px solid var(--border-warm);
+  border-radius: 0;
+  padding: 1rem;
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 1rem;
+  color: var(--text-dark);
+}
+.k-form input:focus, .k-form select:focus, .k-form textarea:focus {
+  outline: none; border-color: var(--accent-cognac);
+}
+.k-form .row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; }
+@media (max-width: 600px) { .k-form .row { grid-template-columns: 1fr; } }
+
+/* Footer */
+.k-footer {
+  background: var(--bg-deep);
+  padding: 4rem 0 2rem;
+  font-size: 0.85rem;
+  color: var(--text-soft);
+}
+.k-footer__cols {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+  margin-bottom: 2rem;
+}
+@media (min-width: 700px) { .k-footer__cols { grid-template-columns: repeat(4, 1fr); } }
+.k-footer h4 {
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--accent-caramel);
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+.k-footer__bottom {
+  border-top: 1px solid var(--border-warm);
+  padding-top: 1.5rem;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem;
+}
+</style>
+</head>
+<body>
+
+<div class="demo-strip">
+  <div class="demo-strip__inner">
+    <span>Demo · Designstudie für eine Anwaltskanzlei</span>
+    <a href="/">← WMW Services</a>
+  </div>
+</div>
+
+<!-- Hero -->
+<section class="k-hero shell">
+  <div class="k-hero__inner">
+    <div>
+      <span class="k-hero__eyebrow">Berlin-Mitte · Seit 1962</span>
+      <h1 class="k-hero__title">Müller &amp; Partner — <em>Rechtsanwaltskanzlei.</em></h1>
+      <p class="k-hero__lead">
+        Spezialisiert auf Wirtschaftsrecht, Steuerrecht und Erbrecht.
+        Drei Generationen, eine Praxis, eine Haltung.
+      </p>
+      <div class="k-hero__cta">
+        <a href="#kontakt" class="btn btn--primary">Erstgespräch anfragen</a>
+      </div>
+    </div>
+    <div class="k-hero__visual" aria-hidden="true"></div>
+  </div>
+</section>
+
+<!-- Tätigkeitsfelder -->
+<section class="k-section shell">
+  <span class="k-hero__eyebrow" style="margin-bottom:2rem">Tätigkeitsfelder</span>
+  <h2>Drei Felder. Eine Sorgfalt.</h2>
+  <div class="felder">
+    <div>
+      <h3>Wirtschaftsrecht</h3>
+      <p>Begleitung mittelständischer Unternehmen in Vertragsgestaltung, Gesellschaftsrecht, M&amp;A-Transaktionen und Compliance.</p>
+      <ul>
+        <li>Gesellschaftsverträge</li>
+        <li>M&amp;A &amp; Due Diligence</li>
+        <li>Vertragsmanagement</li>
+        <li>Compliance &amp; Governance</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Steuerrecht</h3>
+      <p>Steuerliche Gestaltung für Unternehmen und Privatpersonen. Vertretung in Betriebsprüfungen und Einspruchsverfahren.</p>
+      <ul>
+        <li>Steuergestaltung</li>
+        <li>Betriebsprüfung</li>
+        <li>Einspruch &amp; Klage</li>
+        <li>Internationales Steuerrecht</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Erbrecht</h3>
+      <p>Nachfolgeplanung mit Diskretion. Testamentsgestaltung, Erbauseinandersetzung, Pflichtteilsrecht und Stiftungsgründungen.</p>
+      <ul>
+        <li>Testament &amp; Erbvertrag</li>
+        <li>Nachlassabwicklung</li>
+        <li>Pflichtteilsrecht</li>
+        <li>Stiftungsgründungen</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- Anwälte -->
+<section class="k-section shell">
+  <span class="k-hero__eyebrow" style="margin-bottom:2rem">Unsere Anwälte</span>
+  <h2>Vier Persönlichkeiten. Ein Standard.</h2>
+  <div class="anwaelte">
+    <article>
+      <div class="anwalt__portrait" aria-hidden="true">HM</div>
+      <div class="anwalt__name">Dr. Heinrich Müller</div>
+      <div class="anwalt__role">Senior Partner</div>
+      <p class="anwalt__spec">Wirtschaftsrecht, M&amp;A, Stiftungen.</p>
+      <a href="#kontakt" class="anwalt__cta">Kontakt aufnehmen</a>
+    </article>
+    <article>
+      <div class="anwalt__portrait" aria-hidden="true">SW</div>
+      <div class="anwalt__name">Dr. Sabine Müller-Werner</div>
+      <div class="anwalt__role">Partnerin</div>
+      <p class="anwalt__spec">Steuerrecht, internationale Strukturen.</p>
+      <a href="#kontakt" class="anwalt__cta">Kontakt aufnehmen</a>
+    </article>
+    <article>
+      <div class="anwalt__portrait" aria-hidden="true">MB</div>
+      <div class="anwalt__name">Dr. Markus Berger</div>
+      <div class="anwalt__role">Partner</div>
+      <p class="anwalt__spec">Gesellschaftsrecht, Vertragsgestaltung.</p>
+      <a href="#kontakt" class="anwalt__cta">Kontakt aufnehmen</a>
+    </article>
+    <article>
+      <div class="anwalt__portrait" aria-hidden="true">CL</div>
+      <div class="anwalt__name">Caroline Lentz</div>
+      <div class="anwalt__role">Associate</div>
+      <p class="anwalt__spec">Erbrecht, Pflichtteil, Nachlass.</p>
+      <a href="#kontakt" class="anwalt__cta">Kontakt aufnehmen</a>
+    </article>
+  </div>
+</section>
+
+<!-- Contact -->
+<section class="k-contact" id="kontakt">
+  <div class="shell k-contact__inner">
+    <div class="k-contact__intro">
+      <span class="k-hero__eyebrow" style="margin-bottom:2rem">Erstgespräch</span>
+      <h2>Erstgespräch vereinbaren.</h2>
+      <p>
+        Wir nehmen uns für jeden Mandanten Zeit. Schildern Sie uns Ihr Anliegen — wir antworten
+        innerhalb von zwei Werktagen mit einem Terminvorschlag.
+      </p>
+      <div class="k-contact__details">
+        <div>
+          <strong>Anschrift</strong>
+          Friedrichstraße 122<br>10117 Berlin-Mitte
+        </div>
+        <div>
+          <strong>Telefon</strong>
+          +49 30 209 14 88
+        </div>
+        <div>
+          <strong>Telefax</strong>
+          +49 30 209 14 89
+        </div>
+        <div>
+          <strong>E-Mail</strong>
+          mandanten@mueller-partner.de
+        </div>
+      </div>
+    </div>
+
+    <form class="k-form" onsubmit="event.preventDefault();this.style.display='none';document.getElementById('kSent').hidden=false;">
+      <div>
+        <label>Sehr geehrte Damen und Herren, ich möchte mich beraten lassen zum Thema</label>
+        <select required>
+          <option value="" disabled selected>Bitte wählen</option>
+          <option>Wirtschaftsrecht</option>
+          <option>Steuerrecht</option>
+          <option>Erbrecht</option>
+          <option>Sonstiges</option>
+        </select>
+      </div>
+      <div class="row">
+        <div><label>Name</label><input type="text" required /></div>
+        <div><label>E-Mail</label><input type="email" required /></div>
+      </div>
+      <div><label>Telefon (optional)</label><input type="tel" /></div>
+      <div><label>Worum geht es?</label><textarea rows="5" required></textarea></div>
+      <button class="btn btn--primary" type="submit" style="justify-self:start">Anfrage senden</button>
+    </form>
+    <div id="kSent" hidden style="padding:2rem;border:1px solid var(--border-strong);background:var(--bg-cream)">
+      <strong style="font-family:'Cormorant Garamond';font-style:italic;font-size:1.25rem;color:var(--accent-cognac)">
+        Vielen Dank. Wir melden uns innerhalb von zwei Werktagen.
+      </strong>
+    </div>
+  </div>
+</section>
+
+<!-- WMW Credit -->
+<section class="wmw-credit">
+  <div class="shell">
+    <p>Dieses Konzept entstand bei <span class="italic-accent" style="font-style:italic">WMW Services</span>. Möchtest du eine ähnliche Website?</p>
+    <a href="/#contact" class="btn btn--primary">Anfrage stellen →</a>
+  </div>
+</section>
+
+<!-- Formal footer -->
+<footer class="k-footer">
+  <div class="shell">
+    <div class="k-footer__cols">
+      <div>
+        <h4>Kanzlei</h4>
+        <p>Müller &amp; Partner Rechtsanwaltskanzlei<br>Friedrichstraße 122<br>10117 Berlin-Mitte</p>
+      </div>
+      <div>
+        <h4>Tätigkeitsfelder</h4>
+        <p>Wirtschaftsrecht<br>Steuerrecht<br>Erbrecht</p>
+      </div>
+      <div>
+        <h4>Berufsrecht</h4>
+        <p>Rechtsanwaltskammer Berlin<br>BORA, BRAO, RVG<br>Schlichtungsstelle der RAK</p>
+      </div>
+      <div>
+        <h4>Rechtliches</h4>
+        <p><a href="/impressum">Impressum</a></p>
+        <p><a href="/datenschutz">Datenschutz</a></p>
+      </div>
+    </div>
+    <div class="k-footer__bottom">
+      <span>© 2026 Müller &amp; Partner Rechtsanwaltskanzlei · Berlin</span>
+      <span>Konzept: WMW Services</span>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/wmw.js" defer></script>
+</body>
+</html>

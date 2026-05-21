@@ -6,9 +6,7 @@
     { "source": "/brain/dashboard",  "destination": "/api/brain/dashboard" },
     { "source": "/brain/dashboard/", "destination": "/api/brain/dashboard" },
     { "source": "/brain/tasks",      "destination": "/api/brain/tasks-page" },
-    { "source": "/brain/tasks/",     "destination": "/api/brain/tasks-page" },
-    { "source": "/studio",                                   "destination": "/studio/index.html" },
-    { "source": "/studio/((?!assets/|favicon\\.svg).*)",      "destination": "/studio/index.html" }
+    { "source": "/brain/tasks/",     "destination": "/api/brain/tasks-page" }
   ],
   "functions": {
     "api/brain.js": {
