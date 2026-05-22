@@ -11,8 +11,8 @@
 
   --text-dark:   #1a1a1c;   /* anthrazit */
   --text-soft:   #38383d;
-  --text-muted:  #6e6e72;
-  --text-faint:  #9a9aa1;
+  --text-muted:  #54545a;
+  --text-faint:  #7a7a82;
 
   /* cool slate accent replaces warm cognac/caramel/amber.
      Legacy variable names kept to avoid touching every callsite. */
@@ -333,7 +333,7 @@ h1.h-display {
   max-width: 30ch;
   margin-top: 1rem;
 }
-.footer-wmw h4 {
+.footer-wmw h3 {
   font-size: 0.72rem;
   text-transform: uppercase;
   letter-spacing: 0.28em;
@@ -972,5 +972,23 @@ body.is-loaded > *:not(.wmw-loader):not(script) { opacity: 1; }
 /* ==========================================================
    Editorial mode (v4) — minimal, typography-led.
    The cinematic 3D stage was removed in favor of a single
-   H2 reveal effect (see assets/wmw-scene.js).
+   H2 reveal effect, driven by IntersectionObserver
+   (see assets/wmw-scene.js).
    ========================================================== */
+
+/* H2 reveal — opacity + 24px slide-up, once on enter */
+.h-reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 600ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 600ms cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+.h-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .h-reveal { opacity: 1; transform: none; transition: none; }
+}

@@ -13,8 +13,9 @@
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="WMW Services — Web Design aus Berlin" />
 <meta name="twitter:description" content="Berliner Web-Studio. Festpreis-Websites mit AI-Integration für Café, Kanzlei und lokale Dienstleister. Live in 14 Tagen, ab 1.490 €." />
+<link rel="preload" href="/assets/fonts/InterVariable.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/assets/fonts/fonts.css">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23faf6f0'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='Georgia,serif' font-size='18' font-weight='500' fill='%23c8884a'%3EW%3C/text%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%23f4f5f7'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='Inter,sans-serif' font-size='18' font-weight='500' fill='%233a4654'%3EW%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="/assets/wmw.css">
 <style>
 /* ============================================
@@ -380,20 +381,7 @@ body.landing { background: var(--bg-cream); }
 </style>
 </head>
 
-<body class="landing is-loading">
-
-<!-- ============================ LOADER ============================ -->
-<div class="wmw-loader" id="wmwLoader" aria-hidden="true">
-  <div class="wmw-loader__mark-wrap">
-    <span class="wmw-loader__mark">WMW</span>
-    <span class="wmw-loader__suffix"> Services</span>
-  </div>
-  <div class="wmw-loader__bar"><div class="wmw-loader__fill"></div></div>
-  <div class="wmw-loader__hint">Berlin · 2026</div>
-</div>
-
-<!-- ============================ CURSOR SPOTLIGHT ============================ -->
-<div class="spotlight" id="spotlight" aria-hidden="true"></div>
+<body class="landing">
 
 <!-- ============================ NAV ============================ -->
 <nav class="nav" id="nav" aria-label="Hauptnavigation">
@@ -783,7 +771,7 @@ body.landing { background: var(--bg-cream); }
         <p>Web-Studio aus Berlin. Moderne Websites mit AI-Integration für KMU. Seit 2025.</p>
       </div>
       <div>
-        <h4>Studio</h4>
+        <h3>Studio</h3>
         <ul>
           <li><a href="#services">Leistungen</a></li>
           <li><a href="#about">Über uns</a></li>
@@ -791,7 +779,7 @@ body.landing { background: var(--bg-cream); }
         </ul>
       </div>
       <div>
-        <h4>Arbeiten</h4>
+        <h3>Arbeiten</h3>
         <ul>
           <li><a href="/cafe">Café Halbmond</a></li>
           <li><a href="/kanzlei">Müller &amp; Partner</a></li>
@@ -799,7 +787,7 @@ body.landing { background: var(--bg-cream); }
         </ul>
       </div>
       <div>
-        <h4>Rechtliches</h4>
+        <h3>Rechtliches</h3>
         <ul>
           <li><a href="/impressum">Impressum</a></li>
           <li><a href="/datenschutz">Datenschutz</a></li>
@@ -816,7 +804,6 @@ body.landing { background: var(--bg-cream); }
 
 <!-- ============================ SCRIPTS ============================ -->
 <script src="/assets/wmw.js" defer></script>
-<script src="/assets/wmw-cinematic.js" defer></script>
 <script src="/assets/wmw-scene.js" defer></script>
 
 <script>
