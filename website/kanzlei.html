@@ -7,7 +7,7 @@
 <meta name="description" content="Konzept für eine traditionsreiche Anwaltskanzlei, entwickelt von WMW Services Berlin." />
 <meta name="theme-color" content="#f4f5f7" />
 <link rel="stylesheet" href="/assets/fonts/fonts.css">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='2' fill='%231a2845'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='Cormorant Garamond,serif' font-size='20' font-weight='500' fill='%238a7a5a'%3EM%3C/text%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%23f4f5f7'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='Inter,sans-serif' font-size='18' font-weight='500' fill='%233a4654'%3EM%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="/assets/wmw.css">
 <style>
 /* ============================================
@@ -19,7 +19,7 @@ body { background: var(--bg-cream); color: var(--text-dark); font-family: var(--
 .eyebrow { color: var(--accent-caramel); }
 .eyebrow::before { background: var(--accent-caramel); }
 .italic-accent { color: var(--accent-cognac); font-style: italic; font-weight: 400; }
-.btn--primary { background: var(--accent-cognac); color: var(--bg-cream); box-shadow: none; border-radius: 0; padding: 1rem 2rem; font-family: 'Source Sans 3'; font-weight: 500; font-size: 0.88rem; letter-spacing: 0.08em; text-transform: uppercase; }
+.btn--primary { background: var(--accent-cognac); color: var(--bg-cream); box-shadow: none; border-radius: 0; padding: 1rem 2rem; font-family: var(--font-body); font-weight: 500; font-size: 0.88rem; letter-spacing: 0.08em; text-transform: uppercase; }
 .btn--primary:hover { background: var(--text-dark); transform: none; box-shadow: none; }
 .btn--link { color: var(--accent-cognac); }
 
@@ -43,7 +43,7 @@ body { background: var(--bg-cream); color: var(--text-dark); font-family: var(--
   display: block;
 }
 .k-hero__title {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-display);
   font-weight: 400;
   font-size: clamp(2.5rem, 6vw, 5rem);
   line-height: 1.05;
@@ -61,7 +61,7 @@ body { background: var(--bg-cream); color: var(--text-dark); font-family: var(--
 }
 .k-hero__cta { margin-top: 2.5rem; }
 .k-hero__visual {
-  background: linear-gradient(165deg, #1a2845 0%, #0a1a3a 70%, #051028 100%);
+  background: linear-gradient(165deg, #3a4654 0%, #2a3340 70%, #1a2026 100%);
   aspect-ratio: 3/4;
   width: 100%; max-width: 420px;
   margin: 0 auto;
@@ -72,24 +72,25 @@ body { background: var(--bg-cream); color: var(--text-dark); font-family: var(--
   content: 'M & P';
   position: absolute;
   bottom: 1.5rem; left: 1.75rem;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-display);
   font-style: italic;
-  font-weight: 400;
+  font-weight: 450;
   font-size: 1.6rem;
-  color: var(--accent-caramel);
+  color: var(--bg-cream);
   letter-spacing: 0.1em;
+  opacity: 0.78;
 }
 .k-hero__visual::before {
   content: '';
   position: absolute; inset: 0;
-  background: radial-gradient(circle at 30% 30%, rgba(178, 154, 106, 0.12) 0%, transparent 60%);
+  background: radial-gradient(circle at 30% 30%, rgba(244, 245, 247, 0.08) 0%, transparent 60%);
 }
 
 /* Sections */
 .k-section { padding: 7rem 0; border-bottom: 1px solid var(--border-warm); }
 @media (min-width: 768px) { .k-section { padding: 9rem 0; } }
 .k-section h2 {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-display);
   font-weight: 400;
   font-size: clamp(2rem, 4vw, 3.25rem);
   letter-spacing: -0.01em;
@@ -113,7 +114,7 @@ body { background: var(--bg-cream); color: var(--text-dark); font-family: var(--
   .felder > div { padding-right: 2.5rem; }
 }
 .felder h3 {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-display);
   font-weight: 500;
   font-size: 1.6rem;
   color: var(--text-dark);
@@ -140,17 +141,17 @@ body { background: var(--bg-cream); color: var(--text-dark); font-family: var(--
   width: 84px; height: 84px;
   border-radius: 50%;
   background: var(--accent-cognac);
-  color: var(--accent-caramel);
+  color: var(--bg-cream);
   display: flex; align-items: center; justify-content: center;
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-display);
   font-style: italic;
   font-size: 1.6rem;
-  font-weight: 400;
+  font-weight: 450;
   margin-bottom: 1.4rem;
   letter-spacing: 0.05em;
 }
 .anwalt__name {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--font-display);
   font-weight: 500;
   font-size: 1.3rem;
   color: var(--text-dark);
@@ -223,7 +224,7 @@ body { background: var(--bg-cream); color: var(--text-dark); font-family: var(--
   border: 1px solid var(--border-warm);
   border-radius: 0;
   padding: 1rem;
-  font-family: 'Source Sans 3', sans-serif;
+  font-family: var(--font-body);
   font-size: 1rem;
   color: var(--text-dark);
 }
@@ -248,7 +249,7 @@ body { background: var(--bg-cream); color: var(--text-dark); font-family: var(--
 }
 @media (min-width: 700px) { .k-footer__cols { grid-template-columns: repeat(4, 1fr); } }
 .k-footer h4 {
-  font-family: 'Source Sans 3', sans-serif;
+  font-family: var(--font-body);
   font-size: 0.72rem;
   text-transform: uppercase;
   letter-spacing: 0.22em;
@@ -416,7 +417,7 @@ body { background: var(--bg-cream); color: var(--text-dark); font-family: var(--
       <button class="btn btn--primary" type="submit" style="justify-self:start">Anfrage senden</button>
     </form>
     <div id="kSent" hidden style="padding:2rem;border:1px solid var(--border-strong);background:var(--bg-cream)">
-      <strong style="font-family:'Cormorant Garamond';font-style:italic;font-size:1.25rem;color:var(--accent-cognac)">
+      <strong style="font-family:var(--font-display);font-style:italic;font-size:1.25rem;color:var(--accent-cognac)">
         Vielen Dank. Wir melden uns innerhalb von zwei Werktagen.
       </strong>
     </div>

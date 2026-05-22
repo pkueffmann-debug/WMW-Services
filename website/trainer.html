@@ -7,7 +7,7 @@
 <meta name="description" content="Konzept für einen Personal Trainer mit Online-Coaching und High-Energy-Branding. Entwickelt von WMW Services Berlin." />
 <meta name="theme-color" content="#f4f5f7" />
 <link rel="stylesheet" href="/assets/fonts/fonts.css">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='2' fill='%230d0d0d'/%3E%3Crect x='4' y='14' width='24' height='4' fill='%23ff5b35'/%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%23f4f5f7'/%3E%3Crect x='4' y='14' width='24' height='4' fill='%233a4654'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="/assets/wmw.css">
 <style>
 /* ============================================
@@ -26,16 +26,16 @@ body {
 .eyebrow::before { background: var(--accent-caramel); }
 .btn--primary {
   background: var(--accent-caramel);
-  color: #0d0d0d;
-  font-family: 'Space Grotesk';
+  color: var(--text-dark);
+  font-family: var(--font-body);
   font-weight: 700;
   border-radius: 0;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   padding: 1.1rem 2rem;
-  box-shadow: 0 10px 40px -10px rgba(255, 91, 53, 0.55);
+  box-shadow: 0 10px 40px -10px rgba(58, 70, 84, 0.32);
 }
-.btn--primary:hover { background: var(--accent-cognac); transform: translate(2px, -2px); box-shadow: -2px 12px 40px -10px rgba(255, 91, 53, 0.65); }
+.btn--primary:hover { background: var(--accent-cognac); transform: translate(2px, -2px); box-shadow: -2px 12px 40px -10px rgba(58, 70, 84, 0.42); }
 .btn--ghost { color: var(--text-dark); border-color: var(--text-dark); border-radius: 0; padding: 1.1rem 2rem; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; }
 .btn--ghost:hover { background: var(--text-dark); color: var(--bg-cream); border-color: var(--text-dark); }
 
@@ -58,18 +58,18 @@ body {
 }
 .t-hero__inner { position: relative; z-index: 2; }
 .t-hero__words {
-  font-family: 'Archivo Black', sans-serif;
-  text-transform: uppercase;
-  font-size: clamp(3.5rem, 13vw, 11rem);
-  line-height: 0.92;
-  letter-spacing: -0.04em;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(3rem, 11vw, 9rem);
+  line-height: 0.96;
+  letter-spacing: -0.035em;
   color: var(--text-dark);
 }
 .t-hero__words span { display: block; }
 .t-hero__words .accent { color: var(--accent-caramel); }
 .t-hero__tag {
   margin-top: 2rem;
-  font-family: 'Space Grotesk';
+  font-family: var(--font-body);
   font-size: clamp(1.1rem, 2vw, 1.5rem);
   font-weight: 500;
   color: var(--text-soft);
@@ -89,13 +89,13 @@ body {
 }
 @media (min-width: 768px) { .t-services { padding: 10rem 0; } }
 .t-services h2 {
-  font-family: 'Archivo Black';
-  text-transform: uppercase;
+  font-family: var(--font-display);
+  font-weight: 500;
   font-size: clamp(2rem, 5vw, 4rem);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.022em;
   margin-bottom: 4rem;
   max-width: 18ch;
-  line-height: 1;
+  line-height: 1.02;
 }
 .t-services h2 .accent { color: var(--accent-caramel); }
 .t-services__grid {
@@ -121,18 +121,19 @@ body {
 }
 .t-svc:hover * { color: var(--bg-cream); }
 .t-svc__num {
-  font-family: 'Archivo Black';
-  font-size: 4rem;
+  font-family: var(--font-display);
+  font-weight: 300;
+  font-size: 3.5rem;
   color: var(--accent-caramel);
   line-height: 0.9;
   margin-bottom: 1.5rem;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.035em;
 }
 .t-svc__title {
-  font-family: 'Archivo Black';
-  text-transform: uppercase;
-  font-size: 1.25rem;
-  letter-spacing: 0.02em;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 1.2rem;
+  letter-spacing: -0.01em;
   margin-bottom: 1rem;
 }
 .t-svc__desc {
@@ -164,18 +165,18 @@ body {
   content: 'MAX';
   position: absolute;
   bottom: 1.5rem; left: 1.5rem;
-  font-family: 'Archivo Black';
+  font-family: var(--font-display);
   font-size: 4rem;
   color: var(--text-dark);
   letter-spacing: -0.04em;
   line-height: 1;
 }
 .t-about__copy h2 {
-  font-family: 'Archivo Black';
-  text-transform: uppercase;
+  font-family: var(--font-display);
+  font-weight: 500;
   font-size: clamp(2rem, 5vw, 4rem);
-  line-height: 1;
-  letter-spacing: -0.02em;
+  line-height: 1.02;
+  letter-spacing: -0.022em;
   margin-bottom: 2rem;
 }
 .t-about__copy h2 .accent { color: var(--accent-caramel); }
@@ -191,10 +192,10 @@ body {
 .t-pricing { padding: 7rem 0; background: var(--bg-warm); border-top: 4px solid var(--accent-caramel); }
 @media (min-width: 768px) { .t-pricing { padding: 10rem 0; } }
 .t-pricing h2 {
-  font-family: 'Archivo Black';
-  text-transform: uppercase;
+  font-family: var(--font-display);
+  font-weight: 500;
   font-size: clamp(2rem, 5vw, 4rem);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.022em;
   text-align: center;
   margin-bottom: 4rem;
 }
@@ -221,7 +222,7 @@ body {
 .t-pack--feat .t-pack__price { color: var(--bg-cream); }
 .t-pack--feat ul li::before { color: var(--bg-cream); }
 .t-pack__label {
-  font-family: 'Space Grotesk';
+  font-family: var(--font-body);
   font-weight: 700;
   font-size: 0.8rem;
   text-transform: uppercase;
@@ -231,15 +232,16 @@ body {
 }
 .t-pack--feat .t-pack__label { color: var(--bg-cream); opacity: 0.85; }
 .t-pack__price {
-  font-family: 'Archivo Black';
+  font-family: var(--font-display);
+  font-weight: 500;
   font-size: clamp(2.5rem, 5vw, 4rem);
   color: var(--text-dark);
-  letter-spacing: -0.04em;
+  letter-spacing: -0.03em;
   line-height: 1;
   margin-bottom: 0.4rem;
 }
 .t-pack__unit {
-  font-family: 'Space Grotesk';
+  font-family: var(--font-body);
   font-size: 0.9rem;
   color: var(--text-muted);
   margin-bottom: 2rem;
@@ -269,11 +271,11 @@ body {
   text-align: center;
 }
 .t-final h2 {
-  font-family: 'Archivo Black';
-  text-transform: uppercase;
-  font-size: clamp(2.5rem, 7vw, 5rem);
-  letter-spacing: -0.03em;
-  line-height: 0.95;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(2.2rem, 6vw, 4.5rem);
+  letter-spacing: -0.025em;
+  line-height: 1.02;
   margin-bottom: 2rem;
 }
 .t-final .btn {
@@ -308,7 +310,7 @@ body {
       <span>baut</span>
       <span>man</span>
       <span class="accent">nicht.</span>
-      <span style="font-size:0.5em;font-family:'Space Grotesk';text-transform:none;font-weight:500;color:var(--text-soft);margin-top:0.6em">Man trainiert ihn.</span>
+      <span style="font-size:0.5em;font-family:var(--font-body);text-transform:none;font-weight:500;color:var(--text-soft);margin-top:0.6em">Man trainiert ihn.</span>
     </div>
     <div class="t-hero__cta reveal" data-delay="2">
       <a href="#buchen" class="btn btn--primary">Probetraining buchen →</a>
@@ -361,7 +363,7 @@ body {
         Ich coache seit 2019 Menschen, die wieder einen Anfang brauchen. Keine Quick-Fixes. Kein
         Lifestyle-Content. Nur ein Plan, eine Stimme, und jemand, der dich wirklich kennt.
       </p>
-      <p style="font-family:'Archivo Black';font-size:clamp(1.25rem,2.5vw,1.8rem);text-transform:uppercase;color:var(--accent-caramel);line-height:1.1;letter-spacing:-0.02em;margin-top:2rem">
+      <p style="font-family:var(--font-display);font-weight:500;font-size:clamp(1.25rem,2.5vw,1.8rem);color:var(--accent-caramel);line-height:1.25;letter-spacing:-0.018em;margin-top:2rem">
         „Du kommst zu mir, wenn du müde bist. Du gehst, wenn du angefangen hast."
       </p>
     </div>
