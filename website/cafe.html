@@ -398,7 +398,7 @@ body { background: var(--bg-cream); color: var(--text-dark); font-family: 'Manro
   <div class="shell">
     <div class="specials__head reveal">
       <h2>Heute auf <span class="italic-accent">der Karte.</span></h2>
-      <div class="specials__date">Dienstag, 21. Mai</div>
+      <div class="specials__date" id="todayDate">Heute</div>
     </div>
     <div class="specials__list">
       <article class="special reveal">
@@ -477,6 +477,19 @@ body { background: var(--bg-cream); color: var(--text-dark); font-family: 'Manro
   </div>
 </section>
 
+<div class="demo-watermark">Demo · Fiktives Café</div>
+
 <script src="/assets/wmw.js" defer></script>
+<script>
+// Populate today's date in German on the specials card
+(function(){
+  var el = document.getElementById('todayDate');
+  if (!el) return;
+  var days = ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'];
+  var months = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+  var d = new Date();
+  el.textContent = days[d.getDay()] + ', ' + d.getDate() + '. ' + months[d.getMonth()];
+})();
+</script>
 </body>
 </html>

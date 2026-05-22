@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Daylens AI-Assistent — 49 €/Monat · Auf deine Daten trainiert</title>
+<meta name="description" content="Daylens AI-Assistent: ein auf dein Geschäft trainierter Chatbot in deiner Website. In 48h live. 49 € pro Monat." />
+<meta name="theme-color" content="#faf6f0" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23faf6f0'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='Georgia,serif' font-size='18' font-weight='500' fill='%23c8884a'%3Ed%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="/assets/wmw.css">
+<style>
+.chatbot-hero { padding: 9rem 0 5rem; }
+.chatbot-hero .grid {
+  display: grid; grid-template-columns: 1fr; gap: 3rem; align-items: center;
+}
+@media (min-width: 900px) { .chatbot-hero .grid { grid-template-columns: 6fr 5fr; gap: 4rem; } }
+.chatbot-hero h1 {
+  font-family: 'Fraunces', serif; font-weight: 400;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  line-height: 1.04; letter-spacing: -0.025em;
+  margin-top: 1.5rem; max-width: 14ch;
+}
+.chatbot-hero h1 em { font-style: italic; font-weight: 300; color: var(--accent-cognac); }
+.chatbot-hero .lead {
+  font-size: 1.1rem; line-height: 1.6; color: var(--text-soft);
+  margin-top: 1.5rem; max-width: 40ch;
+}
+.chatbot-hero .price {
+  margin-top: 2rem;
+  display: inline-flex; align-items: baseline; gap: 0.6rem;
+}
+.chatbot-hero .price .num {
+  font-family: 'Fraunces', serif; font-weight: 400;
+  font-size: 2.5rem; color: var(--text-dark); line-height: 1;
+  letter-spacing: -0.02em;
+}
+.chatbot-hero .price .unit { color: var(--text-muted); font-size: 0.95rem; }
+.chatbot-hero .ctas { margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap; }
+
+/* Chat demo widget */
+.chat-demo {
+  background: var(--bg-warm);
+  border: 1px solid var(--border-warm);
+  border-radius: 18px;
+  padding: 1.5rem;
+  max-width: 460px; margin: 0 auto;
+  box-shadow: var(--shadow-soft);
+}
+.chat-demo__head {
+  display: flex; align-items: center; gap: 0.6rem;
+  padding-bottom: 0.9rem;
+  border-bottom: 1px solid var(--border-warm);
+  margin-bottom: 1rem;
+}
+.chat-demo__head .dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #6db26d; animation: pulse 2.4s ease infinite;
+}
+@keyframes pulse { 0%, 100% { opacity: 0.4; } 50% { opacity: 1; } }
+.chat-demo__head .name {
+  font-family: 'Fraunces', serif; font-weight: 500;
+  font-size: 0.95rem; color: var(--text-dark);
+}
+.chat-demo__msgs { display: grid; gap: 0.7rem; }
+.chat-demo .bubble {
+  padding: 0.7rem 1rem; border-radius: 14px;
+  font-size: 0.92rem; line-height: 1.45;
+  max-width: 85%;
+}
+.chat-demo .bubble--user {
+  background: var(--accent-caramel);
+  color: #fff;
+  margin-left: auto;
+  border-bottom-right-radius: 4px;
+}
+.chat-demo .bubble--bot {
+  background: var(--bg-cream);
+  color: var(--text-dark);
+  border: 1px solid var(--border-warm);
+  border-bottom-left-radius: 4px;
+}
+.chat-demo .input {
+  margin-top: 1rem;
+  display: flex; gap: 0.5rem;
+  border-top: 1px solid var(--border-warm);
+  padding-top: 1rem;
+}
+.chat-demo .input input {
+  flex: 1; padding: 0.7rem 0.9rem;
+  border: 1px solid var(--border-warm);
+  border-radius: 999px;
+  background: var(--bg-cream);
+  font: inherit;
+  font-size: 0.9rem;
+  color: var(--text-dark);
+}
+.chat-demo .input button {
+  padding: 0.7rem 1.1rem;
+  background: var(--accent-caramel);
+  color: #fff;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+/* Features */
+.cb-features {
+  padding: 6rem 0;
+  background: var(--bg-cream);
+}
+@media (min-width: 768px) { .cb-features { padding: 9rem 0; } }
+.cb-features h2 {
+  font-family: 'Fraunces', serif; font-weight: 400;
+  font-size: clamp(2rem, 4.5vw, 3.25rem);
+  text-align: center; max-width: 18ch;
+  margin: 0 auto 4rem;
+  letter-spacing: -0.02em;
+}
+.cb-features h2 em { font-style: italic; color: var(--accent-cognac); font-weight: 300; }
+.cb-grid {
+  display: grid; grid-template-columns: 1fr; gap: 1.5rem;
+  max-width: 1080px; margin: 0 auto;
+}
+@media (min-width: 800px) { .cb-grid { grid-template-columns: repeat(3, 1fr); } }
+.cb-item {
+  padding: 2rem 1.8rem;
+  background: var(--bg-warm);
+  border: 1px solid var(--border-warm);
+  border-radius: 14px;
+}
+.cb-item h3 {
+  font-family: 'Fraunces', serif; font-weight: 500; font-size: 1.3rem;
+  margin-bottom: 0.7rem;
+}
+.cb-item p { font-size: 0.95rem; line-height: 1.65; color: var(--text-soft); }
+
+/* Pricing */
+.cb-pricing {
+  padding: 7rem 0;
+  background: var(--bg-warm);
+  text-align: center;
+}
+@media (min-width: 768px) { .cb-pricing { padding: 10rem 0; } }
+.cb-pricing h2 {
+  font-family: 'Fraunces', serif; font-weight: 400;
+  font-size: clamp(2rem, 4.5vw, 3.25rem);
+  letter-spacing: -0.02em;
+  margin: 1.5rem 0 2.5rem;
+}
+.cb-pricing .big-price {
+  font-family: 'Fraunces', serif; font-weight: 400;
+  font-size: clamp(3.5rem, 8vw, 6rem);
+  letter-spacing: -0.04em;
+  color: var(--text-dark);
+  line-height: 1;
+}
+.cb-pricing .big-price sup { font-size: 0.4em; color: var(--text-muted); margin-left: 0.2em; }
+.cb-pricing .unit {
+  margin-top: 0.6rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.cb-pricing ul {
+  list-style: none;
+  margin: 2.5rem auto 2.5rem;
+  max-width: 360px;
+  text-align: left;
+  display: grid;
+  gap: 0.7rem;
+  font-size: 0.97rem;
+  color: var(--text-soft);
+}
+.cb-pricing ul li::before {
+  content: '+ ';
+  color: var(--accent-caramel);
+  font-weight: 700;
+}
+</style>
+</head>
+<body>
+
+<nav class="nav is-scrolled" id="nav">
+  <div class="shell nav__inner">
+    <a href="/" class="logo"><span class="logo__mark">daylens</span><span class="logo__suffix">.dev</span></a>
+    <ul class="nav__links">
+      <li><a href="/#services">Leistungen</a></li>
+      <li><a href="/#portfolio">Arbeiten</a></li>
+      <li><a href="/#preise">Preise</a></li>
+      <li><a href="/#pilot">Pilot 2026</a></li>
+      <li><a href="/#contact">Kontakt</a></li>
+    </ul>
+    <div class="nav__actions">
+      <a href="/#contact" class="btn btn--primary">Erstgespräch</a>
+    </div>
+  </div>
+</nav>
+
+<section class="chatbot-hero shell">
+  <div class="grid">
+    <div>
+      <span class="eyebrow">Daylens AI-Assistent</span>
+      <h1>Ein Chatbot, der <em>deine</em> Kunden kennt.</h1>
+      <p class="lead">
+        Auf deine Daten trainiert — Speisekarte, Preisliste, FAQ, Öffnungszeiten. Antwortet
+        direkt in deiner Website, nicht als Pop-up-Widget. In 48 Stunden live.
+      </p>
+      <div class="price">
+        <span class="num">49 €</span>
+        <span class="unit">/ Monat · monatlich kündbar</span>
+      </div>
+      <div class="ctas">
+        <a href="/#contact" class="btn btn--primary">Demo anfragen →</a>
+        <a href="#features" class="btn--link">Was er kann</a>
+      </div>
+    </div>
+    <div>
+      <div class="chat-demo">
+        <div class="chat-demo__head">
+          <span class="dot" aria-hidden="true"></span>
+          <span class="name">Daylens AI · Demo</span>
+        </div>
+        <div class="chat-demo__msgs">
+          <div class="bubble bubble--user">Habt ihr noch Plätze am Samstag um 19 Uhr für 4 Personen?</div>
+          <div class="bubble bubble--bot">Ja, aktuell sind noch 3 Tische frei. Soll ich dir den Reservierungs-Link schicken oder direkt buchen?</div>
+          <div class="bubble bubble--user">Wie weit ist es vom Mehringdamm?</div>
+          <div class="bubble bubble--bot">Ca. 6 Minuten zu Fuß. Wir sind in der Bergmannstraße 42.</div>
+        </div>
+        <div class="input">
+          <input type="text" placeholder="Schreib eine Frage…" disabled>
+          <button disabled>Senden</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cb-features" id="features">
+  <div class="shell">
+    <h2>Drei Dinge, die er <em>besser</em> kann als ein Widget.</h2>
+    <div class="cb-grid">
+      <div class="cb-item">
+        <h3>Auf deine Daten trainiert</h3>
+        <p>Du gibst uns Speisekarte, FAQ und Preisliste. Der Bot antwortet nur das, was wirklich in deinen Daten steht — nicht generisches Halluzinieren.</p>
+      </div>
+      <div class="cb-item">
+        <h3>Native in deiner Site</h3>
+        <p>Kein Pop-up-Widget von der Stange. Eingebaut in dein Design, im richtigen Eck, mit deinem Logo und deinen Farben.</p>
+      </div>
+      <div class="cb-item">
+        <h3>Updates per Email</h3>
+        <p>Neue Speisekarte? Du schickst sie an updates@daylens.dev. Wir trainieren das Modell binnen 24h neu. Keine eigene Console nötig.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cb-pricing">
+  <div class="shell">
+    <span class="eyebrow" style="display:inline-flex;justify-content:center">— Preis</span>
+    <h2>Ein Preis. Keine Versteckten.</h2>
+    <div class="big-price">49 <sup>€</sup></div>
+    <div class="unit">pro Monat · monatlich kündbar</div>
+    <ul>
+      <li>Unbegrenzte Anfragen / Monat</li>
+      <li>Daten-Updates inklusive (bis 1× / Monat)</li>
+      <li>Eingebaut in deine bestehende Website</li>
+      <li>DSGVO-konform — Hosting in der EU</li>
+      <li>Setup &amp; Training: einmalig 290 €</li>
+    </ul>
+    <a href="/#contact" class="btn btn--primary">AI-Assistent anfragen →</a>
+  </div>
+</section>
+
+<section class="wmw-credit">
+  <div class="shell">
+    <p>Auch interessiert an einer kompletten Website? Wir bauen beides.</p>
+    <a href="/#preise" class="btn btn--primary">Pakete ansehen →</a>
+  </div>
+</section>
+
+<footer class="footer-wmw">
+  <div class="shell">
+    <div class="footer-wmw__bottom" style="border-top:none;padding-top:0">
+      <span>© 2026 Daylens · Berlin</span>
+      <a href="/" style="color:var(--accent-cognac)">← Zurück</a>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/wmw.js" defer></script>
+</body>
+</html>
