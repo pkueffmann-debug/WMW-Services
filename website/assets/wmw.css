@@ -4,32 +4,38 @@
             /architektur, /zahnarzt — each may override.
    ========================================================== */
 :root {
-  /* warm cream brand */
-  --bg-cream: #faf6f0;
-  --bg-warm:  #f5ede0;
-  --bg-deep:  #ede2cf;
+  /* editorial cool palette (v4) */
+  --bg-cream: #f4f5f7;   /* off-white base */
+  --bg-warm:  #eceef2;   /* one shade darker for section variation */
+  --bg-deep:  #dee1e7;   /* deeper neutral */
 
-  --text-dark:   #2a1f17;
-  --text-soft:   #4a3a2a;
-  --text-muted:  #6b5a48;
-  --text-faint:  #9a8a72;
+  --text-dark:   #1a1a1c;   /* anthrazit */
+  --text-soft:   #38383d;
+  --text-muted:  #6e6e72;
+  --text-faint:  #9a9aa1;
 
-  --accent-caramel: #c8884a;
-  --accent-cognac:  #8b5a2b;
-  --accent-amber:   #d4a373;
+  /* cool slate accent replaces warm cognac/caramel/amber.
+     Legacy variable names kept to avoid touching every callsite. */
+  --accent-caramel: #3a4654;   /* primary slate */
+  --accent-cognac:  #2a3340;   /* darker slate */
+  --accent-amber:   #5a6470;   /* muted slate */
 
-  --border-warm:    rgba(200, 136, 74, 0.18);
-  --border-strong:  rgba(200, 136, 74, 0.30);
+  --border-warm:    rgba(58, 70, 84, 0.16);
+  --border-strong:  rgba(58, 70, 84, 0.28);
 
-  --shadow-soft: 0 30px 70px -40px rgba(75, 50, 30, 0.32);
-  --shadow-deep: 0 50px 110px -40px rgba(75, 50, 30, 0.45);
+  --shadow-soft: 0 30px 70px -40px rgba(20, 24, 32, 0.28);
+  --shadow-deep: 0 50px 110px -40px rgba(20, 24, 32, 0.40);
 
-  --glass-bg: rgba(250, 246, 240, 0.82);
+  --glass-bg: rgba(244, 245, 247, 0.85);
 
   --r-pill: 999px;
   --r-card: 14px;
 
   --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  /* Editorial display stack — Söhne preferred, Inter self-hosted fallback */
+  --font-display: 'Söhne', 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-body:    'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -51,7 +57,7 @@ a { color: inherit; text-decoration: none; }
 button { font: inherit; cursor: pointer; border: 0; background: 0; color: inherit; }
 
 /* ---------- Typography ---------- */
-.serif { font-family: 'Fraunces', 'Times New Roman', serif; }
+.serif { font-family: var(--font-display); }
 
 .eyebrow {
   font-family: 'Manrope', sans-serif;
@@ -73,11 +79,17 @@ button { font: inherit; cursor: pointer; border: 0; background: 0; color: inheri
 }
 
 .h-display {
-  font-family: 'Fraunces', serif;
-  font-weight: 400;
-  letter-spacing: -0.028em;
-  line-height: 1.02;
+  font-family: var(--font-display);
+  font-weight: 450;
+  letter-spacing: -0.018em;
+  line-height: 1.04;
   color: var(--text-dark);
+}
+.h-display.t-hero,
+.t-hero.h-display,
+h1.h-display {
+  font-weight: 500;
+  letter-spacing: -0.02em;
 }
 .italic-accent {
   font-style: italic;
@@ -230,7 +242,7 @@ button { font: inherit; cursor: pointer; border: 0; background: 0; color: inheri
   margin-top: 3rem;
 }
 .mobile-menu nav a {
-  font-family: 'Fraunces', serif;
+  font-family: var(--font-display);
   font-weight: 400;
   font-size: clamp(2rem, 7vw, 2.75rem);
   color: var(--text-dark);
@@ -246,13 +258,13 @@ button { font: inherit; cursor: pointer; border: 0; background: 0; color: inheri
   color: var(--text-dark);
 }
 .logo__mark {
-  font-family: 'Fraunces', serif;
+  font-family: var(--font-display);
   font-weight: 500;
   font-size: 1.45rem;
   letter-spacing: 0.02em;
 }
 .logo__suffix {
-  font-family: 'Fraunces', serif;
+  font-family: var(--font-display);
   font-style: italic;
   font-weight: 300;
   font-size: 0.95rem;
@@ -343,7 +355,7 @@ button { font: inherit; cursor: pointer; border: 0; background: 0; color: inheri
   font-size: 0.78rem;
   color: var(--text-muted);
 }
-.footer-wmw__bottom .italic { font-family: 'Fraunces', serif; font-style: italic; }
+.footer-wmw__bottom .italic { font-family: var(--font-display); font-style: italic; }
 
 /* ---------- Demo back-strip (subsites only) ---------- */
 .demo-strip {
@@ -379,7 +391,7 @@ button { font: inherit; cursor: pointer; border: 0; background: 0; color: inheri
   text-align: center;
 }
 .wmw-credit p {
-  font-family: 'Fraunces', serif;
+  font-family: var(--font-display);
   font-style: italic;
   font-weight: 300;
   font-size: clamp(1.2rem, 2.5vw, 1.65rem);
@@ -480,11 +492,14 @@ body > * { position: relative; z-index: 1; }
 }
 .kinetic.is-visible .word { opacity: 1; transform: translateY(0); }
 
-/* Hero typo upgrade */
+/* Hero typo */
 .t-cinematic {
-  font-size: clamp(2.75rem, 10vw, 8.5rem);
-  line-height: 0.94;
-  letter-spacing: -0.035em;
+  font-size: clamp(2.1rem, 9vw, 8rem);
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  overflow-wrap: break-word;
 }
 
 /* Testimonials */
@@ -509,7 +524,7 @@ body > * { position: relative; z-index: 1; }
   display: flex; flex-direction: column;
 }
 .testimonial__mark {
-  font-family: 'Fraunces', serif;
+  font-family: var(--font-display);
   font-style: italic;
   font-size: 2.5rem;
   color: var(--accent-caramel);
@@ -517,7 +532,7 @@ body > * { position: relative; z-index: 1; }
   margin-bottom: 0.6rem;
 }
 .testimonial blockquote {
-  font-family: 'Fraunces', serif;
+  font-family: var(--font-display);
   font-weight: 400;
   font-size: 1rem;
   line-height: 1.5;
@@ -546,7 +561,7 @@ body > * { position: relative; z-index: 1; }
 .testimonials__disclaimer {
   margin-top: 3rem;
   text-align: center;
-  font-family: 'Fraunces', serif;
+  font-family: var(--font-display);
   font-style: italic;
   font-size: 0.85rem;
   color: var(--text-muted);
@@ -566,7 +581,7 @@ body > * { position: relative; z-index: 1; }
   text-align: center;
 }
 .philosophy__quote {
-  font-family: 'Fraunces', serif;
+  font-family: var(--font-display);
   font-weight: 300;
   font-size: clamp(1.6rem, 4vw, 3rem);
   line-height: 1.25;
@@ -587,7 +602,7 @@ body > * { position: relative; z-index: 1; }
   border-radius: 50%;
   background: linear-gradient(135deg, var(--accent-amber), var(--accent-cognac));
   display: flex; align-items: center; justify-content: center;
-  font-family: 'Fraunces', serif;
+  font-family: var(--font-display);
   font-style: italic;
   font-size: 1.1rem;
   color: var(--bg-cream);
@@ -637,7 +652,7 @@ body > * { position: relative; z-index: 1; }
   animation: loadFade 700ms var(--ease-out) 100ms forwards;
 }
 .wmw-loader__mark {
-  font-family: 'Fraunces', serif;
+  font-family: var(--font-display);
   font-weight: 500;
   font-size: clamp(2rem, 5vw, 3rem);
   color: var(--text-dark);
@@ -645,7 +660,7 @@ body > * { position: relative; z-index: 1; }
   line-height: 1;
 }
 .wmw-loader__suffix {
-  font-family: 'Fraunces', serif;
+  font-family: var(--font-display);
   font-style: italic;
   font-weight: 300;
   font-size: clamp(1rem, 2vw, 1.4rem);
@@ -769,7 +784,7 @@ body.is-loaded > *:not(.wmw-loader):not(script) { opacity: 1; }
   border-radius: 14px;
 }
 .pilot__stat .num {
-  font-family: 'Fraunces', serif;
+  font-family: var(--font-display);
   font-weight: 400;
   font-size: clamp(2rem, 5vw, 3rem);
   letter-spacing: -0.02em;
@@ -792,7 +807,7 @@ body.is-loaded > *:not(.wmw-loader):not(script) { opacity: 1; }
 }
 .pilot__note {
   margin-top: 2.5rem;
-  font-family: 'Fraunces', serif;
+  font-family: var(--font-display);
   font-style: italic;
   font-size: 0.92rem;
   color: var(--text-muted);
@@ -852,7 +867,7 @@ body.is-loaded > *:not(.wmw-loader):not(script) { opacity: 1; }
   font-weight: 600;
 }
 .price__name {
-  font-family: 'Fraunces', serif;
+  font-family: var(--font-display);
   font-weight: 500;
   font-size: 1.5rem;
   color: var(--text-dark);
@@ -866,7 +881,7 @@ body.is-loaded > *:not(.wmw-loader):not(script) { opacity: 1; }
   margin-bottom: 0.4rem;
 }
 .price__amount {
-  font-family: 'Fraunces', serif;
+  font-family: var(--font-display);
   font-weight: 400;
   font-size: 2.5rem;
   letter-spacing: -0.02em;
@@ -881,7 +896,7 @@ body.is-loaded > *:not(.wmw-loader):not(script) { opacity: 1; }
 }
 .price__delivery {
   margin-top: 1rem;
-  font-family: 'Fraunces', serif;
+  font-family: var(--font-display);
   font-style: italic;
   font-size: 0.95rem;
   color: var(--accent-cognac);
@@ -917,7 +932,7 @@ body.is-loaded > *:not(.wmw-loader):not(script) { opacity: 1; }
 .pricing__note {
   margin-top: 4rem;
   text-align: center;
-  font-family: 'Fraunces', serif;
+  font-family: var(--font-display);
   font-style: italic;
   color: var(--text-muted);
   font-size: 0.95rem;
@@ -955,111 +970,7 @@ body.is-loaded > *:not(.wmw-loader):not(script) { opacity: 1; }
 }
 
 /* ==========================================================
-   Cinematic mode — full-screen 3D background, pinned climax
-   Active when body.cinematic is set (landing only).
+   Editorial mode (v4) — minimal, typography-led.
+   The cinematic 3D stage was removed in favor of a single
+   H2 reveal effect (see assets/wmw-scene.js).
    ========================================================== */
-
-/* Hero glass cards — overlay on the full-screen 3D stage */
-body.cinematic .hero__cards {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 3;
-}
-body.cinematic .hero__cards .glass-card {
-  pointer-events: auto;
-  background: rgba(20, 14, 8, 0.45);
-  border: 1px solid rgba(245, 217, 168, 0.22);
-  color: rgba(245, 237, 224, 0.95);
-}
-body.cinematic .hero__cards .glass-card .lbl { color: var(--accent-amber); }
-body.cinematic .hero__cards .glass-card--a {
-  top: 18%; left: 6%; transform: rotate(-2deg);
-}
-body.cinematic .hero__cards .glass-card--b {
-  bottom: 14%; right: 6%; transform: rotate(2deg);
-}
-@media (max-width: 899px) {
-  body.cinematic .hero__cards { display: none; }
-}
-
-/* Hero needs to be tall enough for 3D to read */
-body.cinematic .hero {
-  min-height: 100vh;
-  padding: 7rem 0 4rem;
-}
-body.cinematic .hero__copy { text-align: left; }
-body.cinematic .hero__title { color: #f5ede0; }
-body.cinematic .hero__title .italic-accent { color: var(--accent-amber); }
-body.cinematic .hero__lead { color: rgba(245, 237, 224, 0.78); }
-
-/* Sections opaque on top of the dark void (legibility) */
-body.cinematic main > section:not(.philosophy--pinned) { position: relative; z-index: 2; }
-body.cinematic .footer-wmw { position: relative; z-index: 2; }
-
-/* Pinned philosophy — the cinematic climax.
-   Section is tall (240vh) so it occupies scroll real estate;
-   inner content uses position:sticky to stay on-screen while the
-   3D scene's camera does its dramatic arc. */
-.philosophy--pinned {
-  background: transparent;
-  height: 240vh;
-  padding: 0;
-  overflow: visible;
-}
-.philosophy__sticky {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  display: grid;
-  place-items: center;
-  padding: 4rem 0;
-}
-body.cinematic .philosophy--pinned .philosophy__quote {
-  color: #f5ede0;
-  text-shadow: 0 4px 40px rgba(15, 10, 6, 0.6);
-}
-body.cinematic .philosophy--pinned .philosophy__quote em {
-  color: var(--accent-amber);
-}
-body.cinematic .philosophy--pinned .philosophy__name strong { color: #f5ede0; }
-body.cinematic .philosophy--pinned .philosophy__name span { color: rgba(245, 217, 168, 0.7); }
-body.cinematic .philosophy--pinned .eyebrow { color: var(--accent-amber); }
-body.cinematic .philosophy--pinned .eyebrow::before { background: var(--accent-amber); }
-
-/* Reduce-motion / mobile fallback: don't pin, just normal section */
-@media (max-width: 767px) {
-  .philosophy--pinned { height: auto; min-height: 60vh; padding: 6rem 0; }
-  .philosophy__sticky { position: relative; height: auto; padding: 0; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .philosophy--pinned { height: auto; padding: 7rem 0; }
-  .philosophy__sticky { position: relative; height: auto; padding: 0; }
-}
-
-/* Loader on cinematic site — fade out reveals dark void instead of cream */
-body.cinematic.is-loading .wmw-loader { background: #0a0704; }
-body.cinematic.is-loading .wmw-loader__mark { color: #f5ede0; }
-body.cinematic.is-loading .wmw-loader__suffix { color: var(--accent-amber); }
-body.cinematic.is-loading .wmw-loader__hint { color: rgba(245, 217, 168, 0.55); }
-
-/* Nav on cinematic landing — translucent dark over canvas */
-body.cinematic .nav {
-  background: rgba(15, 10, 6, 0.55);
-  -webkit-backdrop-filter: saturate(180%) blur(14px);
-  backdrop-filter: saturate(180%) blur(14px);
-  border-bottom: 1px solid rgba(245, 217, 168, 0.1);
-}
-body.cinematic .nav.is-scrolled {
-  background: rgba(15, 10, 6, 0.78);
-}
-body.cinematic .nav .logo__mark { color: #f5ede0; }
-body.cinematic .nav .logo__suffix { color: var(--accent-amber); }
-body.cinematic .nav__links a { color: rgba(245, 237, 224, 0.85); }
-body.cinematic .nav__links a:hover { color: var(--accent-amber); }
-
-/* Hide the 2D particle canvas — 3D constellation provides the same dust feel */
-body.cinematic .particles { display: none; }
-
-/* Make sure #bg3d wins the painting layer (override body > * fallback) */
-body.cinematic #bg3d { position: fixed !important; inset: 0; z-index: 0; }

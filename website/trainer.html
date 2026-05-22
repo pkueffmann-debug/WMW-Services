@@ -5,39 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Max Berlin — Personal Training · Demo von WMW Services</title>
 <meta name="description" content="Konzept für einen Personal Trainer mit Online-Coaching und High-Energy-Branding. Entwickelt von WMW Services Berlin." />
-<meta name="theme-color" content="#0d0d0d" />
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#f4f5f7" />
+<link rel="stylesheet" href="/assets/fonts/fonts.css">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='2' fill='%230d0d0d'/%3E%3Crect x='4' y='14' width='24' height='4' fill='%23ff5b35'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="/assets/wmw.css">
 <style>
 /* ============================================
    Max Berlin — bold high-energy
    ============================================ */
-:root {
-  --bg-cream:        #0d0d0d;
-  --bg-warm:         #1a1a1a;
-  --bg-deep:         #232323;
-  --text-dark:       #ffffff;
-  --text-soft:       #d4d4d4;
-  --text-muted:      #888888;
-  --text-faint:      #555555;
-  --accent-caramel:  #ff5b35;
-  --accent-cognac:   #ff7d5e;
-  --accent-amber:    #ffaa88;
-  --border-warm:     rgba(255, 91, 53, 0.20);
-  --border-strong:   rgba(255, 91, 53, 0.45);
-  --glass-bg:        rgba(13, 13, 13, 0.85);
-}
+/* Trainer page inherits the editorial palette from wmw.css. */
 body {
   background: var(--bg-cream);
   color: var(--text-dark);
-  font-family: 'Space Grotesk', sans-serif;
+  font-family: var(--font-body);
   position: relative;
 }
-body::before { mix-blend-mode: screen; opacity: 0.04; }
-.h-display, .serif { font-family: 'Archivo Black', sans-serif; }
+.h-display, .serif { font-family: var(--font-display); }
 .italic-accent { color: var(--accent-caramel); font-style: normal; font-weight: 400; }
 .eyebrow { color: var(--accent-caramel); }
 .eyebrow::before { background: var(--accent-caramel); }

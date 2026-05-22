@@ -1,3 +1,9 @@
 {
-  "cleanUrls": true
+  "cleanUrls": true,
+  "redirects": [
+    { "source": "/yoga", "destination": "/", "permanent": true },
+    { "source": "/tischlerei", "destination": "/", "permanent": true },
+    { "source": "/architektur", "destination": "/", "permanent": true },
+    { "source": "/zahnarzt", "destination": "/", "permanent": true }
+  ]
 }

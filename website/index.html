@@ -4,12 +4,15 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>WMW Services — Web Design + AI Integration für Berliner Unternehmen</title>
-<meta name="description" content="Web-Studio aus Berlin. Moderne Websites mit AI-Integration für kleine und mittlere Unternehmen. Von einem 15-jährigen Entwickler und seinem Team." />
-<meta name="theme-color" content="#faf6f0" />
+<meta name="description" content="Berliner Web-Studio. Festpreis-Websites mit AI-Integration für Café, Kanzlei und lokale Dienstleister. Live in 14 Tagen, ab 1.490 €." />
+<meta name="theme-color" content="#f4f5f7" />
 <meta property="og:title" content="WMW Services — Web Design aus Berlin" />
-<meta property="og:description" content="Moderne Websites mit AI-Integration für Berliner KMU. Festpreis, transparent, fair." />
+<meta property="og:description" content="Berliner Web-Studio. Festpreis-Websites mit AI-Integration für Café, Kanzlei und lokale Dienstleister. Live in 14 Tagen, ab 1.490 €." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://daylens.dev/" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="WMW Services — Web Design aus Berlin" />
+<meta name="twitter:description" content="Berliner Web-Studio. Festpreis-Websites mit AI-Integration für Café, Kanzlei und lokale Dienstleister. Live in 14 Tagen, ab 1.490 €." />
 <link rel="stylesheet" href="/assets/fonts/fonts.css">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23faf6f0'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='Georgia,serif' font-size='18' font-weight='500' fill='%23c8884a'%3EW%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="/assets/wmw.css">
@@ -39,7 +42,8 @@ body.landing { background: var(--bg-cream); }
   .hero__grid { grid-template-columns: 7fr 5fr; gap: 4rem; }
 }
 .hero__copy { position: relative; z-index: 5; }
-.hero__title { max-width: 14ch; }
+.hero__title { max-width: 100%; }
+@media (min-width: 700px) { .hero__title { max-width: 17ch; } }
 .hero__title .line2 {
   display: block;
   margin-top: 0.1em;
@@ -64,84 +68,16 @@ body.landing { background: var(--bg-cream); }
   gap: 1rem;
   align-items: center;
 }
-/* Hero on cinematic landing: 3D canvas is fullscreen-fixed behind everything.
-   The hero card now spans the viewport with text overlay, no inline canvas column. */
-.hero { background: transparent; }
-@media (min-width: 900px) {
-  .hero__grid { grid-template-columns: 1fr; max-width: 760px; }
+.hero__price-caption {
+  margin-top: 0.9rem;
+  font-size: 0.825rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  opacity: 0.6;
+  color: var(--text-soft);
 }
-.hero__title, .hero__lead {
-  text-shadow: 0 2px 28px rgba(15, 10, 6, 0.45);
-}
-body.cinematic .hero__title,
-body.cinematic .hero__lead { color: #f5ede0; }
-body.cinematic .hero__title .italic-accent { color: var(--accent-amber); }
-body.cinematic .hero .eyebrow { color: var(--accent-amber); }
-body.cinematic .hero .eyebrow::before { background: var(--accent-amber); }
-body.cinematic .hero__meta { color: rgba(245, 217, 168, 0.7); border-top-color: rgba(245, 217, 168, 0.25); }
-
-/* Fullscreen 3D background canvas */
-#bg3d {
-  position: fixed;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
-  z-index: 0;
-  pointer-events: none;
-  display: block;
-}
-/* Dark cinematic void sits behind the canvas (overrides grain in wmw.css) */
-body.cinematic::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  background:
-    radial-gradient(ellipse at 50% 35%, #2a1f17 0%, #14100a 55%, #0a0704 100%);
-  background-image:
-    radial-gradient(ellipse at 50% 35%, #2a1f17 0%, #14100a 55%, #0a0704 100%);
-  opacity: 1;
-  mix-blend-mode: normal;
-  pointer-events: none;
-}
-/* The grain overlay still adds texture on top, but at low opacity over the void */
-body.cinematic::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 60;
-  opacity: 0.055;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
-}
-/* Cinematic-mode body bg falls away to dark */
-body.cinematic { background: #0a0704; }
-
-/* Ensure content sits above the canvas */
-.nav, .mobile-menu, main, footer, .wmw-loader, .spotlight, .particles {
-  position: relative;
-  z-index: 1;
-}
-.nav { z-index: 50; }
-.wmw-loader { z-index: 200; }
-.mobile-menu { z-index: 300; }
-
-/* Static fallback orb for reduced-motion / no-WebGL */
-.hero__fallback {
-  display: none;
-  width: 320px; height: 320px;
-  border-radius: 50%;
-  margin: 3rem auto 0;
-  background: radial-gradient(circle at 35% 35%, var(--accent-amber) 0%, var(--bg-warm) 60%, var(--bg-deep) 100%);
-  box-shadow: 0 30px 80px -30px rgba(200, 136, 74, 0.4);
-  animation: heroOrb 6s ease-in-out infinite alternate;
-}
-body:not(.cinematic) .hero__fallback { display: block; }
-@keyframes heroOrb {
-  from { transform: scale(0.96); }
-  to   { transform: scale(1.04); }
-}
+/* Editorial hero — typography-led, no 3D, no overlay tricks. */
+.hero__fallback { display: none; }
 
 .hero__meta {
   margin-top: 5rem;
@@ -172,7 +108,7 @@ body:not(.cinematic) .hero__fallback { display: block; }
   align-items: baseline;
   padding: 2.2rem 0;
   border-top: 1px solid var(--border-warm);
-  font-family: 'Fraunces', serif;
+  font-family: var(--font-display);
   font-weight: 400;
   font-size: clamp(1.5rem, 3.2vw, 2.5rem);
   letter-spacing: -0.02em;
@@ -183,7 +119,7 @@ body:not(.cinematic) .hero__fallback { display: block; }
 .services__item:last-child { border-bottom: 1px solid var(--border-warm); }
 .services__item.is-active { color: var(--text-dark); }
 .services__num {
-  font-family: 'Fraunces', serif;
+  font-family: var(--font-display);
   font-style: italic;
   font-weight: 300;
   font-size: 0.5em;
@@ -216,7 +152,7 @@ body:not(.cinematic) .hero__fallback { display: block; }
 }
 @media (min-width: 900px) { .process__steps { grid-template-columns: repeat(3, 1fr); gap: 3rem; } }
 .process__step h3 {
-  font-family: 'Fraunces', serif;
+  font-family: var(--font-display);
   font-weight: 500;
   font-size: clamp(1.4rem, 2.4vw, 1.85rem);
   margin-top: 1.25rem;
@@ -230,7 +166,7 @@ body:not(.cinematic) .hero__fallback { display: block; }
   max-width: 34ch;
 }
 .process__num {
-  font-family: 'Fraunces', serif;
+  font-family: var(--font-display);
   font-style: italic;
   font-weight: 300;
   font-size: clamp(3rem, 5vw, 4.5rem);
@@ -286,7 +222,7 @@ body:not(.cinematic) .hero__fallback { display: block; }
   color: var(--accent-cognac);
 }
 .work__title {
-  font-family: 'Fraunces', serif;
+  font-family: var(--font-display);
   font-weight: 500;
   font-size: clamp(1.35rem, 2.2vw, 1.65rem);
   margin-top: 1.3rem;
@@ -342,7 +278,7 @@ body:not(.cinematic) .hero__fallback { display: block; }
   margin-bottom: 0.45rem;
 }
 .about__meta dd {
-  font-family: 'Fraunces', serif;
+  font-family: var(--font-display);
   font-weight: 400;
   font-size: 1.1rem;
   color: var(--text-dark);
@@ -351,7 +287,7 @@ body:not(.cinematic) .hero__fallback { display: block; }
 .about__copy h2 { max-width: 16ch; margin-bottom: 2.5rem; }
 .about__copy p { max-width: 58ch; color: var(--text-soft); margin-bottom: 1.5rem; }
 .about__copy .dropcap::first-letter {
-  font-family: 'Fraunces', serif;
+  font-family: var(--font-display);
   font-weight: 400;
   font-size: clamp(4rem, 7vw, 5.5rem);
   line-height: 0.85;
@@ -360,7 +296,7 @@ body:not(.cinematic) .hero__fallback { display: block; }
   color: var(--accent-cognac);
 }
 .pullquote {
-  font-family: 'Fraunces', serif;
+  font-family: var(--font-display);
   font-style: italic;
   font-weight: 300;
   font-size: clamp(1.65rem, 3.5vw, 2.5rem);
@@ -377,7 +313,7 @@ body:not(.cinematic) .hero__fallback { display: block; }
   gap: 2.5rem 4rem;
 }
 .about__stat {
-  font-family: 'Fraunces', serif;
+  font-family: var(--font-display);
 }
 .about__stat .num {
   font-weight: 300;
@@ -421,7 +357,7 @@ body:not(.cinematic) .hero__fallback { display: block; }
   color: var(--text-muted);
 }
 .contact__direct a {
-  font-family: 'Fraunces', serif;
+  font-family: var(--font-display);
   font-size: 1.2rem;
   color: var(--accent-cognac);
   font-weight: 400;
@@ -436,7 +372,7 @@ body:not(.cinematic) .hero__fallback { display: block; }
   border-radius: var(--r-card);
 }
 .contact__sent p {
-  font-family: 'Fraunces', serif;
+  font-family: var(--font-display);
   font-style: italic;
   font-size: 1.4rem;
   color: var(--accent-cognac);
@@ -444,10 +380,7 @@ body:not(.cinematic) .hero__fallback { display: block; }
 </style>
 </head>
 
-<body class="landing is-loading cinematic">
-
-<!-- ============================ FULL-SCREEN 3D STAGE ============================ -->
-<canvas id="bg3d" aria-hidden="true"></canvas>
+<body class="landing is-loading">
 
 <!-- ============================ LOADER ============================ -->
 <div class="wmw-loader" id="wmwLoader" aria-hidden="true">
@@ -513,32 +446,22 @@ body:not(.cinematic) .hero__fallback { display: block; }
   <div class="shell hero__grid">
     <div class="hero__copy">
       <span class="eyebrow reveal">Berlin · Web Studio · WMW Services</span>
-      <h1 class="h-display t-cinematic hero__title kinetic" style="margin-top:1.5rem;max-width:15ch">
-        Premium Websites
+      <h1 class="h-display t-cinematic hero__title" style="margin-top:1.5rem">
+        Maßgeschneiderte Websites
         <span class="line2">für Berliner Geschäfte.</span>
-        <span class="italic-accent" style="display:block;font-size:0.58em;line-height:1.15;margin-top:0.4em">Live in 14 Tagen. Ab 1.490 €.</span>
+        <span class="italic-accent" style="display:block;font-size:0.58em;line-height:1.15;margin-top:0.4em">Live in 14 Tagen.</span>
       </h1>
       <p class="hero__lead reveal" data-delay="2" style="max-width:42ch">
-        Maßgeschneiderte Web-Auftritte mit optionaler AI-Integration für Café, Kanzlei,
-        Trainer &amp; lokale Dienstleister. Festpreis, kein Stundenbalance.
+        AI-Integration für Café, Kanzlei, Trainer &amp; lokale Dienstleister.
+        Festpreis, kein Stundenkonto.
       </p>
       <div class="hero__ctas reveal" data-delay="3">
         <a href="#contact" class="btn btn--primary magnetic" data-magnet="0.35">Kostenloses Erstgespräch →</a>
         <a href="#portfolio" class="btn--link">Arbeiten ansehen</a>
       </div>
-    </div>
-  </div>
-  <div class="hero__fallback" id="heroFallback" aria-hidden="true"></div>
-
-  <!-- Floating glass cards — overlaid on the 3D stage -->
-  <div class="hero__cards" aria-hidden="true">
-    <div class="glass-card glass-card--a">
-      <span class="lbl">Prozess</span>
-      Erste Vorschau nach 7 Werktagen. Live nach 14.
-    </div>
-    <div class="glass-card glass-card--b">
-      <span class="lbl">Pilot 2026</span>
-      Aktuell 2 Pilot-Plätze offen. –40 % gegen Listenpreis.
+      <p class="hero__price-caption reveal" data-delay="4">
+        Festpreis ab 1.490 € · Pilot-Konditionen verfügbar
+      </p>
     </div>
   </div>
 
@@ -681,7 +604,7 @@ body:not(.cinematic) .hero__fallback { display: block; }
 
       <p style="margin-top:2rem;color:var(--text-soft);font-size:1.05rem;line-height:1.7;max-width:54ch">
         WMW Services ist ein junges Berliner Studio für Web Design mit optionaler AI-Integration.
-        Wir bauen, was wir selbst nutzen würden. Festpreis, klare Lieferzeit, kein Stundenbalance.
+        Wir bauen, was wir selbst nutzen würden. Festpreis, klare Lieferzeit, kein Stundenkonto.
       </p>
       <p style="margin-top:1.2rem;color:var(--text-soft);font-size:1.05rem;line-height:1.7;max-width:54ch">
         Paul Küffmann (Design + Engineering), Tom Henseling und Jannis Timm
@@ -695,20 +618,18 @@ body:not(.cinematic) .hero__fallback { display: block; }
   </div>
 </section>
 
-<!-- ============================ HALTUNG (pinned cinematic) ============================ -->
-<section class="philosophy philosophy--pinned layered-in">
-  <div class="philosophy__sticky">
-    <div class="shell philosophy__inner">
-      <span class="eyebrow" style="justify-content:center">— Haltung</span>
-      <p class="philosophy__quote">
-        Wir verkaufen <em>keine Stunden,</em> wir verkaufen Ergebnisse.
-      </p>
-      <div class="philosophy__attribution">
-        <div class="philosophy__avatar" aria-hidden="true">P</div>
-        <div class="philosophy__name">
-          <strong>Paul Küffmann</strong>
-          <span>Founder · WMW Services</span>
-        </div>
+<!-- ============================ HALTUNG ============================ -->
+<section class="philosophy layered-in">
+  <div class="shell philosophy__inner">
+    <span class="eyebrow" style="justify-content:center">— Haltung</span>
+    <p class="philosophy__quote">
+      Wir verkaufen <em>Festpreise,</em> keine Stundenrechnungen.
+    </p>
+    <div class="philosophy__attribution">
+      <div class="philosophy__avatar" aria-hidden="true">P</div>
+      <div class="philosophy__name">
+        <strong>Paul Küffmann</strong>
+        <span>Founder · WMW Services</span>
       </div>
     </div>
   </div>
@@ -873,12 +794,8 @@ body:not(.cinematic) .hero__fallback { display: block; }
         <h4>Arbeiten</h4>
         <ul>
           <li><a href="/cafe">Café Halbmond</a></li>
-          <li><a href="/yoga">Atemraum</a></li>
-          <li><a href="/tischlerei">Hartmann Tischlerei</a></li>
           <li><a href="/kanzlei">Müller &amp; Partner</a></li>
           <li><a href="/trainer">Max Berlin</a></li>
-          <li><a href="/architektur">Studio Nord</a></li>
-          <li><a href="/zahnarzt">Dr. Weber</a></li>
         </ul>
       </div>
       <div>

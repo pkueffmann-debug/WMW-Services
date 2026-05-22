@@ -5,31 +5,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Müller &amp; Partner Rechtsanwaltskanzlei — Demo von WMW Services</title>
 <meta name="description" content="Konzept für eine traditionsreiche Anwaltskanzlei, entwickelt von WMW Services Berlin." />
-<meta name="theme-color" content="#f7f4ed" />
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#f4f5f7" />
+<link rel="stylesheet" href="/assets/fonts/fonts.css">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='2' fill='%231a2845'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='Cormorant Garamond,serif' font-size='20' font-weight='500' fill='%238a7a5a'%3EM%3C/text%3E%3C/svg%3E">
 <link rel="stylesheet" href="/assets/wmw.css">
 <style>
 /* ============================================
    Müller & Partner — formal, restrained
    ============================================ */
-:root {
-  --bg-cream:        #f7f4ed;
-  --bg-warm:         #efeadf;
-  --bg-deep:         #e3ddc9;
-  --text-dark:       #14181f;
-  --text-soft:       #2b3340;
-  --text-muted:      #5a6470;
-  --accent-caramel:  #8a7a5a;
-  --accent-cognac:   #1a2845;
-  --accent-amber:    #b29a6a;
-  --border-warm:     rgba(26, 40, 69, 0.16);
-  --border-strong:   rgba(26, 40, 69, 0.32);
-}
-body { background: var(--bg-cream); color: var(--text-dark); font-family: 'Source Sans 3', sans-serif; }
-.h-display, .serif { font-family: 'Cormorant Garamond', serif; }
+/* Kanzlei page inherits the editorial palette from wmw.css. */
+body { background: var(--bg-cream); color: var(--text-dark); font-family: var(--font-body); }
+.h-display, .serif { font-family: var(--font-display); }
 .eyebrow { color: var(--accent-caramel); }
 .eyebrow::before { background: var(--accent-caramel); }
 .italic-accent { color: var(--accent-cognac); font-style: italic; font-weight: 400; }
