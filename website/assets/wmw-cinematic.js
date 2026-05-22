@@ -147,10 +147,51 @@
     document.querySelectorAll(selector).forEach((el) => io.observe(el));
   }
 
+  /* ---- Cursor spotlight ---- */
+  function startSpotlight() {
+    if (reduced || isMobile) return;
+    const sp = document.getElementById('spotlight');
+    if (!sp) return;
+    let tx = window.innerWidth / 2, ty = window.innerHeight / 2;
+    let x = tx, y = ty;
+    window.addEventListener('mousemove', (e) => { tx = e.clientX; ty = e.clientY; sp.classList.add('is-active'); });
+    window.addEventListener('mouseleave', () => sp.classList.remove('is-active'));
+    function frame() {
+      x += (tx - x) * 0.12;
+      y += (ty - y) * 0.12;
+      sp.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`;
+      requestAnimationFrame(frame);
+    }
+    frame();
+  }
+
+  /* ---- Loader fade-out ---- */
+  function setupLoader() {
+    const loader = document.getElementById('wmwLoader');
+    if (!loader) return;
+    // Min display time so animation is actually visible (~2.2s)
+    const minMs = reduced ? 200 : 2200;
+    const start = performance.now();
+    const finish = () => {
+      const elapsed = performance.now() - start;
+      const wait = Math.max(0, minMs - elapsed);
+      setTimeout(() => {
+        loader.classList.add('is-hidden');
+        document.body.classList.remove('is-loading');
+        document.body.classList.add('is-loaded');
+        setTimeout(() => loader.remove(), 1000);
+      }, wait);
+    };
+    if (document.readyState === 'complete') finish();
+    else window.addEventListener('load', finish);
+  }
+
   /* ---- Init ---- */
+  setupLoader();
   prepareKinetic();
   observeReveals('.kinetic', 'is-visible', 0.3);
   observeReveals('.layered-in', 'is-visible', 0.15);
   bindMagnetic();
   startParticles();
+  startSpotlight();
 })();

@@ -609,3 +609,123 @@ body > * { position: relative; z-index: 1; }
 .layered-in.is-visible {
   opacity: 1; transform: translateY(0) scale(1);
 }
+
+/* ==========================================================
+   Cinematic v3.2 — Loader, Cursor Spotlight, Volumetric Hero
+   ========================================================== */
+
+/* Loading screen */
+.wmw-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: var(--bg-cream);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  transition: opacity 900ms var(--ease-out), visibility 900ms;
+}
+.wmw-loader.is-hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+.wmw-loader__mark-wrap {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  opacity: 0;
+  transform: translateY(8px);
+  animation: loadFade 700ms var(--ease-out) 100ms forwards;
+}
+.wmw-loader__mark {
+  font-family: 'Fraunces', serif;
+  font-weight: 500;
+  font-size: clamp(2rem, 5vw, 3rem);
+  color: var(--text-dark);
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+.wmw-loader__suffix {
+  font-family: 'Fraunces', serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(1rem, 2vw, 1.4rem);
+  color: var(--accent-cognac);
+}
+.wmw-loader__bar {
+  width: 220px;
+  height: 1px;
+  background: var(--border-warm);
+  overflow: hidden;
+  position: relative;
+  opacity: 0;
+  animation: loadFade 700ms var(--ease-out) 400ms forwards;
+}
+.wmw-loader__fill {
+  position: absolute;
+  inset: 0 100% 0 0;
+  background: var(--accent-caramel);
+  animation: loadBar 1500ms cubic-bezier(0.4, 0, 0.2, 1) 500ms forwards;
+}
+.wmw-loader__hint {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.32em;
+  color: var(--text-muted);
+  opacity: 0;
+  animation: loadFade 700ms var(--ease-out) 700ms forwards;
+}
+@keyframes loadFade { to { opacity: 1; transform: translateY(0); } }
+@keyframes loadBar  { to { right: 0; } }
+
+/* Hide page until loader fades */
+body.is-loading { overflow: hidden; }
+body.is-loading > *:not(.wmw-loader):not(script) {
+  opacity: 0;
+  transition: opacity 700ms var(--ease-out);
+}
+body.is-loaded > *:not(.wmw-loader):not(script) { opacity: 1; }
+
+/* Cursor spotlight (large warm radial glow that follows cursor) */
+.spotlight {
+  position: fixed;
+  top: 0; left: 0;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 2;
+  background: radial-gradient(circle, rgba(212, 163, 115, 0.14) 0%, transparent 65%);
+  transform: translate(-50%, -50%);
+  mix-blend-mode: multiply;
+  opacity: 0;
+  transition: opacity 600ms var(--ease-out);
+  will-change: transform, opacity;
+}
+.spotlight.is-active { opacity: 1; }
+@media (hover: none), (max-width: 767px), (prefers-reduced-motion: reduce) {
+  .spotlight { display: none; }
+}
+
+/* Hero entrance — camera dolly + glow pulse */
+.hero {
+  background:
+    radial-gradient(ellipse at 50% 30%, rgba(212, 163, 115, 0.10) 0%, transparent 60%),
+    var(--bg-cream);
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: 10%; left: 50%;
+  width: 70vw; height: 70vw;
+  max-width: 900px; max-height: 900px;
+  transform: translateX(-50%);
+  background: radial-gradient(circle, rgba(212, 163, 115, 0.18) 0%, transparent 55%);
+  filter: blur(40px);
+  z-index: 0;
+  pointer-events: none;
+  animation: heroPulse 8s ease-in-out infinite alternate;
+}
+@keyframes heroPulse {
+  from { transform: translateX(-50%) scale(0.85); opacity: 0.55; }
+  to   { transform: translateX(-50%) scale(1.08); opacity: 0.85; }
+}
+.hero__copy, .hero__canvas-holder { position: relative; z-index: 2; }

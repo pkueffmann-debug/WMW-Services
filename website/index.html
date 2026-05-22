@@ -396,7 +396,20 @@ body.landing { background: var(--bg-cream); }
 </style>
 </head>
 
-<body class="landing">
+<body class="landing is-loading">
+
+<!-- ============================ LOADER ============================ -->
+<div class="wmw-loader" id="wmwLoader" aria-hidden="true">
+  <div class="wmw-loader__mark-wrap">
+    <span class="wmw-loader__mark">WMW</span>
+    <span class="wmw-loader__suffix">.services</span>
+  </div>
+  <div class="wmw-loader__bar"><div class="wmw-loader__fill"></div></div>
+  <div class="wmw-loader__hint">Berlin · 2026</div>
+</div>
+
+<!-- ============================ CURSOR SPOTLIGHT ============================ -->
+<div class="spotlight" id="spotlight" aria-hidden="true"></div>
 
 <!-- ============================ NAV ============================ -->
 <nav class="nav" id="nav" aria-label="Hauptnavigation">
@@ -854,7 +867,7 @@ body.landing { background: var(--bg-cream); }
 
     const scene = new THREE.Scene();
     const cam = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
-    cam.position.z = 4.5;
+    cam.position.z = 12;  // start far away — gets dolly'd in on load
 
     const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -976,6 +989,22 @@ body.landing { background: var(--bg-cream); }
     });
 
     ScrollTrigger.refresh();
+
+    // Cinematic camera dolly on initial load — fly in from depth
+    gsap.fromTo(cam.position,
+      { z: 12 },
+      { z: 4.5, duration: 2.4, ease: 'expo.out', delay: 0.4 }
+    );
+    // Pair with a slow scale-up of the octahedron at the same time
+    gsap.fromTo(octa.scale,
+      { x: 0.4, y: 0.4, z: 0.4 },
+      { x: 1, y: 1, z: 1, duration: 2.4, ease: 'expo.out', delay: 0.4 }
+    );
+    // And key-light intensity ramps up (volumetric reveal feel)
+    gsap.fromTo(k,
+      { intensity: 0 },
+      { intensity: 1.4, duration: 2.0, ease: 'power2.out', delay: 0.6 }
+    );
   }
 })();
 </script>
