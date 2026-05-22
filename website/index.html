@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Daylens — Web Design + AI Integration für Berliner Unternehmen</title>
+<title>WMW Services — Web Design + AI Integration für Berliner Unternehmen</title>
 <meta name="description" content="Web-Studio aus Berlin. Moderne Websites mit AI-Integration für kleine und mittlere Unternehmen. Von einem 15-jährigen Entwickler und seinem Team." />
 <meta name="theme-color" content="#faf6f0" />
-<meta property="og:title" content="Daylens — Web Design aus Berlin" />
+<meta property="og:title" content="WMW Services — Web Design aus Berlin" />
 <meta property="og:description" content="Moderne Websites mit AI-Integration für Berliner KMU. Festpreis, transparent, fair." />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://daylens.dev/" />
@@ -64,33 +64,83 @@ body.landing { background: var(--bg-cream); }
   gap: 1rem;
   align-items: center;
 }
-.hero__canvas-holder {
-  position: relative;
-  aspect-ratio: 1 / 1;
-  width: 100%;
-  max-width: 520px;
-  margin: 0 auto;
+/* Hero on cinematic landing: 3D canvas is fullscreen-fixed behind everything.
+   The hero card now spans the viewport with text overlay, no inline canvas column. */
+.hero { background: transparent; }
+@media (min-width: 900px) {
+  .hero__grid { grid-template-columns: 1fr; max-width: 760px; }
 }
-#hero3d {
-  width: 100%;
-  height: 100%;
+.hero__title, .hero__lead {
+  text-shadow: 0 2px 28px rgba(15, 10, 6, 0.45);
+}
+body.cinematic .hero__title,
+body.cinematic .hero__lead { color: #f5ede0; }
+body.cinematic .hero__title .italic-accent { color: var(--accent-amber); }
+body.cinematic .hero .eyebrow { color: var(--accent-amber); }
+body.cinematic .hero .eyebrow::before { background: var(--accent-amber); }
+body.cinematic .hero__meta { color: rgba(245, 217, 168, 0.7); border-top-color: rgba(245, 217, 168, 0.25); }
+
+/* Fullscreen 3D background canvas */
+#bg3d {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  pointer-events: none;
   display: block;
 }
-/* Fallback orb shown when JS / Three disabled */
+/* Dark cinematic void sits behind the canvas (overrides grain in wmw.css) */
+body.cinematic::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(ellipse at 50% 35%, #2a1f17 0%, #14100a 55%, #0a0704 100%);
+  background-image:
+    radial-gradient(ellipse at 50% 35%, #2a1f17 0%, #14100a 55%, #0a0704 100%);
+  opacity: 1;
+  mix-blend-mode: normal;
+  pointer-events: none;
+}
+/* The grain overlay still adds texture on top, but at low opacity over the void */
+body.cinematic::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 60;
+  opacity: 0.055;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+/* Cinematic-mode body bg falls away to dark */
+body.cinematic { background: #0a0704; }
+
+/* Ensure content sits above the canvas */
+.nav, .mobile-menu, main, footer, .wmw-loader, .spotlight, .particles {
+  position: relative;
+  z-index: 1;
+}
+.nav { z-index: 50; }
+.wmw-loader { z-index: 200; }
+.mobile-menu { z-index: 300; }
+
+/* Static fallback orb for reduced-motion / no-WebGL */
 .hero__fallback {
-  width: 100%; height: 100%;
+  display: none;
+  width: 320px; height: 320px;
   border-radius: 50%;
+  margin: 3rem auto 0;
   background: radial-gradient(circle at 35% 35%, var(--accent-amber) 0%, var(--bg-warm) 60%, var(--bg-deep) 100%);
   box-shadow: 0 30px 80px -30px rgba(200, 136, 74, 0.4);
   animation: heroOrb 6s ease-in-out infinite alternate;
 }
+body:not(.cinematic) .hero__fallback { display: block; }
 @keyframes heroOrb {
   from { transform: scale(0.96); }
   to   { transform: scale(1.04); }
-}
-@media (max-width: 899px) {
-  #hero3d { display: none; }
-  .hero__fallback { aspect-ratio: 1/1; max-width: 380px; }
 }
 
 .hero__meta {
@@ -394,13 +444,16 @@ body.landing { background: var(--bg-cream); }
 </style>
 </head>
 
-<body class="landing is-loading">
+<body class="landing is-loading cinematic">
+
+<!-- ============================ FULL-SCREEN 3D STAGE ============================ -->
+<canvas id="bg3d" aria-hidden="true"></canvas>
 
 <!-- ============================ LOADER ============================ -->
 <div class="wmw-loader" id="wmwLoader" aria-hidden="true">
   <div class="wmw-loader__mark-wrap">
-    <span class="wmw-loader__mark">daylens</span>
-    <span class="wmw-loader__suffix">.dev</span>
+    <span class="wmw-loader__mark">WMW</span>
+    <span class="wmw-loader__suffix"> Services</span>
   </div>
   <div class="wmw-loader__bar"><div class="wmw-loader__fill"></div></div>
   <div class="wmw-loader__hint">Berlin · 2026</div>
@@ -412,8 +465,8 @@ body.landing { background: var(--bg-cream); }
 <!-- ============================ NAV ============================ -->
 <nav class="nav" id="nav" aria-label="Hauptnavigation">
   <div class="shell nav__inner">
-    <a href="/" class="logo" aria-label="Daylens">
-      <span class="logo__mark">daylens</span><span class="logo__suffix">.dev</span>
+    <a href="/" class="logo" aria-label="WMW Services">
+      <span class="logo__mark">WMW</span><span class="logo__suffix"> Services</span>
     </a>
     <ul class="nav__links">
       <li><a href="#services">Leistungen</a></li>
@@ -435,7 +488,7 @@ body.landing { background: var(--bg-cream); }
 <!-- ============================ MOBILE MENU ============================ -->
 <div class="mobile-menu" id="mobileMenu">
   <div class="mobile-menu__head">
-    <a href="/" class="logo"><span class="logo__mark">daylens</span><span class="logo__suffix">.dev</span></a>
+    <a href="/" class="logo"><span class="logo__mark">WMW</span><span class="logo__suffix"> Services</span></a>
     <button class="nav__menu-btn" id="mobileClose" aria-label="Menü schließen" style="position:relative">
       <span style="background:transparent">
         <span style="background:var(--text-dark);transform:rotate(45deg);top:0"></span>
@@ -459,7 +512,7 @@ body.landing { background: var(--bg-cream); }
 <section class="hero" id="hero">
   <div class="shell hero__grid">
     <div class="hero__copy">
-      <span class="eyebrow reveal">Berlin · Web Studio · Daylens</span>
+      <span class="eyebrow reveal">Berlin · Web Studio · WMW Services</span>
       <h1 class="h-display t-cinematic hero__title kinetic" style="margin-top:1.5rem;max-width:15ch">
         Premium Websites
         <span class="line2">für Berliner Geschäfte.</span>
@@ -474,19 +527,18 @@ body.landing { background: var(--bg-cream); }
         <a href="#portfolio" class="btn--link">Arbeiten ansehen</a>
       </div>
     </div>
-    <div class="hero__canvas-holder reveal" data-delay="2">
-      <canvas id="hero3d" aria-hidden="true"></canvas>
-      <div class="hero__fallback" id="heroFallback" aria-hidden="true" style="display:none"></div>
+  </div>
+  <div class="hero__fallback" id="heroFallback" aria-hidden="true"></div>
 
-      <!-- Floating glass cards — honest, no unverifiable claims -->
-      <div class="glass-card glass-card--a" aria-hidden="true">
-        <span class="lbl">Prozess</span>
-        Erste Vorschau nach 7 Werktagen. Live nach 14.
-      </div>
-      <div class="glass-card glass-card--b" aria-hidden="true">
-        <span class="lbl">Pilot 2026</span>
-        Aktuell 2 Pilot-Plätze offen. –40 % gegen Listenpreis.
-      </div>
+  <!-- Floating glass cards — overlaid on the 3D stage -->
+  <div class="hero__cards" aria-hidden="true">
+    <div class="glass-card glass-card--a">
+      <span class="lbl">Prozess</span>
+      Erste Vorschau nach 7 Werktagen. Live nach 14.
+    </div>
+    <div class="glass-card glass-card--b">
+      <span class="lbl">Pilot 2026</span>
+      Aktuell 2 Pilot-Plätze offen. –40 % gegen Listenpreis.
     </div>
   </div>
 
@@ -628,7 +680,7 @@ body.landing { background: var(--bg-cream); }
       <h2 class="h-display t-h2">Ein Studio, drei Leute, <span class="italic-accent">ein Anspruch.</span></h2>
 
       <p style="margin-top:2rem;color:var(--text-soft);font-size:1.05rem;line-height:1.7;max-width:54ch">
-        Daylens ist ein junges Berliner Studio für Web Design mit optionaler AI-Integration.
+        WMW Services ist ein junges Berliner Studio für Web Design mit optionaler AI-Integration.
         Wir bauen, was wir selbst nutzen würden. Festpreis, klare Lieferzeit, kein Stundenbalance.
       </p>
       <p style="margin-top:1.2rem;color:var(--text-soft);font-size:1.05rem;line-height:1.7;max-width:54ch">
@@ -643,18 +695,20 @@ body.landing { background: var(--bg-cream); }
   </div>
 </section>
 
-<!-- ============================ HALTUNG ============================ -->
-<section class="philosophy layered-in">
-  <div class="shell philosophy__inner">
-    <span class="eyebrow" style="justify-content:center">— Haltung</span>
-    <p class="philosophy__quote">
-      Wir verkaufen <em>keine Stunden,</em> wir verkaufen Ergebnisse.
-    </p>
-    <div class="philosophy__attribution">
-      <div class="philosophy__avatar" aria-hidden="true">P</div>
-      <div class="philosophy__name">
-        <strong>Paul Küffmann</strong>
-        <span>Founder · Daylens</span>
+<!-- ============================ HALTUNG (pinned cinematic) ============================ -->
+<section class="philosophy philosophy--pinned layered-in">
+  <div class="philosophy__sticky">
+    <div class="shell philosophy__inner">
+      <span class="eyebrow" style="justify-content:center">— Haltung</span>
+      <p class="philosophy__quote">
+        Wir verkaufen <em>keine Stunden,</em> wir verkaufen Ergebnisse.
+      </p>
+      <div class="philosophy__attribution">
+        <div class="philosophy__avatar" aria-hidden="true">P</div>
+        <div class="philosophy__name">
+          <strong>Paul Küffmann</strong>
+          <span>Founder · WMW Services</span>
+        </div>
       </div>
     </div>
   </div>
@@ -669,7 +723,7 @@ body.landing { background: var(--bg-cream); }
         Wir bauen drei erste Projekte zu <span class="italic-accent">Pilot-Konditionen.</span>
       </h2>
       <p class="pilot__body">
-        Daylens ist 2025 gegründet. Wir suchen drei Pilot-Kunden, die ihre Website ehrlich
+        WMW Services ist 2025 gegründet. Wir suchen drei Pilot-Kunden, die ihre Website ehrlich
         zu reduziertem Preis bauen lassen — und uns erlauben, das fertige Projekt anschließend
         als Referenz zu führen. Das ist ein fairer Tausch: <strong>−40 % gegen den Listenpreis</strong>
         gegen das Recht, dein Projekt zu zeigen, sobald es live ist.
@@ -804,7 +858,7 @@ body.landing { background: var(--bg-cream); }
   <div class="shell">
     <div class="footer-wmw__top">
       <div class="footer-wmw__brand">
-        <a href="/" class="logo"><span class="logo__mark">daylens</span><span class="logo__suffix">.dev</span></a>
+        <a href="/" class="logo"><span class="logo__mark">WMW</span><span class="logo__suffix"> Services</span></a>
         <p>Web-Studio aus Berlin. Moderne Websites mit AI-Integration für KMU. Seit 2025.</p>
       </div>
       <div>
@@ -837,7 +891,7 @@ body.landing { background: var(--bg-cream); }
     </div>
 
     <div class="footer-wmw__bottom">
-      <span>© 2026 Daylens · Berlin</span>
+      <span>© 2026 WMW Services · Berlin</span>
       <span class="italic">Built in Berlin. Mit Liebe zum Detail.</span>
     </div>
   </div>
@@ -846,189 +900,7 @@ body.landing { background: var(--bg-cream); }
 <!-- ============================ SCRIPTS ============================ -->
 <script src="/assets/wmw.js" defer></script>
 <script src="/assets/wmw-cinematic.js" defer></script>
-
-<!-- Three.js + GSAP only on desktop -->
-<script>
-(function() {
-  const isMobile = window.innerWidth < 900 || /Mobi/i.test(navigator.userAgent);
-  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const canvas = document.getElementById('hero3d');
-  const fallback = document.getElementById('heroFallback');
-
-  if (isMobile || reduced || !canvas) {
-    if (canvas) canvas.style.display = 'none';
-    if (fallback) fallback.style.display = 'block';
-    return;
-  }
-
-  // Defer-load GSAP + Three.js
-  function load(src) {
-    return new Promise((res, rej) => {
-      const s = document.createElement('script');
-      s.src = src; s.async = false;
-      s.onload = res; s.onerror = rej;
-      document.head.appendChild(s);
-    });
-  }
-
-  Promise.all([
-    load('/assets/vendor/gsap.min.js'),
-    load('/assets/vendor/ScrollTrigger.min.js'),
-    load('/assets/vendor/three.min.js'),
-  ]).then(initScene).catch(() => {
-    canvas.style.display = 'none';
-    if (fallback) fallback.style.display = 'block';
-  });
-
-  function initScene() {
-    gsap.registerPlugin(ScrollTrigger);
-
-    const holder = canvas.parentElement;
-    function size() { return { w: holder.clientWidth, h: holder.clientHeight }; }
-
-    const scene = new THREE.Scene();
-    const cam = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
-    cam.position.z = 12;  // start far away — gets dolly'd in on load
-
-    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setClearColor(0x000000, 0);
-
-    // Lighting — warm, soft
-    scene.add(new THREE.AmbientLight(0xfaf6f0, 0.55));
-    const k = new THREE.DirectionalLight(0xd4a373, 1.4);
-    k.position.set(3, 4, 5);
-    scene.add(k);
-    const f = new THREE.DirectionalLight(0xc8884a, 0.55);
-    f.position.set(-4, -2, -3);
-    scene.add(f);
-    const r = new THREE.DirectionalLight(0xf5d9a8, 0.4);
-    r.position.set(0, -4, 4);
-    scene.add(r);
-
-    // Octahedron — glass
-    const geo = new THREE.OctahedronGeometry(1.1, 0);
-    const mat = new THREE.MeshPhysicalMaterial({
-      color: 0xf5d9a8,
-      transmission: 0.9,
-      opacity: 1,
-      metalness: 0.0,
-      roughness: 0.12,
-      ior: 1.45,
-      thickness: 1.0,
-      specularIntensity: 1,
-      clearcoat: 1,
-      clearcoatRoughness: 0.18,
-      attenuationColor: 0xd4a373,
-      attenuationDistance: 0.7,
-      envMapIntensity: 0.8,
-    });
-    const octa = new THREE.Mesh(geo, mat);
-    scene.add(octa);
-
-    // Soft "rim" — second smaller wire octahedron behind for depth
-    const wireGeo = new THREE.OctahedronGeometry(1.4, 0);
-    const wireMat = new THREE.LineBasicMaterial({ color: 0xc8884a, transparent: true, opacity: 0.18 });
-    const wireEdges = new THREE.LineSegments(new THREE.EdgesGeometry(wireGeo), wireMat);
-    scene.add(wireEdges);
-
-    function resize() {
-      const { w, h } = size();
-      renderer.setSize(w, h, false);
-      cam.aspect = w / h;
-      cam.updateProjectionMatrix();
-    }
-    resize();
-    window.addEventListener('resize', resize);
-
-    // State driven by scroll
-    const S = { rotX: 0.2, rotY: 0, posX: 0, posY: 0, scale: 1, hue: 1 };
-    // Smoothed mouse pull (read from window.__mouse, set by wmw-cinematic.js)
-    const M = { x: 0, y: 0 };
-
-    function tick() {
-      // Eased mouse pull
-      const target = (window.__mouse && window.__mouse.x !== undefined) ? window.__mouse : { x: 0, y: 0 };
-      M.x += (target.x - M.x) * 0.05;
-      M.y += (target.y - M.y) * 0.05;
-
-      // Idle rotation + parallax tilt towards cursor
-      S.rotY += 0.0028;
-      octa.rotation.x = S.rotX + S.rotY * 0.35 + M.y * 0.45;
-      octa.rotation.y = S.rotY + M.x * 0.55;
-      octa.position.set(S.posX + M.x * 0.15, S.posY + M.y * -0.1, 0);
-      octa.scale.setScalar(S.scale);
-
-      wireEdges.rotation.x = octa.rotation.x * 0.8;
-      wireEdges.rotation.y = octa.rotation.y * 0.6;
-      wireEdges.position.copy(octa.position);
-      wireEdges.scale.setScalar(S.scale * 1.05);
-
-      // Key light follows cursor (warm volumetric feel)
-      k.position.x = 3 + M.x * 2.2;
-      k.position.y = 4 + M.y * -1.6;
-      k.intensity = 1.25 + Math.max(0, -M.y) * 0.35;
-
-      mat.attenuationDistance = 0.4 + S.hue * 0.6;
-      renderer.render(scene, cam);
-      requestAnimationFrame(tick);
-    }
-    tick();
-
-    // Make the canvas-holder sticky between sections so the orb seems to travel
-    // We keep the actual canvas in the hero card; for scroll positions further
-    // down, we morph S to suggest the object "follows" the page.
-
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: '#main',
-        start: 'top top',
-        end: 'bottom bottom',
-        scrub: 1.5,
-      },
-    });
-    // Section A: services — drift right + slight rotation
-    tl.to(S, { posX: 1.4, posY: -0.2, rotX: 0.4, scale: 0.95, ease: 'none' }, 0);
-    // Section B: process — upper area, smaller
-    tl.to(S, { posX: 0, posY: 1.1, rotX: -0.3, scale: 0.55, hue: 0.8, ease: 'none' }, 0.25);
-    // Section C: portfolio — to top-right small
-    tl.to(S, { posX: 2.1, posY: 1.4, scale: 0.4, ease: 'none' }, 0.45);
-    // Section D: about — bottom-left, larger
-    tl.to(S, { posX: -1.8, posY: -1.0, scale: 1.05, rotX: 0.5, hue: 1.1, ease: 'none' }, 0.7);
-    // Section E: contact — center, large, calm
-    tl.to(S, { posX: 0, posY: 0, scale: 1.15, rotX: 0.15, hue: 1.3, ease: 'none' }, 0.9);
-
-    // Highlight current service line based on scroll
-    const items = document.querySelectorAll('.services__item');
-    items.forEach((el, i) => {
-      ScrollTrigger.create({
-        trigger: el,
-        start: 'top 75%',
-        end: 'bottom 25%',
-        onToggle: (self) => el.classList.toggle('is-active', self.isActive),
-      });
-    });
-
-    ScrollTrigger.refresh();
-
-    // Cinematic camera dolly on initial load — fly in from depth
-    gsap.fromTo(cam.position,
-      { z: 12 },
-      { z: 4.5, duration: 2.4, ease: 'expo.out', delay: 0.4 }
-    );
-    // Pair with a slow scale-up of the octahedron at the same time
-    gsap.fromTo(octa.scale,
-      { x: 0.4, y: 0.4, z: 0.4 },
-      { x: 1, y: 1, z: 1, duration: 2.4, ease: 'expo.out', delay: 0.4 }
-    );
-    // And key-light intensity ramps up (volumetric reveal feel)
-    gsap.fromTo(k,
-      { intensity: 0 },
-      { intensity: 1.4, duration: 2.0, ease: 'power2.out', delay: 0.6 }
-    );
-  }
-})();
-</script>
+<script src="/assets/wmw-scene.js" defer></script>
 
 <script>
 // Contact form — local-only

@@ -953,3 +953,113 @@ body.is-loaded > *:not(.wmw-loader):not(script) { opacity: 1; }
     transform: translateX(-50%);
   }
 }
+
+/* ==========================================================
+   Cinematic mode — full-screen 3D background, pinned climax
+   Active when body.cinematic is set (landing only).
+   ========================================================== */
+
+/* Hero glass cards — overlay on the full-screen 3D stage */
+body.cinematic .hero__cards {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+}
+body.cinematic .hero__cards .glass-card {
+  pointer-events: auto;
+  background: rgba(20, 14, 8, 0.45);
+  border: 1px solid rgba(245, 217, 168, 0.22);
+  color: rgba(245, 237, 224, 0.95);
+}
+body.cinematic .hero__cards .glass-card .lbl { color: var(--accent-amber); }
+body.cinematic .hero__cards .glass-card--a {
+  top: 18%; left: 6%; transform: rotate(-2deg);
+}
+body.cinematic .hero__cards .glass-card--b {
+  bottom: 14%; right: 6%; transform: rotate(2deg);
+}
+@media (max-width: 899px) {
+  body.cinematic .hero__cards { display: none; }
+}
+
+/* Hero needs to be tall enough for 3D to read */
+body.cinematic .hero {
+  min-height: 100vh;
+  padding: 7rem 0 4rem;
+}
+body.cinematic .hero__copy { text-align: left; }
+body.cinematic .hero__title { color: #f5ede0; }
+body.cinematic .hero__title .italic-accent { color: var(--accent-amber); }
+body.cinematic .hero__lead { color: rgba(245, 237, 224, 0.78); }
+
+/* Sections opaque on top of the dark void (legibility) */
+body.cinematic main > section:not(.philosophy--pinned) { position: relative; z-index: 2; }
+body.cinematic .footer-wmw { position: relative; z-index: 2; }
+
+/* Pinned philosophy — the cinematic climax.
+   Section is tall (240vh) so it occupies scroll real estate;
+   inner content uses position:sticky to stay on-screen while the
+   3D scene's camera does its dramatic arc. */
+.philosophy--pinned {
+  background: transparent;
+  height: 240vh;
+  padding: 0;
+  overflow: visible;
+}
+.philosophy__sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 4rem 0;
+}
+body.cinematic .philosophy--pinned .philosophy__quote {
+  color: #f5ede0;
+  text-shadow: 0 4px 40px rgba(15, 10, 6, 0.6);
+}
+body.cinematic .philosophy--pinned .philosophy__quote em {
+  color: var(--accent-amber);
+}
+body.cinematic .philosophy--pinned .philosophy__name strong { color: #f5ede0; }
+body.cinematic .philosophy--pinned .philosophy__name span { color: rgba(245, 217, 168, 0.7); }
+body.cinematic .philosophy--pinned .eyebrow { color: var(--accent-amber); }
+body.cinematic .philosophy--pinned .eyebrow::before { background: var(--accent-amber); }
+
+/* Reduce-motion / mobile fallback: don't pin, just normal section */
+@media (max-width: 767px) {
+  .philosophy--pinned { height: auto; min-height: 60vh; padding: 6rem 0; }
+  .philosophy__sticky { position: relative; height: auto; padding: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .philosophy--pinned { height: auto; padding: 7rem 0; }
+  .philosophy__sticky { position: relative; height: auto; padding: 0; }
+}
+
+/* Loader on cinematic site — fade out reveals dark void instead of cream */
+body.cinematic.is-loading .wmw-loader { background: #0a0704; }
+body.cinematic.is-loading .wmw-loader__mark { color: #f5ede0; }
+body.cinematic.is-loading .wmw-loader__suffix { color: var(--accent-amber); }
+body.cinematic.is-loading .wmw-loader__hint { color: rgba(245, 217, 168, 0.55); }
+
+/* Nav on cinematic landing — translucent dark over canvas */
+body.cinematic .nav {
+  background: rgba(15, 10, 6, 0.55);
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
+  backdrop-filter: saturate(180%) blur(14px);
+  border-bottom: 1px solid rgba(245, 217, 168, 0.1);
+}
+body.cinematic .nav.is-scrolled {
+  background: rgba(15, 10, 6, 0.78);
+}
+body.cinematic .nav .logo__mark { color: #f5ede0; }
+body.cinematic .nav .logo__suffix { color: var(--accent-amber); }
+body.cinematic .nav__links a { color: rgba(245, 237, 224, 0.85); }
+body.cinematic .nav__links a:hover { color: var(--accent-amber); }
+
+/* Hide the 2D particle canvas — 3D constellation provides the same dust feel */
+body.cinematic .particles { display: none; }
+
+/* Make sure #bg3d wins the painting layer (override body > * fallback) */
+body.cinematic #bg3d { position: fixed !important; inset: 0; z-index: 0; }
