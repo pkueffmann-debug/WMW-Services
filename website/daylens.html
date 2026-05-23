@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Daylens — Intelligence that holds your day.</title>
+<meta name="description" content="A premium AI operating system for intentional modern living. Calm, cinematic, listening — when you choose to speak." />
+<meta name="theme-color" content="#06050a" />
+<link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+<link rel="stylesheet" href="/assets/fonts/fonts.css">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23060509'/%3E%3Ccircle cx='16' cy='16' r='6' fill='none' stroke='%23c89870' stroke-width='1.3'/%3E%3Ccircle cx='16' cy='16' r='1.6' fill='%23efe6d4'/%3E%3C/svg%3E">
+<style>
+:root {
+  --void:      #050409;
+  --night:     #07060c;
+  --black:     #0a0805;
+  --charcoal:  #14110d;
+  --ash:       #1f1b16;
+  --smoke:     #2e2922;
+  --stone:     #5a5246;
+  --slate:     #6b6357;
+  --mist:      #989078;
+  --bone:      #c8bea8;
+  --ivory:     #efe6d4;
+  --paper:     #f7f1e3;
+  --bronze:    #b8895c;
+  --copper:    #c89870;
+  --ember:     #d4a574;
+  --gold:      #e8c393;
+
+  --grain:     url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180' viewBox='0 0 180 180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.92' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='matrix' values='0 0 0 0 0.92  0 0 0 0 0.78  0 0 0 0 0.55  0 0 0 0.36 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+
+  --serif:     'Fraunces', Georgia, serif;
+  --sans:      'Inter', system-ui, -apple-system, sans-serif;
+  --mono:      ui-monospace, 'SF Mono', Menlo, monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; background: var(--void); }
+body {
+  font-family: var(--sans);
+  background: var(--void);
+  color: var(--ivory);
+  line-height: 1.55;
+  font-weight: 300;
+  letter-spacing: 0;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+::selection { background: var(--copper); color: var(--void); }
+
+.dl-grain-overlay {
+  position: fixed; inset: 0;
+  background-image: var(--grain);
+  opacity: 0.32;
+  pointer-events: none;
+  mix-blend-mode: overlay;
+  z-index: 100;
+}
+
+.shell {
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 clamp(1.25rem, 3vw, 2.5rem);
+  position: relative;
+}
+
+.dl-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--mist);
+  font-weight: 400;
+}
+.dl-eyebrow::before {
+  content: '';
+  width: 28px;
+  height: 1px;
+  background: var(--copper);
+  display: inline-block;
+}
+
+h1, h2, h3 {
+  font-family: var(--serif);
+  font-weight: 300;
+  letter-spacing: -0.025em;
+  line-height: 1.0;
+  color: var(--ivory);
+}
+h1 em, h2 em, h3 em { font-style: italic; color: var(--copper); font-weight: 300; }
+
+/* =========================================================
+   NAV — minimal, hovering, no border
+   ========================================================= */
+.dl-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 60;
+  padding: 1.4rem 0;
+  background: linear-gradient(180deg, rgba(5,4,9,0.65), rgba(5,4,9,0));
+  pointer-events: none;
+}
+.dl-nav__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  pointer-events: auto;
+}
+.dl-logo {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.3rem;
+  color: var(--ivory);
+  letter-spacing: -0.01em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 400;
+}
+.dl-logo::before {
+  content: '';
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--copper);
+  box-shadow: 0 0 14px rgba(200,152,112,0.6);
+}
+.dl-nav__links {
+  display: flex;
+  gap: 2.2rem;
+  list-style: none;
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.16em;
+  text-transform: lowercase;
+}
+.dl-nav__links a { color: var(--mist); transition: color 280ms ease; }
+.dl-nav__links a:hover { color: var(--ivory); }
+@media (max-width: 860px) { .dl-nav__links { display: none; } }
+.dl-nav__cta {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ivory);
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--copper);
+  transition: border-color 280ms ease, color 280ms ease;
+}
+.dl-nav__cta:hover { border-color: var(--ivory); }
+
+/* =========================================================
+   HERO — Living Memory Constellation
+   ========================================================= */
+.dl-hero {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background: radial-gradient(ellipse 90% 70% at 50% 60%, #0e0a08 0%, #06050a 60%, #050409 100%);
+}
+.dl-hero__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+.dl-hero__vignette {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 100% 80% at 50% 50%, transparent 35%, rgba(5,4,9,0.55) 75%, rgba(5,4,9,0.95) 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+.dl-hero__fragments {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+}
+.dl-fragment {
+  position: absolute;
+  top: 0; left: 0;
+  transform: translate3d(-100px, -100px, 0);
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 0.86rem;
+  letter-spacing: 0.01em;
+  color: var(--bone);
+  opacity: 0;
+  white-space: nowrap;
+  text-shadow: 0 0 12px rgba(0,0,0,0.6);
+  will-change: transform, opacity;
+}
+.dl-fragment::before {
+  content: '·';
+  color: var(--copper);
+  margin-right: 0.4em;
+}
+
+.dl-hero__copy {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  z-index: 5;
+  padding: 0 1.5rem;
+  pointer-events: none;
+}
+.dl-hero__copy > * { pointer-events: auto; }
+.dl-hero__eyebrow {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--mist);
+  margin-bottom: 2.5rem;
+  opacity: 0;
+  animation: dlFade 1400ms ease 700ms forwards;
+}
+.dl-hero__eyebrow span { color: var(--copper); }
+.dl-hero__title {
+  font-size: clamp(2.8rem, 8.5vw, 8.5rem);
+  font-weight: 300;
+  letter-spacing: -0.035em;
+  line-height: 0.96;
+  max-width: 16ch;
+}
+.dl-hero__title .line {
+  display: block;
+  opacity: 0;
+  transform: translateY(28px);
+  animation: dlRise 1600ms cubic-bezier(.2,.7,.2,1) forwards;
+}
+.dl-hero__title .line:nth-child(1) { animation-delay: 1100ms; }
+.dl-hero__title .line:nth-child(2) { animation-delay: 1500ms; }
+.dl-hero__title em { font-style: italic; color: var(--copper); font-weight: 300; }
+.dl-hero__sub {
+  margin-top: 3rem;
+  max-width: 48ch;
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: clamp(1rem, 1.3vw, 1.15rem);
+  color: var(--mist);
+  letter-spacing: 0;
+  line-height: 1.55;
+  opacity: 0;
+  animation: dlFade 1400ms ease 2200ms forwards;
+}
+.dl-hero__cta-row {
+  margin-top: 3.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 2.5rem;
+  opacity: 0;
+  animation: dlFade 1400ms ease 2700ms forwards;
+}
+.dl-cta {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ivory);
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--copper);
+  transition: letter-spacing 380ms ease, border-color 380ms ease;
+}
+.dl-cta:hover { letter-spacing: 0.24em; border-color: var(--ivory); }
+.dl-cta--ghost { color: var(--mist); border-bottom-color: transparent; }
+.dl-cta--ghost:hover { color: var(--ivory); border-bottom-color: var(--mist); }
+
+.dl-hero__scroll-cue {
+  position: absolute;
+  bottom: 2.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--slate);
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.7rem;
+  opacity: 0;
+  animation: dlFade 1400ms ease 3200ms forwards;
+}
+.dl-hero__scroll-cue::after {
+  content: '';
+  width: 1px;
+  height: 36px;
+  background: linear-gradient(180deg, var(--copper), transparent);
+  animation: dlPulse 2200ms ease-in-out infinite;
+}
+
+@keyframes dlFade { to { opacity: 1; } }
+@keyframes dlRise { to { opacity: 1; transform: translateY(0); } }
+@keyframes dlPulse {
+  0%, 100% { opacity: 0.3; transform: scaleY(0.8); }
+  50%      { opacity: 1;   transform: scaleY(1.1); }
+}
+
+/* Reduced-motion fallback */
+.dl-static .dl-hero__canvas,
+.dl-static .dl-hero__fragments,
+.dl-static .dl-hero__scroll-cue { display: none; }
+.dl-static .dl-hero__title .line { opacity: 1; transform: none; animation: none; }
+.dl-static .dl-hero__eyebrow, .dl-static .dl-hero__sub, .dl-static .dl-hero__cta-row { opacity: 1; animation: none; }
+
+/* =========================================================
+   MANIFESTO — three editorial acts
+   ========================================================= */
+.dl-manifesto {
+  position: relative;
+  padding: clamp(8rem, 14vh, 14rem) 0 clamp(8rem, 14vh, 14rem);
+  background:
+    radial-gradient(ellipse 60% 40% at 30% 20%, rgba(184,137,92,0.06), transparent 60%),
+    radial-gradient(ellipse 60% 40% at 75% 80%, rgba(184,137,92,0.04), transparent 65%),
+    linear-gradient(180deg, var(--void), var(--night) 40%, var(--night) 60%, var(--void));
+}
+.dl-acts {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(4rem, 9vh, 9rem);
+  padding: 0 clamp(1.25rem, 4vw, 3rem);
+}
+.dl-act {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: 2.5rem;
+  align-items: baseline;
+}
+@media (max-width: 700px) { .dl-act { grid-template-columns: 50px 1fr; gap: 1.5rem; } }
+.dl-act__num {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(1.1rem, 1.4vw, 1.4rem);
+  color: var(--copper);
+  letter-spacing: 0.04em;
+  padding-top: 0.6em;
+}
+.dl-act__line {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: clamp(1.7rem, 4.4vw, 4rem);
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  color: var(--ivory);
+  max-width: 22ch;
+}
+.dl-act__line em {
+  font-style: italic;
+  color: var(--copper);
+}
+.dl-act:nth-child(2) { padding-left: clamp(0px, 8vw, 120px); }
+.dl-act:nth-child(3) { padding-left: clamp(0px, 16vw, 240px); }
+
+/* =========================================================
+   OS — holographic glass mock + asymmetric copy
+   ========================================================= */
+.dl-os {
+  position: relative;
+  padding: clamp(8rem, 14vh, 14rem) 0;
+  background: var(--void);
+  overflow: hidden;
+}
+.dl-os::before {
+  content: '';
+  position: absolute;
+  top: 10%; left: -10%;
+  width: 60%; height: 60%;
+  background: radial-gradient(circle, rgba(212,165,116,0.10), transparent 70%);
+  filter: blur(60px);
+  pointer-events: none;
+}
+.dl-os__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 5rem;
+  align-items: center;
+}
+@media (min-width: 980px) {
+  .dl-os__grid { grid-template-columns: 5fr 7fr; gap: 7rem; }
+}
+.dl-os__copy { position: relative; z-index: 2; }
+.dl-os__copy h2 {
+  margin-top: 1.5rem;
+  font-size: clamp(2.6rem, 6vw, 5.5rem);
+  max-width: 14ch;
+  line-height: 1.0;
+}
+.dl-os__body {
+  margin-top: 2.5rem;
+  font-size: 1.05rem;
+  color: var(--mist);
+  line-height: 1.7;
+  max-width: 38ch;
+  font-weight: 300;
+}
+.dl-os__body em { font-style: italic; color: var(--ember); }
+.dl-os__list {
+  margin-top: 3rem;
+  list-style: none;
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  letter-spacing: 0.04em;
+  color: var(--bone);
+}
+.dl-os__list li {
+  padding: 1rem 0;
+  border-top: 1px solid rgba(184,137,92,0.18);
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  align-items: baseline;
+  gap: 1rem;
+}
+.dl-os__list li:last-child { border-bottom: 1px solid rgba(184,137,92,0.18); }
+.dl-os__list li::before {
+  content: '·';
+  color: var(--copper);
+  font-size: 1.8em;
+  line-height: 0;
+}
+
+/* Floating holographic glass mock */
+.dl-os__mock {
+  position: relative;
+  aspect-ratio: 1 / 1.05;
+  perspective: 1800px;
+  perspective-origin: 50% 40%;
+}
+.dl-glass {
+  position: absolute;
+  background: linear-gradient(135deg, rgba(232,220,180,0.06), rgba(184,137,92,0.03));
+  border: 1px solid rgba(232,220,180,0.10);
+  border-radius: 18px;
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  padding: 1.4rem 1.5rem;
+  box-shadow:
+    0 30px 80px -30px rgba(0,0,0,0.6),
+    inset 0 1px 0 rgba(255,235,200,0.08);
+  font-family: var(--sans);
+  color: var(--ivory);
+  font-size: 0.9rem;
+  font-weight: 300;
+  overflow: hidden;
+}
+.dl-glass__label {
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--copper);
+  margin-bottom: 0.6rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.dl-glass__label::before {
+  content:'';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--copper);
+  box-shadow: 0 0 8px var(--copper);
+}
+.dl-glass__line {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--bone);
+  margin-bottom: 0.4rem;
+  font-weight: 300;
+}
+.dl-glass__detail {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  color: var(--mist);
+}
+
+.dl-glass--a { top: 6%;  left: 4%;  width: 56%; height: 32%; transform: rotateY(-8deg) rotateX(4deg) translateZ(60px); animation: dlFloat 9s ease-in-out infinite; }
+.dl-glass--b { top: 24%; right: 0%;  width: 50%; height: 30%; transform: rotateY(10deg) rotateX(-3deg) translateZ(20px); animation: dlFloat 11s ease-in-out infinite 2s; }
+.dl-glass--c { bottom: 24%; left: 12%; width: 44%; height: 28%; transform: rotateY(-12deg) rotateX(6deg) translateZ(80px); animation: dlFloat 10s ease-in-out infinite 1s; }
+.dl-glass--d { bottom: 0%;  right: 6%; width: 38%; height: 24%; transform: rotateY(6deg)  rotateX(-2deg) translateZ(40px); animation: dlFloat 12s ease-in-out infinite 3s; }
+
+@keyframes dlFloat {
+  0%, 100% { transform: translate3d(0, 0, 0) rotateY(var(--ry, -8deg)) rotateX(var(--rx, 4deg)) translateZ(var(--tz, 60px)); }
+  50%      { transform: translate3d(0, -14px, 0) rotateY(var(--ry, -8deg)) rotateX(var(--rx, 4deg)) translateZ(var(--tz, 60px)); }
+}
+
+/* graphic line for "energy" */
+.dl-spark {
+  height: 36px;
+  width: 100%;
+  margin-top: 0.5rem;
+  background:
+    linear-gradient(90deg, transparent, rgba(212,165,116,0.5), transparent),
+    radial-gradient(circle at 12% 60%, var(--copper) 1.5px, transparent 2px),
+    radial-gradient(circle at 30% 30%, var(--copper) 1.5px, transparent 2px),
+    radial-gradient(circle at 48% 70%, var(--copper) 1.5px, transparent 2px),
+    radial-gradient(circle at 64% 20%, var(--copper) 1.5px, transparent 2px),
+    radial-gradient(circle at 82% 50%, var(--copper) 1.5px, transparent 2px);
+  background-size: 100% 1px, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
+  background-position: 0 60%, 0 0, 0 0, 0 0, 0 0, 0 0;
+  background-repeat: no-repeat;
+}
+
+/* =========================================================
+   DAILY CYCLE — full-bleed cinematic moment
+   ========================================================= */
+.dl-cycle {
+  position: relative;
+  padding: clamp(8rem, 14vh, 14rem) 0;
+  background:
+    linear-gradient(180deg, var(--void), #0a0808 50%, var(--void));
+  overflow: hidden;
+}
+.dl-cycle__head {
+  text-align: center;
+  max-width: 760px;
+  margin: 0 auto 6rem;
+  padding: 0 1.5rem;
+}
+.dl-cycle__head h2 {
+  margin-top: 1.5rem;
+  font-size: clamp(2.6rem, 6vw, 5.4rem);
+  letter-spacing: -0.03em;
+}
+.dl-cycle__head p {
+  margin-top: 2rem;
+  color: var(--mist);
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 1.05rem;
+  max-width: 52ch;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.65;
+}
+.dl-cycle__arc {
+  position: relative;
+  max-width: 1180px;
+  margin: 0 auto;
+  height: clamp(360px, 56vh, 560px);
+  padding: 0 1.5rem;
+}
+.dl-cycle__line {
+  position: absolute;
+  left: 4%; right: 4%;
+  top: 50%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--smoke) 12%, var(--copper) 50%, var(--smoke) 88%, transparent);
+}
+.dl-cycle__sun {
+  position: absolute;
+  top: 0; left: 50%;
+  width: clamp(280px, 50vw, 480px);
+  height: clamp(280px, 50vw, 480px);
+  border-radius: 50%;
+  transform: translate(-50%, 0);
+  background: radial-gradient(circle, rgba(212,165,116,0.35), transparent 65%);
+  filter: blur(30px);
+  pointer-events: none;
+}
+.dl-cycle__beats {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  align-items: end;
+  padding: 0 4%;
+}
+.dl-beat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+}
+.dl-beat::before {
+  content: '';
+  position: absolute;
+  bottom: calc(50% - 5px);
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--copper);
+  box-shadow: 0 0 18px rgba(212,165,116,0.6);
+}
+.dl-beat__time {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--copper);
+  position: absolute;
+  bottom: calc(50% + 14px);
+}
+.dl-beat__label {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(1rem, 1.5vw, 1.3rem);
+  color: var(--ivory);
+  margin-top: clamp(3rem, 7vh, 5rem);
+}
+.dl-beat__sub {
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  color: var(--mist);
+  text-transform: lowercase;
+  margin-top: 0.5rem;
+  max-width: 16ch;
+}
+.dl-beat:nth-child(1) { transform: translateY(-30px); }
+.dl-beat:nth-child(2) { transform: translateY(-12px); }
+.dl-beat:nth-child(3) { transform: translateY(8px); }
+.dl-beat:nth-child(4) { transform: translateY(-6px); }
+.dl-beat:nth-child(5) { transform: translateY(-22px); }
+@media (max-width: 720px) {
+  .dl-cycle__arc { height: auto; padding: 2rem 1.5rem; }
+  .dl-cycle__beats { position: relative; grid-template-columns: 1fr; gap: 2rem; padding: 2rem 0; }
+  .dl-cycle__line, .dl-cycle__sun { display: none; }
+  .dl-beat { align-items: flex-start; transform: none !important; flex-direction: row; gap: 1.5rem; }
+  .dl-beat::before { position: relative; bottom: 0; flex-shrink: 0; margin-top: 0.5rem; }
+  .dl-beat__time { position: static; }
+  .dl-beat__label { margin-top: 0; }
+  .dl-beat__sub { margin-top: 0.3rem; }
+  .dl-beat > div { text-align: left; }
+}
+
+/* =========================================================
+   ECOSYSTEM — 5 worlds, asymmetric stacked frames
+   ========================================================= */
+.dl-eco {
+  position: relative;
+  padding: clamp(8rem, 14vh, 14rem) 0;
+  background: var(--night);
+}
+.dl-eco__head { padding: 0 1.5rem; max-width: 1200px; margin: 0 auto 6rem; }
+.dl-eco__head h2 {
+  margin-top: 1.5rem;
+  font-size: clamp(2.6rem, 6vw, 5.4rem);
+  max-width: 18ch;
+}
+.dl-eco__head p {
+  margin-top: 2rem;
+  color: var(--mist);
+  font-size: 1.05rem;
+  max-width: 56ch;
+  font-weight: 300;
+  line-height: 1.65;
+}
+.dl-eco__rail {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 clamp(1.25rem, 3vw, 2.5rem);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2rem, 4vw, 4rem);
+}
+.dl-world {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+  padding: clamp(2.5rem, 5vw, 4rem) clamp(2rem, 4vw, 3.5rem);
+  border-radius: 4px;
+  overflow: hidden;
+  isolation: isolate;
+}
+.dl-world::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--bg, var(--charcoal));
+  z-index: -2;
+}
+.dl-world::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--glow, radial-gradient(ellipse 60% 60% at 70% 30%, rgba(212,165,116,0.18), transparent 65%));
+  z-index: -1;
+  pointer-events: none;
+}
+@media (min-width: 880px) {
+  .dl-world { grid-template-columns: 280px 1fr 220px; gap: 4rem; align-items: center; }
+  .dl-world:nth-child(even) { grid-template-columns: 220px 1fr 280px; }
+  .dl-world:nth-child(even) .dl-world__index { order: 3; text-align: right; }
+  .dl-world:nth-child(even) .dl-world__visual { order: 1; }
+}
+.dl-world__index {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(3.5rem, 7vw, 6rem);
+  color: var(--copper);
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+}
+.dl-world__index small {
+  display: block;
+  font-family: var(--mono);
+  font-style: normal;
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--mist);
+  margin-top: 0.4rem;
+}
+.dl-world__body { max-width: 50ch; }
+.dl-world__name {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: clamp(2rem, 3.5vw, 2.8rem);
+  letter-spacing: -0.02em;
+  color: var(--ivory);
+  line-height: 1.05;
+}
+.dl-world__name em { font-style: italic; color: var(--copper); }
+.dl-world__lead {
+  margin-top: 1.5rem;
+  font-size: 1rem;
+  color: var(--mist);
+  line-height: 1.65;
+  font-weight: 300;
+}
+.dl-world__tags {
+  margin-top: 1.8rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+.dl-world__tags span {
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: lowercase;
+  color: var(--bone);
+  padding: 0.4rem 0.8rem;
+  border: 1px solid rgba(184,137,92,0.3);
+  border-radius: 999px;
+}
+.dl-world__visual {
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  max-width: 220px;
+  background-size: cover;
+  background-position: center;
+  border-radius: 4px;
+  filter: grayscale(0.35) brightness(0.85) sepia(0.15);
+  border: 1px solid rgba(232,220,180,0.08);
+}
+.dl-world__cta {
+  margin-top: 1.5rem;
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ivory);
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--copper);
+  display: inline-block;
+  transition: letter-spacing 280ms ease;
+}
+.dl-world__cta:hover { letter-spacing: 0.24em; }
+.dl-world__cta--soon { color: var(--slate); border-bottom-color: var(--smoke); cursor: default; }
+.dl-world__cta--soon:hover { letter-spacing: 0.18em; }
+
+.dl-world--wellness    { --bg: #0a0f10; --glow: radial-gradient(ellipse 70% 60% at 75% 30%, rgba(140,180,170,0.10), transparent 65%); }
+.dl-world--journal     { --bg: #0e0b07; --glow: radial-gradient(ellipse 60% 60% at 25% 70%, rgba(212,165,116,0.14), transparent 65%); }
+.dl-world--adhd        { --bg: #08090c; --glow: radial-gradient(ellipse 60% 50% at 70% 50%, rgba(168,180,200,0.10), transparent 65%); }
+.dl-world--biohack     { --bg: #06060a; --glow: radial-gradient(ellipse 70% 50% at 30% 30%, rgba(120,100,140,0.16), transparent 70%); }
+.dl-world--recovery    { --bg: #0d0907; --glow: radial-gradient(ellipse 50% 70% at 80% 60%, rgba(184,137,92,0.10), transparent 65%); }
+
+/* =========================================================
+   PHILOSOPHY — quote / founder vision
+   ========================================================= */
+.dl-philosophy {
+  position: relative;
+  padding: clamp(9rem, 16vh, 16rem) 0;
+  background: var(--void);
+  text-align: center;
+}
+.dl-philosophy::before {
+  content:'';
+  position: absolute;
+  top: 20%; left: 50%;
+  width: 50%; height: 60%;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse, rgba(212,165,116,0.08), transparent 70%);
+  filter: blur(70px);
+  pointer-events: none;
+}
+.dl-philosophy__inner {
+  position: relative;
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 0 clamp(1.5rem, 4vw, 3rem);
+}
+.dl-philosophy__quote {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(2rem, 5vw, 4rem);
+  line-height: 1.18;
+  letter-spacing: -0.02em;
+  color: var(--ivory);
+}
+.dl-philosophy__quote em {
+  font-style: italic;
+  color: var(--copper);
+}
+.dl-philosophy__attr {
+  margin-top: 3.5rem;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--mist);
+}
+.dl-philosophy__attr strong { color: var(--ivory); font-weight: 500; }
+
+/* =========================================================
+   TRUST — three transparent statements
+   ========================================================= */
+.dl-trust {
+  padding: clamp(8rem, 12vh, 12rem) 0;
+  background: linear-gradient(180deg, var(--void), var(--night));
+}
+.dl-trust__head { padding: 0 1.5rem; max-width: 1200px; margin: 0 auto 5rem; text-align: center; }
+.dl-trust__head h2 { font-size: clamp(2.2rem, 4.5vw, 3.6rem); margin-top: 1.5rem; max-width: 24ch; margin-left: auto; margin-right: auto; }
+.dl-trust__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  background: rgba(184,137,92,0.18);
+  border: 1px solid rgba(184,137,92,0.18);
+}
+@media (min-width: 760px) { .dl-trust__grid { grid-template-columns: repeat(3, 1fr); } }
+.dl-trust__cell {
+  padding: 3rem 2.5rem;
+  background: var(--void);
+}
+.dl-trust__num {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  color: var(--copper);
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+}
+.dl-trust__title {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: 1.5rem;
+  color: var(--ivory);
+  margin-bottom: 1rem;
+  letter-spacing: -0.01em;
+}
+.dl-trust__body {
+  font-size: 0.94rem;
+  color: var(--mist);
+  line-height: 1.65;
+  font-weight: 300;
+}
+
+/* =========================================================
+   FINAL CTA — single line
+   ========================================================= */
+.dl-final {
+  position: relative;
+  padding: clamp(8rem, 18vh, 18rem) 0;
+  background: var(--void);
+  text-align: center;
+  overflow: hidden;
+}
+.dl-final::before {
+  content:'';
+  position: absolute;
+  bottom: -40%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 100%;
+  background: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(212,165,116,0.14), transparent 70%);
+  filter: blur(80px);
+  pointer-events: none;
+}
+.dl-final__inner { position: relative; padding: 0 1.5rem; }
+.dl-final h2 {
+  font-size: clamp(3rem, 9vw, 8rem);
+  font-weight: 300;
+  letter-spacing: -0.04em;
+  line-height: 1.0;
+}
+.dl-final h2 em { font-style: italic; color: var(--copper); font-weight: 300; }
+.dl-final__cta {
+  margin-top: 4rem;
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.84rem;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--ivory);
+  padding: 1.2rem 0;
+  border-bottom: 1px solid var(--copper);
+  transition: letter-spacing 380ms ease;
+}
+.dl-final__cta:hover { letter-spacing: 0.32em; }
+
+/* =========================================================
+   FOOTER — minimal
+   ========================================================= */
+.dl-footer {
+  padding: 3rem 0;
+  background: var(--void);
+  border-top: 1px solid rgba(184,137,92,0.14);
+}
+.dl-footer__inner {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 clamp(1.25rem, 3vw, 2.5rem);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  color: var(--slate);
+  text-transform: lowercase;
+}
+.dl-footer__links { display: flex; gap: 1.8rem; }
+.dl-footer__links a { color: var(--mist); transition: color 240ms ease; }
+.dl-footer__links a:hover { color: var(--ivory); }
+</style>
+</head>
+
+<body>
+
+<div class="dl-grain-overlay" aria-hidden="true"></div>
+
+<!-- ============================ NAV ============================ -->
+<nav class="dl-nav" aria-label="Daylens Navigation">
+  <div class="shell dl-nav__inner">
+    <a href="/daylens" class="dl-logo">Daylens</a>
+    <ul class="dl-nav__links">
+      <li><a href="#manifesto">manifesto</a></li>
+      <li><a href="#os">the os</a></li>
+      <li><a href="#cycle">the day</a></li>
+      <li><a href="#ecosystem">worlds</a></li>
+    </ul>
+    <a href="#final" class="dl-nav__cta">request access</a>
+  </div>
+</nav>
+
+<!-- ============================ HERO — Signature ============================ -->
+<section class="dl-hero" id="hero">
+  <canvas id="dl-canvas" class="dl-hero__canvas" aria-hidden="true"></canvas>
+  <div class="dl-hero__fragments" id="dl-fragments" aria-hidden="true"></div>
+  <div class="dl-hero__vignette" aria-hidden="true"></div>
+
+  <div class="dl-hero__copy">
+    <div class="dl-hero__eyebrow">Daylens · <span>v1</span> · 2026</div>
+    <h1 class="dl-hero__title">
+      <span class="line">An intelligence</span>
+      <span class="line"><em>that holds your day.</em></span>
+    </h1>
+    <p class="dl-hero__sub">
+      A premium operating system for intentional modern living. Calm, ambient, listening — when you choose to speak.
+    </p>
+    <div class="dl-hero__cta-row">
+      <a href="#final" class="dl-cta">request access</a>
+      <a href="#manifesto" class="dl-cta dl-cta--ghost">read manifesto</a>
+    </div>
+  </div>
+
+  <div class="dl-hero__scroll-cue" aria-hidden="true">Scroll</div>
+</section>
+
+<!-- ============================ MANIFESTO ============================ -->
+<section class="dl-manifesto" id="manifesto">
+  <div class="dl-acts">
+    <div class="dl-act">
+      <span class="dl-act__num">I.</span>
+      <p class="dl-act__line">Most software <em>demands</em> your attention.</p>
+    </div>
+    <div class="dl-act">
+      <span class="dl-act__num">II.</span>
+      <p class="dl-act__line">Daylens <em>earns</em> it.</p>
+    </div>
+    <div class="dl-act">
+      <span class="dl-act__num">III.</span>
+      <p class="dl-act__line">A calm system — listening, when you <em>choose to speak.</em></p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ THE OS ============================ -->
+<section class="dl-os" id="os">
+  <div class="shell dl-os__grid">
+    <div class="dl-os__copy">
+      <span class="dl-eyebrow">The Operating System</span>
+      <h2>Not an app. A <em>living layer.</em></h2>
+      <p class="dl-os__body">
+        Daylens sits beneath the day — ambient, listening, attentive. It holds your intentions in the morning,
+        notices the pattern of your week, and returns what matters when you ask. <em>One conversation,
+        across every dimension of how you live.</em>
+      </p>
+      <ul class="dl-os__list">
+        <li>Voice-first · ambient capture, no input friction</li>
+        <li>Memory model that holds months, not minutes</li>
+        <li>Local-first encryption · zero training on your data</li>
+        <li>Returns insight on rhythm — not in real time</li>
+        <li>One single attention space</li>
+      </ul>
+    </div>
+
+    <div class="dl-os__mock" aria-hidden="true">
+      <div class="dl-glass dl-glass--a">
+        <div class="dl-glass__label">morning · 07:24</div>
+        <div class="dl-glass__line">"What matters today?"</div>
+        <div class="dl-glass__detail">three intentions captured</div>
+      </div>
+      <div class="dl-glass dl-glass--b">
+        <div class="dl-glass__label">attention</div>
+        <div class="dl-glass__line">deep work · 4h 12m</div>
+        <div class="dl-spark"></div>
+        <div class="dl-glass__detail">+18% vs last week</div>
+      </div>
+      <div class="dl-glass dl-glass--c">
+        <div class="dl-glass__label">memory</div>
+        <div class="dl-glass__line italic">"the work was harder than I thought."</div>
+        <div class="dl-glass__detail">14d · pattern surfaced</div>
+      </div>
+      <div class="dl-glass dl-glass--d">
+        <div class="dl-glass__label">evening · close</div>
+        <div class="dl-glass__line">3 spoken · 1 resolved</div>
+        <div class="dl-glass__detail">reflection ready</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ DAILY CYCLE ============================ -->
+<section class="dl-cycle" id="cycle">
+  <div class="dl-cycle__head">
+    <span class="dl-eyebrow">A day, held</span>
+    <h2>Five moments. <em>One presence.</em></h2>
+    <p>Daylens doesn't notify, ping, or interrupt. It holds the arc of the day — and only speaks when you turn toward it.</p>
+  </div>
+
+  <div class="dl-cycle__arc">
+    <div class="dl-cycle__sun" aria-hidden="true"></div>
+    <div class="dl-cycle__line" aria-hidden="true"></div>
+
+    <div class="dl-cycle__beats">
+      <div class="dl-beat">
+        <div class="dl-beat__time">07:00</div>
+        <div>
+          <div class="dl-beat__label">Intention</div>
+          <div class="dl-beat__sub">three quiet questions</div>
+        </div>
+      </div>
+      <div class="dl-beat">
+        <div class="dl-beat__time">10:30</div>
+        <div>
+          <div class="dl-beat__label">Focus</div>
+          <div class="dl-beat__sub">deep work guarded</div>
+        </div>
+      </div>
+      <div class="dl-beat">
+        <div class="dl-beat__time">13:30</div>
+        <div>
+          <div class="dl-beat__label">Drift</div>
+          <div class="dl-beat__sub">thought captured</div>
+        </div>
+      </div>
+      <div class="dl-beat">
+        <div class="dl-beat__time">18:00</div>
+        <div>
+          <div class="dl-beat__label">Reflection</div>
+          <div class="dl-beat__sub">spoken, not typed</div>
+        </div>
+      </div>
+      <div class="dl-beat">
+        <div class="dl-beat__time">22:00</div>
+        <div>
+          <div class="dl-beat__label">Close</div>
+          <div class="dl-beat__sub">silence, by design</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ ECOSYSTEM ============================ -->
+<section class="dl-eco" id="ecosystem">
+  <div class="dl-eco__head">
+    <span class="dl-eyebrow">Worlds inside Daylens</span>
+    <h2>Five dimensions, <em>one intelligence.</em></h2>
+    <p>Each world is a different emotional register of the same operating system. Open one — the others stay quiet. Always one conversation.</p>
+  </div>
+
+  <div class="dl-eco__rail">
+
+    <article class="dl-world dl-world--wellness">
+      <div class="dl-world__index">01<small>Wellness</small></div>
+      <div class="dl-world__body">
+        <h3 class="dl-world__name">Calm, <em>not coaching.</em></h3>
+        <p class="dl-world__lead">Breath, sleep, energy — held softly. Daylens doesn't track. It listens, and reflects back the shape of your week.</p>
+        <div class="dl-world__tags"><span>breath</span><span>sleep</span><span>energy</span><span>rhythm</span></div>
+        <a href="#" class="dl-world__cta dl-world__cta--soon">in preview →</a>
+      </div>
+      <div class="dl-world__visual" style="background-image:url('https://images.unsplash.com/photo-1490730141103-6cac27aaab94?w=900&q=80&auto=format&fit=crop')"></div>
+    </article>
+
+    <article class="dl-world dl-world--journal">
+      <div class="dl-world__index">02<small>Journal</small></div>
+      <div class="dl-world__body">
+        <h3 class="dl-world__name">Editorial <em>stillness.</em></h3>
+        <p class="dl-world__lead">A long-form memory. Speak a sentence — Daylens carries the rest. Months later, the pattern surfaces unprompted.</p>
+        <div class="dl-world__tags"><span>voice-first</span><span>memory</span><span>pattern</span><span>editorial</span></div>
+        <a href="#" class="dl-world__cta dl-world__cta--soon">in preview →</a>
+      </div>
+      <div class="dl-world__visual" style="background-image:url('https://images.unsplash.com/photo-1455390582262-044cdead277a?w=900&q=80&auto=format&fit=crop')"></div>
+    </article>
+
+    <article class="dl-world dl-world--adhd">
+      <div class="dl-world__index">03<small>Clarity</small></div>
+      <div class="dl-world__body">
+        <h3 class="dl-world__name">Cognitive <em>simplicity.</em></h3>
+        <p class="dl-world__lead">For minds that fragment. Daylens holds the thread when you can't — capture mid-sentence, return when ready.</p>
+        <div class="dl-world__tags"><span>capture</span><span>thread</span><span>return</span><span>quiet ui</span></div>
+        <a href="#" class="dl-world__cta dl-world__cta--soon">in preview →</a>
+      </div>
+      <div class="dl-world__visual" style="background-image:url('https://images.unsplash.com/photo-1502209524164-acea936639a2?w=900&q=80&auto=format&fit=crop')"></div>
+    </article>
+
+    <article class="dl-world dl-world--biohack">
+      <div class="dl-world__index">04<small>Performance</small></div>
+      <div class="dl-world__body">
+        <h3 class="dl-world__name">Measured, <em>without obsession.</em></h3>
+        <p class="dl-world__lead">For those who measure. HRV, recovery, output — Daylens holds the signal, hides the noise. No dashboards, ever.</p>
+        <div class="dl-world__tags"><span>signal</span><span>recovery</span><span>output</span><span>no dashboards</span></div>
+        <a href="#" class="dl-world__cta dl-world__cta--soon">in preview →</a>
+      </div>
+      <div class="dl-world__visual" style="background-image:url('https://images.unsplash.com/photo-1518709594023-6eab9bab7b23?w=900&q=80&auto=format&fit=crop')"></div>
+    </article>
+
+    <article class="dl-world dl-world--recovery">
+      <div class="dl-world__index">05<small>Recovery</small></div>
+      <div class="dl-world__body">
+        <h3 class="dl-world__name">Slow, <em>meditative time.</em></h3>
+        <p class="dl-world__lead">When the system is loud, Daylens turns quiet. Long pauses. Spoken reflections. No metrics. Hours, not minutes.</p>
+        <div class="dl-world__tags"><span>slow time</span><span>pauses</span><span>reflection</span><span>silence</span></div>
+        <a href="#" class="dl-world__cta dl-world__cta--soon">in preview →</a>
+      </div>
+      <div class="dl-world__visual" style="background-image:url('https://images.unsplash.com/photo-1507692049790-de58290a4334?w=900&q=80&auto=format&fit=crop')"></div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ============================ PHILOSOPHY ============================ -->
+<section class="dl-philosophy">
+  <div class="dl-philosophy__inner">
+    <p class="dl-philosophy__quote">
+      We don't believe the answer to a noisy mind is <em>louder software.</em>
+      <br>Daylens is the opposite of every product that demanded your day.
+    </p>
+    <div class="dl-philosophy__attr"><strong>Studio Daylens</strong> · 2026</div>
+  </div>
+</section>
+
+<!-- ============================ TRUST ============================ -->
+<section class="dl-trust">
+  <div class="dl-trust__head">
+    <span class="dl-eyebrow">Transparency</span>
+    <h2>Three promises. <em>Written, not whispered.</em></h2>
+  </div>
+  <div class="dl-trust__grid">
+    <div class="dl-trust__cell">
+      <div class="dl-trust__num">01 / Privacy</div>
+      <div class="dl-trust__title">Local-first by default.</div>
+      <p class="dl-trust__body">Your voice, your memory, your patterns — encrypted on your device. Cloud sync is opt-in, end-to-end. We can't read your data even if you wanted us to.</p>
+    </div>
+    <div class="dl-trust__cell">
+      <div class="dl-trust__num">02 / Training</div>
+      <div class="dl-trust__title">Never used to train models.</div>
+      <p class="dl-trust__body">Not by us, not by any partner. Inference happens on-device where possible. When it doesn't, the request is ephemeral — discarded the moment it returns.</p>
+    </div>
+    <div class="dl-trust__cell">
+      <div class="dl-trust__num">03 / Exit</div>
+      <div class="dl-trust__title">Yours to leave with.</div>
+      <p class="dl-trust__body">Export your full memory in plain text, anytime. If Daylens disappears tomorrow, your years of reflection don't disappear with it.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ FINAL ============================ -->
+<section class="dl-final" id="final">
+  <div class="dl-final__inner">
+    <h2>Begin <em>quietly.</em></h2>
+    <a href="mailto:hello@daylens.example?subject=Daylens%20Access" class="dl-final__cta">request early access →</a>
+  </div>
+</section>
+
+<!-- ============================ FOOTER ============================ -->
+<footer class="dl-footer">
+  <div class="dl-footer__inner">
+    <span>© 2026 Studio Daylens · concept preview</span>
+    <div class="dl-footer__links">
+      <a href="/">← wmw services</a>
+      <a href="/impressum">impressum</a>
+      <a href="/datenschutz">privacy</a>
+    </div>
+  </div>
+</footer>
+
+<script src="/assets/vendor/three.min.js" defer></script>
+<script src="/assets/daylens-signature.js" defer></script>
+
+</body>
+</html>
