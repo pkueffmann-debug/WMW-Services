@@ -150,6 +150,9 @@
   prepareSplitLetter();
   observeReveals('.split-letter', 'is-visible', 0.25);
   observeReveals('.mask-reveal', 'is-visible', 0.18);
+  observeReveals('.layered-in',  'is-visible', 0.15);
+  observeReveals('.reveal',      'is-visible', 0.12);
+  observeReveals('.kinetic',     'is-visible', 0.3);
   initLenis();
   initCursor();
 })();
