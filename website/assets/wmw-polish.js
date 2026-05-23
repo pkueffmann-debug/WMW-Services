@@ -154,5 +154,5 @@
   observeReveals('.reveal',      'is-visible', 0.12);
   observeReveals('.kinetic',     'is-visible', 0.3);
   initLenis();
-  initCursor();
+  // initCursor();  // disabled — native cursor everywhere
 })();
