@@ -764,15 +764,15 @@ body.landing { background: var(--bg-cream); }
       <span class="logo__mark">WMW</span><span class="logo__suffix"> Services</span>
     </a>
     <ul class="nav__links">
-      <li><a href="#services">Leistungen</a></li>
-      <li><a href="#portfolio">Arbeiten</a></li>
-      <li><a href="#preise">Preise</a></li>
-      <li><a href="#pilot">Pilot 2026</a></li>
-      <li><a href="#contact">Kontakt</a></li>
+      <li><a href="#services" data-i18n="nav.services">Services</a></li>
+      <li><a href="#portfolio" data-i18n="nav.work">Work</a></li>
+      <li><a href="#preise" data-i18n="nav.pricing">Pricing</a></li>
+      <li><a href="#pilot" data-i18n="nav.pilot">Pilot 2026</a></li>
+      <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
     </ul>
     <div class="nav__actions">
-      <a href="#contact" class="btn btn--primary" style="display:none">Projekt anfragen</a>
-      <a href="#contact" class="btn btn--primary hide-mobile" id="navCta">Projekt anfragen</a>
+      <a href="#contact" class="btn btn--primary" style="display:none" data-i18n="nav.cta">Start a project</a>
+      <a href="#contact" class="btn btn--primary hide-mobile" id="navCta" data-i18n="nav.cta">Start a project</a>
       <button class="nav__menu-btn" id="navMenuBtn" aria-label="Menü öffnen"><span></span></button>
     </div>
   </div>
@@ -878,11 +878,11 @@ body.landing { background: var(--bg-cream); }
         <!-- Stage 5: live (real content, indexed by SE) -->
         <div class="bh-stage bh-stage--5" data-stage="5">
           <div class="bh-nav"><strong>daylens</strong><span>Leistungen</span><span>Arbeiten</span><span>Studio</span><span>Kontakt</span></div>
-          <h1 class="bh-h1">Maßgeschneiderte Websites für Berliner Geschäfte. <em>Live in 7–21 Werktagen.</em></h1>
-          <p class="bh-sub">AI-Integration für Café, Kanzlei, Trainer &amp; lokale Dienstleister. Festpreis, kein Stundenkonto. Ab 1.490 €.</p>
+          <h1 class="bh-h1"><span data-i18n="index.hero.headline">Custom websites for Berlin businesses.</span> <em data-i18n="index.hero.headlineEm">Live in 7–21 business days.</em></h1>
+          <p class="bh-sub" data-i18n="index.hero.sub">AI integration for cafés, law firms, trainers &amp; local services. Fixed price, no hourly billing. From €1,490.</p>
           <div class="bh-ctas">
-            <a href="#contact" class="bh-cta">Kostenloses Erstgespräch →</a>
-            <a href="#portfolio" class="bh-cta-link">Arbeiten ansehen</a>
+            <a href="#contact" class="bh-cta" data-i18n="index.hero.ctaPrimary">Free first call →</a>
+            <a href="#portfolio" class="bh-cta-link" data-i18n="index.hero.ctaSecondary">See our work</a>
           </div>
           <div class="bh-card bh-card-a"><small>Café · Berlin</small>Halbmond</div>
           <div class="bh-card bh-card-b"><small>Kanzlei · Mitte</small>Müller &amp; Partner</div>
@@ -1044,20 +1044,20 @@ body.landing { background: var(--bg-cream); }
     </aside>
 
     <div class="about__copy reveal" data-delay="1">
-      <h2 class="h-display t-h2">Ein Studio, vier Schüler, <span class="italic-accent">ein Anspruch.</span></h2>
+      <h2 class="h-display t-h2"><span data-i18n="index.about.headline.text">One studio, four students,</span> <span class="italic-accent" data-i18n="index.about.headline.em">one standard.</span></h2>
 
-      <p style="margin-top:2rem;color:var(--text-soft);font-size:1.05rem;line-height:1.7;max-width:54ch">
-        WMW Services ist ein junges Berliner Studio für Web Design mit optionaler AI-Integration.
-        Wir bauen, was wir selbst nutzen würden. Festpreis, klare Lieferzeit, kein Stundenkonto.
+      <p style="margin-top:2rem;color:var(--text-soft);font-size:1.05rem;line-height:1.7;max-width:54ch" data-i18n="index.about.p1">
+        WMW Services is a young Berlin studio for web design with optional AI integration.
+        We build what we'd use ourselves. Fixed price, clear delivery, no hourly billing.
       </p>
-      <p style="margin-top:1.2rem;color:var(--text-soft);font-size:1.05rem;line-height:1.7;max-width:54ch">
+      <p style="margin-top:1.2rem;color:var(--text-soft);font-size:1.05rem;line-height:1.7;max-width:54ch" data-i18n="index.about.p2">
         Paul (Engineering &amp; AI), Jannis (3D &amp; Motion), Tom (Client Strategy)
-        und Justus (Visual Direction). Vier Berliner Schüler, jeder mit eigener
-        Spezialisierung.
+        and Justus (Visual Direction). Four Berlin students, each with their own
+        specialization.
       </p>
 
-      <div style="margin-up:2.5rem;margin-top:2.5rem">
-        <a href="/about" class="btn--link">About Us lesen →</a>
+      <div style="margin-top:2.5rem">
+        <a href="/about" class="btn--link" data-i18n="index.about.cta">Read About Us →</a>
       </div>
     </div>
   </div>
@@ -1412,6 +1412,7 @@ body.landing { background: var(--bg-cream); }
 })();
 </script>
 
+<script src="/assets/i18n.js" defer></script>
 <link rel="stylesheet" href="/assets/chatbot-widget.css">
 <script src="/assets/chatbot-widget.js" defer></script>
 </body>

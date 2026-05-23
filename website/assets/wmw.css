@@ -1036,3 +1036,24 @@ body.is-loaded > *:not(.wmw-loader):not(script) { opacity: 1; }
    Defensive guards: force native cursor in case any stale class lingers. */
 html, body { cursor: auto !important; }
 .wmw-cursor { display: none !important; }
+
+/* Language switcher button — minimal pill in nav */
+.lang-switch {
+  background: transparent;
+  border: 1px solid var(--border-warm);
+  color: var(--text-soft);
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  padding: 0.5rem 0.85rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: border-color 200ms ease, color 200ms ease, background 200ms ease;
+  margin-right: 0.6rem;
+}
+.lang-switch:hover {
+  border-color: var(--accent-caramel);
+  color: var(--text-dark);
+  background: rgba(58, 70, 84, 0.05);
+}
