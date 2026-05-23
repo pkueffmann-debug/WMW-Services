@@ -690,7 +690,17 @@ body.landing { background: var(--bg-cream); }
 </style>
 </head>
 
-<body class="landing">
+<body class="landing is-loading">
+
+<!-- ============================ LOADER ============================ -->
+<div class="wmw-loader" id="wmwLoader" aria-hidden="true">
+  <div class="wmw-loader__mark-wrap">
+    <span class="wmw-loader__mark">daylens</span>
+    <span class="wmw-loader__suffix">/ wmw services</span>
+  </div>
+  <div class="wmw-loader__bar"><span class="wmw-loader__fill"></span></div>
+  <div class="wmw-loader__hint">Berlin · Studio · 2026</div>
+</div>
 
 <!-- ============================ NAV ============================ -->
 <nav class="nav" id="nav" aria-label="Hauptnavigation">
@@ -1178,6 +1188,28 @@ body.landing { background: var(--bg-cream); }
 <script src="/assets/wmw-daylight.js" defer></script>
 <script src="/assets/wmw-build-hero.js" defer></script>
 <script src="/assets/wmw-polish.js" defer></script>
+
+<script>
+// Loader — hide on window.load, min display 1100ms so it doesn't flash
+(function() {
+  var loader = document.getElementById('wmwLoader');
+  if (!loader) return;
+  var t0 = performance.now();
+  function hide() {
+    var wait = Math.max(0, 1100 - (performance.now() - t0));
+    setTimeout(function() {
+      loader.classList.add('is-hidden');
+      document.body.classList.remove('is-loading');
+      document.body.classList.add('is-loaded');
+      setTimeout(function() { loader.remove(); }, 1000);
+    }, wait);
+  }
+  if (document.readyState === 'complete') hide();
+  else window.addEventListener('load', hide);
+  // Safety fallback: never block longer than 5s even if an asset hangs
+  setTimeout(hide, 5000);
+})();
+</script>
 
 <script>
 // Contact form — local-only
