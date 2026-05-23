@@ -103,49 +103,6 @@
   /* ===== 3. Mask-Reveal Sections ===== */
   // Same observe machinery — CSS handles the clip-path animation via .is-visible
 
-  /* ===== 4. Custom Cursor ===== */
-  function initCursor() {
-    if (reduced || touch) return;
-    const dot = document.createElement('div');
-    dot.className = 'wmw-cursor';
-    dot.innerHTML = '<span class="wmw-cursor__dot"></span><span class="wmw-cursor__halo"></span>';
-    document.body.appendChild(dot);
-    document.documentElement.classList.add('has-custom-cursor');
-
-    let tx = window.innerWidth / 2, ty = window.innerHeight / 2;
-    let dx = tx, dy = ty;     // dot (fast)
-    let hx = tx, hy = ty;     // halo (slow lag)
-    let active = false;
-
-    window.addEventListener('mousemove', (e) => {
-      tx = e.clientX; ty = e.clientY;
-      if (!active) { active = true; dot.classList.add('is-visible'); }
-    }, { passive: true });
-    window.addEventListener('mouseleave', () => {
-      active = false; dot.classList.remove('is-visible');
-    });
-
-    function frame() {
-      dx += (tx - dx) * 0.45;
-      dy += (ty - dy) * 0.45;
-      hx += (tx - hx) * 0.14;
-      hy += (ty - hy) * 0.14;
-      dot.style.setProperty('--dx', dx + 'px');
-      dot.style.setProperty('--dy', dy + 'px');
-      dot.style.setProperty('--hx', hx + 'px');
-      dot.style.setProperty('--hy', hy + 'px');
-      requestAnimationFrame(frame);
-    }
-    frame();
-
-    // Grow halo on interactive hover
-    const interactive = 'a, button, [role="button"], input, textarea, select, label, .work, .price, .glass-card, .eco-card, .work__cta';
-    document.querySelectorAll(interactive).forEach((el) => {
-      el.addEventListener('mouseenter', () => dot.classList.add('is-hover'));
-      el.addEventListener('mouseleave', () => dot.classList.remove('is-hover'));
-    });
-  }
-
   /* ===== Init ===== */
   prepareSplitLetter();
   observeReveals('.split-letter', 'is-visible', 0.25);
@@ -154,5 +111,8 @@
   observeReveals('.reveal',      'is-visible', 0.12);
   observeReveals('.kinetic',     'is-visible', 0.3);
   initLenis();
-  // initCursor();  // disabled — native cursor everywhere
+  // Custom cursor: removed permanently. Native system cursor on every page.
+  // Defensive: remove any leftover class/element from an older cached build.
+  document.documentElement.classList.remove('has-custom-cursor');
+  document.querySelectorAll('.wmw-cursor').forEach((el) => el.remove());
 })();

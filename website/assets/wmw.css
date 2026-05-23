@@ -1031,52 +1031,7 @@ body.is-loaded > *:not(.wmw-loader):not(script) { opacity: 1; }
   .mask-reveal { clip-path: none; opacity: 1; transition: none; }
 }
 
-/* Custom Cursor */
-.has-custom-cursor,
-.has-custom-cursor * { cursor: none !important; }
-
-.wmw-cursor {
-  position: fixed;
-  top: 0; left: 0;
-  width: 0; height: 0;
-  pointer-events: none;
-  z-index: 9999;
-  opacity: 0;
-  transition: opacity 200ms ease;
-}
-.wmw-cursor.is-visible { opacity: 1; }
-.wmw-cursor__dot,
-.wmw-cursor__halo {
-  position: fixed;
-  border-radius: 50%;
-  pointer-events: none;
-  will-change: transform, width, height;
-}
-.wmw-cursor__dot {
-  width: 8px; height: 8px;
-  background: #fff;
-  mix-blend-mode: difference;
-  transform: translate(var(--dx, 50vw), var(--dy, 50vh)) translate(-50%, -50%);
-  transition: width 260ms cubic-bezier(0.2, 0.7, 0.2, 1),
-              height 260ms cubic-bezier(0.2, 0.7, 0.2, 1);
-}
-.wmw-cursor__halo {
-  width: 36px; height: 36px;
-  border: 1px solid var(--accent-caramel, #c8884a);
-  transform: translate(var(--hx, 50vw), var(--hy, 50vh)) translate(-50%, -50%);
-  opacity: 0.55;
-  transition: width 320ms cubic-bezier(0.2, 0.7, 0.2, 1),
-              height 320ms cubic-bezier(0.2, 0.7, 0.2, 1),
-              opacity 300ms ease,
-              border-color 300ms ease;
-}
-.wmw-cursor.is-hover .wmw-cursor__dot { width: 6px; height: 6px; }
-.wmw-cursor.is-hover .wmw-cursor__halo {
-  width: 60px; height: 60px;
-  opacity: 0.85;
-  border-color: var(--accent-cognac, #8b5a2b);
-}
-@media (hover: none), (max-width: 767px), (prefers-reduced-motion: reduce) {
-  .wmw-cursor { display: none; }
-  .has-custom-cursor, .has-custom-cursor * { cursor: auto !important; }
-}
+/* Custom cursor removed — native system cursor on every page.
+   Defensive guards: force native cursor in case any stale class lingers. */
+html, body { cursor: auto !important; }
+.wmw-cursor { display: none !important; }
