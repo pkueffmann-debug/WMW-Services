@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NOVAK CONSULTING — IT-Beratung für Berliner Mittelstand</title>
+<meta name="description" content="Freier IT-Consultant in Berlin. Cloud-Migrationen, DevOps, Sicherheits-Audits. 12 Jahre Senior-Engineer-Erfahrung." />
+<meta name="theme-color" content="#070a14" />
+<link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%23070a14'/%3E%3Cpath d='M8 12l4 8 4-8 4 8 4-8' stroke='%2300d9ff' stroke-width='2' fill='none' stroke-linejoin='round'/%3E%3C/svg%3E">
+<style>
+:root {
+  --void:    #050811;
+  --space:   #070a14;
+  --hull:    #0d121e;
+  --plate:   #141a28;
+  --steel:   #1f2738;
+  --ash:     #4d5870;
+  --mist:    #8e98ad;
+  --light:   #e5e9f0;
+  --pure:    #ffffff;
+  --cyan:    #00d9ff;
+  --neon:    #44ffd5;
+  --pink:    #ff5db9;
+  --amber:   #ffb547;
+  --sans:    'Inter', system-ui, sans-serif;
+  --mono:    'JetBrains Mono', ui-monospace, monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; background: var(--space); }
+body { font-family: var(--sans); background: var(--space); color: var(--light); -webkit-font-smoothing: antialiased; line-height: 1.6; font-weight: 400; }
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+.shell { width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
+.eyebrow { font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cyan); display: inline-flex; align-items: center; gap: 0.7rem; }
+.eyebrow::before { content:'>'; color: var(--cyan); font-weight: 600; }
+h1,h2,h3,h4 { font-family: var(--sans); font-weight: 600; letter-spacing: -0.025em; line-height: 1.05; color: var(--pure); }
+h1 em, h2 em { font-style: normal; background: linear-gradient(120deg, var(--cyan), var(--neon)); -webkit-background-clip: text; background-clip: text; color: transparent; font-weight: 700; }
+.mono { font-family: var(--mono); }
+
+.demo-banner { background: var(--void); color: var(--mist); font-size: 0.74rem; letter-spacing: 0.06em; padding: 0.55rem 1rem; text-align: center; border-bottom: 1px solid var(--steel); font-family: var(--mono); }
+.demo-banner a { color: var(--cyan); text-decoration: underline; text-underline-offset: 3px; }
+
+.nav { position: sticky; top: 0; z-index: 50; background: rgba(7,10,20,0.78); backdrop-filter: blur(18px) saturate(140%); -webkit-backdrop-filter: blur(18px) saturate(140%); border-bottom: 1px solid var(--steel); }
+.nav__inner { display: flex; align-items: center; justify-content: space-between; padding: 1rem 0; }
+.logo { display: flex; align-items: center; gap: 0.7rem; font-family: var(--mono); font-size: 1rem; font-weight: 600; color: var(--pure); letter-spacing: 0.08em; }
+.logo__dot { width: 8px; height: 8px; background: var(--neon); border-radius: 50%; box-shadow: 0 0 12px var(--neon); }
+.nav__links { display: flex; gap: 2rem; list-style: none; font-size: 0.82rem; font-weight: 500; }
+.nav__links a { color: var(--mist); transition: color 200ms ease; font-family: var(--mono); letter-spacing: 0.04em; }
+.nav__links a:hover { color: var(--cyan); }
+.nav__cta { padding: 0.7rem 1.3rem; background: var(--cyan); color: var(--void); font-family: var(--mono); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em; transition: background 220ms ease, color 220ms ease, box-shadow 220ms ease; text-transform: uppercase; }
+.nav__cta:hover { background: var(--neon); box-shadow: 0 0 24px rgba(68,255,213,0.4); }
+@media (max-width: 880px) { .nav__links { display: none; } }
+
+/* hero */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex; align-items: center;
+  padding: 8rem 0 4rem;
+  overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 70% 30%, rgba(0,217,255,0.18), transparent 50%),
+    radial-gradient(ellipse 60% 50% at 20% 80%, rgba(255,93,185,0.12), transparent 60%);
+  pointer-events: none;
+}
+.hero::after {
+  content: ''; position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(0,217,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,217,255,0.04) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask: linear-gradient(180deg, transparent, black 30%, black 70%, transparent);
+  -webkit-mask: linear-gradient(180deg, transparent, black 30%, black 70%, transparent);
+  pointer-events: none;
+}
+.hero__inner { position: relative; z-index: 2; max-width: 1000px; }
+.hero__supra { display: flex; flex-wrap: wrap; gap: 1.5rem; font-family: var(--mono); font-size: 0.78rem; color: var(--mist); align-items: center; letter-spacing: 0.04em; }
+.hero__supra span.dot { display: inline-block; width: 8px; height: 8px; background: var(--neon); border-radius: 50%; box-shadow: 0 0 12px var(--neon); }
+.hero__supra strong { color: var(--neon); font-weight: 500; }
+.hero h1 { font-size: clamp(2.6rem, 7vw, 5.8rem); margin-top: 1.5rem; }
+.hero__sub { margin-top: 2rem; font-size: clamp(1rem, 1.4vw, 1.2rem); max-width: 60ch; color: var(--mist); line-height: 1.55; }
+.hero__ctas { margin-top: 2.5rem; display: flex; flex-wrap: wrap; gap: 1rem; }
+.btn { display: inline-flex; align-items: center; gap: 0.6rem; padding: 1rem 1.7rem; font-family: var(--mono); font-size: 0.84rem; font-weight: 600; letter-spacing: 0.06em; transition: all 220ms ease; cursor: pointer; border: 0; text-transform: uppercase; }
+.btn--primary { background: var(--cyan); color: var(--void); }
+.btn--primary:hover { background: var(--neon); box-shadow: 0 0 28px rgba(68,255,213,0.45); transform: translateY(-1px); }
+.btn--ghost { background: transparent; color: var(--pure); border: 1px solid var(--ash); }
+.btn--ghost:hover { border-color: var(--cyan); color: var(--cyan); }
+.hero__stats { margin-top: 4rem; display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--steel); border: 1px solid var(--steel); max-width: 880px; }
+@media (min-width: 760px) { .hero__stats { grid-template-columns: repeat(4, 1fr); } }
+.hero__stat { padding: 1.5rem 1.4rem; background: var(--hull); }
+.hero__stat strong { display: block; font-family: var(--mono); font-size: clamp(1.6rem, 3vw, 2.2rem); color: var(--pure); line-height: 1; font-weight: 600; }
+.hero__stat strong .accent { color: var(--cyan); }
+.hero__stat span { display: block; margin-top: 0.6rem; font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.12em; color: var(--mist); text-transform: uppercase; }
+.hero__live { margin-top: 3rem; display: inline-flex; align-items: center; gap: 0.7rem; padding: 0.6rem 1rem; background: rgba(68,255,213,0.08); border: 1px solid var(--neon); font-family: var(--mono); font-size: 0.76rem; color: var(--neon); letter-spacing: 0.06em; }
+.hero__live::before { content:''; width: 8px; height: 8px; background: var(--neon); border-radius: 50%; box-shadow: 0 0 8px var(--neon); animation: blink 1.6s ease-in-out infinite; }
+@keyframes blink { 50% { opacity: 0.3; } }
+
+/* logos strip */
+.clients { padding: 4rem 0; background: var(--hull); border-top: 1px solid var(--steel); border-bottom: 1px solid var(--steel); }
+.clients__head { text-align: center; margin-bottom: 2rem; }
+.clients__head h2 { font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.18em; color: var(--ash); text-transform: uppercase; font-weight: 500; }
+.clients__row { display: flex; flex-wrap: wrap; justify-content: center; gap: 2.5rem 4rem; align-items: center; }
+.clients__row span { font-family: var(--sans); font-weight: 700; font-size: clamp(1rem, 1.6vw, 1.3rem); color: var(--ash); letter-spacing: -0.01em; opacity: 0.7; transition: color 220ms ease, opacity 220ms ease; }
+.clients__row span:hover { color: var(--cyan); opacity: 1; }
+.clients__row span.italic { font-style: italic; font-weight: 400; }
+
+/* services */
+.services { padding: 8rem 0; background: var(--space); }
+.services__head { max-width: 720px; margin-bottom: 5rem; }
+.services__head h2 { font-size: clamp(2.2rem, 4.5vw, 3.6rem); margin-top: 1rem; }
+.services__head p { color: var(--mist); margin-top: 1.5rem; font-size: 1.05rem; max-width: 58ch; }
+.services__grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+@media (min-width: 720px) { .services__grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1080px) { .services__grid { grid-template-columns: repeat(3, 1fr); } }
+.svc { padding: 2.2rem 1.8rem; background: var(--hull); border: 1px solid var(--steel); transition: border-color 220ms ease, transform 220ms ease, box-shadow 220ms ease; position: relative; overflow: hidden; }
+.svc::before { content:''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--cyan), transparent); transform: translateX(-100%); transition: transform 600ms ease; }
+.svc:hover { border-color: var(--cyan); transform: translateY(-3px); }
+.svc:hover::before { transform: translateX(100%); }
+.svc__num { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.18em; color: var(--ash); text-transform: uppercase; }
+.svc__name { font-family: var(--sans); font-weight: 600; font-size: 1.35rem; color: var(--pure); margin-top: 0.5rem; line-height: 1.2; letter-spacing: -0.01em; }
+.svc__lead { margin-top: 1rem; font-size: 0.94rem; color: var(--mist); line-height: 1.55; }
+.svc__tags { margin-top: 1.4rem; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.svc__tags span { font-family: var(--mono); font-size: 0.66rem; padding: 3px 9px; background: var(--plate); color: var(--cyan); letter-spacing: 0.06em; border: 1px solid var(--steel); }
+.svc__rate { margin-top: 1.8rem; padding-top: 1.2rem; border-top: 1px solid var(--steel); display: flex; justify-content: space-between; align-items: baseline; }
+.svc__rate strong { font-family: var(--mono); color: var(--neon); font-size: 0.95rem; }
+.svc__rate small { font-family: var(--mono); font-size: 0.7rem; color: var(--ash); letter-spacing: 0.1em; text-transform: uppercase; }
+
+/* approach */
+.approach { padding: 8rem 0; background: var(--hull); }
+.approach__head { text-align: center; max-width: 720px; margin: 0 auto 4rem; }
+.approach__head h2 { font-size: clamp(2.2rem, 4.5vw, 3.4rem); margin-top: 1rem; }
+.approach__head p { color: var(--mist); margin-top: 1.5rem; }
+.approach__grid { display: grid; grid-template-columns: 1fr; gap: 1px; background: var(--steel); border: 1px solid var(--steel); }
+@media (min-width: 800px) { .approach__grid { grid-template-columns: repeat(4, 1fr); } }
+.appstep { background: var(--space); padding: 2.2rem 1.6rem; position: relative; }
+.appstep__num { font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.14em; color: var(--cyan); text-transform: uppercase; }
+.appstep__title { font-family: var(--sans); font-weight: 600; font-size: 1.15rem; color: var(--pure); margin-top: 0.7rem; line-height: 1.25; }
+.appstep__body { margin-top: 0.9rem; font-size: 0.9rem; color: var(--mist); line-height: 1.6; }
+.appstep__dur { margin-top: 1.4rem; font-family: var(--mono); font-size: 0.72rem; color: var(--neon); letter-spacing: 0.08em; }
+
+/* about */
+.about { padding: 9rem 0; background: var(--space); }
+.about__grid { display: grid; grid-template-columns: 1fr; gap: 4rem; align-items: center; }
+@media (min-width: 900px) { .about__grid { grid-template-columns: 0.95fr 1.05fr; gap: 5rem; } }
+.about__img-wrap { position: relative; }
+.about__img { aspect-ratio: 4/5; background-size: cover; background-position: center; background-image: url('https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?w=1200&q=80&auto=format&fit=crop'); filter: grayscale(0.3) contrast(1.05); position: relative; z-index: 1; }
+.about__img-wrap::before { content:''; position: absolute; inset: 18px -18px -18px 18px; border: 1px solid var(--cyan); z-index: 0; }
+.about h2 { font-size: clamp(2.2rem, 4.5vw, 3.4rem); margin-top: 1rem; }
+.about__body { margin-top: 1.8rem; font-size: 1.02rem; color: var(--mist); line-height: 1.7; }
+.about__body p { margin-bottom: 1.1rem; }
+.about__body strong { color: var(--pure); font-weight: 500; }
+.about__stack { margin-top: 2.5rem; padding: 2rem; background: var(--hull); border: 1px solid var(--steel); }
+.about__stack h3 { font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.16em; color: var(--cyan); text-transform: uppercase; font-weight: 600; }
+.about__stack dl { margin-top: 1.5rem; display: grid; grid-template-columns: 100px 1fr; gap: 0.8rem 1.5rem; font-family: var(--mono); font-size: 0.86rem; }
+.about__stack dt { color: var(--ash); letter-spacing: 0.04em; }
+.about__stack dd { color: var(--light); }
+
+/* projects */
+.projects { padding: 8rem 0; background: var(--hull); }
+.projects__head { display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 2rem; margin-bottom: 4rem; }
+.projects__head h2 { font-size: clamp(2.2rem, 5vw, 3.6rem); max-width: 14ch; }
+.projects__head p { color: var(--mist); max-width: 36ch; font-family: var(--mono); font-size: 0.86rem; }
+.projects__grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+@media (min-width: 800px) { .projects__grid { grid-template-columns: repeat(2, 1fr); } }
+.proj { background: var(--space); padding: 2.2rem 1.8rem; border: 1px solid var(--steel); transition: border-color 220ms ease; }
+.proj:hover { border-color: var(--cyan); }
+.proj__year { font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.16em; color: var(--cyan); text-transform: uppercase; }
+.proj__name { font-family: var(--sans); font-weight: 600; font-size: 1.4rem; color: var(--pure); margin-top: 0.6rem; line-height: 1.2; }
+.proj__client { font-family: var(--mono); font-size: 0.82rem; color: var(--mist); margin-top: 0.4rem; }
+.proj__body { margin-top: 1.4rem; font-size: 0.95rem; color: var(--mist); line-height: 1.6; }
+.proj__metrics { margin-top: 1.5rem; padding: 1.2rem; background: var(--hull); border-left: 2px solid var(--neon); display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+.proj__metrics div { font-family: var(--mono); }
+.proj__metrics strong { display: block; font-size: 1.4rem; color: var(--neon); line-height: 1; font-weight: 600; }
+.proj__metrics span { display: block; margin-top: 0.4rem; font-size: 0.66rem; color: var(--ash); letter-spacing: 0.1em; text-transform: uppercase; }
+.proj__stack { margin-top: 1.5rem; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.proj__stack span { font-family: var(--mono); font-size: 0.66rem; padding: 3px 9px; background: var(--plate); color: var(--mist); letter-spacing: 0.04em; }
+
+/* rates */
+.rates { padding: 9rem 0; background: var(--space); }
+.rates__head { max-width: 720px; margin-bottom: 4rem; }
+.rates__head h2 { font-size: clamp(2.4rem, 5vw, 3.6rem); margin-top: 1rem; }
+.rates__head p { color: var(--mist); margin-top: 1.5rem; max-width: 60ch; }
+.rates__grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+@media (min-width: 800px) { .rates__grid { grid-template-columns: repeat(3, 1fr); } }
+.rate { background: var(--hull); border: 1px solid var(--steel); padding: 2.2rem 1.8rem; display: flex; flex-direction: column; transition: border-color 220ms ease, transform 220ms ease; }
+.rate:hover { border-color: var(--cyan); transform: translateY(-2px); }
+.rate--feat { background: linear-gradient(165deg, rgba(0,217,255,0.08) 0%, var(--hull) 60%); border-color: var(--cyan); position: relative; }
+.rate--feat::before { content: 'BELIEBT'; position: absolute; top: -1px; right: 1.6rem; padding: 0.3rem 0.7rem; background: var(--cyan); color: var(--void); font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.18em; font-weight: 600; }
+.rate__name { font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.16em; color: var(--cyan); text-transform: uppercase; }
+.rate__amount { font-family: var(--mono); font-size: clamp(2.4rem, 4vw, 3.2rem); color: var(--pure); margin-top: 1rem; line-height: 1; font-weight: 600; letter-spacing: -0.03em; }
+.rate__amount small { font-size: 0.36em; color: var(--mist); display: block; margin-top: 0.6rem; letter-spacing: 0.04em; font-weight: 400; }
+.rate__list { margin-top: 1.8rem; list-style: none; flex: 1; }
+.rate__list li { padding: 0.7rem 0; border-top: 1px solid var(--steel); font-size: 0.9rem; color: var(--mist); display: grid; grid-template-columns: 22px 1fr; gap: 0.5rem; align-items: baseline; }
+.rate__list li::before { content:'+'; color: var(--cyan); font-family: var(--mono); font-weight: 600; }
+.rate__cta { margin-top: 2rem; padding: 0.9rem 1.4rem; background: transparent; color: var(--pure); border: 1px solid var(--ash); font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.06em; text-transform: uppercase; text-align: center; transition: all 220ms ease; }
+.rate__cta:hover { border-color: var(--cyan); color: var(--cyan); }
+.rate--feat .rate__cta { background: var(--cyan); color: var(--void); border-color: var(--cyan); font-weight: 600; }
+.rate--feat .rate__cta:hover { background: var(--neon); border-color: var(--neon); }
+
+/* terminal block */
+.terminal { padding: 8rem 0; background: var(--hull); }
+.terminal__inner { max-width: 920px; margin: 0 auto; }
+.terminal__head { text-align: center; margin-bottom: 3rem; }
+.terminal__head h2 { font-size: clamp(2rem, 4vw, 3rem); margin-top: 1rem; }
+.terminal__head p { color: var(--mist); margin-top: 1rem; }
+.terminal__box { background: var(--void); border: 1px solid var(--steel); border-radius: 6px; overflow: hidden; }
+.terminal__top { display: flex; align-items: center; gap: 8px; padding: 0.8rem 1rem; background: var(--plate); border-bottom: 1px solid var(--steel); }
+.terminal__top span { width: 12px; height: 12px; border-radius: 50%; background: var(--steel); }
+.terminal__top span:nth-child(1) { background: #ff5f57; }
+.terminal__top span:nth-child(2) { background: #ffbd2e; }
+.terminal__top span:nth-child(3) { background: #28c840; }
+.terminal__top div { margin-left: 1rem; font-family: var(--mono); font-size: 0.78rem; color: var(--ash); }
+.terminal__body { padding: 1.8rem 1.5rem; font-family: var(--mono); font-size: 0.92rem; line-height: 1.7; }
+.terminal__body .prompt { color: var(--neon); }
+.terminal__body .cmd { color: var(--light); }
+.terminal__body .out { color: var(--mist); }
+.terminal__body .ok { color: var(--neon); }
+.terminal__body .warn { color: var(--amber); }
+.terminal__body .info { color: var(--cyan); }
+.terminal__body .cursor { display: inline-block; width: 8px; height: 1em; background: var(--cyan); vertical-align: -2px; animation: blink 1s steps(2) infinite; }
+
+/* contact */
+.contact { padding: 9rem 0; background: var(--space); position: relative; overflow: hidden; }
+.contact::before { content:''; position: absolute; top: -120px; right: -120px; width: 460px; height: 460px; background: radial-gradient(circle, rgba(0,217,255,0.16), transparent 70%); pointer-events: none; }
+.contact__inner { position: relative; z-index: 2; display: grid; grid-template-columns: 1fr; gap: 4rem; align-items: start; }
+@media (min-width: 900px) { .contact__inner { grid-template-columns: 0.9fr 1fr; gap: 5rem; } }
+.contact h2 { font-size: clamp(2.4rem, 5.5vw, 4rem); margin-top: 1rem; }
+.contact__intro { margin-top: 1.8rem; color: var(--mist); font-size: 1.05rem; max-width: 50ch; }
+.contact__detail { margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--steel); }
+.contact__detail dl { display: grid; grid-template-columns: 120px 1fr; gap: 1rem 1.5rem; font-family: var(--mono); font-size: 0.88rem; }
+.contact__detail dt { color: var(--cyan); letter-spacing: 0.04em; }
+.contact__detail dd { color: var(--light); }
+.contact__detail dd a { color: var(--neon); border-bottom: 1px solid var(--neon); }
+.form { display: grid; gap: 1.1rem; background: var(--hull); padding: 2.5rem; border: 1px solid var(--steel); }
+.form .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.field { display: flex; flex-direction: column; gap: 0.4rem; }
+.field label { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.14em; color: var(--cyan); text-transform: uppercase; }
+.field input, .field select, .field textarea {
+  background: var(--plate); border: 1px solid var(--steel);
+  padding: 0.9rem 1rem; font-family: var(--mono); font-size: 0.92rem; color: var(--pure);
+  transition: border-color 200ms ease;
+}
+.field input:focus, .field select:focus, .field textarea:focus { outline: 0; border-color: var(--cyan); }
+.field textarea { min-height: 110px; resize: vertical; font-family: var(--sans); }
+.form button { background: var(--cyan); color: var(--void); padding: 1.1rem 1.5rem; border: 0; font-family: var(--mono); font-size: 0.86rem; font-weight: 600; cursor: pointer; letter-spacing: 0.08em; text-transform: uppercase; transition: all 220ms ease; }
+.form button:hover { background: var(--neon); box-shadow: 0 0 24px rgba(68,255,213,0.4); }
+
+/* footer */
+.footer { padding: 5rem 0 2.5rem; background: var(--void); color: var(--mist); border-top: 1px solid var(--steel); }
+.footer__grid { display: grid; grid-template-columns: 1fr; gap: 3rem; padding-bottom: 3rem; border-bottom: 1px solid var(--steel); }
+@media (min-width: 800px) { .footer__grid { grid-template-columns: 1.6fr 1fr 1fr 1fr; } }
+.footer h4 { font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.16em; color: var(--cyan); margin-bottom: 1rem; font-weight: 600; text-transform: uppercase; }
+.footer__col p, .footer__col li { font-size: 0.88rem; line-height: 1.75; }
+.footer__col ul { list-style: none; }
+.footer__col a:hover { color: var(--neon); }
+.footer__logo { font-family: var(--mono); font-size: 1.2rem; color: var(--pure); margin-bottom: 1rem; letter-spacing: 0.08em; display: flex; align-items: center; gap: 0.6rem; }
+.footer__logo::before { content:''; width: 10px; height: 10px; background: var(--neon); border-radius: 50%; box-shadow: 0 0 10px var(--neon); }
+.footer__bottom { margin-top: 2.5rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; font-size: 0.76rem; color: var(--ash); font-family: var(--mono); }
+.footer__bottom a { color: var(--cyan); text-decoration: underline; text-underline-offset: 3px; }
+</style>
+</head>
+<body>
+
+<div class="demo-banner">DEMO · IT-CONSULTANT-KONZEPT VON <a href="/">daylens / WMW Services</a> · fiktives Unternehmen</div>
+
+<nav class="nav" aria-label="Hauptnavigation">
+  <div class="shell nav__inner">
+    <a href="#top" class="logo"><span class="logo__dot"></span>NOVAK_CONSULTING</a>
+    <ul class="nav__links">
+      <li><a href="#services">./services</a></li>
+      <li><a href="#approach">./approach</a></li>
+      <li><a href="#about">./about</a></li>
+      <li><a href="#projects">./projects</a></li>
+      <li><a href="#rates">./rates</a></li>
+    </ul>
+    <a href="#contact" class="nav__cta">init session →</a>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="shell hero__inner">
+    <div class="hero__supra"><span class="dot"></span><strong>verfügbar Q3 2026</strong><span>·</span>Cloud · DevOps · Security<span>·</span>Berlin &amp; remote</div>
+    <h1>Senior Engineering, <em>on demand.</em></h1>
+    <p class="hero__sub">Ich bin Tomas Novak — freier IT-Consultant für mittelständische Berliner Unternehmen. Cloud-Migrationen, DevOps-Pipelines, Sicherheits-Audits. 12 Jahre Erfahrung als Senior Engineer in Berliner Tech-Unternehmen, jetzt unabhängig.</p>
+    <div class="hero__ctas">
+      <a href="#contact" class="btn btn--primary">$ start project</a>
+      <a href="#services" class="btn btn--ghost">$ ls ./services</a>
+    </div>
+    <div class="hero__stats">
+      <div class="hero__stat"><strong>12<span class="accent">+</span></strong><span>Jahre Senior Dev</span></div>
+      <div class="hero__stat"><strong>34</strong><span>Projekte ausgeliefert</span></div>
+      <div class="hero__stat"><strong>0</strong><span>Recovered Incidents</span></div>
+      <div class="hero__stat"><strong>99.9<span class="accent">%</span></strong><span>SLA gemeinsam</span></div>
+    </div>
+    <div class="hero__live">Aktueller Status: Q3-Slot frei · 2 Plätze offen</div>
+  </div>
+</header>
+
+<section class="clients">
+  <div class="shell">
+    <div class="clients__head"><h2>// Vertraut von</h2></div>
+    <div class="clients__row">
+      <span>NORDSTERN AG</span><span class="italic">Krause &amp; Söhne</span><span>BERLIN.IO</span><span>HARZ&amp;CO</span><span class="italic">Mittelstand21</span><span>RAUMWERK</span><span>NOVA Bank</span>
+    </div>
+  </div>
+</section>
+
+<section class="services" id="services">
+  <div class="shell">
+    <div class="services__head">
+      <span class="eyebrow">services</span>
+      <h2>Sechs Module. <em>Kombinierbar.</em></h2>
+      <p>Ich arbeite in fest umrissenen Aufträgen — entweder als Projektpauschale oder Tagessatz. Was ich nicht kann, sage ich offen — und empfehle einen passenden Kollegen aus meinem Netzwerk.</p>
+    </div>
+
+    <div class="services__grid">
+      <article class="svc">
+        <div class="svc__num">01 · CLOUD</div>
+        <div class="svc__name">Cloud-Migration &amp; Architektur</div>
+        <p class="svc__lead">On-Prem nach AWS, Azure oder GCP. Inkl. IaC-Setup mit Terraform, Kostenoptimierung, Migration mit Zero-Downtime-Plan.</p>
+        <div class="svc__tags"><span>AWS</span><span>Terraform</span><span>K8s</span></div>
+        <div class="svc__rate"><strong>ab 14.500 €</strong><small>Pauschale</small></div>
+      </article>
+
+      <article class="svc">
+        <div class="svc__num">02 · DEVOPS</div>
+        <div class="svc__name">CI/CD &amp; Automatisierung</div>
+        <p class="svc__lead">GitHub Actions, GitLab CI oder Jenkins. Build- und Deploy-Pipelines, automatisierte Tests, Container-Registry, Secrets-Management.</p>
+        <div class="svc__tags"><span>GitHub Actions</span><span>Docker</span><span>ArgoCD</span></div>
+        <div class="svc__rate"><strong>ab 6.800 €</strong><small>Pauschale</small></div>
+      </article>
+
+      <article class="svc">
+        <div class="svc__num">03 · SECURITY</div>
+        <div class="svc__name">Sicherheits-Audit</div>
+        <p class="svc__lead">DSGVO-konformer Audit eurer Infra: Pen-Test light, OWASP-Top-10-Check, Secrets-Rotation, Backup-Strategie, IAM-Review.</p>
+        <div class="svc__tags"><span>OWASP</span><span>Pen-Test</span><span>IAM</span></div>
+        <div class="svc__rate"><strong>ab 4.200 €</strong><small>Pauschale</small></div>
+      </article>
+
+      <article class="svc">
+        <div class="svc__num">04 · MONITORING</div>
+        <div class="svc__name">Observability-Stack</div>
+        <p class="svc__lead">Prometheus, Grafana, Loki — oder Datadog/New Relic je nach Budget. Inkl. Dashboards für SLOs, Alerts, Runbooks.</p>
+        <div class="svc__tags"><span>Prometheus</span><span>Grafana</span><span>OpenTelemetry</span></div>
+        <div class="svc__rate"><strong>ab 5.400 €</strong><small>Pauschale</small></div>
+      </article>
+
+      <article class="svc">
+        <div class="svc__num">05 · ARCHITECTURE</div>
+        <div class="svc__name">Software-Architektur</div>
+        <p class="svc__lead">Review bestehender Systeme oder Greenfield-Design. Diagramme, ADRs, Risiko-Matrix, Migrations­strategie für Legacy-Code.</p>
+        <div class="svc__tags"><span>DDD</span><span>Microservices</span><span>ADR</span></div>
+        <div class="svc__rate"><strong>ab 7.500 €</strong><small>Pauschale</small></div>
+      </article>
+
+      <article class="svc">
+        <div class="svc__num">06 · INTERIM</div>
+        <div class="svc__name">Interim-CTO</div>
+        <p class="svc__lead">3–9 Monate als technischer Sparring­partner für Founder / GF. Architektur-Entscheidungen, Hiring von Senior-Devs, Roadmap.</p>
+        <div class="svc__tags"><span>Strategy</span><span>Hiring</span><span>Roadmap</span></div>
+        <div class="svc__rate"><strong>ab 9.500 €/Mo</strong><small>3 Mo. Min</small></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="approach" id="approach">
+  <div class="shell">
+    <div class="approach__head">
+      <span class="eyebrow">approach</span>
+      <h2>Vier Phasen. <em>Vom Erstkontakt zur Auslieferung.</em></h2>
+      <p>Jedes Projekt beginnt mit Discovery. Ich liefere nichts, was ich vorher nicht durchdrungen habe.</p>
+    </div>
+    <div class="approach__grid">
+      <div class="appstep">
+        <div class="appstep__num">01 / discover</div>
+        <div class="appstep__title">Kostenfreies Erstgespräch.</div>
+        <div class="appstep__body">30 Minuten Video-Call. Wir gehen den Status quo durch, den Ziel-Zustand, das Budget. Du bekommst eine ehrliche Einschätzung — auch wenn die heißt: das ist nicht mein Spielfeld.</div>
+        <div class="appstep__dur">Tag 1 · 30 min</div>
+      </div>
+      <div class="appstep">
+        <div class="appstep__num">02 / scope</div>
+        <div class="appstep__title">Schriftliches Angebot.</div>
+        <div class="appstep__body">Discovery-Workshop (2–4 Stunden), gefolgt von einem detaillierten Angebot: Scope, Meilensteine, Festpreis oder Tagessatz, Lieferdatum. Verbindlich 30 Tage.</div>
+        <div class="appstep__dur">Woche 1 · schriftlich</div>
+      </div>
+      <div class="appstep">
+        <div class="appstep__num">03 / build</div>
+        <div class="appstep__title">Wöchentliche Updates.</div>
+        <div class="appstep__body">Wöchentlicher Demo-Call (30 min). Slack-Channel mit dir und deinem Team. Alle Entscheidungen werden als Architecture Decision Record (ADR) dokumentiert.</div>
+        <div class="appstep__dur">Wochen 2 – n</div>
+      </div>
+      <div class="appstep">
+        <div class="appstep__num">04 / handover</div>
+        <div class="appstep__title">Vollständige Doku &amp; Schulung.</div>
+        <div class="appstep__body">Übergabe inkl. Code, Dokumentation, Runbooks und einer 2-Stunden-Schulung deines Teams. Optional: 3 Monate Support-Retainer.</div>
+        <div class="appstep__dur">letzte Woche</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <div class="shell about__grid">
+    <div class="about__img-wrap">
+      <div class="about__img" aria-hidden="true"></div>
+    </div>
+    <div>
+      <span class="eyebrow">about</span>
+      <h2 style="margin-top:1rem">12 Jahre <em>Senior Engineer.</em> Jetzt frei verfügbar.</h2>
+      <div class="about__body">
+        <p>Ich bin <strong>Tomas Novak</strong>, 36. Geboren in Prag, Studium in München (TU, Informatik), seit 2014 in Berlin. Habe zwischen 2014 und 2024 als Senior bzw. Staff Engineer in drei mittelständischen Tech-Unternehmen gearbeitet: SaaS, FinTech, B2B-Marketplace.</p>
+        <p>Seit Anfang 2025 selbstständig. Drei feste Mandanten, dazu kleinere Projekt­aufträge. Ich nehme bewusst nicht mehr als sechs Projekte pro Jahr an — dafür kenne ich jedes davon im Detail.</p>
+        <p>Was mich interessiert: Systeme, die in 5 Jahren noch wartbar sind. Was mich langweilt: Hype-Tools ohne Substanz.</p>
+      </div>
+      <div class="about__stack">
+        <h3>// Stack &amp; Werkzeuge</h3>
+        <dl>
+          <dt>Cloud</dt><dd>AWS · GCP · Hetzner Cloud</dd>
+          <dt>IaC</dt><dd>Terraform · Pulumi · Ansible</dd>
+          <dt>Container</dt><dd>Docker · Kubernetes · ArgoCD</dd>
+          <dt>Backend</dt><dd>Go · Python · TypeScript · Rust</dd>
+          <dt>Frontend</dt><dd>React · Next.js (bei Bedarf)</dd>
+          <dt>Datenbank</dt><dd>PostgreSQL · ClickHouse · Redis</dd>
+          <dt>Observ.</dt><dd>Prometheus · Grafana · OpenTel</dd>
+          <dt>Security</dt><dd>Vault · OWASP · OAuth/OIDC</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="projects" id="projects">
+  <div class="shell">
+    <div class="projects__head">
+      <div>
+        <span class="eyebrow">case studies</span>
+        <h2 style="margin-top:1rem">Vier Projekte, <em>vier Themen.</em></h2>
+      </div>
+      <p># Auswahl der letzten 18 Monate. Kunden-Namen anonymisiert auf Wunsch.</p>
+    </div>
+
+    <div class="projects__grid">
+      <article class="proj">
+        <div class="proj__year">Q2 2025 · 14 Wochen</div>
+        <h3 class="proj__name">AWS-Migration für SaaS</h3>
+        <div class="proj__client">NORDSTERN AG · 60-Mitarbeiter SaaS · Berlin</div>
+        <p class="proj__body">Migration einer 8-jährigen Monolith-Anwendung von dediziertem Rechenzentrum nach AWS. Terraform-IaC, Aurora-PostgreSQL, ECS-Fargate, mit Zero-Downtime-Cutover.</p>
+        <div class="proj__metrics">
+          <div><strong>−42%</strong><span>Infra-Kosten</span></div>
+          <div><strong>0 min</strong><span>Downtime Cutover</span></div>
+          <div><strong>3.8×</strong><span>Deploy-Frequenz</span></div>
+        </div>
+        <div class="proj__stack"><span>AWS</span><span>Terraform</span><span>ECS</span><span>Aurora</span><span>CloudFront</span></div>
+      </article>
+
+      <article class="proj">
+        <div class="proj__year">Q4 2025 · 8 Wochen</div>
+        <h3 class="proj__name">CI/CD &amp; Test-Pipeline</h3>
+        <div class="proj__client">FinTech Startup (Series A) · Berlin Mitte</div>
+        <p class="proj__body">Greenfield CI/CD-Pipeline mit GitHub Actions, ArgoCD und Kubernetes. Inklusive Test-Strategie (Unit, Integration, E2E), Coverage-Gates und automatischer Vulnerability-Scan im Build.</p>
+        <div class="proj__metrics">
+          <div><strong>14 min</strong><span>Build → Prod</span></div>
+          <div><strong>87%</strong><span>Test-Coverage</span></div>
+          <div><strong>−68%</strong><span>Hot-Fixes</span></div>
+        </div>
+        <div class="proj__stack"><span>GitHub Actions</span><span>K8s</span><span>ArgoCD</span><span>Snyk</span></div>
+      </article>
+
+      <article class="proj">
+        <div class="proj__year">Q1 2026 · 6 Wochen</div>
+        <h3 class="proj__name">DSGVO-Sicherheits-Audit</h3>
+        <div class="proj__client">B2B Marketplace · 30 Mitarbeiter</div>
+        <p class="proj__body">Komplett-Audit der Cloud-Infrastruktur und Anwendung. 47 identifizierte Findings, 8 davon kritisch — alle innerhalb von 4 Wochen mit dem Team behoben. Inklusive ISO 27001-Vorbereitung.</p>
+        <div class="proj__metrics">
+          <div><strong>47</strong><span>Findings</span></div>
+          <div><strong>8</strong><span>krit. gefixt</span></div>
+          <div><strong>100%</strong><span>OWASP Top 10</span></div>
+        </div>
+        <div class="proj__stack"><span>OWASP</span><span>Pen-Test</span><span>Vault</span><span>IAM-Audit</span></div>
+      </article>
+
+      <article class="proj">
+        <div class="proj__year">2025–lfd. · Interim</div>
+        <h3 class="proj__name">Interim-CTO bei B2B SaaS</h3>
+        <div class="proj__client">RAUMWERK · PropTech · Berlin</div>
+        <p class="proj__body">9 Monate als Interim-CTO. Architektur-Redesign vom Monolith zu Modular Monolith, Hiring von 3 Senior-Engineers, Roadmap-Reset und technische Sparrings­partnerschaft mit der GF.</p>
+        <div class="proj__metrics">
+          <div><strong>+3</strong><span>Senior gehired</span></div>
+          <div><strong>2.4×</strong><span>Velocity</span></div>
+          <div><strong>9 Mo</strong><span>Mandat</span></div>
+        </div>
+        <div class="proj__stack"><span>Architecture</span><span>Hiring</span><span>Strategy</span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="rates" id="rates">
+  <div class="shell">
+    <div class="rates__head">
+      <span class="eyebrow">pricing</span>
+      <h2>Drei Modelle. <em>Vor Vertragsbeginn klar.</em></h2>
+      <p>Du wählst, was zu eurem Setup passt: Tagessatz für offene Beratung, Projekt-Pauschale für definiertes Scope, Retainer für laufende Zusammenarbeit.</p>
+    </div>
+    <div class="rates__grid">
+      <article class="rate">
+        <div class="rate__name">Tagessatz</div>
+        <div class="rate__amount">1.450&nbsp;€<small>pro Manntag · zzgl. USt</small></div>
+        <ul class="rate__list">
+          <li>Offene Beratung, Code-Reviews, Workshops</li>
+          <li>Minimum 1 Tag, max. 4 Tage/Woche</li>
+          <li>Remote oder vor Ort in Berlin</li>
+          <li>Abrechnung wöchentlich</li>
+          <li>Stornierung bis 48 h vor Termin kostenfrei</li>
+        </ul>
+        <a href="#contact" class="rate__cta">Tagessatz buchen</a>
+      </article>
+
+      <article class="rate rate--feat">
+        <div class="rate__name">Projekt-Pauschale</div>
+        <div class="rate__amount">ab 4.200&nbsp;€<small>fester Endpreis · zzgl. USt</small></div>
+        <ul class="rate__list">
+          <li>Klar umrissenes Scope nach Discovery</li>
+          <li>Fester Endpreis, kein Stundenrechnung</li>
+          <li>Wöchentliche Demos &amp; Updates</li>
+          <li>Inkl. Dokumentation und Übergabe-Schulung</li>
+          <li>30-Tage-Support nach Abschluss</li>
+          <li>Meist gewählt: 70 % der Mandate</li>
+        </ul>
+        <a href="#contact" class="rate__cta">Projekt anfragen</a>
+      </article>
+
+      <article class="rate">
+        <div class="rate__name">Retainer</div>
+        <div class="rate__amount">ab 9.500&nbsp;€<small>pro Monat · 3 Mo. Min.</small></div>
+        <ul class="rate__list">
+          <li>10–15 Stunden / Woche · garantiert</li>
+          <li>Slack-Channel, Async- + Sync-Calls</li>
+          <li>Architektur-Sparring, Hiring, Strategy</li>
+          <li>Interim-CTO oder Tech-Advisor</li>
+          <li>Monatliche Kündigung nach Min-Laufzeit</li>
+        </ul>
+        <a href="#contact" class="rate__cta">Retainer anfragen</a>
+      </article>
+    </div>
+    <p style="margin-top:2.5rem;text-align:center;font-family:var(--mono);font-size:0.82rem;color:var(--ash)"># Discovery-Workshop (4h) jederzeit verfügbar — kostenfrei, unverbindlich.</p>
+  </div>
+</section>
+
+<section class="terminal">
+  <div class="shell terminal__inner">
+    <div class="terminal__head">
+      <span class="eyebrow">interactive</span>
+      <h2 style="margin-top:1rem">So sieht ein <em>Kick-off bei mir aus.</em></h2>
+      <p># Beispielhafter Discovery-Workshop in einer Stunde.</p>
+    </div>
+    <div class="terminal__box">
+      <div class="terminal__top"><span></span><span></span><span></span><div>tomas@discovery:~/your-project</div></div>
+      <div class="terminal__body">
+        <div><span class="prompt">tomas $</span> <span class="cmd">begin discovery</span></div>
+        <div class="out">Initialisiere Workshop. Geschätzte Dauer: 60 Minuten.</div>
+        <br>
+        <div><span class="prompt">tomas $</span> <span class="cmd">map current_state</span></div>
+        <div class="out">→ Architektur-Diagramm (5 min)</div>
+        <div class="out">→ Stack-Inventar (5 min)</div>
+        <div class="out">→ Pain-Points sammeln (10 min)</div>
+        <div class="ok">  ✓ 4 Pain-Points identifiziert</div>
+        <br>
+        <div><span class="prompt">tomas $</span> <span class="cmd">define target_state</span></div>
+        <div class="out">→ Was wäre ideal in 6 Monaten? (10 min)</div>
+        <div class="info">  → Constraints: Budget, Team-Size, Timeline (5 min)</div>
+        <div class="warn">  ! Risiken &amp; Trade-offs notiert</div>
+        <br>
+        <div><span class="prompt">tomas $</span> <span class="cmd">draft roadmap</span></div>
+        <div class="out">→ Quick Wins (Woche 1–2) (5 min)</div>
+        <div class="out">→ Mid-term (Monate 1–3) (10 min)</div>
+        <div class="out">→ Long-term (3–6 Monate) (10 min)</div>
+        <br>
+        <div><span class="prompt">tomas $</span> <span class="cmd">deliver scoping_doc</span></div>
+        <div class="ok">  ✓ Schriftliches Angebot in 5 Werktagen</div>
+        <div class="ok">  ✓ Fester Endpreis oder Tagessatz</div>
+        <div class="ok">  ✓ Verbindlich 30 Tage</div>
+        <br>
+        <div><span class="prompt">tomas $</span> <span class="cursor"></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="shell contact__inner">
+    <div>
+      <span class="eyebrow">init session</span>
+      <h2>Erstgespräch in <em>2 Werktagen.</em></h2>
+      <p class="contact__intro">Schreib mir 2–3 Sätze: was ist der Status quo, was wollt ihr erreichen, ab wann startet ihr. Ich melde mich mit drei Terminvorschlägen innerhalb von zwei Werktagen.</p>
+      <div class="contact__detail">
+        <dl>
+          <dt>signal</dt><dd>+49 170 555 81 90</dd>
+          <dt>email</dt><dd><a href="mailto:hi@novak-consulting.de">hi@novak-consulting.de</a></dd>
+          <dt>github</dt><dd><a href="#">github.com/tnovak</a></dd>
+          <dt>linkedin</dt><dd><a href="#">linkedin.com/in/tomasnovak</a></dd>
+          <dt>location</dt><dd>Berlin · CET · Remote OK</dd>
+          <dt>response</dt><dd>&lt; 48 h Werktage</dd>
+        </dl>
+      </div>
+    </div>
+    <form class="form" onsubmit="event.preventDefault(); this.innerHTML='<div style=&quot;font-family:var(--mono)&quot;><span style=&quot;color:var(--neon);font-size:1rem;letter-spacing:0.04em&quot;>&gt; signal received.</span><p style=&quot;color:var(--mist);margin-top:0.6rem;font-size:0.92rem;font-family:var(--sans)&quot;>Antwort innerhalb von 48 Stunden Werktage.</p></div>';">
+      <div class="row2">
+        <div class="field"><label for="fName">name</label><input id="fName" type="text" required></div>
+        <div class="field"><label for="fCo">unternehmen</label><input id="fCo" type="text"></div>
+      </div>
+      <div class="field"><label for="fMail">e-mail</label><input id="fMail" type="email" required></div>
+      <div class="row2">
+        <div class="field"><label for="fService">service</label>
+          <select id="fService" required>
+            <option value="">-- wählen --</option>
+            <option>Cloud-Migration</option>
+            <option>CI/CD &amp; DevOps</option>
+            <option>Security-Audit</option>
+            <option>Observability</option>
+            <option>Architektur-Review</option>
+            <option>Interim-CTO</option>
+            <option>Erstmal beraten</option>
+          </select>
+        </div>
+        <div class="field"><label for="fBudget">budget</label>
+          <select id="fBudget"><option>&lt; 5.000 €</option><option>5.000 – 15.000 €</option><option>15.000 – 50.000 €</option><option>&gt; 50.000 €</option><option>Retainer</option><option>unklar</option></select>
+        </div>
+      </div>
+      <div class="field"><label for="fMsg">context</label><textarea id="fMsg" required placeholder="Status quo + Ziel + Timeline."></textarea></div>
+      <button type="submit">$ send →</button>
+    </form>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="shell">
+    <div class="footer__grid">
+      <div class="footer__col">
+        <div class="footer__logo">NOVAK_CONSULTING</div>
+        <p>Freier Senior IT-Consultant für mittelständische Berliner Unternehmen. Cloud, DevOps, Security &amp; Architektur. Seit 2025 unabhängig.</p>
+      </div>
+      <div class="footer__col">
+        <h4>// contact</h4>
+        <ul>
+          <li>Berlin · CET · Remote OK</li>
+          <li><a href="tel:+491705558190">+49 170 555 81 90</a></li>
+          <li><a href="mailto:hi@novak-consulting.de">hi@novak-consulting.de</a></li>
+          <li>Response &lt; 48 h</li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h4>// status</h4>
+        <ul>
+          <li>Q3 2026 · 2 Plätze frei</li>
+          <li>Q4 2026 · 4 Plätze frei</li>
+          <li>Retainer · 1 Slot offen</li>
+          <li>SLA · 99.9% gemeinsam</li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h4>// follow</h4>
+        <ul>
+          <li><a href="#">GitHub · @tnovak</a></li>
+          <li><a href="#">LinkedIn</a></li>
+          <li><a href="/impressum">Impressum</a></li>
+          <li><a href="/">← daylens / WMW Services</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© 2026 NOVAK CONSULTING · DEMO · fiktives Unternehmen</span>
+      <span>BUILT BY <a href="/">daylens / WMW Services</a></span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

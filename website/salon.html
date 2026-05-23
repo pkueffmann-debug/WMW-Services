@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Studio Mauve — Beauty & Skin in Berlin-Mitte</title>
+<meta name="description" content="Schönheitssalon in Berlin-Mitte. Gesichtsbehandlungen, Brows, Lashes und Maniküre. Termine online buchbar." />
+<meta name="theme-color" content="#f7eee9" />
+<link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Outfit:wght@300;400;500;600&display=swap" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23f7eee9'/%3E%3Cpath d='M16 6c-3 4-3 8-3 10s2 4 3 4 3-2 3-4-0-6-3-10z' fill='%23c89a8e'/%3E%3C/svg%3E">
+<style>
+:root {
+  --rose:     #c89a8e;
+  --blush:    #e8c8bb;
+  --champagne:#efd9c4;
+  --pearl:    #f7eee9;
+  --cream:    #fbf6f2;
+  --mauve:    #9b7782;
+  --plum:     #5e3c47;
+  --ink:      #2a1c22;
+  --soft:     #6b505a;
+  --sage:     #a8b69a;
+  --gold:     #b48a5a;
+  --serif:    'Cormorant Garamond', Georgia, serif;
+  --sans:     'Outfit', system-ui, sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--sans); background: var(--cream); color: var(--ink); -webkit-font-smoothing: antialiased; line-height: 1.65; font-weight: 300; }
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+.shell { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+.eyebrow { font-family: var(--sans); font-size: 0.74rem; letter-spacing: 0.36em; text-transform: uppercase; color: var(--rose); display: inline-block; font-weight: 400; }
+h1,h2,h3,h4 { font-family: var(--serif); font-weight: 400; letter-spacing: -0.005em; line-height: 1.1; color: var(--ink); }
+h1 em, h2 em { font-style: italic; color: var(--mauve); font-weight: 500; }
+
+.demo-banner { background: var(--plum); color: var(--champagne); font-size: 0.72rem; letter-spacing: 0.1em; padding: 0.55rem 1rem; text-align: center; font-weight: 300; }
+.demo-banner a { color: var(--blush); text-decoration: underline; text-underline-offset: 3px; }
+
+.nav { position: sticky; top: 0; z-index: 50; background: rgba(251,246,242,0.92); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid rgba(94,60,71,0.08); }
+.nav__inner { display: flex; align-items: center; justify-content: space-between; padding: 1.2rem 0; }
+.logo { font-family: var(--serif); font-size: 1.5rem; font-weight: 500; color: var(--ink); letter-spacing: 0.02em; }
+.logo em { font-style: italic; color: var(--mauve); font-weight: 400; }
+.nav__links { display: flex; gap: 2.2rem; list-style: none; font-size: 0.86rem; font-weight: 400; }
+.nav__links a { color: var(--soft); transition: color 220ms ease; }
+.nav__links a:hover { color: var(--rose); }
+.nav__cta { padding: 0.7rem 1.4rem; background: var(--rose); color: var(--cream); border-radius: 999px; font-size: 0.84rem; font-weight: 500; transition: background 240ms ease, transform 240ms ease; letter-spacing: 0.04em; }
+.nav__cta:hover { background: var(--mauve); transform: translateY(-1px); }
+@media (max-width: 880px) { .nav__links { display: none; } }
+
+.hero {
+  position: relative;
+  min-height: 92vh;
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: stretch;
+  background: var(--cream);
+}
+@media (min-width: 900px) { .hero { grid-template-columns: 1fr 1fr; } }
+.hero__copy { padding: 7rem 1.5rem 4rem; display: flex; flex-direction: column; justify-content: center; max-width: 640px; margin: 0 auto; }
+.hero h1 { font-size: clamp(2.8rem, 6.5vw, 5.2rem); margin-top: 1.5rem; }
+.hero__sub { margin-top: 1.8rem; font-size: 1.1rem; max-width: 48ch; color: var(--soft); }
+.hero__ctas { margin-top: 2.5rem; display: flex; flex-wrap: wrap; gap: 1rem; }
+.btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.95rem 1.7rem; font-weight: 500; font-size: 0.9rem; transition: background 240ms ease, transform 240ms ease; cursor: pointer; border: none; font-family: var(--sans); border-radius: 999px; letter-spacing: 0.04em; }
+.btn--primary { background: var(--rose); color: var(--cream); }
+.btn--primary:hover { background: var(--mauve); transform: translateY(-1px); }
+.btn--ghost { background: transparent; color: var(--plum); border: 1px solid var(--rose); }
+.btn--ghost:hover { background: var(--blush); border-color: var(--blush); }
+.hero__meta { margin-top: 3rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; max-width: 460px; padding-top: 2rem; border-top: 1px solid rgba(94,60,71,0.15); }
+.hero__meta strong { display: block; font-family: var(--sans); font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--mauve); margin-bottom: 0.4rem; font-weight: 500; }
+.hero__meta span { font-family: var(--serif); font-size: 1.1rem; color: var(--ink); }
+.hero__img {
+  background: url('https://images.unsplash.com/photo-1560750588-73207b1ef5b8?w=1600&q=80&auto=format&fit=crop') center/cover no-repeat;
+  min-height: 50vh;
+}
+@media (max-width: 899px) { .hero__img { order: -1; min-height: 360px; } }
+
+.philosophy { padding: 8rem 0; background: var(--pearl); }
+.philosophy__inner { max-width: 820px; margin: 0 auto; text-align: center; }
+.philosophy h2 { font-size: clamp(2.2rem, 5vw, 3.6rem); margin-top: 1.5rem; }
+.philosophy__body { margin-top: 2rem; font-size: 1.15rem; color: var(--soft); line-height: 1.75; max-width: 60ch; margin-left: auto; margin-right: auto; }
+.philosophy__body p { margin-bottom: 1.2rem; }
+.philosophy__quote { margin-top: 3rem; padding: 2rem; background: var(--cream); border-radius: 4px; font-family: var(--serif); font-style: italic; font-size: 1.25rem; color: var(--plum); }
+
+.treatments { padding: 9rem 0; background: var(--cream); }
+.treatments__head { text-align: center; max-width: 720px; margin: 0 auto 5rem; }
+.treatments__head h2 { font-size: clamp(2.4rem, 5.5vw, 4rem); margin-top: 1.5rem; }
+.treatments__head p { color: var(--soft); margin-top: 1.5rem; }
+.treatments__cat { margin-bottom: 4rem; }
+.treatments__cat-head { display: flex; align-items: baseline; justify-content: space-between; gap: 2rem; padding-bottom: 1rem; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(200,154,142,0.3); }
+.treatments__cat-head h3 { font-size: 1.7rem; color: var(--plum); }
+.treatments__cat-head span { font-family: var(--serif); font-style: italic; color: var(--rose); font-size: 1rem; }
+.treatments__list { display: grid; grid-template-columns: 1fr; gap: 0; }
+@media (min-width: 800px) { .treatments__list { grid-template-columns: 1fr 1fr; gap: 0 3rem; } }
+.treat { display: grid; grid-template-columns: 1fr auto; gap: 1rem 1.5rem; padding: 1.1rem 0; border-bottom: 1px dashed rgba(94,60,71,0.18); align-items: baseline; }
+.treat__name { font-family: var(--serif); font-size: 1.15rem; color: var(--ink); font-weight: 500; }
+.treat__name small { display: block; font-family: var(--sans); font-weight: 300; font-size: 0.84rem; color: var(--soft); margin-top: 0.2rem; line-height: 1.4; }
+.treat__name span { display: inline-block; margin-left: 0.4rem; padding: 1px 7px; font-family: var(--sans); font-size: 0.62rem; letter-spacing: 0.14em; background: var(--blush); color: var(--plum); border-radius: 999px; text-transform: uppercase; vertical-align: middle; font-weight: 500; }
+.treat__price { font-family: var(--serif); font-variant-numeric: tabular-nums; font-size: 1.05rem; color: var(--mauve); white-space: nowrap; text-align: right; }
+.treat__price small { display: block; font-size: 0.74rem; color: var(--soft); font-family: var(--sans); font-style: italic; font-weight: 300; margin-top: 0.15rem; }
+
+.gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; padding: 4px; background: var(--cream); }
+.gallery div { aspect-ratio: 1/1; background-size: cover; background-position: center; }
+@media (max-width: 700px) { .gallery { grid-template-columns: repeat(2, 1fr); } }
+
+.about { padding: 9rem 0; background: var(--blush); position: relative; }
+.about__grid { display: grid; grid-template-columns: 1fr; gap: 4rem; align-items: center; }
+@media (min-width: 900px) { .about__grid { grid-template-columns: 1.1fr 1fr; gap: 5rem; } }
+.about__img { aspect-ratio: 4/5; background-size: cover; background-position: center; border-radius: 4px; background-image: url('https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=1200&q=80&auto=format&fit=crop'); }
+.about h2 { font-size: clamp(2.2rem, 5vw, 3.6rem); margin-top: 1rem; }
+.about h2 em { color: var(--cream); }
+.about__body { margin-top: 2rem; font-size: 1.05rem; color: var(--plum); line-height: 1.7; }
+.about__body p { margin-bottom: 1.1rem; }
+.about__creds { margin-top: 2.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+.about__creds div { padding: 1.2rem; background: var(--cream); border-radius: 4px; }
+.about__creds strong { display: block; font-family: var(--sans); font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--rose); margin-bottom: 0.4rem; font-weight: 500; }
+.about__creds span { font-family: var(--serif); font-size: 1.05rem; color: var(--ink); }
+
+.hours { padding: 8rem 0; background: var(--plum); color: var(--cream); }
+.hours__grid { display: grid; grid-template-columns: 1fr; gap: 4rem; }
+@media (min-width: 900px) { .hours__grid { grid-template-columns: 1fr 1fr; gap: 6rem; } }
+.hours h2 { font-size: clamp(2rem, 4vw, 3.2rem); color: var(--cream); margin-top: 1rem; }
+.hours h2 em { color: var(--blush); }
+.hours__lead { margin-top: 1.5rem; color: rgba(251,246,242,0.78); max-width: 50ch; }
+.hours__list { margin-top: 2.5rem; }
+.hours__row { display: grid; grid-template-columns: 1fr auto; padding: 0.9rem 0; border-bottom: 1px solid rgba(251,246,242,0.18); font-size: 0.95rem; }
+.hours__row.closed { color: rgba(251,246,242,0.5); font-style: italic; }
+.hours__row.today { color: var(--blush); }
+.hours__row.today::after { content:' · heute'; font-family: var(--serif); font-style: italic; color: var(--blush); }
+.hours__day { font-family: var(--serif); }
+.hours__time { font-variant-numeric: tabular-nums; }
+.hours__addr { padding: 2rem; background: rgba(251,246,242,0.06); border-left: 2px solid var(--blush); border-radius: 0 4px 4px 0; }
+.hours__addr strong { display: block; font-family: var(--serif); font-size: 1.4rem; color: var(--blush); margin-bottom: 0.5rem; }
+.hours__addr p { font-size: 0.95rem; color: rgba(251,246,242,0.85); line-height: 1.7; }
+.hours__addr a { color: var(--blush); border-bottom: 1px solid var(--blush); }
+.hours__map { margin-top: 1.5rem; aspect-ratio: 16/9; border-radius: 4px; overflow: hidden; }
+.hours__map iframe { width: 100%; height: 100%; border: 0; filter: hue-rotate(330deg) saturate(0.7) brightness(0.9); }
+
+.brands { padding: 6rem 0; background: var(--cream); border-top: 1px solid rgba(94,60,71,0.08); }
+.brands__head { text-align: center; margin-bottom: 3rem; }
+.brands__head h2 { font-family: var(--sans); font-weight: 300; font-size: 0.74rem; letter-spacing: 0.32em; text-transform: uppercase; color: var(--mauve); }
+.brands__row { display: flex; flex-wrap: wrap; justify-content: center; gap: 3rem 4rem; align-items: center; opacity: 0.7; }
+.brands__row span { font-family: var(--serif); font-size: clamp(1.2rem, 2.5vw, 1.6rem); color: var(--plum); letter-spacing: 0.04em; }
+.brands__row span:nth-child(even) { font-style: italic; }
+
+.book { padding: 9rem 0; background: var(--pearl); }
+.book__grid { display: grid; grid-template-columns: 1fr; gap: 4rem; align-items: start; }
+@media (min-width: 900px) { .book__grid { grid-template-columns: 0.9fr 1fr; gap: 5rem; } }
+.book h2 { font-size: clamp(2.2rem, 4.5vw, 3.4rem); margin-top: 1rem; }
+.book__intro { margin-top: 1.5rem; color: var(--soft); }
+.book__why { margin-top: 2.5rem; }
+.book__why li { list-style: none; padding: 1rem 0; border-top: 1px solid rgba(94,60,71,0.12); font-family: var(--serif); font-size: 1.05rem; color: var(--ink); display: grid; grid-template-columns: 32px 1fr; align-items: center; }
+.book__why li::before { content:'·'; color: var(--rose); font-size: 2rem; line-height: 0.6; }
+.form { display: grid; gap: 1.1rem; background: var(--cream); padding: 2.5rem; border-radius: 4px; box-shadow: 0 30px 60px -30px rgba(94,60,71,0.18); }
+.form .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.field { display: flex; flex-direction: column; gap: 0.4rem; }
+.field label { font-family: var(--sans); font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mauve); font-weight: 500; }
+.field input, .field select, .field textarea {
+  background: var(--cream); border: 1px solid rgba(94,60,71,0.18); border-radius: 4px;
+  padding: 0.85rem 1rem; font-family: var(--sans); font-size: 0.95rem; color: var(--ink);
+  transition: border-color 200ms ease, background 200ms ease;
+}
+.field input:focus, .field select:focus, .field textarea:focus { outline: 0; border-color: var(--rose); background: #fff; }
+.field textarea { min-height: 100px; resize: vertical; }
+.form button { background: var(--rose); color: var(--cream); padding: 1rem 1.5rem; border: 0; border-radius: 999px; font-family: var(--sans); font-size: 0.92rem; font-weight: 500; cursor: pointer; justify-self: start; letter-spacing: 0.04em; transition: background 240ms ease; }
+.form button:hover { background: var(--mauve); }
+.form__note { font-size: 0.78rem; color: var(--soft); margin-top: 0.4rem; font-style: italic; }
+
+.faq { padding: 8rem 0; background: var(--cream); }
+.faq__inner { max-width: 880px; margin: 0 auto; }
+.faq__head { text-align: center; margin-bottom: 4rem; }
+.faq__head h2 { font-size: clamp(2.2rem, 5vw, 3.4rem); margin-top: 1rem; }
+.faq__item { border-top: 1px solid rgba(94,60,71,0.15); padding: 1.5rem 0; }
+.faq__item:last-child { border-bottom: 1px solid rgba(94,60,71,0.15); }
+.faq__q { font-family: var(--serif); font-size: 1.3rem; color: var(--plum); display: flex; align-items: baseline; gap: 1rem; line-height: 1.3; }
+.faq__q::before { content:'·'; color: var(--rose); font-size: 2rem; line-height: 0; }
+.faq__a { margin-top: 0.7rem; padding-left: 2rem; font-size: 0.96rem; color: var(--soft); line-height: 1.7; }
+
+.footer { padding: 5rem 0 2.5rem; background: var(--plum); color: rgba(251,246,242,0.7); }
+.footer__grid { display: grid; grid-template-columns: 1fr; gap: 3rem; padding-bottom: 3rem; border-bottom: 1px solid rgba(251,246,242,0.12); }
+@media (min-width: 800px) { .footer__grid { grid-template-columns: 1.4fr 1fr 1fr 1fr; } }
+.footer h4 { font-family: var(--serif); font-size: 1rem; color: var(--cream); margin-bottom: 1rem; font-weight: 500; font-style: italic; }
+.footer__col p, .footer__col li { font-size: 0.88rem; line-height: 1.75; }
+.footer__col ul { list-style: none; }
+.footer__col a:hover { color: var(--blush); }
+.footer__logo { font-family: var(--serif); font-size: 1.7rem; color: var(--cream); margin-bottom: 1rem; }
+.footer__logo em { font-style: italic; color: var(--blush); }
+.footer__bottom { margin-top: 2.5rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; font-size: 0.78rem; color: rgba(251,246,242,0.5); }
+.footer__bottom a { color: var(--blush); text-decoration: underline; text-underline-offset: 3px; }
+</style>
+</head>
+<body>
+
+<div class="demo-banner">Demo-Studie · Salon-Konzept entworfen von <a href="/">daylens / WMW Services</a> · fiktives Unternehmen</div>
+
+<nav class="nav" aria-label="Hauptnavigation">
+  <div class="shell nav__inner">
+    <a href="#top" class="logo">Studio <em>Mauve</em></a>
+    <ul class="nav__links">
+      <li><a href="#treatments">Behandlungen</a></li>
+      <li><a href="#about">Über uns</a></li>
+      <li><a href="#hours">Öffnungszeiten</a></li>
+      <li><a href="#book">Termin</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <a href="#book" class="nav__cta">Termin buchen</a>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="hero__copy">
+    <span class="eyebrow">Beauty &amp; Skin · Berlin-Mitte</span>
+    <h1>Schöne Haut, <em>in Ruhe.</em></h1>
+    <p class="hero__sub">Ein kleines Studio in der Linienstraße — nur drei Plätze, eine Stunde Behandlung, kein Zeitdruck. Gesicht, Brows, Lashes und Hände, mit Marken, hinter denen wir stehen.</p>
+    <div class="hero__ctas">
+      <a href="#book" class="btn btn--primary">Termin online buchen →</a>
+      <a href="#treatments" class="btn btn--ghost">Behandlungen ansehen</a>
+    </div>
+    <div class="hero__meta">
+      <div><strong>Heute geöffnet</strong><span>10:00 – 20:00</span></div>
+      <div><strong>Termin online</strong><span>24/7 verfügbar</span></div>
+      <div><strong>Adresse</strong><span>Linienstraße 119</span></div>
+      <div><strong>Bewertung</strong><span>4,9 · Treatwell*</span></div>
+    </div>
+  </div>
+  <div class="hero__img" aria-hidden="true"></div>
+</header>
+
+<section class="philosophy">
+  <div class="shell philosophy__inner">
+    <span class="eyebrow">Was uns leitet</span>
+    <h2>Ein Studio, <em>nicht eine Fabrik.</em></h2>
+    <div class="philosophy__body">
+      <p>Bei uns gibt es keine 15-Minuten-Quick-Treatments und keine 20 Stühle parallel. Drei Behandlungs­plätze, je eine Kosmetikerin, je 60–90 Minuten Zeit pro Gast. Wir möchten dass du gehst und dich tatsächlich anders fühlst.</p>
+      <p>Wir arbeiten ausschließlich mit Marken, deren Inhaltsstoffe wir kennen — und mit Marken, die ihre Tests nicht an Tieren durchführen. Wenn du etwas mitnehmen möchtest, beraten wir dich. Wenn nicht, ist das auch in Ordnung.</p>
+    </div>
+    <div class="philosophy__quote">„Schönheit kommt vom Ausruhen. Bei uns darfst du das Telefon ablegen."</div>
+  </div>
+</section>
+
+<section class="treatments" id="treatments">
+  <div class="shell">
+    <div class="treatments__head">
+      <span class="eyebrow">Behandlungen &amp; Preise</span>
+      <h2>Vier Kategorien. <em>Klar ausgewiesene Preise.</em></h2>
+      <p>Alle Preise inklusive 19 % MwSt. Online-Termine sind 24/7 buchbar — gerne auch per Telefon oder Instagram-DM.</p>
+    </div>
+
+    <div class="treatments__cat">
+      <div class="treatments__cat-head">
+        <h3>Gesicht</h3>
+        <span>Reinigung, Anti-Aging, Spezialbehandlungen</span>
+      </div>
+      <div class="treatments__list">
+        <div class="treat"><div class="treat__name">Klassische Gesichtsbehandlung<small>Reinigung, Peeling, Maske, Massage</small></div><div class="treat__price">85&nbsp;€<small>75 Min</small></div></div>
+        <div class="treat"><div class="treat__name">Deep Cleansing<small>für unreine, gestresste Haut</small></div><div class="treat__price">98&nbsp;€<small>90 Min</small></div></div>
+        <div class="treat"><div class="treat__name">Hydra-Glow <span>Empfohlen</span><small>Hyaluron-Booster mit Lichttherapie</small></div><div class="treat__price">125&nbsp;€<small>90 Min</small></div></div>
+        <div class="treat"><div class="treat__name">Anti-Aging Lift<small>Mikrostromsignal &amp; Wirkstoff-Serum</small></div><div class="treat__price">145&nbsp;€<small>90 Min</small></div></div>
+        <div class="treat"><div class="treat__name">Fruchtsäure-Peel<small>nach Hautanalyse, Serie buchbar</small></div><div class="treat__price">110&nbsp;€<small>60 Min</small></div></div>
+        <div class="treat"><div class="treat__name">Microneedling<small>Kollagen-Aktivierung, ab 3 Sitzungen</small></div><div class="treat__price">165&nbsp;€<small>75 Min</small></div></div>
+        <div class="treat"><div class="treat__name">Männerbehandlung<small>angepasst auf männliche Haut &amp; Bartzone</small></div><div class="treat__price">88&nbsp;€<small>60 Min</small></div></div>
+        <div class="treat"><div class="treat__name">Express-Refresh<small>für die Mittagspause</small></div><div class="treat__price">55&nbsp;€<small>30 Min</small></div></div>
+      </div>
+    </div>
+
+    <div class="treatments__cat">
+      <div class="treatments__cat-head">
+        <h3>Augenbrauen &amp; Wimpern</h3>
+        <span>Brow Lamination, Lifting, Tinting</span>
+      </div>
+      <div class="treatments__list">
+        <div class="treat"><div class="treat__name">Brauen zupfen &amp; formen<small>inkl. Beratung</small></div><div class="treat__price">28&nbsp;€<small>20 Min</small></div></div>
+        <div class="treat"><div class="treat__name">Brauen färben<small>pflanzlicher Farbstoff</small></div><div class="treat__price">22&nbsp;€<small>20 Min</small></div></div>
+        <div class="treat"><div class="treat__name">Brow Lamination <span>Trend</span><small>Formgebung + Volumenaufbau, hält 6 Wo</small></div><div class="treat__price">62&nbsp;€<small>45 Min</small></div></div>
+        <div class="treat"><div class="treat__name">Brow-Komplettpaket<small>Lamination + Färben + Zupfen</small></div><div class="treat__price">85&nbsp;€<small>60 Min</small></div></div>
+        <div class="treat"><div class="treat__name">Wimpernlifting<small>natürlicher Schwung, hält 6–8 Wo</small></div><div class="treat__price">72&nbsp;€<small>60 Min</small></div></div>
+        <div class="treat"><div class="treat__name">Wimpernlifting + Färben<small>kombiniert, beste Wirkung</small></div><div class="treat__price">85&nbsp;€<small>70 Min</small></div></div>
+        <div class="treat"><div class="treat__name">Wimpern­verlängerung Classic<small>Erstbehandlung</small></div><div class="treat__price">115&nbsp;€<small>90 Min</small></div></div>
+        <div class="treat"><div class="treat__name">Wimpern Refill<small>3–4 Wochen nach Erstbehandlung</small></div><div class="treat__price">65&nbsp;€<small>60 Min</small></div></div>
+      </div>
+    </div>
+
+    <div class="treatments__cat">
+      <div class="treatments__cat-head">
+        <h3>Maniküre &amp; Pediküre</h3>
+        <span>Klassisch, Shellac, Naturnagel</span>
+      </div>
+      <div class="treatments__list">
+        <div class="treat"><div class="treat__name">Klassische Maniküre<small>Feilen, Nagelhaut, Lack</small></div><div class="treat__price">38&nbsp;€<small>45 Min</small></div></div>
+        <div class="treat"><div class="treat__name">Shellac Maniküre<small>hält 2–3 Wochen</small></div><div class="treat__price">52&nbsp;€<small>60 Min</small></div></div>
+        <div class="treat"><div class="treat__name">Spa-Maniküre<small>Peeling + Paraffinbad</small></div><div class="treat__price">62&nbsp;€<small>75 Min</small></div></div>
+        <div class="treat"><div class="treat__name">Naturnagel-Aufbau<small>für brüchige Nägel</small></div><div class="treat__price">68&nbsp;€<small>75 Min</small></div></div>
+        <div class="treat"><div class="treat__name">Klassische Pediküre<small>Fußbad, Hornhaut, Lack</small></div><div class="treat__price">55&nbsp;€<small>60 Min</small></div></div>
+        <div class="treat"><div class="treat__name">Spa-Pediküre <span>Beliebt</span><small>Fußbad, Peeling, Massage, Maske</small></div><div class="treat__price">78&nbsp;€<small>75 Min</small></div></div>
+        <div class="treat"><div class="treat__name">Shellac Pediküre<small>hält 3–4 Wochen</small></div><div class="treat__price">68&nbsp;€<small>75 Min</small></div></div>
+        <div class="treat"><div class="treat__name">Mani + Pedi Kombi<small>spare 12&nbsp;€</small></div><div class="treat__price">82&nbsp;€<small>120 Min</small></div></div>
+      </div>
+    </div>
+
+    <div class="treatments__cat">
+      <div class="treatments__cat-head">
+        <h3>Körper &amp; Wellness</h3>
+        <span>Massagen, Waxing, Special Treatments</span>
+      </div>
+      <div class="treatments__list">
+        <div class="treat"><div class="treat__name">Rückenmassage<small>klassisch, tief</small></div><div class="treat__price">75&nbsp;€<small>60 Min</small></div></div>
+        <div class="treat"><div class="treat__name">Ganzkörper-Massage<small>schwedisch, lockernd</small></div><div class="treat__price">95&nbsp;€<small>90 Min</small></div></div>
+        <div class="treat"><div class="treat__name">Lymphdrainage<small>nach OP oder bei Schwellungen</small></div><div class="treat__price">82&nbsp;€<small>75 Min</small></div></div>
+        <div class="treat"><div class="treat__name">Hot-Stone-Massage<small>Lavagestein, tief­wärmend</small></div><div class="treat__price">110&nbsp;€<small>90 Min</small></div></div>
+        <div class="treat"><div class="treat__name">Bein-Waxing<small>komplett, mit Pflege</small></div><div class="treat__price">52&nbsp;€<small>45 Min</small></div></div>
+        <div class="treat"><div class="treat__name">Achseln-Waxing<small>schmerzarm, schnell</small></div><div class="treat__price">22&nbsp;€<small>20 Min</small></div></div>
+        <div class="treat"><div class="treat__name">Brazilian-Waxing<small>diskret, hygienisch</small></div><div class="treat__price">48&nbsp;€<small>45 Min</small></div></div>
+        <div class="treat"><div class="treat__name">Gutschein-Paket<small>3 Behandlungen, 10 % Ersparnis</small></div><div class="treat__price">ab 220&nbsp;€<small>nach Wahl</small></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="gallery" aria-hidden="true">
+  <div style="background-image:url('https://images.unsplash.com/photo-1522335789203-aaa4d2cb29ad?w=900&q=80&auto=format&fit=crop')"></div>
+  <div style="background-image:url('https://images.unsplash.com/photo-1583241800698-9c2e3c8a6c5c?w=900&q=80&auto=format&fit=crop')"></div>
+  <div style="background-image:url('https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=900&q=80&auto=format&fit=crop')"></div>
+  <div style="background-image:url('https://images.unsplash.com/photo-1612817288484-6f916006741a?w=900&q=80&auto=format&fit=crop')"></div>
+</div>
+
+<section class="about" id="about">
+  <div class="shell about__grid">
+    <div>
+      <span class="eyebrow">Über das Studio</span>
+      <h2>Drei Kosmetikerinnen. <em>Zwölf Jahre Erfahrung.</em></h2>
+      <div class="about__body">
+        <p>Wir sind <strong style="color:var(--ink)">Mira</strong>, <strong style="color:var(--ink)">Lena</strong> und <strong style="color:var(--ink)">Sophia</strong> — staatlich geprüfte Kosmetikerinnen mit zusätzlichen Spezialisierungen in Apparativer Kosmetik, Lash-Artistry und manueller Lymphdrainage.</p>
+        <p>2018 haben wir Studio Mauve in der Linienstraße eröffnet. Unsere Idee war einfach: ein Salon, in dem niemand hetzt — weder die Kundinnen, noch die Kosmetikerinnen. Sieben Jahre später machen wir es immer noch so.</p>
+        <p>Termine vergeben wir mit großzügigen Pausen dazwischen — du wartest nie. Wir auch nicht.</p>
+      </div>
+      <div class="about__creds">
+        <div><strong>Ausbildung</strong><span>Staatl. gepr. Kosmetikerinnen</span></div>
+        <div><strong>Spezialisierung</strong><span>Apparative Kosmetik · Lashes</span></div>
+        <div><strong>Marken</strong><span>Babor · Dr.&nbsp;Hauschka · Susanne&nbsp;Kaufmann</span></div>
+        <div><strong>Cruelty-Free</strong><span>100 % zertifiziert</span></div>
+      </div>
+    </div>
+    <div class="about__img" aria-hidden="true"></div>
+  </div>
+</section>
+
+<section class="hours" id="hours">
+  <div class="shell hours__grid">
+    <div>
+      <span class="eyebrow" style="color:var(--blush)">Öffnung &amp; Anfahrt</span>
+      <h2>Wir freuen uns <em>auf dich.</em></h2>
+      <p class="hours__lead">Termine bitte online oder telefonisch. Spontanbesuche sind möglich, aber meistens belegt — buch lieber kurz vor.</p>
+      <div class="hours__list">
+        <div class="hours__row"><span class="hours__day">Montag</span><span class="hours__time">10:00 – 19:00</span></div>
+        <div class="hours__row today"><span class="hours__day">Dienstag</span><span class="hours__time">10:00 – 20:00</span></div>
+        <div class="hours__row"><span class="hours__day">Mittwoch</span><span class="hours__time">10:00 – 20:00</span></div>
+        <div class="hours__row"><span class="hours__day">Donnerstag</span><span class="hours__time">10:00 – 21:00</span></div>
+        <div class="hours__row"><span class="hours__day">Freitag</span><span class="hours__time">10:00 – 21:00</span></div>
+        <div class="hours__row"><span class="hours__day">Samstag</span><span class="hours__time">9:00 – 18:00</span></div>
+        <div class="hours__row closed"><span class="hours__day">Sonntag</span><span class="hours__time">geschlossen</span></div>
+      </div>
+    </div>
+    <div>
+      <div class="hours__addr">
+        <strong>Studio Mauve</strong>
+        <p>Linienstraße 119<br>10115 Berlin · Mitte<br><br>
+        <a href="tel:+493088913344">+49 30 889 133 44</a><br>
+        <a href="mailto:hallo@studio-mauve.de">hallo@studio-mauve.de</a><br><br>
+        U-Bahn Rosenthaler Platz (U8) · 4 Min<br>S-Bahn Hackescher Markt · 8 Min</p>
+      </div>
+      <div class="hours__map">
+        <iframe loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Karte Linienstraße"
+          src="https://www.openstreetmap.org/export/embed.html?bbox=13.397%2C52.527%2C13.405%2C52.531&amp;layer=mapnik"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="brands">
+  <div class="shell">
+    <div class="brands__head"><h2>Marken bei uns im Studio</h2></div>
+    <div class="brands__row">
+      <span>Babor</span><span>Dr. Hauschka</span><span>Susanne Kaufmann</span><span>Maria Galland</span><span>Skin Ceuticals</span><span>OPI</span><span>The Lash Lab</span>
+    </div>
+  </div>
+</section>
+
+<section class="book" id="book">
+  <div class="shell book__grid">
+    <div>
+      <span class="eyebrow">Online buchen</span>
+      <h2>Termin in <em>2 Klicks.</em></h2>
+      <p class="book__intro">Wähle Behandlung und Wunschdatum. Wir bestätigen innerhalb von 4 Stunden per E-Mail oder SMS. Stornierung bis 24 h vor Termin kostenfrei.</p>
+      <ul class="book__why">
+        <li>Termine 24/7 online buchbar</li>
+        <li>Bestätigung per SMS innerhalb 4 Stunden</li>
+        <li>Erinnerung am Vortag, kein Vergessen</li>
+        <li>Gutscheine im Studio &amp; online</li>
+        <li>Geschenkpakete für besondere Anlässe</li>
+      </ul>
+    </div>
+    <form class="form" onsubmit="event.preventDefault(); this.innerHTML='<p style=&quot;font-family:var(--serif);font-style:italic;color:var(--rose);font-size:1.25rem&quot;>Danke! Wir bestätigen deinen Termin innerhalb der nächsten 4 Stunden.</p>';">
+      <div class="row2">
+        <div class="field"><label for="sName">Name</label><input id="sName" type="text" required></div>
+        <div class="field"><label for="sPhone">Telefon</label><input id="sPhone" type="tel"></div>
+      </div>
+      <div class="field"><label for="sMail">E-Mail</label><input id="sMail" type="email" required></div>
+      <div class="field"><label for="sTreat">Behandlung</label>
+        <select id="sTreat" required>
+          <option value="">— bitte wählen —</option>
+          <optgroup label="Gesicht">
+            <option>Klassische Gesichtsbehandlung — 75 Min — 85 €</option>
+            <option>Hydra-Glow — 90 Min — 125 €</option>
+            <option>Anti-Aging Lift — 90 Min — 145 €</option>
+            <option>Microneedling — 75 Min — 165 €</option>
+            <option>Express-Refresh — 30 Min — 55 €</option>
+          </optgroup>
+          <optgroup label="Brauen / Wimpern">
+            <option>Brow Lamination — 45 Min — 62 €</option>
+            <option>Wimpernlifting — 60 Min — 72 €</option>
+            <option>Wimpernverlängerung Classic — 90 Min — 115 €</option>
+          </optgroup>
+          <optgroup label="Mani / Pedi">
+            <option>Shellac Maniküre — 60 Min — 52 €</option>
+            <option>Spa-Pediküre — 75 Min — 78 €</option>
+            <option>Mani + Pedi Kombi — 120 Min — 82 €</option>
+          </optgroup>
+          <optgroup label="Wellness">
+            <option>Rückenmassage — 60 Min — 75 €</option>
+            <option>Hot-Stone-Massage — 90 Min — 110 €</option>
+          </optgroup>
+        </select>
+      </div>
+      <div class="row2">
+        <div class="field"><label for="sDate">Wunschtag</label><input id="sDate" type="date" required></div>
+        <div class="field"><label for="sTime">Tageszeit</label>
+          <select id="sTime"><option>Vormittag</option><option>Mittag</option><option>Nachmittag</option><option>Abend</option></select>
+        </div>
+      </div>
+      <div class="field"><label for="sNote">Anmerkungen</label><textarea id="sNote" placeholder="Allergien, Hauttyp, besondere Wünsche."></textarea></div>
+      <button type="submit">Termin anfragen →</button>
+      <p class="form__note">Bestätigung innerhalb 4 Stunden per SMS oder E-Mail.</p>
+    </form>
+  </div>
+</section>
+
+<section class="faq">
+  <div class="shell faq__inner">
+    <div class="faq__head">
+      <span class="eyebrow">Häufige Fragen</span>
+      <h2 style="margin-top:1rem">FAQ</h2>
+    </div>
+
+    <div class="faq__item">
+      <div class="faq__q">Erste Behandlung — was muss ich beachten?</div>
+      <div class="faq__a">Bitte komm ungeschminkt, oder so wenig Make-up wie möglich. Bei Gesichtsbehandlungen: 24 h vorher nicht im Solarium, keine Fruchtsäure-Produkte, kein Retinol. Komm 5–10 Minuten vor dem Termin, wir reden kurz über deine Haut.</div>
+    </div>
+    <div class="faq__item">
+      <div class="faq__q">Kann ich kurzfristig stornieren?</div>
+      <div class="faq__a">Bis 24 Stunden vor dem Termin kostenfrei. Danach 50 % der Behandlung. Bei Krankheit ist das natürlich Ausnahme — schreib uns einfach.</div>
+    </div>
+    <div class="faq__item">
+      <div class="faq__q">Habt ihr Gutscheine?</div>
+      <div class="faq__a">Ja, in jedem Wert, auch als digitales PDF. Geschenkpakete (z.&nbsp;B. Brow + Mani-Kombi) gibt es zum Vorzugspreis. Frag uns direkt — wir packen schön ein.</div>
+    </div>
+    <div class="faq__item">
+      <div class="faq__q">Was bei Schwangerschaft?</div>
+      <div class="faq__a">Klassische Gesichts­behandlungen, Manis, Pedis und Brauen sind in der Regel kein Problem. Bei Wirkstoff-Behandlungen (Microneedling, Säure-Peelings) brauchen wir ärztliche Freigabe. Sag uns einfach Bescheid, wenn du buchst.</div>
+    </div>
+    <div class="faq__item">
+      <div class="faq__q">Männer willkommen?</div>
+      <div class="faq__a">Selbstverständlich. Wir haben eine eigene Männer-Gesichtsbehandlung. Auch Brauen-Trimming, Maniküre und Massagen werden regelmäßig von männlichen Kunden gebucht.</div>
+    </div>
+    <div class="faq__item">
+      <div class="faq__q">Vegan / Bio?</div>
+      <div class="faq__a">Alle Marken bei uns sind cruelty-free zertifiziert. Vollständig vegane Behandlungen führen wir ebenfalls — gib im Buchungsformular Bescheid.</div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="shell">
+    <div class="footer__grid">
+      <div class="footer__col">
+        <div class="footer__logo">Studio <em>Mauve</em></div>
+        <p>Schönheitssalon in Berlin-Mitte. Gesichts­behandlungen, Brows, Lashes und Maniküre. Drei Kosmetikerinnen, ein ruhiges Studio.</p>
+      </div>
+      <div class="footer__col">
+        <h4>Studio</h4>
+        <ul>
+          <li>Linienstraße 119</li>
+          <li>10115 Berlin</li>
+          <li><a href="tel:+493088913344">+49 30 889 133 44</a></li>
+          <li><a href="mailto:hallo@studio-mauve.de">hallo@studio-mauve.de</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h4>Öffnungszeiten</h4>
+        <ul>
+          <li>Mo · 10:00 – 19:00</li>
+          <li>Di – Mi · 10:00 – 20:00</li>
+          <li>Do – Fr · 10:00 – 21:00</li>
+          <li>Sa · 9:00 – 18:00</li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h4>Folgen</h4>
+        <ul>
+          <li><a href="#">Instagram · @studio.mauve</a></li>
+          <li><a href="#">Treatwell-Profil</a></li>
+          <li><a href="/impressum">Impressum</a></li>
+          <li><a href="/">← daylens / WMW Services</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© 2026 Studio Mauve · Demo-Konzept · fiktives Unternehmen · *Bewertung exemplarisch</span>
+      <span>Built by <a href="/">daylens / WMW Services</a></span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

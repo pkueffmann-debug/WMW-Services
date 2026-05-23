@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Tischlerei Hartmann — Möbel auf Maß aus Berlin</title>
+<meta name="description" content="Tischlerei in Berlin-Neukölln. Einbauschränke, Esstische, Küchen — handgefertigt aus Massivholz. Werkstattbesuche nach Vereinbarung." />
+<meta name="theme-color" content="#1e1812" />
+<link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%231e1812'/%3E%3Cpath d='M8 22h16M8 17h16M8 12h16' stroke='%23c89870' stroke-width='1.5'/%3E%3C/svg%3E">
+<style>
+:root {
+  --oak:     #1e1812;
+  --walnut:  #2a2018;
+  --bark:    #3d2e1f;
+  --tan:     #6b4a2f;
+  --umber:   #8c6239;
+  --beige:   #c89870;
+  --linen:   #e8dccb;
+  --paper:   #faf6ee;
+  --rust:    #b04a1a;
+  --ink:     #1a130d;
+  --serif:   'Cormorant Garamond', Georgia, serif;
+  --sans:    'Inter', system-ui, sans-serif;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--sans); background: var(--paper); color: var(--ink); -webkit-font-smoothing: antialiased; line-height: 1.6; }
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+.shell { width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
+.eyebrow { font-family: var(--sans); font-size: 0.72rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--rust); display: inline-flex; align-items: center; gap: 0.7rem; font-weight: 500; }
+.eyebrow::before { content:''; width: 30px; height: 1px; background: var(--rust); }
+h1,h2,h3,h4 { font-family: var(--serif); font-weight: 400; letter-spacing: -0.01em; line-height: 1.05; }
+h1 em, h2 em { font-style: italic; color: var(--umber); }
+
+.demo-banner { background: var(--oak); color: var(--linen); font-size: 0.74rem; letter-spacing: 0.06em; padding: 0.55rem 1rem; text-align: center; }
+.demo-banner a { color: var(--beige); text-decoration: underline; text-underline-offset: 3px; }
+
+.nav { position: sticky; top: 0; z-index: 50; background: rgba(250,246,238,0.92); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid rgba(60,42,28,0.1); }
+.nav__inner { display: flex; align-items: center; justify-content: space-between; padding: 1.1rem 0; }
+.logo { display: flex; align-items: center; gap: 0.7rem; font-family: var(--serif); font-size: 1.45rem; font-weight: 500; color: var(--oak); }
+.logo__mark { width: 36px; height: 36px; border: 1.5px solid var(--oak); display: grid; place-items: center; font-family: var(--serif); font-size: 0.95rem; font-style: italic; }
+.nav__links { display: flex; gap: 2rem; list-style: none; font-size: 0.86rem; font-weight: 500; }
+.nav__links a { color: var(--bark); transition: color 200ms ease; }
+.nav__links a:hover { color: var(--rust); }
+.nav__cta { padding: 0.7rem 1.3rem; background: var(--oak); color: var(--paper); font-size: 0.84rem; font-weight: 500; transition: background 240ms ease; }
+.nav__cta:hover { background: var(--bark); }
+@media (max-width: 880px) { .nav__links { display: none; } }
+
+.hero {
+  position: relative;
+  min-height: 92vh;
+  display: flex; align-items: flex-end;
+  padding: 7rem 0 4rem;
+  background:
+    linear-gradient(180deg, rgba(30,24,18,0.1) 0%, rgba(30,24,18,0.35) 50%, rgba(30,24,18,0.8) 100%),
+    url('https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=2200&q=80&auto=format&fit=crop') center/cover no-repeat;
+  color: var(--paper);
+}
+.hero__inner { max-width: 880px; }
+.hero h1 { font-size: clamp(2.8rem, 7.5vw, 6.2rem); margin-top: 1.5rem; color: var(--paper); }
+.hero__sub { margin-top: 1.5rem; font-size: 1.1rem; max-width: 58ch; color: rgba(244,233,214,0.85); }
+.hero__ctas { margin-top: 2.5rem; display: flex; flex-wrap: wrap; gap: 1rem; }
+.btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.95rem 1.7rem; font-weight: 500; font-size: 0.9rem; transition: background 220ms ease, transform 220ms ease; cursor: pointer; border: none; font-family: var(--sans); }
+.btn--primary { background: var(--rust); color: var(--paper); }
+.btn--primary:hover { background: var(--umber); transform: translateY(-1px); }
+.btn--ghost { background: transparent; color: var(--paper); border: 1px solid rgba(244,233,214,0.45); }
+.btn--ghost:hover { background: var(--paper); color: var(--oak); border-color: var(--paper); }
+.hero__meta { margin-top: 3rem; display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem 2.5rem; max-width: 620px; }
+@media (min-width: 700px) { .hero__meta { grid-template-columns: repeat(4, 1fr); } }
+.hero__meta div { padding-top: 1rem; border-top: 1px solid rgba(244,233,214,0.3); }
+.hero__meta strong { display: block; font-family: var(--sans); font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--beige); margin-bottom: 0.4rem; font-weight: 500; }
+.hero__meta span { font-family: var(--serif); font-size: 1.05rem; color: var(--paper); }
+
+.intro { padding: 8rem 0; background: var(--paper); position: relative; }
+.intro__inner { max-width: 880px; margin: 0 auto; text-align: center; }
+.intro h2 { font-size: clamp(2.2rem, 5vw, 3.8rem); color: var(--oak); margin-top: 1.5rem; }
+.intro__body { margin-top: 2rem; font-size: 1.15rem; color: var(--bark); line-height: 1.7; max-width: 60ch; margin-left: auto; margin-right: auto; }
+.intro__body p { margin-bottom: 1.2rem; }
+.intro__signature { margin-top: 2.5rem; font-family: var(--serif); font-style: italic; font-size: 1.2rem; color: var(--umber); }
+
+.services { padding: 8rem 0; background: var(--linen); }
+.services__head { max-width: 720px; margin-bottom: 4rem; }
+.services__head h2 { font-size: clamp(2.2rem, 5vw, 3.6rem); color: var(--oak); margin-top: 1rem; }
+.services__head p { margin-top: 1.5rem; color: var(--bark); font-size: 1.05rem; max-width: 58ch; }
+.services__grid { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+@media (min-width: 760px) { .services__grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1100px) { .services__grid { grid-template-columns: repeat(3, 1fr); } }
+.svc { background: var(--paper); padding: 0; overflow: hidden; transition: transform 320ms ease, box-shadow 320ms ease; }
+.svc:hover { transform: translateY(-3px); box-shadow: 0 30px 60px -30px rgba(30,24,18,0.25); }
+.svc__img { aspect-ratio: 16/10; background-size: cover; background-position: center; }
+.svc__body { padding: 1.8rem 1.6rem 2.2rem; }
+.svc__num { font-family: var(--serif); font-style: italic; color: var(--rust); font-size: 0.95rem; }
+.svc__name { font-family: var(--serif); font-size: 1.5rem; color: var(--oak); margin-top: 0.5rem; line-height: 1.15; }
+.svc__lead { margin-top: 1rem; color: var(--bark); font-size: 0.95rem; }
+.svc__price { margin-top: 1.4rem; padding-top: 1rem; border-top: 1px solid rgba(60,42,28,0.12); font-family: var(--serif); color: var(--umber); font-size: 1.05rem; display: flex; justify-content: space-between; align-items: baseline; }
+.svc__price small { font-family: var(--sans); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--tan); }
+
+.projects { padding: 8rem 0; background: var(--paper); }
+.projects__head { display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 2rem; margin-bottom: 4rem; }
+.projects__head h2 { font-size: clamp(2.4rem, 5.5vw, 4rem); color: var(--oak); max-width: 16ch; }
+.projects__head p { color: var(--bark); max-width: 36ch; }
+.projects__grid { display: grid; grid-template-columns: 1fr; gap: 3rem; }
+@media (min-width: 760px) { .projects__grid { grid-template-columns: repeat(2, 1fr); } }
+.proj { display: flex; flex-direction: column; }
+.proj__img { aspect-ratio: 5/4; background-size: cover; background-position: center; }
+.proj__meta { margin-top: 1.5rem; font-family: var(--sans); font-size: 0.74rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--rust); }
+.proj__name { font-family: var(--serif); font-size: 1.7rem; color: var(--oak); margin-top: 0.6rem; line-height: 1.15; }
+.proj__body { margin-top: 0.9rem; color: var(--bark); font-size: 0.95rem; }
+.proj__dl { margin-top: 1.5rem; padding-top: 1.2rem; border-top: 1px solid rgba(60,42,28,0.12); display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem 1.5rem; }
+.proj__dl dt { font-family: var(--sans); font-size: 0.66rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--tan); }
+.proj__dl dd { font-family: var(--serif); font-size: 1rem; color: var(--oak); margin-top: 0.15rem; }
+
+.workshop { padding: 8rem 0; background: var(--oak); color: var(--linen); }
+.workshop__grid { display: grid; grid-template-columns: 1fr; gap: 4rem; align-items: center; }
+@media (min-width: 900px) { .workshop__grid { grid-template-columns: 1fr 1fr; gap: 5rem; } }
+.workshop h2 { font-size: clamp(2.2rem, 5vw, 3.6rem); color: var(--paper); margin-top: 1rem; }
+.workshop h2 em { color: var(--beige); }
+.workshop__body { margin-top: 1.8rem; color: rgba(232,220,203,0.85); font-size: 1.05rem; line-height: 1.7; }
+.workshop__body p { margin-bottom: 1.2rem; }
+.workshop__list { margin-top: 2rem; list-style: none; }
+.workshop__list li { padding: 0.85rem 0; border-top: 1px solid rgba(232,220,203,0.18); font-size: 0.95rem; display: grid; grid-template-columns: 28px 1fr; align-items: baseline; }
+.workshop__list li::before { content:'·'; color: var(--rust); font-weight: 700; font-size: 1.4rem; line-height: 1; }
+.workshop__img { aspect-ratio: 4/5; background-size: cover; background-position: center; background-image: url('https://images.unsplash.com/photo-1572297475131-7ec8e16cff95?w=1400&q=80&auto=format&fit=crop'); }
+
+.process { padding: 8rem 0; background: var(--linen); }
+.process__head { text-align: center; max-width: 720px; margin: 0 auto 4rem; }
+.process__head h2 { font-size: clamp(2.2rem, 5vw, 3.4rem); color: var(--oak); margin-top: 1rem; }
+.process__head p { color: var(--bark); margin-top: 1.5rem; }
+.process__grid { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+@media (min-width: 800px) { .process__grid { grid-template-columns: repeat(4, 1fr); gap: 2.5rem; } }
+.pstep { padding-top: 2rem; border-top: 2px solid var(--umber); }
+.pstep__num { font-family: var(--serif); font-style: italic; font-size: 0.95rem; color: var(--rust); }
+.pstep__title { font-family: var(--serif); font-size: 1.4rem; color: var(--oak); margin-top: 0.4rem; }
+.pstep__body { margin-top: 1rem; color: var(--bark); font-size: 0.92rem; line-height: 1.6; }
+
+.materials { padding: 8rem 0; background: var(--paper); }
+.materials__head { max-width: 720px; margin-bottom: 4rem; }
+.materials__head h2 { font-size: clamp(2.2rem, 5vw, 3.6rem); color: var(--oak); margin-top: 1rem; }
+.materials__head p { color: var(--bark); margin-top: 1.5rem; max-width: 56ch; }
+.mat__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+@media (min-width: 700px) { .mat__grid { grid-template-columns: repeat(4, 1fr); } }
+.mat { padding: 2rem 1.5rem; background: var(--linen); border-left: 3px solid var(--umber); }
+.mat strong { display: block; font-family: var(--serif); font-size: 1.3rem; color: var(--oak); }
+.mat small { display: block; font-family: var(--sans); font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--rust); margin-top: 0.4rem; }
+.mat p { margin-top: 0.9rem; font-size: 0.88rem; color: var(--bark); line-height: 1.5; }
+
+.testi { padding: 9rem 0; background: var(--paper); text-align: center; }
+.testi__inner { max-width: 820px; margin: 0 auto; }
+.testi__quote { font-family: var(--serif); font-style: italic; font-size: clamp(1.6rem, 3.2vw, 2.4rem); color: var(--oak); line-height: 1.3; }
+.testi__attribution { margin-top: 2rem; font-family: var(--sans); font-size: 0.82rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--tan); }
+.testi__attribution strong { color: var(--oak); font-weight: 500; }
+.testi__demo-note { margin-top: 1rem; font-size: 0.75rem; color: var(--tan); font-style: italic; }
+
+.contact { padding: 8rem 0; background: var(--linen); }
+.contact__grid { display: grid; grid-template-columns: 1fr; gap: 4rem; align-items: start; }
+@media (min-width: 900px) { .contact__grid { grid-template-columns: 0.9fr 1fr; gap: 5rem; } }
+.contact h2 { font-size: clamp(2rem, 4.5vw, 3.2rem); color: var(--oak); margin-top: 1rem; }
+.contact__intro { margin-top: 1.5rem; color: var(--bark); }
+.contact__detail { margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid rgba(60,42,28,0.18); }
+.contact__detail dl { display: grid; grid-template-columns: 1fr 2fr; gap: 1rem 1.5rem; }
+.contact__detail dt { font-family: var(--sans); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--tan); }
+.contact__detail dd { font-family: var(--serif); font-size: 1.05rem; color: var(--oak); }
+.contact__detail dd a { border-bottom: 1px solid var(--rust); }
+.form { display: grid; gap: 1.2rem; background: var(--paper); padding: 2.5rem; border: 1px solid rgba(60,42,28,0.12); }
+.form .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.field { display: flex; flex-direction: column; gap: 0.4rem; }
+.field label { font-family: var(--sans); font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--tan); font-weight: 500; }
+.field input, .field select, .field textarea {
+  background: var(--paper); border: 1px solid rgba(60,42,28,0.18); border-radius: 0;
+  padding: 0.85rem 1rem; font-family: var(--sans); font-size: 0.95rem; color: var(--oak);
+  transition: border-color 200ms ease;
+}
+.field input:focus, .field select:focus, .field textarea:focus { outline: 0; border-color: var(--rust); }
+.field textarea { min-height: 130px; resize: vertical; }
+.form button { background: var(--oak); color: var(--paper); padding: 1rem 1.5rem; border: 0; font-family: var(--sans); font-size: 0.92rem; font-weight: 500; cursor: pointer; letter-spacing: 0.04em; transition: background 240ms ease; }
+.form button:hover { background: var(--rust); }
+
+.footer { padding: 5rem 0 2.5rem; background: var(--ink); color: rgba(232,220,203,0.65); }
+.footer__grid { display: grid; grid-template-columns: 1fr; gap: 3rem; padding-bottom: 3rem; border-bottom: 1px solid rgba(232,220,203,0.12); }
+@media (min-width: 800px) { .footer__grid { grid-template-columns: 1.5fr 1fr 1fr 1fr; } }
+.footer h4 { font-family: var(--serif); font-size: 1rem; color: var(--paper); margin-bottom: 1rem; font-weight: 500; }
+.footer__col p, .footer__col li { font-size: 0.88rem; line-height: 1.75; }
+.footer__col ul { list-style: none; }
+.footer__col a:hover { color: var(--beige); }
+.footer__logo { font-family: var(--serif); font-size: 1.7rem; color: var(--paper); margin-bottom: 1rem; }
+.footer__bottom { margin-top: 2.5rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; font-size: 0.78rem; color: var(--tan); }
+.footer__bottom a { color: var(--beige); }
+</style>
+</head>
+<body>
+
+<div class="demo-banner">Demo-Studie · Tischlerei-Konzept entworfen von <a href="/">daylens / WMW Services</a> · fiktives Unternehmen</div>
+
+<nav class="nav" aria-label="Hauptnavigation">
+  <div class="shell nav__inner">
+    <a href="#top" class="logo"><span class="logo__mark">H</span>Tischlerei Hartmann</a>
+    <ul class="nav__links">
+      <li><a href="#services">Leistungen</a></li>
+      <li><a href="#projects">Arbeiten</a></li>
+      <li><a href="#workshop">Werkstatt</a></li>
+      <li><a href="#process">Ablauf</a></li>
+      <li><a href="#contact">Kontakt</a></li>
+    </ul>
+    <a href="#contact" class="nav__cta">Anfrage stellen</a>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="shell hero__inner">
+    <span class="eyebrow" style="color:var(--beige)">Tischlerei · Berlin-Neukölln · Seit 2014</span>
+    <h1>Holz hat <em>Zeit verdient.</em></h1>
+    <p class="hero__sub">Möbel auf Maß aus heimischem Massivholz. Einbauschränke, Esstische, Küchen und Sonderlösungen — gezeichnet, gebaut und montiert von einer Person. Keine Massenware, keine Kompromisse beim Material.</p>
+    <div class="hero__ctas">
+      <a href="#contact" class="btn btn--primary">Projekt anfragen →</a>
+      <a href="#projects" class="btn btn--ghost">Arbeiten ansehen</a>
+    </div>
+    <div class="hero__meta">
+      <div><strong>Werkstatt</strong><span>Neukölln</span></div>
+      <div><strong>Erfahrung</strong><span>12 Jahre</span></div>
+      <div><strong>Arbeitsweise</strong><span>Solo-Tischler</span></div>
+      <div><strong>Lieferzeit</strong><span>8–14 Wochen</span></div>
+    </div>
+  </div>
+</header>
+
+<section class="intro">
+  <div class="shell intro__inner">
+    <span class="eyebrow">Über die Werkstatt</span>
+    <h2>Ein <em>Tischler.</em> Eine Werkstatt. Eichenholz, das knarzt.</h2>
+    <div class="intro__body">
+      <p>Ich bin Stefan Hartmann, 41, Tischlermeister seit 2014. Meine Werkstatt liegt in einem alten Gewerbehof in Neukölln, dort fertige ich Möbel auf Maß für Privatkunden in Berlin und Brandenburg.</p>
+      <p>Was bei mir nicht passiert: Massenware, Plastik-Kanten, IKEA-Hack-Erweiterungen. Was bei mir passiert: Massivholz aus deutschen Wäldern, Schwalbenschwanz-Verbindungen wo es sich lohnt, geölte Oberflächen, die nachgeölt werden können.</p>
+      <p>Jedes Stück wird mit dir gemeinsam entworfen, ich liefere und montiere selbst. Eine Person, vom Skizzenblock bis zum Aufmaß-Tag bei dir.</p>
+    </div>
+    <div class="intro__signature">— Stefan Hartmann</div>
+  </div>
+</section>
+
+<section class="services" id="services">
+  <div class="shell">
+    <div class="services__head">
+      <span class="eyebrow">Leistungen</span>
+      <h2>Sechs Bereiche. <em>Ein Handwerker.</em></h2>
+      <p>Vom Einbauschrank im Berliner Altbau bis zur Massivholz-Küche. Preise sind Richtwerte — verbindlich nach Aufmaß und Materialwahl.</p>
+    </div>
+
+    <div class="services__grid">
+      <article class="svc">
+        <div class="svc__img" style="background-image:url('https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1200&q=80&auto=format&fit=crop')"></div>
+        <div class="svc__body">
+          <div class="svc__num">01 · Einbaumöbel</div>
+          <div class="svc__name">Einbauschränke nach Maß</div>
+          <p class="svc__lead">Schlafzimmer, Garderobe, Dachschrägen. Genau in deine Nische, mit deinen Wünschen — Push-to-Open, Tablar-Auszüge, integrierte Beleuchtung.</p>
+          <div class="svc__price">ab 2.400 €<small>laufende Meter</small></div>
+        </div>
+      </article>
+
+      <article class="svc">
+        <div class="svc__img" style="background-image:url('https://images.unsplash.com/photo-1611967164521-abae8fba4668?w=1200&q=80&auto=format&fit=crop')"></div>
+        <div class="svc__body">
+          <div class="svc__num">02 · Tische</div>
+          <div class="svc__name">Massivholztische auf Maß</div>
+          <p class="svc__lead">Esstische, Schreibtische, Konferenztische. Eiche, Esche, Nussbaum oder Kirsche — durchgehende Lamellen oder als Block.</p>
+          <div class="svc__price">ab 1.890 €<small>2-Meter-Tisch</small></div>
+        </div>
+      </article>
+
+      <article class="svc">
+        <div class="svc__img" style="background-image:url('https://images.unsplash.com/photo-1556909212-d5b604d0c90d?w=1200&q=80&auto=format&fit=crop')"></div>
+        <div class="svc__body">
+          <div class="svc__num">03 · Küchen</div>
+          <div class="svc__name">Küchen aus Massivholz</div>
+          <p class="svc__lead">Front und Korpus aus Massivholz, Arbeitsplatten in Eiche, Walnuss oder Stein. Inkl. Planung, Geräte-Einbau und Endmontage.</p>
+          <div class="svc__price">ab 14.500 €<small>Standardgröße</small></div>
+        </div>
+      </article>
+
+      <article class="svc">
+        <div class="svc__img" style="background-image:url('https://images.unsplash.com/photo-1581622558663-b2e33377dfb2?w=1200&q=80&auto=format&fit=crop')"></div>
+        <div class="svc__body">
+          <div class="svc__num">04 · Regale</div>
+          <div class="svc__name">Bücherwände &amp; Regalsysteme</div>
+          <p class="svc__lead">Vom raumhohen Bücherregal mit Schiebeleiter bis zum modularen Regalsystem. Reine Holz­konstruktion, ohne sichtbare Metallwinkel.</p>
+          <div class="svc__price">ab 980 €<small>Quadratmeter</small></div>
+        </div>
+      </article>
+
+      <article class="svc">
+        <div class="svc__img" style="background-image:url('https://images.unsplash.com/photo-1581090464777-f3220bbe1b8b?w=1200&q=80&auto=format&fit=crop')"></div>
+        <div class="svc__body">
+          <div class="svc__num">05 · Restauration</div>
+          <div class="svc__name">Altmöbel-Restauration</div>
+          <p class="svc__lead">Vom Erbstück mit Wasserschaden zum neuen Lieblingsstück. Furnier-Ergänzung, Trag­konstruktion, neue Beschläge, neue Oberfläche.</p>
+          <div class="svc__price">ab 480 €<small>nach Aufwand</small></div>
+        </div>
+      </article>
+
+      <article class="svc">
+        <div class="svc__img" style="background-image:url('https://images.unsplash.com/photo-1632919012614-2eb40ad3a2b3?w=1200&q=80&auto=format&fit=crop')"></div>
+        <div class="svc__body">
+          <div class="svc__num">06 · Sonderbau</div>
+          <div class="svc__name">Sonderlösungen</div>
+          <p class="svc__lead">Bett mit Stauraum, Sitzbänke für Erker, Treppenstufen aus Massivholz. Wenn der Möbelmarkt nichts passendes hat — ruf an.</p>
+          <div class="svc__price">individuell<small>nach Skizze</small></div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="projects" id="projects">
+  <div class="shell">
+    <div class="projects__head">
+      <div>
+        <span class="eyebrow">Referenzen</span>
+        <h2 style="margin-top:1rem">Was zuletzt <em>aus der Werkstatt</em> ging.</h2>
+      </div>
+      <p>Eine Auswahl aktueller Projekte. Vor-Ort-Besuche in der Werkstatt jederzeit nach Vereinbarung.</p>
+    </div>
+
+    <div class="projects__grid">
+      <article class="proj">
+        <div class="proj__img" style="background-image:url('https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=1400&q=80&auto=format&fit=crop')"></div>
+        <div class="proj__meta">2026 · Prenzlauer Berg</div>
+        <h3 class="proj__name">Eichen-Esstisch &amp; Bank</h3>
+        <p class="proj__body">Massivholz-Tisch mit durchgehenden Lamellen, Tischbeine im 45°-Winkel, passende Sitzbank. Geöltes Finish in mehreren Schichten.</p>
+        <dl class="proj__dl">
+          <dt>Material</dt><dd>Wildeiche, geölt</dd>
+          <dt>Maße</dt><dd>240 × 95 cm</dd>
+          <dt>Dauer</dt><dd>9 Wochen</dd>
+          <dt>Investition</dt><dd>3.890 €</dd>
+        </dl>
+      </article>
+
+      <article class="proj">
+        <div class="proj__img" style="background-image:url('https://images.unsplash.com/photo-1556909114-44e3e9399a2e?w=1400&q=80&auto=format&fit=crop')"></div>
+        <div class="proj__meta">2026 · Kreuzberg</div>
+        <h3 class="proj__name">Bücherwand mit Schiebeleiter</h3>
+        <p class="proj__body">Raumhohe Bücherwand in einer Altbauwohnung, 4,1 m × 3,2 m. Mit Schiebeleiter aus Esche und integrierter LED-Lichtleiste.</p>
+        <dl class="proj__dl">
+          <dt>Material</dt><dd>Esche, geölt</dd>
+          <dt>Maße</dt><dd>13,1 m²</dd>
+          <dt>Dauer</dt><dd>11 Wochen</dd>
+          <dt>Investition</dt><dd>12.400 €</dd>
+        </dl>
+      </article>
+
+      <article class="proj">
+        <div class="proj__img" style="background-image:url('https://images.unsplash.com/photo-1556909040-2caa10ec8e84?w=1400&q=80&auto=format&fit=crop')"></div>
+        <div class="proj__meta">2025 · Schöneberg</div>
+        <h3 class="proj__name">Küche in Nussbaum</h3>
+        <p class="proj__body">L-Küche 4,8 m × 2,9 m. Fronten und Korpus in Nussbaum, Arbeitsplatte aus 4 cm Eiche. Mit Push-to-Open, ohne sichtbare Griffe.</p>
+        <dl class="proj__dl">
+          <dt>Material</dt><dd>Nussbaum &amp; Eiche</dd>
+          <dt>Maße</dt><dd>4,8 × 2,9 m</dd>
+          <dt>Dauer</dt><dd>16 Wochen</dd>
+          <dt>Investition</dt><dd>22.800 €</dd>
+        </dl>
+      </article>
+
+      <article class="proj">
+        <div class="proj__img" style="background-image:url('https://images.unsplash.com/photo-1601731622350-3ba2c9c1d39c?w=1400&q=80&auto=format&fit=crop')"></div>
+        <div class="proj__meta">2025 · Charlottenburg</div>
+        <h3 class="proj__name">Bett mit Stauraum-Sockel</h3>
+        <p class="proj__body">Ehebett 200×200, Kopfteil mit integrierter Beleuchtung. Sockel mit zwei vollausgezogenen Stauraum-Schubladen.</p>
+        <dl class="proj__dl">
+          <dt>Material</dt><dd>Kirsche, geölt</dd>
+          <dt>Maße</dt><dd>200 × 200 × 95 cm</dd>
+          <dt>Dauer</dt><dd>7 Wochen</dd>
+          <dt>Investition</dt><dd>4.650 €</dd>
+        </dl>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="workshop" id="workshop">
+  <div class="shell workshop__grid">
+    <div class="workshop__img" aria-hidden="true"></div>
+    <div>
+      <span class="eyebrow" style="color:var(--beige)">Die Werkstatt</span>
+      <h2 style="margin-top:1rem">120 m² in einem Gewerbehof. <em>Maschinen aus zwei Generationen.</em></h2>
+      <div class="workshop__body">
+        <p>Meine Werkstatt liegt in einem ehemaligen Gewerbehof aus den 1920er Jahren in Berlin-Neukölln. 120 Quadratmeter, hohe Decken, Tageslicht von Norden. Hier wird gezeichnet, gesägt, geleimt, geölt — eine Person, ein Raum.</p>
+        <p>Ich arbeite mit Maschinen aus zwei Generationen: einer Felder Formatkreissäge von 2019, einer Bandsäge meines Großvaters aus den 70ern, einer Abrichthobel, einer Tischfräse. Computer-Steuerung gibt es nicht — alle Verbindungen werden von Hand ausgemessen und gezeichnet.</p>
+      </div>
+      <ul class="workshop__list">
+        <li>Werkstatt-Besuch nach Vereinbarung — gerne mit Kaffee</li>
+        <li>Aufmaß bei dir vor Ort: kostenfrei in Berlin innerhalb des Rings</li>
+        <li>Brandenburg + Speckgürtel: 0,80 € pro Kilometer</li>
+        <li>Beratung am Telefon: jederzeit kostenfrei</li>
+        <li>Skizzen + Angebote: schriftlich, mit Materialliste</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="process">
+  <div class="shell">
+    <div class="process__head">
+      <span class="eyebrow">Wie ein Projekt läuft</span>
+      <h2>Vier Schritte. <em>Vom Telefonat bis zur Montage.</em></h2>
+      <p>Du weißt vor Beginn, was es kostet, wie lange es dauert und welches Material zum Einsatz kommt.</p>
+    </div>
+    <div class="process__grid">
+      <div class="pstep">
+        <div class="pstep__num">01 — Telefon</div>
+        <div class="pstep__title">Erstgespräch, kostenfrei.</div>
+        <p class="pstep__body">15 Minuten am Telefon. Du erzählst, was du dir vorstellst, ich sage, ob ich es bauen kann und in welchem Preisrahmen wir uns bewegen.</p>
+      </div>
+      <div class="pstep">
+        <div class="pstep__num">02 — Aufmaß</div>
+        <div class="pstep__title">Vor Ort bei dir, mit Skizze.</div>
+        <p class="pstep__body">Ich komme zu dir, messe aus, zeichne erste Skizzen. Wir besprechen Material, Beschläge, Oberfläche. Eine Stunde, kostenfrei in Berlin.</p>
+      </div>
+      <div class="pstep">
+        <div class="pstep__num">03 — Angebot</div>
+        <div class="pstep__title">Schriftlich, mit allen Posten.</div>
+        <p class="pstep__body">Innerhalb von 10 Werktagen bekommst du ein detailliertes Angebot: Material, Arbeitszeit, Lieferzeit, fester Endpreis. Gültig 60 Tage.</p>
+      </div>
+      <div class="pstep">
+        <div class="pstep__num">04 — Bau &amp; Montage</div>
+        <div class="pstep__title">Werkstatt &amp; Lieferung.</div>
+        <p class="pstep__body">Nach Auftrags­bestätigung 50 % Anzahlung. Bau in der Werkstatt (8–14 Wochen), dann Lieferung &amp; Montage durch mich persönlich.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="materials">
+  <div class="shell">
+    <div class="materials__head">
+      <span class="eyebrow">Material</span>
+      <h2>Vier Hölzer, <em>aus deutschen Wäldern.</em></h2>
+      <p>Ich beziehe mein Holz hauptsächlich von zwei Sägewerken in Brandenburg und einem in der Eifel. Keine Tropenhölzer, kein zertifikatfreies Material.</p>
+    </div>
+    <div class="mat__grid">
+      <div class="mat">
+        <small>Klassiker</small>
+        <strong>Eiche</strong>
+        <p>Hart, langlebig, mit ausgeprägter Maserung. Mein meistgewähltes Holz. Stammt aus PEFC-zertifizierten Forsten in Brandenburg.</p>
+      </div>
+      <div class="mat">
+        <small>Klar &amp; ruhig</small>
+        <strong>Esche</strong>
+        <p>Hell, mit dezenter Maserung. Härter als Eiche, ideal für Tische und Treppen. Aus regionalen Beständen.</p>
+      </div>
+      <div class="mat">
+        <small>Dunkel &amp; warm</small>
+        <strong>Nussbaum</strong>
+        <p>Dunkler Ton, lebendige Maserung. Mein Premium-Holz für Küchen und Esstische. FSC-zertifiziert.</p>
+      </div>
+      <div class="mat">
+        <small>Rot-warm</small>
+        <strong>Kirsche</strong>
+        <p>Rötlich-warmer Ton, der mit den Jahren dunkler wird. Ideal für Schlafzimmer-Möbel. Aus der Eifel.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="testi">
+  <div class="shell testi__inner">
+    <div class="testi__quote">„Stefan hat unsere Küche so gebaut, als wäre es seine eigene. Drei Hausbesuche, drei Skizzen-Runden, am Ende ein Stück, das in 30 Jahren noch da steht."</div>
+    <div class="testi__attribution"><strong>Familie B.</strong> · Kunden 2025 · Küche in Nussbaum</div>
+    <div class="testi__demo-note">Demo-Inhalt · Beispielzitat für Konzept-Studie</div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="shell contact__grid">
+    <div>
+      <span class="eyebrow">Anfrage</span>
+      <h2>Erzähl mir, <em>was du dir vorstellst.</em></h2>
+      <p class="contact__intro">Wenige Sätze reichen. Ich melde mich innerhalb von zwei Werktagen — zuerst per Telefon, dann mit einem Termin für ein Aufmaß bei dir.</p>
+      <div class="contact__detail">
+        <dl>
+          <dt>Werkstatt</dt><dd>Hertzbergstraße 22<br>12055 Berlin · Neukölln</dd>
+          <dt>Telefon</dt><dd><a href="tel:+493088471234">+49 30 88 47 1234</a></dd>
+          <dt>E-Mail</dt><dd><a href="mailto:werkstatt@tischlerei-hartmann.de">werkstatt@tischlerei-hartmann.de</a></dd>
+          <dt>Werkstatt-Besuch</dt><dd>Mi + Sa, 10:00 – 16:00<br>nach Vereinbarung</dd>
+          <dt>Liefergebiet</dt><dd>Berlin + 80 km Umland</dd>
+        </dl>
+      </div>
+    </div>
+    <form class="form" onsubmit="event.preventDefault(); this.innerHTML='<p style=&quot;font-family:var(--serif);font-style:italic;color:var(--rust);font-size:1.25rem&quot;>Danke. Ich melde mich in den nächsten zwei Werktagen.</p>';">
+      <div class="row2">
+        <div class="field"><label for="hName">Name</label><input id="hName" type="text" required></div>
+        <div class="field"><label for="hPhone">Telefon</label><input id="hPhone" type="tel"></div>
+      </div>
+      <div class="field"><label for="hMail">E-Mail</label><input id="hMail" type="email" required></div>
+      <div class="row2">
+        <div class="field"><label for="hType">Projektart</label>
+          <select id="hType" required>
+            <option value="">— bitte wählen —</option>
+            <option>Einbauschrank / Garderobe</option>
+            <option>Tisch / Schreibtisch</option>
+            <option>Küche</option>
+            <option>Regal / Bücherwand</option>
+            <option>Restauration</option>
+            <option>Sonderlösung</option>
+          </select>
+        </div>
+        <div class="field"><label for="hBudget">Budget</label>
+          <select id="hBudget"><option>unter 2.000 €</option><option>2.000 – 5.000 €</option><option>5.000 – 10.000 €</option><option>10.000 – 20.000 €</option><option>über 20.000 €</option><option>unsicher</option></select>
+        </div>
+      </div>
+      <div class="field"><label for="hMsg">Beschreibung</label><textarea id="hMsg" placeholder="Was schwebt dir vor? Material, Maße, Anlass — alles was du schon weißt." required></textarea></div>
+      <button type="submit">Anfrage senden →</button>
+    </form>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="shell">
+    <div class="footer__grid">
+      <div class="footer__col">
+        <div class="footer__logo">Tischlerei Hartmann</div>
+        <p>Möbel auf Maß aus heimischem Massivholz. Werkstatt in Berlin-Neukölln, Lieferung in Berlin und Brandenburg. Seit 2014.</p>
+      </div>
+      <div class="footer__col">
+        <h4>Werkstatt</h4>
+        <ul>
+          <li>Hertzbergstraße 22</li>
+          <li>12055 Berlin</li>
+          <li><a href="tel:+493088471234">+49 30 88 47 1234</a></li>
+          <li><a href="mailto:werkstatt@tischlerei-hartmann.de">werkstatt@tischlerei-hartmann.de</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h4>Besuch</h4>
+        <ul>
+          <li>Mittwoch · 10:00 – 16:00</li>
+          <li>Samstag · 10:00 – 16:00</li>
+          <li>n.&nbsp;V. auch außerhalb</li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h4>Folgen</h4>
+        <ul>
+          <li><a href="#">Instagram · @tischlerei.hartmann</a></li>
+          <li><a href="/impressum">Impressum</a></li>
+          <li><a href="/datenschutz">Datenschutz</a></li>
+          <li><a href="/">← daylens / WMW Services</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© 2026 Tischlerei Hartmann · Demo-Konzept · fiktives Unternehmen</span>
+      <span>Built by <a href="/">daylens / WMW Services</a></span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
