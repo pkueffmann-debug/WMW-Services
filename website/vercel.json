@@ -1,6 +1,7 @@
 {
   "cleanUrls": true,
   "redirects": [
+    { "source": "/daylens", "destination": "/aurelys", "permanent": true },
     { "source": "/yoga", "destination": "/", "permanent": true },
     { "source": "/tischlerei", "destination": "/", "permanent": true },
     { "source": "/architektur", "destination": "/", "permanent": true },

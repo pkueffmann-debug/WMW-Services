@@ -6,6 +6,8 @@
 <title>AURELYS — Intelligence, for the rhythm of a day.</title>
 <meta name="description" content="A premium AI operating system for intentional modern living. Calm, ambient — listening only when you turn toward it." />
 <meta name="theme-color" content="#06050a" />
+<link rel="canonical" href="https://daylens.dev/aurelys">
+<meta property="og:url" content="https://daylens.dev/aurelys">
 <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
 <link rel="stylesheet" href="/assets/fonts/fonts.css">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23060509'/%3E%3Ccircle cx='16' cy='16' r='6' fill='none' stroke='%23c89870' stroke-width='1.3'/%3E%3Ccircle cx='16' cy='16' r='1.6' fill='%23efe6d4'/%3E%3C/svg%3E">
@@ -630,7 +632,7 @@ em { font-style: italic; color: var(--copper); }
 
 <nav class="nav" aria-label="AURELYS Navigation">
   <div class="shell nav__inner">
-    <a href="/daylens" class="logo">Aurelys</a>
+    <a href="/aurelys" class="logo">Aurelys</a>
     <a href="/" class="nav__cta">view example website</a>
   </div>
 </nav>
@@ -748,8 +750,19 @@ em { font-style: italic; color: var(--copper); }
 <section class="final" id="final">
   <div class="final__inner">
     <h2>Begin <em>quietly.</em></h2>
-    <a href="/" class="final__cta">view example website →</a>
-    <p class="final__trust"><em>Local-first.</em> · <em>Yours to leave with.</em> · <em>No training on your day.</em></p>
+    <form id="aurelysForm" class="final__form" novalidate style="margin:2.5rem auto 0;max-width:440px;display:flex;flex-direction:column;gap:0.8rem">
+      <div style="display:flex;gap:0.6rem;flex-wrap:wrap">
+        <input id="aurelysEmail" name="email" type="email" placeholder="your email" required style="flex:1;min-width:220px;background:rgba(255,255,255,0.04);border:1px solid rgba(199,158,116,0.35);color:var(--ivory);padding:0.85rem 1.1rem;font-family:'Fraunces',serif;font-style:italic;font-size:1.02rem;border-radius:2px;outline:none">
+        <button type="submit" style="background:var(--bronze);border:none;color:#0a0805;padding:0.85rem 1.6rem;font-family:'Fraunces',serif;font-style:italic;font-size:1rem;cursor:pointer;border-radius:2px;letter-spacing:0.02em">request access →</button>
+      </div>
+      <p id="aurelysFormError" role="alert" style="display:none;color:#e0907a;font-size:0.85rem;font-style:italic;margin:0"></p>
+      <p style="color:var(--mist);font-size:0.82rem;font-style:italic;margin:0">No marketing. One quiet note when Aurelys opens.</p>
+    </form>
+    <div id="aurelysSuccess" hidden style="margin:2.5rem auto 0;max-width:440px;padding:1.5rem 1.4rem;border:1px solid rgba(199,158,116,0.35);border-radius:2px;background:rgba(184,137,92,0.06)">
+      <p style="font-family:'Fraunces',serif;font-style:italic;font-size:1.2rem;color:var(--ivory);margin:0 0 0.4rem">Thank you.</p>
+      <p style="font-family:'Fraunces',serif;font-style:italic;font-size:0.95rem;color:var(--mist);margin:0">We'll reach out when Aurelys opens.</p>
+    </div>
+    <p class="final__trust" style="margin-top:3rem"><em>Local-first.</em> · <em>Yours to export. Yours to delete.</em> · <em>No training on your day.</em></p>
   </div>
 </section>
 
@@ -757,12 +770,15 @@ em { font-style: italic; color: var(--copper); }
 
 <!-- ============================ FOOTER ============================ -->
 <footer class="footer">
-  <div class="footer__inner">
-    <span>© 2026 Aurelys · concept preview · gestaltet von WMW Services</span>
-    <div class="footer__links">
-      <a href="/">← wmw services</a>
-      <a href="/impressum">impressum</a>
-      <a href="/datenschutz">privacy</a>
+  <div class="footer__inner" style="flex-direction:column;align-items:flex-start;gap:1rem">
+    <p style="font-size:0.74rem;opacity:0.55;line-height:1.55;margin:0;max-width:62ch;color:var(--mist)">Aurelys is a conceptual brand exploration. No product exists. Built by daylens / WMW Services as a design study.</p>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;width:100%">
+      <span>© 2026 Aurelys · concept preview</span>
+      <div class="footer__links">
+        <a href="/">← wmw services</a>
+        <a href="/impressum">imprint</a>
+        <a href="/datenschutz">privacy</a>
+      </div>
     </div>
   </div>
 </footer>
@@ -876,6 +892,28 @@ em { font-style: italic; color: var(--copper); }
 </script>
 
 <script src="/assets/chatbot-widget.js" defer></script>
+
+<script>
+(function(){
+  var form = document.getElementById('aurelysForm');
+  if (!form) return;
+  var success = document.getElementById('aurelysSuccess');
+  var errBox = document.getElementById('aurelysFormError');
+  var emailInput = document.getElementById('aurelysEmail');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var email = emailInput.value.trim();
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      emailInput.style.borderColor = '#e0907a';
+      errBox.textContent = 'Please enter a valid email.';
+      errBox.style.display = 'block';
+      return;
+    }
+    form.hidden = true;
+    success.hidden = false;
+  });
+})();
+</script>
 
 </body>
 </html>

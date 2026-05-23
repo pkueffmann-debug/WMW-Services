@@ -93,6 +93,10 @@ h1 em, h2 em { font-style: italic; color: var(--mauve); font-weight: 500; }
 .treatments__cat-head span { font-family: var(--serif); font-style: italic; color: var(--rose); font-size: 1rem; }
 .treatments__list { display: grid; grid-template-columns: 1fr; gap: 0; }
 @media (min-width: 800px) { .treatments__list { grid-template-columns: 1fr 1fr; gap: 0 3rem; } }
+.treat[data-extra] { display: none; }
+.treatments__cat.is-expanded .treat[data-extra] { display: block; }
+.treatments__toggle { margin-top: 1.5rem; background: transparent; border: 1px solid var(--rose); color: var(--plum); padding: 0.65rem 1.4rem; font-family: var(--serif); font-style: italic; font-size: 0.92rem; cursor: pointer; border-radius: 2px; }
+.treatments__toggle:hover { background: var(--cream); }
 .treat { display: grid; grid-template-columns: 1fr auto; gap: 1rem 1.5rem; padding: 1.1rem 0; border-bottom: 1px dashed rgba(94,60,71,0.18); align-items: baseline; }
 .treat__name { font-family: var(--serif); font-size: 1.15rem; color: var(--ink); font-weight: 500; }
 .treat__name small { display: block; font-family: var(--sans); font-weight: 300; font-size: 0.84rem; color: var(--soft); margin-top: 0.2rem; line-height: 1.4; }
@@ -337,7 +341,7 @@ h1 em, h2 em { font-style: italic; color: var(--mauve); font-weight: 500; }
       <div class="about__creds">
         <div><strong>Ausbildung</strong><span>Staatl. gepr. Kosmetikerinnen</span></div>
         <div><strong>Spezialisierung</strong><span>Apparative Kosmetik · Lashes</span></div>
-        <div><strong>Marken</strong><span>Nordlicht · Aurélie · Atelier&nbsp;Hauchard</span></div>
+        <div><strong>Marken</strong><span>Aurum · Atelier&nbsp;Halmtag · Norden&nbsp;Beauté</span></div>
         <div><strong>Cruelty-Free</strong><span>100 % zertifiziert</span></div>
       </div>
     </div>
@@ -381,8 +385,9 @@ h1 em, h2 em { font-style: italic; color: var(--mauve); font-weight: 500; }
   <div class="shell">
     <div class="brands__head"><h2>Marken bei uns im Studio</h2></div>
     <div class="brands__row">
-      <span>Nordlicht Skin</span><span>Aurélie Paris</span><span>Atelier Hauchard</span><span>Lumière Beauté</span><span>Skin &amp; Soul</span><span>Verena Lacque</span><span>The Studio Lash</span>
+      <span>Aurum Skin Berlin</span><span>Atelier Halmtag</span><span>Norden Beauté</span><span>Pflanzwerk Cosmetics</span><span>Studio Lavendel</span><span>Frische &amp; Co</span><span>Kollektiv Skincare</span>
     </div>
+    <p style="font-size:0.74rem;opacity:0.6;margin-top:1.4rem;text-align:center">Marken-Namen exemplarisch · fiktive Demo</p>
   </div>
 </section>
 
@@ -391,16 +396,16 @@ h1 em, h2 em { font-style: italic; color: var(--mauve); font-weight: 500; }
     <div>
       <span class="eyebrow">Online buchen</span>
       <h2>Termin in <em>2 Klicks.</em></h2>
-      <p class="book__intro">Wähle Behandlung und Wunschdatum. Wir bestätigen innerhalb von 4 Stunden per E-Mail oder SMS. Stornierung bis 24 h vor Termin kostenfrei.</p>
+      <p class="book__intro">Wähle Behandlung und Wunschdatum. Wir melden uns innerhalb von 4 Stunden während unserer Öffnungszeiten per E-Mail zurück. Stornierung bis 24 h vor Termin kostenfrei.</p>
       <ul class="book__why">
         <li>Termine 24/7 online buchbar</li>
-        <li>Bestätigung per SMS innerhalb 4 Stunden</li>
+        <li>Bestätigung per E-Mail (innerhalb 4 h während Öffnungszeiten)</li>
         <li>Erinnerung am Vortag, kein Vergessen</li>
         <li>Gutscheine im Studio &amp; online</li>
         <li>Geschenkpakete für besondere Anlässe</li>
       </ul>
     </div>
-    <form class="form" onsubmit="event.preventDefault(); this.innerHTML='<p style=&quot;font-family:var(--serif);font-style:italic;color:var(--rose);font-size:1.25rem&quot;>Danke! Wir bestätigen deinen Termin innerhalb der nächsten 4 Stunden.</p>';">
+    <form class="form" onsubmit="event.preventDefault(); this.innerHTML='<p style=&quot;font-family:var(--serif);font-style:italic;color:var(--rose);font-size:1.25rem&quot;>Danke! Wir melden uns innerhalb von 4 Stunden während unserer Öffnungszeiten per E-Mail.</p>';">
       <div class="row2">
         <div class="field"><label for="sName">Name</label><input id="sName" type="text" required></div>
         <div class="field"><label for="sPhone">Telefon</label><input id="sPhone" type="tel"></div>
@@ -440,7 +445,7 @@ h1 em, h2 em { font-style: italic; color: var(--mauve); font-weight: 500; }
       </div>
       <div class="field"><label for="sNote">Anmerkungen</label><textarea id="sNote" placeholder="Allergien, Hauttyp, besondere Wünsche."></textarea></div>
       <button type="submit">Termin anfragen →</button>
-      <p class="form__note">Bestätigung innerhalb 4 Stunden per SMS oder E-Mail.</p>
+      <p class="form__note">Bestätigung per E-Mail innerhalb 4 Stunden während unserer Öffnungszeiten.</p>
     </form>
   </div>
 </section>
@@ -524,5 +529,30 @@ h1 em, h2 em { font-style: italic; color: var(--mauve); font-weight: 500; }
 
 <link rel="stylesheet" href="/assets/chatbot-widget.css">
 <script src="/assets/chatbot-widget.js" defer></script>
+<script>
+(function(){
+  var HERO_PER_CAT = 4;
+  document.querySelectorAll('.treatments__cat').forEach(function(cat){
+    var treats = cat.querySelectorAll('.treatments__list .treat');
+    if (treats.length <= HERO_PER_CAT) return;
+    var hiddenCount = 0;
+    for (var i = HERO_PER_CAT; i < treats.length; i++) {
+      treats[i].setAttribute('data-extra', '');
+      hiddenCount++;
+    }
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'treatments__toggle';
+    var showLabel = 'Weitere ' + hiddenCount + ' Behandlungen ansehen ↓';
+    var hideLabel = 'Weniger anzeigen ↑';
+    btn.textContent = showLabel;
+    btn.addEventListener('click', function(){
+      cat.classList.toggle('is-expanded');
+      btn.textContent = cat.classList.contains('is-expanded') ? hideLabel : showLabel;
+    });
+    cat.appendChild(btn);
+  });
+})();
+</script>
 </body>
 </html>
