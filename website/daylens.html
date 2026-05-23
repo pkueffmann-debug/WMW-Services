@@ -957,12 +957,89 @@ h1 em, h2 em, h3 em { font-style: italic; color: var(--copper); font-weight: 300
 .dl-footer__links a:hover { color: var(--ivory); }
 
 /* =========================================================
-   Cursor guard — keep system cursor everywhere on /daylens
+   Custom cursor — bronze cinematic, /daylens only
    ========================================================= */
-html, body, * { cursor: default !important; }
-a, button, [role="button"], .dl-cta, .dl-nav__cta, .dl-final__cta, .dl-world__cta,
-.dl-chat__toggle, .dl-chat__send, .dl-chat__close, .dl-chat__chip { cursor: pointer !important; }
-input, textarea, select { cursor: text !important; }
+@media (hover: hover) and (pointer: fine) {
+  html.dl-has-cursor, html.dl-has-cursor body { cursor: none !important; }
+  html.dl-has-cursor a, html.dl-has-cursor button, html.dl-has-cursor input,
+  html.dl-has-cursor textarea, html.dl-has-cursor select, html.dl-has-cursor [role="button"] { cursor: none !important; }
+}
+.dl-cursor {
+  position: fixed;
+  top: 0; left: 0;
+  width: 6px; height: 6px;
+  pointer-events: none;
+  z-index: 9999;
+  border-radius: 50%;
+  background: var(--ember);
+  box-shadow: 0 0 12px rgba(212,165,116,0.85), 0 0 24px rgba(212,165,116,0.35);
+  transform: translate3d(-100px, -100px, 0);
+  mix-blend-mode: screen;
+  transition: opacity 320ms ease, background 220ms ease, box-shadow 220ms ease, width 320ms cubic-bezier(.2,.7,.2,1), height 320ms cubic-bezier(.2,.7,.2,1);
+  opacity: 0;
+  will-change: transform;
+}
+.dl-cursor.is-visible { opacity: 1; }
+.dl-cursor-ring {
+  position: fixed;
+  top: 0; left: 0;
+  width: 44px; height: 44px;
+  pointer-events: none;
+  z-index: 9998;
+  border-radius: 50%;
+  border: 1px solid rgba(212,165,116,0.55);
+  box-shadow:
+    0 0 22px rgba(212,165,116,0.16),
+    inset 0 0 14px rgba(212,165,116,0.10);
+  transform: translate3d(-100px, -100px, 0);
+  mix-blend-mode: screen;
+  transition: opacity 380ms ease, width 380ms cubic-bezier(.2,.7,.2,1), height 380ms cubic-bezier(.2,.7,.2,1), border-color 240ms ease, background 240ms ease, transform 60ms linear;
+  opacity: 0;
+  will-change: transform;
+  display: grid;
+  place-items: center;
+}
+.dl-cursor-ring::before {
+  content: '';
+  width: 0; height: 0;
+  border-radius: 50%;
+  background: rgba(212,165,116,0.0);
+  transition: width 380ms cubic-bezier(.2,.7,.2,1), height 380ms cubic-bezier(.2,.7,.2,1), background 240ms ease;
+}
+.dl-cursor-ring.is-visible { opacity: 1; }
+
+/* Hover-on-interactive: ring grows + dot shrinks */
+.dl-cursor-ring.is-hover {
+  width: 70px; height: 70px;
+  border-color: var(--ember);
+  background: radial-gradient(circle, rgba(212,165,116,0.08), transparent 70%);
+  box-shadow: 0 0 36px rgba(212,165,116,0.25), inset 0 0 18px rgba(212,165,116,0.16);
+}
+.dl-cursor.is-hover {
+  width: 3px; height: 3px;
+  background: var(--ivory);
+  box-shadow: 0 0 14px rgba(239,230,212,0.9), 0 0 28px rgba(212,165,116,0.45);
+}
+
+/* Hover-on-text: ring becomes a tall reading bar */
+.dl-cursor-ring.is-text {
+  width: 3px; height: 28px;
+  border-radius: 1px;
+  border-color: var(--copper);
+  background: var(--copper);
+  box-shadow: 0 0 14px rgba(212,165,116,0.55);
+}
+.dl-cursor.is-text {
+  opacity: 0;
+}
+
+/* Mouse-down press feedback */
+.dl-cursor-ring.is-down {
+  width: 36px; height: 36px;
+  border-color: var(--gold);
+  background: radial-gradient(circle, rgba(232,195,147,0.20), transparent 65%);
+}
+.dl-cursor.is-down { background: var(--gold); }
 
 /* =========================================================
    Demo banner (top thin strip — clearly fictional)
@@ -1540,8 +1617,96 @@ input, textarea, select { cursor: text !important; }
   </div>
 </footer>
 
+<div class="dl-cursor-ring" id="dlCursorRing" aria-hidden="true"></div>
+<div class="dl-cursor" id="dlCursor" aria-hidden="true"></div>
+
 <script src="/assets/vendor/three.min.js" defer></script>
 <script src="/assets/daylens-signature.js" defer></script>
+
+<script>
+/* Custom cursor — bronze cinematic, /daylens only */
+(function() {
+  var fine    = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!fine || reduced) return;
+
+  var dot  = document.getElementById('dlCursor');
+  var ring = document.getElementById('dlCursorRing');
+  if (!dot || !ring) return;
+
+  document.documentElement.classList.add('dl-has-cursor');
+
+  var tx = window.innerWidth / 2, ty = window.innerHeight / 2;
+  var dx = tx, dy = ty;   // dot — fast
+  var rx = tx, ry = ty;   // ring — lagged
+  var live = false;
+
+  window.addEventListener('pointermove', function(e) {
+    tx = e.clientX; ty = e.clientY;
+    if (!live) {
+      live = true;
+      dot.classList.add('is-visible');
+      ring.classList.add('is-visible');
+    }
+  }, { passive: true });
+  window.addEventListener('pointerleave', function() {
+    live = false;
+    dot.classList.remove('is-visible');
+    ring.classList.remove('is-visible');
+  });
+  window.addEventListener('blur', function() {
+    dot.classList.remove('is-visible');
+    ring.classList.remove('is-visible');
+  });
+  window.addEventListener('mousedown', function() {
+    dot.classList.add('is-down');
+    ring.classList.add('is-down');
+  });
+  window.addEventListener('mouseup', function() {
+    dot.classList.remove('is-down');
+    ring.classList.remove('is-down');
+  });
+
+  /* Hover state on interactive + text elements */
+  var interactiveSel = 'a, button, [role="button"], input[type="submit"], input[type="button"], .dl-cta, .dl-nav__cta, .dl-final__cta, .dl-world__cta, .dl-chat__toggle, .dl-chat__send, .dl-chat__close, .dl-chat__chip';
+  var textSel = 'input[type="text"], input[type="email"], input[type="search"], textarea, [contenteditable="true"]';
+
+  document.addEventListener('mouseover', function(e) {
+    var t = e.target;
+    if (!t || t.nodeType !== 1) return;
+    if (t.closest(textSel)) {
+      ring.classList.add('is-text');
+      dot.classList.add('is-text');
+      ring.classList.remove('is-hover');
+      dot.classList.remove('is-hover');
+    } else if (t.closest(interactiveSel)) {
+      ring.classList.add('is-hover');
+      dot.classList.add('is-hover');
+      ring.classList.remove('is-text');
+      dot.classList.remove('is-text');
+    }
+  });
+  document.addEventListener('mouseout', function(e) {
+    var t = e.target;
+    if (!t || t.nodeType !== 1) return;
+    if (t.closest(interactiveSel) || t.closest(textSel)) {
+      ring.classList.remove('is-hover','is-text');
+      dot.classList.remove('is-hover','is-text');
+    }
+  });
+
+  function loop() {
+    dx += (tx - dx) * 0.55;          // tight, near-instant follow
+    dy += (ty - dy) * 0.55;
+    rx += (tx - rx) * 0.14;          // elastic lag
+    ry += (ty - ry) * 0.14;
+    dot.style.transform  = 'translate3d(' + (dx - 3)  + 'px, ' + (dy - 3)  + 'px, 0)';
+    ring.style.transform = 'translate3d(' + (rx - 22) + 'px, ' + (ry - 22) + 'px, 0)';
+    requestAnimationFrame(loop);
+  }
+  loop();
+})();
+</script>
 
 <script>
 /* AURELYS Concierge — concept-demo chatbot. Pure client-side; keyword routing. */
