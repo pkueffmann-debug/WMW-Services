@@ -1,0 +1,45 @@
+/* =========================================================
+   WMW Services — global mobile critical fixes
+   Loaded last across all pages to override page-specific styles.
+   ========================================================= */
+
+/* iOS Safari auto-zoom prevention.
+   Any input/textarea/select with computed font-size < 16px causes
+   the viewport to zoom on focus. Force min 16px on mobile widths. */
+@media (max-width: 599px) {
+  input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]),
+  select,
+  textarea {
+    font-size: 16px !important;
+    /* Maintain min target height for touch */
+    min-height: 44px;
+  }
+  /* Textareas can shrink height but font size stays */
+  textarea { min-height: 88px; }
+
+  /* Touch target floor: most clickable controls should be ≥44px tall */
+  button,
+  a.btn,
+  a.btn--primary,
+  a.btn--ghost,
+  .nav__cta,
+  .cb-toggle,
+  .lang-switch {
+    min-height: 44px;
+  }
+
+  /* Lang switcher more compact on tiny screens */
+  .lang-switch {
+    padding: 0.45rem 0.7rem !important;
+    margin-right: 0.4rem !important;
+  }
+}
+
+/* Prevent horizontal overflow from any single image or iframe */
+img, iframe, video, svg {
+  max-width: 100%;
+}
+
+/* Hard guard: prevent horizontal scroll from rogue overflow.
+   Set on body only (not html) to preserve sticky-positioning support. */
+body { overflow-x: hidden; }
