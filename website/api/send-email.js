@@ -77,7 +77,7 @@ function welcomeTemplate() {
       Ihr JARVIS-Konto wurde erfolgreich eingerichtet. Sie können sich nun anmelden und Ihre 7-tägige Trial-Phase nutzen.
     </p>
     <p style="margin:0 0 28px;text-align:center;">
-      <a href="https://daylens.dev/auth.html"
+      <a href="https://example.com/auth.html"
          style="display:inline-block;padding:13px 28px;background:#6366F1;color:#fff;text-decoration:none;font-weight:700;font-size:14px;border-radius:8px;">
         Zur Anmeldung
       </a>
@@ -112,7 +112,7 @@ function diagnosticInfo() {
     },
     env: {
       RESEND_API_KEY:    maskKey(process.env.RESEND_API_KEY),
-      RESEND_FROM_EMAIL: process.env.RESEND_FROM_EMAIL || '(default: JARVIS <noreply@daylens.dev>)',
+      RESEND_FROM_EMAIL: process.env.RESEND_FROM_EMAIL || '(default: JARVIS <noreply@example.com>)',
       hasKey:            !!process.env.RESEND_API_KEY,
       keyStartsWith_re:  process.env.RESEND_API_KEY?.startsWith('re_') ?? false,
     },
@@ -183,7 +183,7 @@ module.exports = async function handler(req, res) {
     return res.status(400).json({ error: e.message, requestId });
   }
 
-  const from = process.env.RESEND_FROM_EMAIL || 'JARVIS <noreply@daylens.dev>';
+  const from = process.env.RESEND_FROM_EMAIL || 'JARVIS <noreply@example.com>';
   console.log(`[send-email ${requestId}] sending: from="${from}" to="${to}" subject="${subject.slice(0, 60)}"`);
 
   try {

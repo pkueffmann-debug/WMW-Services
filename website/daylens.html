@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Daylens — Intelligence that holds your day.</title>
+<title>AURELYS — Intelligence that holds your day.</title>
 <meta name="description" content="A premium AI operating system for intentional modern living. Calm, cinematic, listening — when you choose to speak." />
 <meta name="theme-color" content="#06050a" />
 <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
@@ -955,24 +955,300 @@ h1 em, h2 em, h3 em { font-style: italic; color: var(--copper); font-weight: 300
 .dl-footer__links { display: flex; gap: 1.8rem; }
 .dl-footer__links a { color: var(--mist); transition: color 240ms ease; }
 .dl-footer__links a:hover { color: var(--ivory); }
+
+/* =========================================================
+   Cursor guard — keep system cursor everywhere on /daylens
+   ========================================================= */
+html, body, * { cursor: default !important; }
+a, button, [role="button"], .dl-cta, .dl-nav__cta, .dl-final__cta, .dl-world__cta,
+.dl-chat__toggle, .dl-chat__send, .dl-chat__close, .dl-chat__chip { cursor: pointer !important; }
+input, textarea, select { cursor: text !important; }
+
+/* =========================================================
+   Demo banner (top thin strip — clearly fictional)
+   ========================================================= */
+.dl-demo-banner {
+  position: relative;
+  z-index: 70;
+  background: #06050a;
+  color: var(--mist);
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-align: center;
+  padding: 0.55rem 1rem;
+  border-bottom: 1px solid rgba(184,137,92,0.16);
+}
+.dl-demo-banner a { color: var(--copper); border-bottom: 1px solid var(--copper); }
+.dl-demo-banner a:hover { color: var(--ivory); }
+.dl-demo-banner strong { color: var(--copper); font-weight: 400; letter-spacing: 0.22em; }
+/* push nav below banner since nav is position: fixed */
+.dl-nav { top: 34px; }
+
+/* =========================================================
+   Chatbot — floating ambient widget
+   ========================================================= */
+.dl-chat {
+  position: fixed;
+  bottom: clamp(1rem, 3vw, 2rem);
+  right: clamp(1rem, 3vw, 2rem);
+  z-index: 80;
+  font-family: var(--sans);
+  pointer-events: none;
+}
+.dl-chat > * { pointer-events: auto; }
+
+.dl-chat__toggle {
+  width: 60px; height: 60px;
+  border-radius: 50%;
+  border: 1px solid rgba(212,165,116,0.45);
+  background: radial-gradient(circle at 30% 30%, #2a1f17, #0a0805 75%);
+  color: var(--ivory);
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 1.5rem;
+  font-weight: 300;
+  display: grid;
+  place-items: center;
+  box-shadow:
+    0 18px 48px -16px rgba(0,0,0,0.6),
+    0 0 0 0 rgba(212,165,116,0.45),
+    inset 0 1px 0 rgba(255,235,200,0.08);
+  transition: transform 320ms cubic-bezier(.2,.7,.2,1), box-shadow 320ms ease;
+  position: relative;
+}
+.dl-chat__toggle::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1px solid rgba(212,165,116,0.18);
+  animation: dlChatPulse 3.2s ease-in-out infinite;
+}
+@keyframes dlChatPulse {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50%      { transform: scale(1.12); opacity: 0.2; }
+}
+.dl-chat__toggle:hover { transform: translateY(-2px); box-shadow: 0 22px 56px -16px rgba(0,0,0,0.7), 0 0 0 4px rgba(212,165,116,0.10), inset 0 1px 0 rgba(255,235,200,0.10); }
+.dl-chat.is-open .dl-chat__toggle { transform: scale(0.92); opacity: 0.7; }
+
+.dl-chat__panel {
+  position: absolute;
+  bottom: 78px;
+  right: 0;
+  width: clamp(300px, 92vw, 380px);
+  max-height: min(560px, 78vh);
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(180deg, rgba(15,11,8,0.96), rgba(8,6,4,0.96));
+  border: 1px solid rgba(212,165,116,0.22);
+  border-radius: 16px;
+  backdrop-filter: blur(22px) saturate(140%);
+  -webkit-backdrop-filter: blur(22px) saturate(140%);
+  box-shadow:
+    0 30px 80px -20px rgba(0,0,0,0.7),
+    inset 0 1px 0 rgba(255,235,200,0.06);
+  opacity: 0;
+  transform: translateY(12px) scale(0.97);
+  transform-origin: bottom right;
+  pointer-events: none;
+  transition: opacity 320ms ease, transform 320ms cubic-bezier(.2,.7,.2,1);
+  overflow: hidden;
+}
+.dl-chat.is-open .dl-chat__panel {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+.dl-chat__header {
+  padding: 1.1rem 1.3rem 0.9rem;
+  border-bottom: 1px solid rgba(212,165,116,0.16);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.dl-chat__title {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 1.05rem;
+  color: var(--ivory);
+  letter-spacing: -0.01em;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.dl-chat__title::before {
+  content:'';
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--copper);
+  box-shadow: 0 0 10px var(--copper);
+}
+.dl-chat__title small {
+  font-family: var(--mono);
+  font-style: normal;
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--mist);
+  margin-left: 0.3rem;
+}
+.dl-chat__close {
+  background: transparent;
+  border: 0;
+  color: var(--mist);
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  padding: 4px 2px;
+  text-transform: lowercase;
+  transition: color 200ms ease;
+}
+.dl-chat__close:hover { color: var(--ivory); }
+
+.dl-chat__feed {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.1rem 1.3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  scroll-behavior: smooth;
+}
+.dl-chat__feed::-webkit-scrollbar { width: 6px; }
+.dl-chat__feed::-webkit-scrollbar-track { background: transparent; }
+.dl-chat__feed::-webkit-scrollbar-thumb { background: rgba(184,137,92,0.25); border-radius: 3px; }
+
+.dl-chat__msg {
+  max-width: 88%;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  padding: 0.7rem 0.95rem;
+  border-radius: 14px;
+  font-weight: 300;
+}
+.dl-chat__msg--bot {
+  background: rgba(184,137,92,0.10);
+  border: 1px solid rgba(184,137,92,0.18);
+  color: var(--bone);
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 300;
+  align-self: flex-start;
+  border-top-left-radius: 4px;
+}
+.dl-chat__msg--user {
+  background: rgba(232,220,180,0.04);
+  border: 1px solid rgba(232,220,180,0.10);
+  color: var(--ivory);
+  font-family: var(--sans);
+  align-self: flex-end;
+  border-top-right-radius: 4px;
+}
+.dl-chat__msg em { font-style: italic; color: var(--copper); }
+.dl-chat__typing {
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+  padding: 4px 0;
+}
+.dl-chat__typing span {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--copper);
+  opacity: 0.4;
+  animation: dlTyping 1.2s ease-in-out infinite;
+}
+.dl-chat__typing span:nth-child(2) { animation-delay: 0.15s; }
+.dl-chat__typing span:nth-child(3) { animation-delay: 0.3s; }
+@keyframes dlTyping {
+  0%, 80%, 100% { opacity: 0.3; transform: translateY(0); }
+  40%           { opacity: 1;   transform: translateY(-3px); }
+}
+
+.dl-chat__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  padding: 0 1.3rem 0.9rem;
+}
+.dl-chat__chip {
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.08em;
+  text-transform: lowercase;
+  background: transparent;
+  color: var(--mist);
+  border: 1px solid rgba(184,137,92,0.28);
+  border-radius: 999px;
+  padding: 0.35rem 0.8rem;
+  transition: background 220ms ease, color 220ms ease, border-color 220ms ease;
+}
+.dl-chat__chip:hover { background: rgba(184,137,92,0.10); color: var(--ivory); border-color: var(--copper); }
+
+.dl-chat__form {
+  display: flex;
+  gap: 0.6rem;
+  padding: 0.9rem 1.1rem 1.1rem;
+  border-top: 1px solid rgba(212,165,116,0.16);
+}
+.dl-chat__input {
+  flex: 1;
+  background: rgba(232,220,180,0.04);
+  border: 1px solid rgba(184,137,92,0.22);
+  border-radius: 10px;
+  padding: 0.7rem 0.9rem;
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  color: var(--ivory);
+  outline: none;
+  transition: border-color 220ms ease;
+}
+.dl-chat__input::placeholder { color: var(--slate); font-style: italic; }
+.dl-chat__input:focus { border-color: var(--copper); }
+.dl-chat__send {
+  background: var(--copper);
+  border: 0;
+  border-radius: 10px;
+  padding: 0 0.95rem;
+  color: var(--void);
+  font-family: var(--mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-weight: 500;
+  transition: background 200ms ease;
+}
+.dl-chat__send:hover { background: var(--ember); }
+
+@media (max-width: 480px) {
+  .dl-chat__panel { right: -8px; width: 96vw; max-width: 96vw; }
+}
 </style>
 </head>
 
 <body>
 
+<div class="dl-demo-banner">
+  <strong>Beispiel-Website</strong> · AURELYS ist ein fiktives Konzept · gestaltet von <a href="/">WMW Services</a>
+</div>
+
 <div class="dl-grain-overlay" aria-hidden="true"></div>
 
 <!-- ============================ NAV ============================ -->
-<nav class="dl-nav" aria-label="Daylens Navigation">
+<nav class="dl-nav" aria-label="AURELYS Navigation">
   <div class="shell dl-nav__inner">
-    <a href="/daylens" class="dl-logo">Daylens</a>
+    <a href="/daylens" class="dl-logo">AURELYS</a>
     <ul class="dl-nav__links">
       <li><a href="#manifesto">manifesto</a></li>
       <li><a href="#os">the os</a></li>
       <li><a href="#cycle">the day</a></li>
       <li><a href="#ecosystem">worlds</a></li>
     </ul>
-    <a href="#final" class="dl-nav__cta">request access</a>
+    <a href="#final" class="dl-nav__cta">view example</a>
   </div>
 </nav>
 
@@ -983,7 +1259,7 @@ h1 em, h2 em, h3 em { font-style: italic; color: var(--copper); font-weight: 300
   <div class="dl-hero__vignette" aria-hidden="true"></div>
 
   <div class="dl-hero__copy">
-    <div class="dl-hero__eyebrow">Daylens · <span>v1</span> · 2026</div>
+    <div class="dl-hero__eyebrow">AURELYS · <span>v1</span> · 2026</div>
     <h1 class="dl-hero__title">
       <span class="line">An intelligence</span>
       <span class="line"><em>that holds your day.</em></span>
@@ -992,13 +1268,37 @@ h1 em, h2 em, h3 em { font-style: italic; color: var(--copper); font-weight: 300
       A premium operating system for intentional modern living. Calm, ambient, listening — when you choose to speak.
     </p>
     <div class="dl-hero__cta-row">
-      <a href="#final" class="dl-cta">request access</a>
+      <a href="#final" class="dl-cta">view example</a>
       <a href="#manifesto" class="dl-cta dl-cta--ghost">read manifesto</a>
     </div>
   </div>
 
   <div class="dl-hero__scroll-cue" aria-hidden="true">Scroll</div>
 </section>
+
+<!-- ============================ CHATBOT ============================ -->
+<div class="dl-chat" id="dlChat" aria-live="polite">
+  <div class="dl-chat__panel" role="dialog" aria-label="AURELYS Concierge">
+    <div class="dl-chat__header">
+      <div class="dl-chat__title">Aurelys <small>concierge</small></div>
+      <button type="button" class="dl-chat__close" aria-label="Close chat">close</button>
+    </div>
+    <div class="dl-chat__feed" id="dlChatFeed">
+      <div class="dl-chat__msg dl-chat__msg--bot">Hello. I'm a small <em>concierge</em> for this concept-website. Ask me about Aurelys — the operating system, the day-cycle, the philosophy.</div>
+    </div>
+    <div class="dl-chat__chips" id="dlChatChips">
+      <button type="button" class="dl-chat__chip" data-q="What is Aurelys?">what is aurelys?</button>
+      <button type="button" class="dl-chat__chip" data-q="How does the day-cycle work?">the day-cycle</button>
+      <button type="button" class="dl-chat__chip" data-q="Is my data private?">privacy</button>
+      <button type="button" class="dl-chat__chip" data-q="How is this different from other AI products?">different from others</button>
+    </div>
+    <form class="dl-chat__form" id="dlChatForm" autocomplete="off">
+      <input type="text" class="dl-chat__input" id="dlChatInput" placeholder="ask quietly…" aria-label="Message">
+      <button type="submit" class="dl-chat__send">send</button>
+    </form>
+  </div>
+  <button type="button" class="dl-chat__toggle" id="dlChatToggle" aria-label="Open concierge chat" aria-expanded="false">A</button>
+</div>
 
 <!-- ============================ MANIFESTO ============================ -->
 <section class="dl-manifesto" id="manifesto">
@@ -1009,7 +1309,7 @@ h1 em, h2 em, h3 em { font-style: italic; color: var(--copper); font-weight: 300
     </div>
     <div class="dl-act">
       <span class="dl-act__num">II.</span>
-      <p class="dl-act__line">Daylens <em>earns</em> it.</p>
+      <p class="dl-act__line">AURELYS <em>earns</em> it.</p>
     </div>
     <div class="dl-act">
       <span class="dl-act__num">III.</span>
@@ -1025,7 +1325,7 @@ h1 em, h2 em, h3 em { font-style: italic; color: var(--copper); font-weight: 300
       <span class="dl-eyebrow">The Operating System</span>
       <h2>Not an app. A <em>living layer.</em></h2>
       <p class="dl-os__body">
-        Daylens sits beneath the day — ambient, listening, attentive. It holds your intentions in the morning,
+        AURELYS sits beneath the day — ambient, listening, attentive. It holds your intentions in the morning,
         notices the pattern of your week, and returns what matters when you ask. <em>One conversation,
         across every dimension of how you live.</em>
       </p>
@@ -1069,7 +1369,7 @@ h1 em, h2 em, h3 em { font-style: italic; color: var(--copper); font-weight: 300
   <div class="dl-cycle__head">
     <span class="dl-eyebrow">A day, held</span>
     <h2>Five moments. <em>One presence.</em></h2>
-    <p>Daylens doesn't notify, ping, or interrupt. It holds the arc of the day — and only speaks when you turn toward it.</p>
+    <p>AURELYS doesn't notify, ping, or interrupt. It holds the arc of the day — and only speaks when you turn toward it.</p>
   </div>
 
   <div class="dl-cycle__arc">
@@ -1119,7 +1419,7 @@ h1 em, h2 em, h3 em { font-style: italic; color: var(--copper); font-weight: 300
 <!-- ============================ ECOSYSTEM ============================ -->
 <section class="dl-eco" id="ecosystem">
   <div class="dl-eco__head">
-    <span class="dl-eyebrow">Worlds inside Daylens</span>
+    <span class="dl-eyebrow">Worlds inside AURELYS</span>
     <h2>Five dimensions, <em>one intelligence.</em></h2>
     <p>Each world is a different emotional register of the same operating system. Open one — the others stay quiet. Always one conversation.</p>
   </div>
@@ -1130,7 +1430,7 @@ h1 em, h2 em, h3 em { font-style: italic; color: var(--copper); font-weight: 300
       <div class="dl-world__index">01<small>Wellness</small></div>
       <div class="dl-world__body">
         <h3 class="dl-world__name">Calm, <em>not coaching.</em></h3>
-        <p class="dl-world__lead">Breath, sleep, energy — held softly. Daylens doesn't track. It listens, and reflects back the shape of your week.</p>
+        <p class="dl-world__lead">Breath, sleep, energy — held softly. AURELYS doesn't track. It listens, and reflects back the shape of your week.</p>
         <div class="dl-world__tags"><span>breath</span><span>sleep</span><span>energy</span><span>rhythm</span></div>
         <a href="#" class="dl-world__cta dl-world__cta--soon">in preview →</a>
       </div>
@@ -1141,7 +1441,7 @@ h1 em, h2 em, h3 em { font-style: italic; color: var(--copper); font-weight: 300
       <div class="dl-world__index">02<small>Journal</small></div>
       <div class="dl-world__body">
         <h3 class="dl-world__name">Editorial <em>stillness.</em></h3>
-        <p class="dl-world__lead">A long-form memory. Speak a sentence — Daylens carries the rest. Months later, the pattern surfaces unprompted.</p>
+        <p class="dl-world__lead">A long-form memory. Speak a sentence — AURELYS carries the rest. Months later, the pattern surfaces unprompted.</p>
         <div class="dl-world__tags"><span>voice-first</span><span>memory</span><span>pattern</span><span>editorial</span></div>
         <a href="#" class="dl-world__cta dl-world__cta--soon">in preview →</a>
       </div>
@@ -1152,7 +1452,7 @@ h1 em, h2 em, h3 em { font-style: italic; color: var(--copper); font-weight: 300
       <div class="dl-world__index">03<small>Clarity</small></div>
       <div class="dl-world__body">
         <h3 class="dl-world__name">Cognitive <em>simplicity.</em></h3>
-        <p class="dl-world__lead">For minds that fragment. Daylens holds the thread when you can't — capture mid-sentence, return when ready.</p>
+        <p class="dl-world__lead">For minds that fragment. AURELYS holds the thread when you can't — capture mid-sentence, return when ready.</p>
         <div class="dl-world__tags"><span>capture</span><span>thread</span><span>return</span><span>quiet ui</span></div>
         <a href="#" class="dl-world__cta dl-world__cta--soon">in preview →</a>
       </div>
@@ -1163,7 +1463,7 @@ h1 em, h2 em, h3 em { font-style: italic; color: var(--copper); font-weight: 300
       <div class="dl-world__index">04<small>Performance</small></div>
       <div class="dl-world__body">
         <h3 class="dl-world__name">Measured, <em>without obsession.</em></h3>
-        <p class="dl-world__lead">For those who measure. HRV, recovery, output — Daylens holds the signal, hides the noise. No dashboards, ever.</p>
+        <p class="dl-world__lead">For those who measure. HRV, recovery, output — AURELYS holds the signal, hides the noise. No dashboards, ever.</p>
         <div class="dl-world__tags"><span>signal</span><span>recovery</span><span>output</span><span>no dashboards</span></div>
         <a href="#" class="dl-world__cta dl-world__cta--soon">in preview →</a>
       </div>
@@ -1174,7 +1474,7 @@ h1 em, h2 em, h3 em { font-style: italic; color: var(--copper); font-weight: 300
       <div class="dl-world__index">05<small>Recovery</small></div>
       <div class="dl-world__body">
         <h3 class="dl-world__name">Slow, <em>meditative time.</em></h3>
-        <p class="dl-world__lead">When the system is loud, Daylens turns quiet. Long pauses. Spoken reflections. No metrics. Hours, not minutes.</p>
+        <p class="dl-world__lead">When the system is loud, AURELYS turns quiet. Long pauses. Spoken reflections. No metrics. Hours, not minutes.</p>
         <div class="dl-world__tags"><span>slow time</span><span>pauses</span><span>reflection</span><span>silence</span></div>
         <a href="#" class="dl-world__cta dl-world__cta--soon">in preview →</a>
       </div>
@@ -1189,9 +1489,9 @@ h1 em, h2 em, h3 em { font-style: italic; color: var(--copper); font-weight: 300
   <div class="dl-philosophy__inner">
     <p class="dl-philosophy__quote">
       We don't believe the answer to a noisy mind is <em>louder software.</em>
-      <br>Daylens is the opposite of every product that demanded your day.
+      <br>AURELYS is the opposite of every product that demanded your day.
     </p>
-    <div class="dl-philosophy__attr"><strong>Studio Daylens</strong> · 2026</div>
+    <div class="dl-philosophy__attr"><strong>Studio AURELYS</strong> · 2026</div>
   </div>
 </section>
 
@@ -1215,7 +1515,7 @@ h1 em, h2 em, h3 em { font-style: italic; color: var(--copper); font-weight: 300
     <div class="dl-trust__cell">
       <div class="dl-trust__num">03 / Exit</div>
       <div class="dl-trust__title">Yours to leave with.</div>
-      <p class="dl-trust__body">Export your full memory in plain text, anytime. If Daylens disappears tomorrow, your years of reflection don't disappear with it.</p>
+      <p class="dl-trust__body">Export your full memory in plain text, anytime. If AURELYS disappears tomorrow, your years of reflection don't disappear with it.</p>
     </div>
   </div>
 </section>
@@ -1224,14 +1524,14 @@ h1 em, h2 em, h3 em { font-style: italic; color: var(--copper); font-weight: 300
 <section class="dl-final" id="final">
   <div class="dl-final__inner">
     <h2>Begin <em>quietly.</em></h2>
-    <a href="mailto:hello@daylens.example?subject=Daylens%20Access" class="dl-final__cta">request early access →</a>
+    <a href="/" class="dl-final__cta">view example website →</a>
   </div>
 </section>
 
 <!-- ============================ FOOTER ============================ -->
 <footer class="dl-footer">
   <div class="dl-footer__inner">
-    <span>© 2026 Studio Daylens · concept preview</span>
+    <span>© 2026 Studio AURELYS · concept preview</span>
     <div class="dl-footer__links">
       <a href="/">← wmw services</a>
       <a href="/impressum">impressum</a>
@@ -1242,6 +1542,109 @@ h1 em, h2 em, h3 em { font-style: italic; color: var(--copper); font-weight: 300
 
 <script src="/assets/vendor/three.min.js" defer></script>
 <script src="/assets/daylens-signature.js" defer></script>
+
+<script>
+/* AURELYS Concierge — concept-demo chatbot. Pure client-side; keyword routing. */
+(function() {
+  var root = document.getElementById('dlChat');
+  if (!root) return;
+  var toggle = document.getElementById('dlChatToggle');
+  var closeBtn = root.querySelector('.dl-chat__close');
+  var form = document.getElementById('dlChatForm');
+  var input = document.getElementById('dlChatInput');
+  var feed = document.getElementById('dlChatFeed');
+  var chips = document.getElementById('dlChatChips');
+
+  function setOpen(open) {
+    root.classList.toggle('is-open', !!open);
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if (open) setTimeout(function(){ input.focus(); }, 320);
+  }
+  toggle.addEventListener('click', function() { setOpen(!root.classList.contains('is-open')); });
+  closeBtn.addEventListener('click', function() { setOpen(false); });
+
+  function addMsg(html, who) {
+    var el = document.createElement('div');
+    el.className = 'dl-chat__msg dl-chat__msg--' + who;
+    el.innerHTML = html;
+    feed.appendChild(el);
+    feed.scrollTop = feed.scrollHeight;
+    return el;
+  }
+  function typing() {
+    var el = document.createElement('div');
+    el.className = 'dl-chat__msg dl-chat__msg--bot';
+    el.innerHTML = '<span class="dl-chat__typing"><span></span><span></span><span></span></span>';
+    feed.appendChild(el);
+    feed.scrollTop = feed.scrollHeight;
+    return el;
+  }
+
+  /* Pre-canned responses — keyword routed */
+  var RESPONSES = [
+    { rx: /(what is|who is|tell me|explain).*(aurelys|product|this|it)/i,
+      reply: 'Aurelys is a <em>concept</em> for a calm AI operating system — designed to hold the rhythm of a day. Not an app. A quiet layer beneath everything else.' },
+    { rx: /(day.?cycle|daily|routine|day work|how.*day)/i,
+      reply: 'Five quiet moments: <em>intention</em> in the morning, <em>focus</em> mid-morning, <em>drift</em> after lunch, <em>reflection</em> in the evening, <em>close</em> at night. No notifications. It only speaks when you turn toward it.' },
+    { rx: /(privacy|data|secure|train|model)/i,
+      reply: 'Three promises: local-first encryption, no training on your data, full exportable memory. <em>Yours to leave with</em>, anytime.' },
+    { rx: /(different|why|what makes|other)/i,
+      reply: 'Most software <em>demands</em> attention. Aurelys earns it — by being quiet by default, attentive only when called, and patient with rhythm rather than minutes.' },
+    { rx: /(price|cost|subscribe|buy|free)/i,
+      reply: 'This is a <em>concept</em> website — no product, no pricing, no waitlist. A visual study of what a calm AI operating system could feel like.' },
+    { rx: /(demo|fictional|real|fake|concept)/i,
+      reply: 'Yes — Aurelys is fictional. This page is a design study by <em>WMW Services</em>, not a real product or company.' },
+    { rx: /(hello|hi|hey|hallo|moin|servus)/i,
+      reply: 'Hello. Take your time. Ask anything about Aurelys — the worlds, the philosophy, the day.' },
+    { rx: /(voice|speak|talk|spoken)/i,
+      reply: 'Voice-first by design. You speak; the memory holds. Typing exists, but the system is built around spoken thought.' },
+    { rx: /(worlds|wellness|journal|adhd|clarity|biohack|recovery)/i,
+      reply: 'Five worlds, one intelligence: <em>Wellness</em>, <em>Journal</em>, <em>Clarity</em>, <em>Performance</em>, <em>Recovery</em>. Each a different emotional register of the same OS.' },
+    { rx: /(thank|danke|cheers|bye|tschuss|tschüss)/i,
+      reply: 'Thank you. <em>Begin quietly.</em>' },
+  ];
+  function reply(text) {
+    for (var i = 0; i < RESPONSES.length; i++) {
+      if (RESPONSES[i].rx.test(text)) return RESPONSES[i].reply;
+    }
+    return 'I\'m a small concept-demo concierge — try asking about the operating system, the day-cycle, privacy, or how Aurelys is <em>different</em>.';
+  }
+
+  function handle(text) {
+    text = (text || '').trim();
+    if (!text) return;
+    addMsg(escapeHtml(text), 'user');
+    var t = typing();
+    setTimeout(function() {
+      t.remove();
+      addMsg(reply(text), 'bot');
+    }, 700 + Math.random() * 500);
+  }
+  function escapeHtml(s) { return s.replace(/[&<>"']/g, function(c) { return ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;' })[c]; }); }
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    var v = input.value;
+    input.value = '';
+    handle(v);
+  });
+  chips.addEventListener('click', function(e) {
+    var btn = e.target.closest('.dl-chat__chip');
+    if (!btn) return;
+    handle(btn.getAttribute('data-q'));
+  });
+
+  /* Subtle nudge: pulse after 6s if user hasn't opened */
+  setTimeout(function() {
+    if (!root.classList.contains('is-open')) {
+      toggle.animate(
+        [ { transform: 'scale(1)' }, { transform: 'scale(1.08)' }, { transform: 'scale(1)' } ],
+        { duration: 900, iterations: 1, easing: 'cubic-bezier(.2,.7,.2,1)' }
+      );
+    }
+  }, 6000);
+})();
+</script>
 
 </body>
 </html>
