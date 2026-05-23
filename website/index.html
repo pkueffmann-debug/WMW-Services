@@ -692,15 +692,45 @@ body.landing { background: var(--bg-cream); }
 
 <body class="landing is-loading">
 
-<!-- ============================ LOADER ============================ -->
-<div class="wmw-loader" id="wmwLoader" aria-hidden="true">
-  <div class="wmw-loader__mark-wrap">
-    <span class="wmw-loader__mark">daylens</span>
-    <span class="wmw-loader__suffix">/ wmw services</span>
+<!-- ============================ LOADER (Matrix) ============================ -->
+<div class="wmw-loader wmw-loader--matrix" id="wmwLoader" aria-hidden="true">
+  <canvas id="wmwMatrix"></canvas>
+  <div class="wmw-loader__title" id="wmwMatrixText" aria-label="WMW Services">
+    <span data-c="W">W</span><span data-c="M">M</span><span data-c="W">W</span><span data-c=" "> </span><span data-c="S">S</span><span data-c="e">e</span><span data-c="r">r</span><span data-c="v">v</span><span data-c="i">i</span><span data-c="c">c</span><span data-c="e">e</span><span data-c="s">s</span>
   </div>
-  <div class="wmw-loader__bar"><span class="wmw-loader__fill"></span></div>
-  <div class="wmw-loader__hint">Berlin · Studio · 2026</div>
 </div>
+<style>
+.wmw-loader--matrix { background: #06070a !important; }
+.wmw-loader--matrix #wmwMatrix { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.wmw-loader--matrix .wmw-loader__title {
+  position: relative;
+  z-index: 2;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.02em;
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 400;
+  font-size: clamp(2.4rem, 7vw, 5.5rem);
+  letter-spacing: 0.04em;
+  color: #f4e9d6;
+  text-shadow: 0 0 24px rgba(184,138,85,0.45), 0 0 60px rgba(184,138,85,0.18);
+  padding: 0 1rem;
+  user-select: none;
+}
+.wmw-loader--matrix .wmw-loader__title span {
+  display: inline-block;
+  min-width: 0.42em;
+  text-align: center;
+  color: #6affae;
+  text-shadow: 0 0 12px rgba(106,255,174,0.85), 0 0 28px rgba(106,255,174,0.35);
+  transition: color 380ms ease, text-shadow 380ms ease, transform 380ms ease;
+}
+.wmw-loader--matrix .wmw-loader__title span.locked {
+  color: #f4e9d6;
+  text-shadow: 0 0 22px rgba(244,233,214,0.45), 0 0 50px rgba(184,138,85,0.25);
+}
+.wmw-loader--matrix .wmw-loader__title span[data-c=" "] { color: transparent; text-shadow: none; }
+</style>
 
 <!-- ============================ NAV ============================ -->
 <nav class="nav" id="nav" aria-label="Hauptnavigation">
@@ -1190,23 +1220,93 @@ body.landing { background: var(--bg-cream); }
 <script src="/assets/wmw-polish.js" defer></script>
 
 <script>
-// Loader — hide on window.load, min display 1100ms so it doesn't flash
+// Loader — Matrix rain that resolves into "WMW Services", ~1.5s
 (function() {
   var loader = document.getElementById('wmwLoader');
-  if (!loader) return;
+  var canvas = document.getElementById('wmwMatrix');
+  var textEl = document.getElementById('wmwMatrixText');
+  if (!loader || !canvas || !textEl) return;
+
+  var ctx = canvas.getContext('2d');
+  var W, H, cols, drops, fontSize = 16;
+  var GLYPHS = 'ｦｧｨｩｪｫｬｭｮｯｰｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜｦｲｸｺｿﾁﾄﾉﾌﾔﾖﾗﾘﾜABCDEFGHJKLMNPQRSTUVWXYZ0123456789@#$%&+=<>?/';
+
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+    cols = Math.ceil(W / fontSize);
+    drops = new Array(cols).fill(0).map(function() {
+      return Math.random() * -40; // staggered start above the viewport
+    });
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
   var t0 = performance.now();
+  var DURATION = 1500;          // total matrix duration
+  var FADE     = 700;           // fade-out duration
+  var spans = Array.prototype.slice.call(textEl.querySelectorAll('span'));
+  // Stagger reveal across 250–1150ms (the bulk of DURATION) so all are locked before fade
+  var revealStart = 250;
+  var revealSpan  = 900;
+  var lockTimes = spans.map(function(_, i) {
+    return revealStart + (i / Math.max(1, spans.length - 1)) * revealSpan;
+  });
+
+  function rndChar() { return GLYPHS.charAt((Math.random() * GLYPHS.length) | 0); }
+
+  function frame(now) {
+    var t = now - t0;
+
+    // 1) Matrix rain (fades as t approaches DURATION)
+    var rainAlpha = t < DURATION ? 1 : Math.max(0, 1 - (t - DURATION) / 400);
+    ctx.fillStyle = 'rgba(6,7,10,0.10)';
+    ctx.fillRect(0, 0, W, H);
+    ctx.font = fontSize + "px 'JetBrains Mono', ui-monospace, monospace";
+    ctx.textBaseline = 'top';
+    for (var i = 0; i < cols; i++) {
+      var x = i * fontSize;
+      var y = drops[i] * fontSize;
+      // bright head
+      ctx.fillStyle = 'rgba(220,255,235,' + (0.9 * rainAlpha) + ')';
+      ctx.fillText(rndChar(), x, y);
+      // trail
+      ctx.fillStyle = 'rgba(106,255,174,' + (0.55 * rainAlpha) + ')';
+      ctx.fillText(rndChar(), x, y - fontSize);
+      ctx.fillStyle = 'rgba(106,255,174,' + (0.28 * rainAlpha) + ')';
+      ctx.fillText(rndChar(), x, y - fontSize * 2);
+      drops[i]++;
+      if (y > H && Math.random() > 0.965) drops[i] = 0;
+    }
+
+    // 2) Scramble the central word, locking letters at their stagger time
+    for (var j = 0; j < spans.length; j++) {
+      var s = spans[j];
+      if (s.dataset.c === ' ') continue;
+      if (s.classList.contains('locked')) continue;
+      if (t >= lockTimes[j]) {
+        s.textContent = s.dataset.c;
+        s.classList.add('locked');
+      } else {
+        s.textContent = rndChar();
+      }
+    }
+
+    if (t < DURATION + FADE) requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+
   function hide() {
-    var wait = Math.max(0, 1100 - (performance.now() - t0));
     setTimeout(function() {
       loader.classList.add('is-hidden');
       document.body.classList.remove('is-loading');
       document.body.classList.add('is-loaded');
-      setTimeout(function() { loader.remove(); }, 1000);
-    }, wait);
+      setTimeout(function() { loader.remove(); }, FADE + 300);
+    }, Math.max(0, DURATION - (performance.now() - t0)));
   }
   if (document.readyState === 'complete') hide();
   else window.addEventListener('load', hide);
-  // Safety fallback: never block longer than 5s even if an asset hangs
+  // Safety: never block past 5s
   setTimeout(hide, 5000);
 })();
 </script>
