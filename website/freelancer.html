@@ -611,15 +611,16 @@ h1 em, h2 em { font-style: normal; background: linear-gradient(120deg, var(--cya
         </dl>
       </div>
     </div>
-    <form class="form" onsubmit="event.preventDefault(); this.innerHTML='<div style=&quot;font-family:var(--mono)&quot;><span style=&quot;color:var(--neon);font-size:1rem;letter-spacing:0.04em&quot;>&gt; signal received.</span><p style=&quot;color:var(--mist);margin-top:0.6rem;font-size:0.92rem;font-family:var(--sans)&quot;>Antwort innerhalb von 48 Stunden Werktage.</p></div>';">
+    <!-- TODO formspree: replace __FORMSPREE_ENDPOINT__ with real endpoint -->
+    <form class="form" id="novakForm" novalidate action="__FORMSPREE_ENDPOINT__" method="POST">
       <div class="row2">
-        <div class="field"><label for="fName">name</label><input id="fName" type="text" required></div>
-        <div class="field"><label for="fCo">unternehmen</label><input id="fCo" type="text"></div>
+        <div class="field"><label for="fName">name</label><input id="fName" name="name" type="text" required></div>
+        <div class="field"><label for="fCo">unternehmen</label><input id="fCo" name="company" type="text"></div>
       </div>
-      <div class="field"><label for="fMail">e-mail</label><input id="fMail" type="email" required></div>
+      <div class="field"><label for="fMail">e-mail</label><input id="fMail" name="email" type="email" required></div>
       <div class="row2">
         <div class="field"><label for="fService">service</label>
-          <select id="fService" required>
+          <select id="fService" name="service" required>
             <option value="">-- wählen --</option>
             <option>Cloud-Migration</option>
             <option>CI/CD &amp; DevOps</option>
@@ -631,12 +632,21 @@ h1 em, h2 em { font-style: normal; background: linear-gradient(120deg, var(--cya
           </select>
         </div>
         <div class="field"><label for="fBudget">budget</label>
-          <select id="fBudget"><option>&lt; 5.000 €</option><option>5.000 – 15.000 €</option><option>15.000 – 50.000 €</option><option>&gt; 50.000 €</option><option>Retainer</option><option>unklar</option></select>
+          <select id="fBudget" name="budget"><option>&lt; 5.000 €</option><option>5.000 – 15.000 €</option><option>15.000 – 50.000 €</option><option>&gt; 50.000 €</option><option>Retainer</option><option>unklar</option></select>
         </div>
       </div>
-      <div class="field"><label for="fMsg">context</label><textarea id="fMsg" required placeholder="Status quo + Ziel + Timeline."></textarea></div>
+      <div class="field"><label for="fMsg">context</label><textarea id="fMsg" name="message" required placeholder="Status quo + Ziel + Timeline."></textarea></div>
+      <label class="field" style="display:flex;gap:0.6rem;align-items:flex-start;font-size:0.82rem;line-height:1.5;color:var(--mist);font-family:var(--sans);font-weight:400;margin-top:0.6rem">
+        <input type="checkbox" name="consent" required style="margin-top:0.3rem;flex-shrink:0">
+        <span>Einwilligung zur Datenverarbeitung gemäß <a href="/datenschutz" target="_blank" rel="noopener" style="color:var(--neon);text-decoration:underline">Datenschutzerklärung</a>.</span>
+      </label>
+      <p id="fFormError" role="alert" style="display:none;color:#ff5a5a;font-family:var(--mono);font-size:0.86rem;margin:0.4rem 0 0.6rem"></p>
       <button type="submit">$ send →</button>
     </form>
+    <div id="novakSuccess" hidden style="padding:1.6rem 1.4rem;background:rgba(0,255,150,0.05);border-left:3px solid var(--neon);font-family:var(--mono)">
+      <span style="color:var(--neon);font-size:1rem;letter-spacing:0.04em">&gt; signal received.</span>
+      <p style="color:var(--mist);margin-top:0.6rem;font-size:0.92rem;font-family:var(--sans)">Antwort innerhalb von 48 Stunden Werktage.</p>
+    </div>
   </div>
 </section>
 
@@ -685,5 +695,29 @@ h1 em, h2 em { font-style: normal; background: linear-gradient(120deg, var(--cya
 
 <link rel="stylesheet" href="/assets/chatbot-widget.css">
 <script src="/assets/chatbot-widget.js" defer></script>
+<script>
+(function(){
+  var form = document.getElementById('novakForm');
+  if (!form) return;
+  var success = document.getElementById('novakSuccess');
+  var errBox = document.getElementById('fFormError');
+  function setErr(msg){ errBox.textContent = msg; errBox.style.display='block'; }
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    errBox.style.display='none';
+    if (!form.name.value.trim()) return setErr('name required.');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.value.trim())) return setErr('valid email required.');
+    if (!form.service.value) return setErr('service required.');
+    if (!form.message.value.trim()) return setErr('context required.');
+    if (!form.consent.checked) return setErr('consent required.');
+    if (form.action.indexOf('__FORMSPREE_ENDPOINT__') !== -1) {
+      console.warn('[freelancer] Formspree endpoint not configured.');
+    }
+    form.hidden = true;
+    success.hidden = false;
+    success.scrollIntoView({behavior:'smooth',block:'center'});
+  });
+})();
+</script>
 </body>
 </html>

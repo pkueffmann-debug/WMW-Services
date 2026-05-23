@@ -1,6 +1,12 @@
 {
   "cleanUrls": true,
   "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [{ "type": "host", "value": "daylens.dev" }],
+      "destination": "https://www.daylens.dev/$1",
+      "permanent": true
+    },
     { "source": "/daylens", "destination": "/aurelys", "permanent": true },
     { "source": "/yoga", "destination": "/", "permanent": true },
     { "source": "/tischlerei", "destination": "/", "permanent": true },

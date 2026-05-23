@@ -405,7 +405,8 @@ h1 em, h2 em { font-style: italic; color: var(--mauve); font-weight: 500; }
         <li>Geschenkpakete für besondere Anlässe</li>
       </ul>
     </div>
-    <form class="form" onsubmit="event.preventDefault(); this.innerHTML='<p style=&quot;font-family:var(--serif);font-style:italic;color:var(--rose);font-size:1.25rem&quot;>Danke! Wir melden uns innerhalb von 4 Stunden während unserer Öffnungszeiten per E-Mail.</p>';">
+    <!-- TODO formspree: replace __FORMSPREE_ENDPOINT__ with real endpoint -->
+    <form class="form" id="mauveForm" novalidate action="__FORMSPREE_ENDPOINT__" method="POST">
       <div class="row2">
         <div class="field"><label for="sName">Name</label><input id="sName" type="text" required></div>
         <div class="field"><label for="sPhone">Telefon</label><input id="sPhone" type="tel"></div>
@@ -443,10 +444,18 @@ h1 em, h2 em { font-style: italic; color: var(--mauve); font-weight: 500; }
           <select id="sTime"><option>Vormittag</option><option>Mittag</option><option>Nachmittag</option><option>Abend</option></select>
         </div>
       </div>
-      <div class="field"><label for="sNote">Anmerkungen</label><textarea id="sNote" placeholder="Allergien, Hauttyp, besondere Wünsche."></textarea></div>
+      <div class="field"><label for="sNote">Anmerkungen</label><textarea id="sNote" name="note" placeholder="Allergien, Hauttyp, besondere Wünsche."></textarea></div>
+      <label class="field" style="display:flex;gap:0.6rem;align-items:flex-start;font-size:0.82rem;line-height:1.5;color:var(--soft);font-weight:400;margin-top:0.6rem">
+        <input type="checkbox" name="consent" required style="margin-top:0.3rem;flex-shrink:0">
+        <span>Ich willige ein, dass meine Angaben zur Bearbeitung meiner Terminanfrage gespeichert werden. <a href="/datenschutz" target="_blank" rel="noopener" style="color:var(--rose);text-decoration:underline">Datenschutzerklärung</a>.</span>
+      </label>
+      <p id="sFormError" role="alert" style="display:none;color:#b94747;font-size:0.88rem;margin:0.4rem 0 0.6rem"></p>
       <button type="submit">Termin anfragen →</button>
       <p class="form__note">Bestätigung per E-Mail innerhalb 4 Stunden während unserer Öffnungszeiten.</p>
     </form>
+    <div id="mauveSuccess" hidden style="padding:2rem 1.6rem;background:rgba(190,140,140,0.06);border-left:3px solid var(--rose)">
+      <p style="font-family:var(--serif);font-style:italic;color:var(--rose);font-size:1.25rem;margin:0">Danke! Wir melden uns innerhalb von 4 Stunden während unserer Öffnungszeiten per E-Mail.</p>
+    </div>
   </div>
 </section>
 
@@ -551,6 +560,34 @@ h1 em, h2 em { font-style: italic; color: var(--mauve); font-weight: 500; }
       btn.textContent = cat.classList.contains('is-expanded') ? hideLabel : showLabel;
     });
     cat.appendChild(btn);
+  });
+})();
+</script>
+<script>
+(function(){
+  var form = document.getElementById('mauveForm');
+  if (!form) return;
+  var success = document.getElementById('mauveSuccess');
+  var errBox = document.getElementById('sFormError');
+  function setErr(msg){ errBox.textContent = msg; errBox.style.display='block'; }
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    errBox.style.display='none';
+    var name = document.getElementById('sName').value.trim();
+    var email = document.getElementById('sMail').value.trim();
+    var treat = document.getElementById('sTreat').value;
+    var date = document.getElementById('sDate').value;
+    if (!name) return setErr('Bitte gib deinen Namen an.');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return setErr('Bitte prüf die E-Mail-Adresse.');
+    if (!treat) return setErr('Bitte wähle eine Behandlung.');
+    if (!date) return setErr('Bitte wähle ein Wunschdatum.');
+    if (!form.consent.checked) return setErr('Bitte stimme der Datenverarbeitung zu.');
+    if (form.action.indexOf('__FORMSPREE_ENDPOINT__') !== -1) {
+      console.warn('[salon] Formspree endpoint not configured.');
+    }
+    form.hidden = true;
+    success.hidden = false;
+    success.scrollIntoView({behavior:'smooth',block:'center'});
   });
 })();
 </script>

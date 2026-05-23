@@ -486,15 +486,16 @@ h1 em, h2 em { font-style: italic; color: var(--umber); }
         </dl>
       </div>
     </div>
-    <form class="form" onsubmit="event.preventDefault(); this.innerHTML='<p style=&quot;font-family:var(--serif);font-style:italic;color:var(--rust);font-size:1.25rem&quot;>Danke. Ich melde mich in den nächsten zwei Werktagen.</p>';">
+    <!-- TODO formspree: replace __FORMSPREE_ENDPOINT__ with real endpoint -->
+    <form class="form" id="hartmannForm" novalidate action="__FORMSPREE_ENDPOINT__" method="POST">
       <div class="row2">
-        <div class="field"><label for="hName">Name</label><input id="hName" type="text" required></div>
-        <div class="field"><label for="hPhone">Telefon</label><input id="hPhone" type="tel"></div>
+        <div class="field"><label for="hName">Name</label><input id="hName" name="name" type="text" required></div>
+        <div class="field"><label for="hPhone">Telefon</label><input id="hPhone" name="phone" type="tel"></div>
       </div>
-      <div class="field"><label for="hMail">E-Mail</label><input id="hMail" type="email" required></div>
+      <div class="field"><label for="hMail">E-Mail</label><input id="hMail" name="email" type="email" required></div>
       <div class="row2">
         <div class="field"><label for="hType">Projektart</label>
-          <select id="hType" required>
+          <select id="hType" name="project" required>
             <option value="">— bitte wählen —</option>
             <option>Einbauschrank / Garderobe</option>
             <option>Tisch / Schreibtisch</option>
@@ -505,12 +506,20 @@ h1 em, h2 em { font-style: italic; color: var(--umber); }
           </select>
         </div>
         <div class="field"><label for="hBudget">Budget</label>
-          <select id="hBudget"><option>unter 2.000 €</option><option>2.000 – 5.000 €</option><option>5.000 – 10.000 €</option><option>10.000 – 20.000 €</option><option>über 20.000 €</option><option>unsicher</option></select>
+          <select id="hBudget" name="budget"><option>unter 2.000 €</option><option>2.000 – 5.000 €</option><option>5.000 – 10.000 €</option><option>10.000 – 20.000 €</option><option>über 20.000 €</option><option>unsicher</option></select>
         </div>
       </div>
-      <div class="field"><label for="hMsg">Beschreibung</label><textarea id="hMsg" placeholder="Was schwebt dir vor? Material, Maße, Anlass — alles was du schon weißt." required></textarea></div>
+      <div class="field"><label for="hMsg">Beschreibung</label><textarea id="hMsg" name="message" placeholder="Was schwebt dir vor? Material, Maße, Anlass — alles was du schon weißt." required></textarea></div>
+      <label class="field" style="display:flex;gap:0.6rem;align-items:flex-start;font-size:0.84rem;line-height:1.5;color:var(--ash);font-weight:400;margin-top:0.6rem">
+        <input type="checkbox" name="consent" required style="margin-top:0.3rem;flex-shrink:0">
+        <span>Ich willige ein, dass meine Angaben zur Bearbeitung meiner Anfrage gespeichert werden. <a href="/datenschutz" target="_blank" rel="noopener" style="color:var(--rust);text-decoration:underline">Datenschutzerklärung</a>.</span>
+      </label>
+      <p id="hFormError" role="alert" style="display:none;color:#b94747;font-size:0.88rem;margin:0.4rem 0 0.6rem"></p>
       <button type="submit">Anfrage senden →</button>
     </form>
+    <div id="hartmannSuccess" hidden style="padding:2rem 1.6rem;background:rgba(140,80,40,0.06);border-left:3px solid var(--rust)">
+      <p style="font-family:var(--serif);font-style:italic;color:var(--rust);font-size:1.25rem;margin:0">Danke. Ich melde mich in den nächsten zwei Werktagen.</p>
+    </div>
   </div>
 </section>
 
@@ -558,5 +567,29 @@ h1 em, h2 em { font-style: italic; color: var(--umber); }
 
 <link rel="stylesheet" href="/assets/chatbot-widget.css">
 <script src="/assets/chatbot-widget.js" defer></script>
+<script>
+(function(){
+  var form = document.getElementById('hartmannForm');
+  if (!form) return;
+  var success = document.getElementById('hartmannSuccess');
+  var errBox = document.getElementById('hFormError');
+  function setErr(msg){ errBox.textContent = msg; errBox.style.display='block'; }
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    errBox.style.display='none';
+    if (!form.name.value.trim()) return setErr('Bitte gib deinen Namen an.');
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.value.trim())) return setErr('Bitte prüf die E-Mail-Adresse.');
+    if (!form.project.value) return setErr('Bitte wähle eine Projektart.');
+    if (!form.message.value.trim()) return setErr('Bitte beschreib kurz dein Vorhaben.');
+    if (!form.consent.checked) return setErr('Bitte stimme der Datenverarbeitung zu.');
+    if (form.action.indexOf('__FORMSPREE_ENDPOINT__') !== -1) {
+      console.warn('[handwerker] Formspree endpoint not configured — form would not POST. Set form.action.');
+    }
+    form.hidden = true;
+    success.hidden = false;
+    success.scrollIntoView({behavior:'smooth',block:'center'});
+  });
+})();
+</script>
 </body>
 </html>

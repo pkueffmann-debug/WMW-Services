@@ -519,7 +519,8 @@ h1,h2,h3,h4 { font-family: var(--serif); font-weight: 400; letter-spacing: -0.00
       </div>
     </div>
     <div class="contact__form-wrap">
-      <form id="kanzleiForm" class="form" novalidate>
+      <!-- TODO formspree: replace __FORMSPREE_ENDPOINT__ with real endpoint -->
+      <form id="kanzleiForm" class="form" novalidate action="__FORMSPREE_ENDPOINT__" method="POST">
         <div class="row2">
           <div class="field"><label for="kName">Name</label><input id="kName" name="name" type="text" required></div>
           <div class="field"><label for="kPhone">Telefon</label><input id="kPhone" name="phone" type="tel"></div>
@@ -542,6 +543,10 @@ h1,h2,h3,h4 { font-family: var(--serif); font-weight: 400; letter-spacing: -0.00
           <select id="kInsurance" name="insurance"><option>Habe keine</option><option>Habe eine, Deckung unklar</option><option>Habe eine, Deckung bestätigt</option><option>Weiß nicht</option></select>
         </div>
         <input type="hidden" name="preferred" id="kPreferred">
+        <label class="field" style="display:flex;gap:0.6rem;align-items:flex-start;font-size:0.84rem;line-height:1.5;color:var(--steel);font-weight:400;margin-top:0.6rem">
+          <input type="checkbox" name="consent" required style="margin-top:0.3rem;flex-shrink:0">
+          <span>Ich willige ein, dass meine Angaben zur Bearbeitung meiner Anfrage gespeichert werden. <a href="/datenschutz" target="_blank" rel="noopener" style="color:var(--gold);text-decoration:underline">Datenschutzerklärung</a>.</span>
+        </label>
         <p id="kFormError" role="alert" style="display:none;color:#b94747;font-size:0.88rem;margin:0.4rem 0 0.6rem"></p>
         <button type="submit">Rückruf anfordern →</button>
         <p class="form__note">Vertraulich behandelt. Mandatsverhältnis entsteht erst nach beidseitiger schriftlicher Bestätigung.</p>
@@ -651,6 +656,7 @@ h1,h2,h3,h4 { font-family: var(--serif); font-weight: 400; letter-spacing: -0.00
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return setErr(form.email, 'Bitte prüfen Sie die E-Mail-Adresse.');
     if (!area) return setErr(form.area, 'Bitte wählen Sie ein Rechtsgebiet.');
     if (msg.length < 20) return setErr(form.message, 'Bitte beschreiben Sie Ihr Anliegen in mindestens 20 Zeichen.');
+    if (!form.consent.checked) return setErr(null, 'Bitte stimmen Sie der Datenverarbeitung zu.');
     document.getElementById('kSuccessName').textContent = name;
     document.getElementById('kSuccessMail').textContent = email;
     form.hidden = true;

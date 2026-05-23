@@ -750,12 +750,17 @@ em { font-style: italic; color: var(--copper); }
 <section class="final" id="final">
   <div class="final__inner">
     <h2>Begin <em>quietly.</em></h2>
-    <form id="aurelysForm" class="final__form" novalidate style="margin:2.5rem auto 0;max-width:440px;display:flex;flex-direction:column;gap:0.8rem">
+    <!-- TODO formspree: replace __FORMSPREE_ENDPOINT__ with real endpoint -->
+    <form id="aurelysForm" class="final__form" novalidate action="__FORMSPREE_ENDPOINT__" method="POST" style="margin:2.5rem auto 0;max-width:440px;display:flex;flex-direction:column;gap:0.8rem">
       <div style="display:flex;gap:0.6rem;flex-wrap:wrap">
         <input id="aurelysEmail" name="email" type="email" placeholder="your email" required style="flex:1;min-width:220px;background:rgba(255,255,255,0.04);border:1px solid rgba(199,158,116,0.35);color:var(--ivory);padding:0.85rem 1.1rem;font-family:'Fraunces',serif;font-style:italic;font-size:1.02rem;border-radius:2px;outline:none">
         <button type="submit" style="background:var(--bronze);border:none;color:#0a0805;padding:0.85rem 1.6rem;font-family:'Fraunces',serif;font-style:italic;font-size:1rem;cursor:pointer;border-radius:2px;letter-spacing:0.02em">request access →</button>
       </div>
       <p id="aurelysFormError" role="alert" style="display:none;color:#e0907a;font-size:0.85rem;font-style:italic;margin:0"></p>
+      <label style="display:flex;gap:0.5rem;align-items:flex-start;color:var(--mist);font-size:0.78rem;font-style:italic;line-height:1.5;margin:0;cursor:pointer">
+        <input type="checkbox" name="consent" required style="margin-top:0.25rem;accent-color:var(--bronze);flex-shrink:0">
+        <span>I consent to receive one notification when Aurelys opens. <a href="/datenschutz" target="_blank" rel="noopener" style="color:var(--copper)">Privacy</a>.</span>
+      </label>
       <p style="color:var(--mist);font-size:0.82rem;font-style:italic;margin:0">No marketing. One quiet note when Aurelys opens.</p>
     </form>
     <div id="aurelysSuccess" hidden style="margin:2.5rem auto 0;max-width:440px;padding:1.5rem 1.4rem;border:1px solid rgba(199,158,116,0.35);border-radius:2px;background:rgba(184,137,92,0.06)">
@@ -908,6 +913,14 @@ em { font-style: italic; color: var(--copper); }
       errBox.textContent = 'Please enter a valid email.';
       errBox.style.display = 'block';
       return;
+    }
+    if (!form.consent.checked) {
+      errBox.textContent = 'Consent required.';
+      errBox.style.display = 'block';
+      return;
+    }
+    if (form.action.indexOf('__FORMSPREE_ENDPOINT__') !== -1) {
+      console.warn('[aurelys] Formspree endpoint not configured.');
     }
     form.hidden = true;
     success.hidden = false;

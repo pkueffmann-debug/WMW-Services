@@ -665,7 +665,8 @@ h1,h2,h3,h4 { font-family: var(--display); font-weight: 900; letter-spacing: -0.
     </div>
     <div class="contact__form-wrap">
       <div id="tPackageHeader" hidden style="margin-bottom:1.4rem;padding:0.9rem 1.1rem;background:var(--orange);color:#0d0d0d;font-family:var(--mono);font-size:0.84rem;letter-spacing:0.04em;text-transform:uppercase">DU BUCHST: <strong id="tPackageName"></strong> · <span id="tPackagePrice"></span></div>
-      <form id="trainerForm" class="form" novalidate>
+      <!-- TODO formspree: replace __FORMSPREE_ENDPOINT__ with real endpoint -->
+      <form id="trainerForm" class="form" novalidate action="__FORMSPREE_ENDPOINT__" method="POST">
         <input type="hidden" name="paket" id="tPaket">
         <div class="row2">
           <div class="field"><label for="tName">Name</label><input id="tName" name="name" type="text" required></div>
@@ -806,6 +807,7 @@ h1,h2,h3,h4 { font-family: var(--display); font-weight: 900; letter-spacing: -0.
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return setErr(form.email, 'Bitte prüf die E-Mail-Adresse.');
     if (goal.length < 10) return setErr(form.goal, 'Bitte beschreib dein Ziel in mindestens 10 Zeichen.');
     if (!consent) return setErr(null, 'Bitte stimme der Datenverarbeitung zu.');
+    if (form.action.indexOf('__FORMSPREE_ENDPOINT__') !== -1) console.warn('[trainer] Formspree endpoint not configured.');
     document.getElementById('tSuccessName').textContent = name.toUpperCase();
     document.getElementById('tSuccessPkg').textContent = paketInput.value || 'eine Session';
     form.hidden = true;
