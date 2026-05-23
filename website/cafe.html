@@ -369,20 +369,23 @@ h1,h2,h3,h4 { font-family: var(--serif); font-weight: 400; letter-spacing: -0.02
       <h2>Marie hat Kaffee in Melbourne gelernt. <em>Thomas die Patisserie in Lyon.</em></h2>
       <div class="story__body">
         <p>2019 sind wir zurück nach Berlin gezogen und haben in einer ehemaligen Bäckerei in der Musterstraße aufgemacht. Drei Tische, eine La Marzocco, ein gebrauchter Backofen. Sechs Jahre später sind aus drei Tischen zehn geworden — aber die La Marzocco steht noch.</p>
-        <p>Wir rösten unseren Kaffee nicht selbst. Stattdessen arbeiten wir seit Anfang mit der <em>Schwarzschild Rösterei</em> in Prenzlauer Berg zusammen, die für uns drei Single-Origins jahreszeitlich anpassen. Direkte Handelsbeziehungen zu den Farmen sind ihnen wichtig, uns auch.</p>
+        <p>Wir rösten unseren Kaffee nicht selbst. Stattdessen arbeiten wir seit Anfang mit der <em>Brennwerk Rösterei</em> in Prenzlauer Berg zusammen, die für uns drei Single-Origins jahreszeitlich anpassen. Direkte Handelsbeziehungen zu den Farmen sind ihnen wichtig, uns auch.</p>
         <p>Die Backwaren entstehen jeden Morgen ab 5:30 Uhr in unserer kleinen Küche. Wenn etwas alle ist, ist es alle. Wir backen nicht nach.</p>
       </div>
       <div class="story__signature">Marie & Thomas</div>
     </div>
 
     <div class="story__roastery">
-      <img src="https://images.unsplash.com/photo-1559496417-e7f25cb247f3?w=1200&q=80&auto=format&fit=crop" alt="Kaffeebohnen in der Hand">
+      <figure style="margin:0">
+        <img src="https://images.unsplash.com/photo-1559496417-e7f25cb247f3?w=1200&q=80&auto=format&fit=crop" alt="Kaffeebohnen in der Hand">
+        <figcaption style="font-size:0.72rem;opacity:0.55;margin-top:0.4rem">Bild: Unsplash</figcaption>
+      </figure>
       <div>
         <span class="eyebrow">Unsere Bohnen 2026</span>
         <h3 style="margin-top:1rem">Drei Single-Origins, im Quartal gewechselt.</h3>
         <p>Wir wechseln vier Mal im Jahr die Bohnen. Jede Bohne kommt direkt vom Röster, ungeröstet liegt nichts bei uns. Die Tages-Bohne steht auf der Tafel neben der Bar — frag uns einfach, was gerade läuft.</p>
         <dl>
-          <dt>Espresso-Blend</dt><dd>Schwarzschild, Berlin</dd>
+          <dt>Espresso-Blend</dt><dd>Brennwerk, Berlin</dd>
           <dt>Filter-Bohne Q1</dt><dd>Kolumbien · Huila</dd>
           <dt>Filter-Bohne Q2</dt><dd>Guatemala · Acatenango</dd>
           <dt>Filter-Bohne Q3</dt><dd>Äthiopien · Yirgacheffe</dd>
@@ -437,33 +440,42 @@ h1,h2,h3,h4 { font-family: var(--serif); font-weight: 400; letter-spacing: -0.02
         <small>Mo–Fr 9:00 – 17:00 erreichbar</small>
       </div>
     </div>
-    <form class="form" onsubmit="event.preventDefault(); this.innerHTML='<p style=&quot;font-family:var(--serif);font-style:italic;color:var(--caramel);font-size:1.15rem&quot;>Danke — wir melden uns innerhalb von 24 Stunden zurück.</p>';">
-      <div class="row2">
-        <div class="field"><label for="cName">Name</label><input id="cName" type="text" required></div>
-        <div class="field"><label for="cPhone">Telefon</label><input id="cPhone" type="tel"></div>
-      </div>
-      <div class="field"><label for="cMail">E-Mail</label><input id="cMail" type="email" required></div>
-      <div class="row2">
-        <div class="field"><label for="cDate">Datum</label><input id="cDate" type="date" required></div>
-        <div class="field"><label for="cPeople">Personen</label>
-          <select id="cPeople" required>
-            <option>4 Personen</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9 – 12</option><option>mehr als 12</option>
-          </select>
+    <div class="reserve__form-wrap">
+      <form id="reserveForm" class="form" novalidate>
+        <div class="row2">
+          <div class="field"><label for="cName">Name</label><input id="cName" name="name" type="text" required></div>
+          <div class="field"><label for="cPhone">Telefon</label><input id="cPhone" name="phone" type="tel"></div>
         </div>
-      </div>
-      <div class="row2">
-        <div class="field"><label for="cTime">Uhrzeit</label>
-          <select id="cTime" required>
-            <option>9:00</option><option>10:30</option><option>12:00</option><option>14:00</option><option>16:00</option><option>17:30</option><option>19:00</option>
-          </select>
+        <div class="field"><label for="cMail">E-Mail</label><input id="cMail" name="email" type="email"></div>
+        <p id="cContactHint" style="font-size:0.78rem;opacity:0.65;margin:-0.5rem 0 0.4rem">Bitte mindestens Telefon <em>oder</em> E-Mail angeben.</p>
+        <div class="row2">
+          <div class="field"><label for="cDate">Datum</label><input id="cDate" name="date" type="date" required></div>
+          <div class="field"><label for="cPeople">Personen</label>
+            <select id="cPeople" name="people" required>
+              <option>4 Personen</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9 – 12</option><option>mehr als 12</option>
+            </select>
+          </div>
         </div>
-        <div class="field"><label for="cAnlass">Anlass (optional)</label>
-          <select id="cAnlass"><option>—</option><option>Geburtstag</option><option>Geschäftstreffen</option><option>Familienfeier</option><option>Sonstiges</option></select>
+        <div class="row2">
+          <div class="field"><label for="cTime">Uhrzeit</label>
+            <select id="cTime" name="time" required>
+              <option>9:00</option><option>10:30</option><option>12:00</option><option>14:00</option><option>16:00</option><option>17:30</option><option>19:00</option>
+            </select>
+          </div>
+          <div class="field"><label for="cAnlass">Anlass (optional)</label>
+            <select id="cAnlass" name="anlass"><option>—</option><option>Geburtstag</option><option>Geschäftstreffen</option><option>Familienfeier</option><option>Sonstiges</option></select>
+          </div>
         </div>
+        <div class="field"><label for="cNote">Wünsche</label><textarea id="cNote" name="note" placeholder="Allergien, Sitzwünsche, alles was wir wissen sollten."></textarea></div>
+        <p id="cFormError" role="alert" style="display:none;color:#b94747;font-size:0.88rem;margin:0.4rem 0 0.6rem"></p>
+        <button type="submit">Reservierung anfragen →</button>
+      </form>
+      <div id="reserveSuccess" hidden style="padding:2rem 1.6rem;background:var(--cream);border-radius:6px;border-left:3px solid var(--caramel)">
+        <p style="font-family:var(--serif);font-style:italic;color:var(--caramel);font-size:1.2rem;line-height:1.45;margin:0 0 1rem">Danke! Wir melden uns innerhalb von 24h zur Bestätigung.</p>
+        <p style="font-size:0.92rem;color:var(--mocha);margin:0 0 1.4rem">Bei Rückfragen: <a href="tel:+493055501234" style="color:var(--caramel)">+49 30 555 0 12 34</a></p>
+        <button type="button" id="reserveReset" style="background:transparent;border:1px solid var(--caramel);color:var(--caramel);padding:0.6rem 1.2rem;border-radius:4px;cursor:pointer;font:inherit">Weitere Reservierung</button>
       </div>
-      <div class="field"><label for="cNote">Wünsche</label><textarea id="cNote" placeholder="Allergien, Sitzwünsche, alles was wir wissen sollten."></textarea></div>
-      <button type="submit">Reservierung anfragen →</button>
-    </form>
+    </div>
   </div>
 </section>
 
@@ -512,5 +524,54 @@ h1,h2,h3,h4 { font-family: var(--serif); font-weight: 400; letter-spacing: -0.02
 
 <link rel="stylesheet" href="/assets/chatbot-widget.css">
 <script src="/assets/chatbot-widget.js" defer></script>
+<script>
+(function(){
+  var form = document.getElementById('reserveForm');
+  var success = document.getElementById('reserveSuccess');
+  var errBox = document.getElementById('cFormError');
+  var resetBtn = document.getElementById('reserveReset');
+  if (!form) return;
+
+  var dateInput = document.getElementById('cDate');
+  var today = new Date(); today.setHours(0,0,0,0);
+  var iso = today.toISOString().slice(0,10);
+  if (dateInput) dateInput.min = iso;
+
+  function setErr(field, msg){
+    if (field) field.style.borderColor = '#b94747';
+    errBox.textContent = msg;
+    errBox.style.display = 'block';
+  }
+  function clearErr(){
+    errBox.style.display = 'none';
+    errBox.textContent = '';
+    Array.prototype.forEach.call(form.querySelectorAll('input,select,textarea'), function(el){ el.style.borderColor = ''; });
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    clearErr();
+    var name = form.name.value.trim();
+    var phone = form.phone.value.trim();
+    var email = form.email.value.trim();
+    var date = form.date.value;
+    if (!name) return setErr(form.name, 'Bitte gib deinen Namen an.');
+    if (!phone && !email) return setErr(form.phone, 'Bitte gib mindestens Telefon oder E-Mail an.');
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return setErr(form.email, 'Bitte prüf die E-Mail-Adresse.');
+    if (!date) return setErr(form.date, 'Bitte wähle ein Datum.');
+    if (new Date(date) < today) return setErr(form.date, 'Bitte wähle ein Datum ab heute.');
+    form.hidden = true;
+    success.hidden = false;
+    success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+
+  if (resetBtn) resetBtn.addEventListener('click', function(){
+    form.reset();
+    clearErr();
+    success.hidden = true;
+    form.hidden = false;
+  });
+})();
+</script>
 </body>
 </html>
