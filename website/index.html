@@ -378,6 +378,315 @@ body.landing { background: var(--bg-cream); }
   font-size: 1.4rem;
   color: var(--accent-cognac);
 }
+
+/* ============================================
+   BUILD-HERO — 6-stage browser-build animation
+   ============================================ */
+.build-hero {
+  position: relative;
+  width: 100%;
+}
+.build-hero__pin {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 6rem 1.5rem 3rem;
+  perspective: 1600px;
+  perspective-origin: 50% 40%;
+}
+.build-hero__stage-meta {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  margin-bottom: 1.5rem;
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+.build-hero__counter {
+  font-variant-numeric: tabular-nums;
+  color: var(--accent-cognac);
+  font-weight: 500;
+}
+.build-hero__label { font-style: italic; }
+.build-hero__label::before { content: '— '; color: var(--text-faint); }
+
+.build-hero__frame {
+  position: relative;
+  width: min(1080px, 92vw);
+  aspect-ratio: 16 / 10;
+  background: #fff;
+  border: 1px solid #d8dade;
+  border-radius: 14px;
+  box-shadow:
+    0 30px 60px -20px rgba(20, 24, 32, 0.18),
+    0 12px 24px -12px rgba(20, 24, 32, 0.10),
+    0 0 0 1px rgba(255,255,255,0.6) inset;
+  overflow: hidden;
+  transform-style: preserve-3d;
+  transition: transform 380ms cubic-bezier(.22,.7,.2,1);
+  will-change: transform;
+}
+.build-hero__chrome {
+  position: relative;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0 0.9rem;
+  background: linear-gradient(to bottom, #f7f8fa, #eceef2);
+  border-bottom: 1px solid #e1e3e7;
+  z-index: 3;
+}
+.build-hero__dots { display: flex; gap: 6px; }
+.build-hero__dots span {
+  width: 11px; height: 11px; border-radius: 50%;
+  background: #d8dade;
+}
+.build-hero__dots span:nth-child(1) { background: #ed6a5e; }
+.build-hero__dots span:nth-child(2) { background: #f4be4f; }
+.build-hero__dots span:nth-child(3) { background: #61c454; }
+.build-hero__url {
+  flex: 1;
+  max-width: 280px;
+  margin: 0 auto;
+  text-align: center;
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.74rem;
+  color: var(--text-muted);
+  background: #fff;
+  border: 1px solid #e1e3e7;
+  border-radius: 999px;
+  padding: 4px 12px;
+  letter-spacing: 0.03em;
+}
+
+.build-hero__viewport {
+  position: absolute;
+  inset: 36px 0 0 0;
+  overflow: hidden;
+  background: #fafbfc;
+}
+.bh-stage {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 80ms linear;
+  will-change: opacity;
+}
+.bh-stage[data-stage="0"] { background: #ffffff; }
+
+/* shared wire skeleton (used by stages 1, 2, 3) */
+.bh-wire {
+  position: absolute;
+  background: #e6e8ec;
+  border-radius: 4px;
+}
+.bh-wire--nav     { top: 5%;  left: 5%;  right: 5%;  height: 4%;  }
+.bh-wire--h1a     { top: 17%; left: 6%;  width: 64%; height: 7%;  }
+.bh-wire--h1b     { top: 26%; left: 6%;  width: 48%; height: 7%;  }
+.bh-wire--sub     { top: 38%; left: 6%;  width: 42%; height: 4%;  }
+.bh-wire--cta     { top: 47%; left: 6%;  width: 18%; height: 7%; border-radius: 999px; }
+.bh-wire--card    { top: 65%; width: 26%; height: 23%; }
+.bh-wire--card-a  { left: 6%;  }
+.bh-wire--card-b  { left: 37%; }
+.bh-wire--card-c  { left: 68%; }
+.bh-wire--footer  { bottom: 4%; left: 5%; right: 5%; height: 3%; }
+
+/* Stage 1: wireframes slightly off-grid (raw, sketchy) */
+.bh-stage--1 .bh-wire { background: #e8eaee; }
+.bh-stage--1 .bh-wire--h1a { left: 7%; width: 62%; }
+.bh-stage--1 .bh-wire--h1b { left: 7%; width: 46%; }
+.bh-stage--1 .bh-wire--sub { left: 7%; }
+.bh-stage--1 .bh-wire--cta { left: 7%; }
+.bh-stage--1 .bh-wire--card-a { left: 7%;  width: 25%; }
+.bh-stage--1 .bh-wire--card-b { left: 37%; width: 25%; }
+.bh-stage--1 .bh-wire--card-c { left: 67%; width: 25%; }
+
+/* Stage 2: grid overlay + snapped wires */
+.bh-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(58, 70, 84, 0.13) 1px, transparent 1px);
+  background-size: calc(100% / 12) 100%;
+  background-position: 5% 0;
+  width: 90%;
+  left: 5%;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}
+.bh-grid::before {
+  content:''; position: absolute; inset: 0;
+  background: linear-gradient(to right, rgba(58,70,84,0.18) 1px, transparent 1px) 0 0 / calc(100% / 12) 100%;
+}
+.bh-stage--2 .bh-wire { background: #dde0e5; }
+
+/* Stage 3: colors fill in (palette applied) */
+.bh-stage--3 { background: var(--bg-cream); }
+.bh-stage--3 .bh-wire--nav    { background: rgba(58, 70, 84, 0.08); border-bottom: 1px solid rgba(58,70,84,0.12); }
+.bh-stage--3 .bh-wire--h1a,
+.bh-stage--3 .bh-wire--h1b    { background: var(--text-dark); opacity: 0.85; }
+.bh-stage--3 .bh-wire--sub    { background: var(--text-soft); opacity: 0.55; }
+.bh-stage--3 .bh-wire--cta    { background: var(--accent-caramel); }
+.bh-stage--3 .bh-wire--card-a { background: var(--bg-warm); border: 1px solid var(--border-warm); }
+.bh-stage--3 .bh-wire--card-b { background: var(--bg-warm); border: 1px solid var(--border-warm); }
+.bh-stage--3 .bh-wire--card-c { background: var(--bg-warm); border: 1px solid var(--border-warm); }
+.bh-stage--3 .bh-wire--footer { background: rgba(58,70,84,0.10); }
+
+/* Stage 4: typography appears */
+.bh-stage--4 { background: var(--bg-cream); padding: 0; }
+.bh-stage--4 .bh-nav { position: absolute; top: 5%; left: 5%; right: 5%; height: 4%; display: flex; align-items: center; gap: 0.8rem; font-family: var(--font-display); font-size: 0.78rem; color: var(--text-muted); letter-spacing: 0.04em; }
+.bh-stage--4 .bh-nav span:first-child { font-weight: 500; color: var(--text-dark); }
+.bh-stage--4 .bh-h1 {
+  position: absolute; top: 16%; left: 6%; right: 30%;
+  font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(1.4rem, 3.6vw, 2.6rem);
+  line-height: 1.05; letter-spacing: -0.02em;
+  color: var(--text-dark);
+}
+.bh-stage--4 .bh-h1 .bh-char {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(0.4em);
+  animation: bhCharIn 600ms cubic-bezier(.2,.7,.2,1) forwards;
+}
+.bh-stage--4 .bh-sub {
+  position: absolute; top: 41%; left: 6%; width: 50%;
+  font-family: 'Manrope', sans-serif; font-size: 0.92rem;
+  color: var(--text-soft); line-height: 1.5;
+}
+.bh-stage--4 .bh-cta {
+  position: absolute; top: 53%; left: 6%;
+  padding: 0.6rem 1.1rem;
+  background: var(--accent-caramel);
+  color: #fff;
+  font-family: 'Manrope', sans-serif; font-size: 0.86rem; font-weight: 500;
+  border-radius: 999px;
+}
+.bh-stage--4 .bh-card {
+  position: absolute; top: 65%; height: 23%; width: 26%;
+  background: var(--bg-warm); border: 1px solid var(--border-warm);
+  border-radius: 8px; padding: 0.6rem 0.8rem;
+  font-family: var(--font-display); font-size: 0.78rem; color: var(--text-dark);
+  display: flex; flex-direction: column; justify-content: space-between;
+}
+.bh-stage--4 .bh-card small {
+  font-family: 'Manrope', sans-serif; font-size: 0.65rem;
+  color: var(--text-muted); letter-spacing: 0.06em; text-transform: uppercase;
+}
+.bh-stage--4 .bh-card-a { left: 6%;  }
+.bh-stage--4 .bh-card-b { left: 37%; }
+.bh-stage--4 .bh-card-c { left: 68%; }
+
+@keyframes bhCharIn {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Stage 5: live — images + hover demo on CTA */
+.bh-stage--5 { background: var(--bg-cream); }
+.bh-stage--5 .bh-nav {
+  position: absolute; top: 5%; left: 5%; right: 5%; height: 4%;
+  display: flex; align-items: center; gap: 1rem;
+  font-family: var(--font-display); font-size: 0.78rem;
+  color: var(--text-muted); letter-spacing: 0.04em;
+}
+.bh-stage--5 .bh-nav strong { color: var(--text-dark); font-weight: 500; }
+.bh-stage--5 .bh-h1 {
+  position: absolute; top: 15%; left: 6%; right: 28%;
+  font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(1.5rem, 3.8vw, 2.8rem);
+  line-height: 1.04; letter-spacing: -0.025em;
+  color: var(--text-dark);
+}
+.bh-stage--5 .bh-h1 em {
+  font-style: italic; color: var(--accent-cognac); font-weight: 400;
+}
+.bh-stage--5 .bh-sub {
+  position: absolute; top: 41%; left: 6%; width: 48%;
+  font-family: 'Manrope', sans-serif; font-size: 0.92rem;
+  color: var(--text-soft); line-height: 1.55;
+}
+.bh-stage--5 .bh-ctas {
+  position: absolute; top: 53%; left: 6%;
+  display: flex; align-items: center; gap: 1rem;
+}
+.bh-stage--5 .bh-cta {
+  display: inline-block;
+  padding: 0.7rem 1.3rem;
+  background: var(--accent-caramel);
+  color: #fff;
+  font-family: 'Manrope', sans-serif; font-size: 0.88rem; font-weight: 500;
+  border-radius: 999px;
+  text-decoration: none;
+  position: relative;
+  transition: background 220ms ease, transform 220ms cubic-bezier(.22,.7,.2,1), box-shadow 220ms ease;
+  animation: bhCtaPulse 2.4s ease-in-out 0.4s 2;
+}
+.bh-stage--5 .bh-cta:hover {
+  background: var(--accent-cognac);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 18px -8px rgba(42,51,64,0.45);
+}
+.bh-stage--5 .bh-cta-link {
+  color: var(--accent-cognac); font-family: 'Manrope', sans-serif;
+  font-size: 0.82rem; text-decoration: underline;
+}
+@keyframes bhCtaPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(184, 138, 85, 0.0); }
+  50%      { box-shadow: 0 0 0 10px rgba(184, 138, 85, 0.0), 0 8px 18px -8px rgba(42,51,64,0.35); transform: translateY(-1px); }
+}
+.bh-stage--5 .bh-card {
+  position: absolute; top: 65%; height: 23%; width: 26%;
+  border-radius: 8px; overflow: hidden;
+  border: 1px solid var(--border-warm);
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 0.6rem 0.8rem;
+  font-family: var(--font-display); font-size: 0.78rem; color: #fff;
+}
+.bh-stage--5 .bh-card small {
+  font-family: 'Manrope', sans-serif; font-size: 0.62rem;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: rgba(255,255,255,0.78);
+}
+.bh-stage--5 .bh-card-a { left: 6%;  background: linear-gradient(135deg, #c89870 0%, #6a4a2c 100%); }
+.bh-stage--5 .bh-card-b { left: 37%; background: linear-gradient(135deg, #3a4654 0%, #1a2230 100%); }
+.bh-stage--5 .bh-card-c { left: 68%; background: linear-gradient(135deg, #e8d8c0 0%, #b88a55 100%); color: var(--text-dark); }
+.bh-stage--5 .bh-card-c small { color: var(--text-muted); }
+
+/* Static-mode (reduced-motion): just show stage 5, no animation */
+.build-hero.is-static .bh-stage--5 .bh-cta { animation: none; }
+
+/* Mobile: simplify to vertical, no 3D tilt, no pin (pin is JS-controlled but tilt disabled here) */
+@media (max-width: 767px) {
+  .build-hero__pin { perspective: none; padding: 5rem 1rem 2rem; }
+  .build-hero__frame {
+    width: 100%;
+    aspect-ratio: 9 / 14;
+    transform: none !important;
+    transition: none;
+    border-radius: 10px;
+  }
+  .build-hero__chrome { height: 30px; }
+  .build-hero__chrome .build-hero__url { font-size: 0.66rem; max-width: 200px; }
+  .build-hero__viewport { inset: 30px 0 0 0; }
+  .bh-stage--4 .bh-h1, .bh-stage--5 .bh-h1 { right: 6%; font-size: clamp(1.2rem, 5vw, 1.6rem); top: 12%; }
+  .bh-stage--4 .bh-sub, .bh-stage--5 .bh-sub { width: 88%; top: 30%; font-size: 0.8rem; }
+  .bh-stage--4 .bh-cta, .bh-stage--5 .bh-ctas { top: 42%; }
+  .bh-stage--4 .bh-card, .bh-stage--5 .bh-card { width: 88%; left: 6% !important; height: 12%; top: auto; }
+  .bh-stage--4 .bh-card-a, .bh-stage--5 .bh-card-a { top: 53%; }
+  .bh-stage--4 .bh-card-b, .bh-stage--5 .bh-card-b { top: 67%; }
+  .bh-stage--4 .bh-card-c, .bh-stage--5 .bh-card-c { top: 81%; }
+  .bh-wire--card { width: 88%; left: 6% !important; height: 12%; top: auto; }
+  .bh-wire--card-a { top: 53%; }
+  .bh-wire--card-b { top: 67%; }
+  .bh-wire--card-c { top: 81%; }
+  .bh-wire--h1a { right: 6%; width: auto; }
+  .bh-wire--h1b { width: 60%; }
+}
 </style>
 </head>
 
@@ -429,36 +738,94 @@ body.landing { background: var(--bg-cream); }
 
 <main id="main">
 
-<!-- ============================ HERO ============================ -->
-<section class="hero" id="hero">
-  <div class="shell hero__grid">
-    <div class="hero__copy">
-      <span class="eyebrow reveal">Berlin · Web Studio · WMW Services</span>
-      <h1 class="h-display t-cinematic hero__title split-letter" style="margin-top:1.5rem">
-        Maßgeschneiderte Websites
-        <span class="line2">für Berliner Geschäfte.</span>
-        <span class="italic-accent" style="display:block;font-size:0.58em;line-height:1.15;margin-top:0.4em">Live in 14 Tagen.</span>
-      </h1>
-      <p class="hero__lead reveal" data-delay="2" style="max-width:42ch">
-        AI-Integration für Café, Kanzlei, Trainer &amp; lokale Dienstleister.
-        Festpreis, kein Stundenkonto.
-      </p>
-      <div class="hero__ctas reveal" data-delay="3">
-        <a href="#contact" class="btn btn--primary magnetic" data-magnet="0.35">Kostenloses Erstgespräch →</a>
-        <a href="#portfolio" class="btn--link">Arbeiten ansehen</a>
-      </div>
-      <p class="hero__price-caption reveal" data-delay="4">
-        Festpreis ab 1.490 € · Pilot-Konditionen verfügbar
-      </p>
+<!-- ============================ BUILD-HERO ============================ -->
+<section class="build-hero" id="hero" data-build-hero aria-label="WMW Services Bauprozess">
+  <div class="build-hero__pin">
+    <div class="build-hero__stage-meta" aria-hidden="true">
+      <span class="build-hero__counter" data-counter>00 / 05</span>
+      <span class="build-hero__label" data-label>Leeres Browser-Fenster</span>
     </div>
-  </div>
 
-  <div class="shell hero__meta reveal" data-delay="4">
-    <span>(01) Strategie</span>
-    <span>(02) Design</span>
-    <span>(03) Engineering</span>
-    <span>(04) AI</span>
-    <span>(05) Wartung</span>
+    <div class="build-hero__frame">
+      <div class="build-hero__chrome" aria-hidden="true">
+        <div class="build-hero__dots"><span></span><span></span><span></span></div>
+        <div class="build-hero__url">daylens.dev</div>
+        <div style="width:38px"></div>
+      </div>
+      <div class="build-hero__viewport">
+
+        <!-- Stage 0: blank browser -->
+        <div class="bh-stage bh-stage--0" data-stage="0" aria-hidden="true"></div>
+
+        <!-- Stage 1: wireframe boxes (off-grid) -->
+        <div class="bh-stage bh-stage--1" data-stage="1" aria-hidden="true">
+          <div class="bh-wire bh-wire--nav"></div>
+          <div class="bh-wire bh-wire--h1a"></div>
+          <div class="bh-wire bh-wire--h1b"></div>
+          <div class="bh-wire bh-wire--sub"></div>
+          <div class="bh-wire bh-wire--cta"></div>
+          <div class="bh-wire bh-wire--card bh-wire--card-a"></div>
+          <div class="bh-wire bh-wire--card bh-wire--card-b"></div>
+          <div class="bh-wire bh-wire--card bh-wire--card-c"></div>
+          <div class="bh-wire bh-wire--footer"></div>
+        </div>
+
+        <!-- Stage 2: grid lines + snapped wires -->
+        <div class="bh-stage bh-stage--2" data-stage="2" aria-hidden="true">
+          <div class="bh-grid"></div>
+          <div class="bh-wire bh-wire--nav"></div>
+          <div class="bh-wire bh-wire--h1a"></div>
+          <div class="bh-wire bh-wire--h1b"></div>
+          <div class="bh-wire bh-wire--sub"></div>
+          <div class="bh-wire bh-wire--cta"></div>
+          <div class="bh-wire bh-wire--card bh-wire--card-a"></div>
+          <div class="bh-wire bh-wire--card bh-wire--card-b"></div>
+          <div class="bh-wire bh-wire--card bh-wire--card-c"></div>
+          <div class="bh-wire bh-wire--footer"></div>
+        </div>
+
+        <!-- Stage 3: colors fill in -->
+        <div class="bh-stage bh-stage--3" data-stage="3" aria-hidden="true">
+          <div class="bh-wire bh-wire--nav"></div>
+          <div class="bh-wire bh-wire--h1a"></div>
+          <div class="bh-wire bh-wire--h1b"></div>
+          <div class="bh-wire bh-wire--sub"></div>
+          <div class="bh-wire bh-wire--cta"></div>
+          <div class="bh-wire bh-wire--card bh-wire--card-a"></div>
+          <div class="bh-wire bh-wire--card bh-wire--card-b"></div>
+          <div class="bh-wire bh-wire--card bh-wire--card-c"></div>
+          <div class="bh-wire bh-wire--footer"></div>
+        </div>
+
+        <!-- Stage 4: typography appears -->
+        <div class="bh-stage bh-stage--4" data-stage="4" aria-hidden="true">
+          <div class="bh-nav"><span>daylens</span><span>Leistungen</span><span>Arbeiten</span><span>Studio</span><span>Kontakt</span></div>
+          <div class="bh-h1">
+            <span class="bh-char" style="animation-delay:0ms">M</span><span class="bh-char" style="animation-delay:30ms">a</span><span class="bh-char" style="animation-delay:60ms">ß</span><span class="bh-char" style="animation-delay:90ms">g</span><span class="bh-char" style="animation-delay:120ms">e</span><span class="bh-char" style="animation-delay:150ms">s</span><span class="bh-char" style="animation-delay:180ms">c</span><span class="bh-char" style="animation-delay:210ms">h</span><span class="bh-char" style="animation-delay:240ms">n</span><span class="bh-char" style="animation-delay:270ms">e</span><span class="bh-char" style="animation-delay:300ms">i</span><span class="bh-char" style="animation-delay:330ms">d</span><span class="bh-char" style="animation-delay:360ms">e</span><span class="bh-char" style="animation-delay:390ms">r</span><span class="bh-char" style="animation-delay:420ms">t</span><span class="bh-char" style="animation-delay:450ms">e</span> Websites
+          </div>
+          <div class="bh-sub">AI-Integration für Café, Kanzlei, Trainer.</div>
+          <div class="bh-cta">Erstgespräch →</div>
+          <div class="bh-card bh-card-a"><small>Café</small>Halbmond</div>
+          <div class="bh-card bh-card-b"><small>Kanzlei</small>Müller &amp; Partner</div>
+          <div class="bh-card bh-card-c"><small>Trainer</small>Max Berlin</div>
+        </div>
+
+        <!-- Stage 5: live (real content, indexed by SE) -->
+        <div class="bh-stage bh-stage--5" data-stage="5">
+          <div class="bh-nav"><strong>daylens</strong><span>Leistungen</span><span>Arbeiten</span><span>Studio</span><span>Kontakt</span></div>
+          <h1 class="bh-h1">Maßgeschneiderte Websites für Berliner Geschäfte. <em>Live in 14 Tagen.</em></h1>
+          <p class="bh-sub">AI-Integration für Café, Kanzlei, Trainer &amp; lokale Dienstleister. Festpreis, kein Stundenkonto. Ab 1.490 €.</p>
+          <div class="bh-ctas">
+            <a href="#contact" class="bh-cta">Kostenloses Erstgespräch →</a>
+            <a href="#portfolio" class="bh-cta-link">Arbeiten ansehen</a>
+          </div>
+          <div class="bh-card bh-card-a"><small>Café · Berlin</small>Halbmond</div>
+          <div class="bh-card bh-card-b"><small>Kanzlei · Mitte</small>Müller &amp; Partner</div>
+          <div class="bh-card bh-card-c"><small>Coach · Kreuzberg</small>Max Berlin</div>
+        </div>
+
+      </div>
+    </div>
   </div>
 </section>
 
@@ -804,9 +1171,12 @@ body.landing { background: var(--bg-cream); }
 
 <!-- ============================ SCRIPTS ============================ -->
 <script src="/assets/vendor/lenis.min.js" defer></script>
+<script src="/assets/vendor/gsap.min.js" defer></script>
+<script src="/assets/vendor/ScrollTrigger.min.js" defer></script>
 <script src="/assets/wmw.js" defer></script>
 <script src="/assets/wmw-scene.js" defer></script>
 <script src="/assets/wmw-daylight.js" defer></script>
+<script src="/assets/wmw-build-hero.js" defer></script>
 <script src="/assets/wmw-polish.js" defer></script>
 
 <script>
