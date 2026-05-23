@@ -3,435 +3,735 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Max Berlin — Personal Training · Demo von WMW Services</title>
-<meta name="description" content="Konzept für einen Personal Trainer mit Online-Coaching und High-Energy-Branding. Entwickelt von WMW Services Berlin." />
-<meta name="theme-color" content="#f4f5f7" />
-<link rel="stylesheet" href="/assets/fonts/fonts.css">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%23f4f5f7'/%3E%3Crect x='4' y='14' width='24' height='4' fill='%233a4654'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="/assets/wmw.css">
+<title>MAX BERLIN — Personal Training & Performance Coaching · Kreuzberg</title>
+<meta name="description" content="Personal Training in Berlin-Kreuzberg. Krafttraining, HIIT, Mobility und Coaching für Anfänger bis Wettkämpfer. Studio Skalitzer Straße." />
+<meta name="theme-color" content="#0a0a0a" />
+<link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;700;800;900&family=Archivo+Black&family=JetBrains+Mono:wght@400;500&display=swap" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230a0a0a'/%3E%3Cpath d='M6 22V10l5 7 5-7v12M20 10v12h6' stroke='%23ff5722' stroke-width='2.5' fill='none' stroke-linecap='square'/%3E%3C/svg%3E">
 <style>
-/* ============================================
-   Max Berlin — bold high-energy
-   ============================================ */
-/* Trainer page inherits the editorial palette from wmw.css. */
-body {
-  background: var(--bg-cream);
-  color: var(--text-dark);
-  font-family: var(--font-body);
-  position: relative;
+:root {
+  --black:   #0a0a0a;
+  --carbon:  #141414;
+  --graphite:#1f1f1f;
+  --steel:   #2a2a2a;
+  --ash:     #5a5a5a;
+  --bone:    #b8b8b8;
+  --white:   #fafafa;
+  --orange:  #ff5722;
+  --orange2: #ff8a4c;
+  --acid:    #d4ff3a;
+  --sans:    'Archivo', system-ui, sans-serif;
+  --display: 'Archivo Black', 'Archivo', sans-serif;
+  --mono:    'JetBrains Mono', ui-monospace, monospace;
 }
-.h-display, .serif { font-family: var(--font-display); }
-.italic-accent { color: var(--accent-caramel); font-style: normal; font-weight: 400; }
-.eyebrow { color: var(--accent-caramel); }
-.eyebrow::before { background: var(--accent-caramel); }
-.btn--primary {
-  background: var(--accent-caramel);
-  color: var(--text-dark);
-  font-family: var(--font-body);
-  font-weight: 700;
-  border-radius: 0;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  padding: 1.1rem 2rem;
-  box-shadow: 0 10px 40px -10px rgba(58, 70, 84, 0.32);
-}
-.btn--primary:hover { background: var(--accent-cognac); transform: translate(2px, -2px); box-shadow: -2px 12px 40px -10px rgba(58, 70, 84, 0.42); }
-.btn--ghost { color: var(--text-dark); border-color: var(--text-dark); border-radius: 0; padding: 1.1rem 2rem; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; }
-.btn--ghost:hover { background: var(--text-dark); color: var(--bg-cream); border-color: var(--text-dark); }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; background: var(--black); }
+body { font-family: var(--sans); background: var(--black); color: var(--white); -webkit-font-smoothing: antialiased; line-height: 1.55; overflow-x: hidden; }
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+.shell { width: 100%; max-width: 1340px; margin: 0 auto; padding: 0 1.5rem; }
+.eyebrow { font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--orange); display: inline-flex; align-items: center; gap: 0.7rem; font-weight: 500; }
+.eyebrow::before { content:'■'; color: var(--orange); font-size: 0.6em; }
+h1,h2,h3,h4 { font-family: var(--display); font-weight: 900; letter-spacing: -0.025em; line-height: 0.95; text-transform: uppercase; }
 
-/* Hero — full-bleed text explosion */
-.t-hero {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
+/* ============= demo banner ============= */
+.demo-banner { background: var(--carbon); color: var(--bone); font-size: 0.72rem; letter-spacing: 0.08em; padding: 0.55rem 1rem; text-align: center; border-bottom: 1px solid var(--graphite); font-family: var(--mono); }
+.demo-banner a { color: var(--orange); text-decoration: underline; text-underline-offset: 3px; }
+
+/* ============= nav ============= */
+.nav { position: sticky; top: 0; z-index: 50; background: rgba(10,10,10,0.85); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--graphite); }
+.nav__inner { display: flex; align-items: center; justify-content: space-between; padding: 1.1rem 0; }
+.logo { display: flex; align-items: center; gap: 0.7rem; font-family: var(--display); font-size: 1.3rem; color: var(--white); letter-spacing: -0.02em; }
+.logo__bar { display: inline-block; width: 28px; height: 4px; background: var(--orange); transform: skewX(-15deg); }
+.nav__links { display: flex; gap: 2rem; list-style: none; font-size: 0.84rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; }
+.nav__links a { color: var(--bone); transition: color 200ms ease; }
+.nav__links a:hover { color: var(--orange); }
+.nav__cta { padding: 0.75rem 1.4rem; background: var(--orange); color: var(--black); font-family: var(--display); font-size: 0.82rem; letter-spacing: 0.06em; text-transform: uppercase; transition: background 200ms ease, color 200ms ease, transform 200ms ease; clip-path: polygon(0 0, 100% 0, calc(100% - 14px) 100%, 0 100%); padding-right: 2rem; }
+.nav__cta:hover { background: var(--acid); transform: translateX(-2px); }
+@media (max-width: 880px) { .nav__links { display: none; } }
+
+/* ============= hero ============= */
+.hero {
   position: relative;
+  min-height: 100vh;
+  display: flex; align-items: center;
+  padding: 6rem 0 4rem;
+  background:
+    linear-gradient(75deg, rgba(10,10,10,0.95) 0%, rgba(10,10,10,0.6) 45%, rgba(10,10,10,0.25) 100%),
+    url('https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=2200&q=80&auto=format&fit=crop') center/cover no-repeat;
   overflow: hidden;
 }
-.t-hero::before {
-  content: '';
-  position: absolute;
-  top: 0; right: 0;
-  width: 70%; height: 100%;
-  background: linear-gradient(115deg, transparent 40%, var(--accent-caramel) 40%, var(--accent-caramel) 42%, transparent 42%);
-  opacity: 0.85;
+.hero::after {
+  content: ''; position: absolute; inset: 0;
+  background-image: linear-gradient(90deg, rgba(255,87,34,0.02) 1px, transparent 1px);
+  background-size: 80px 100%;
   pointer-events: none;
 }
-.t-hero__inner { position: relative; z-index: 2; }
-.t-hero__words {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: clamp(3rem, 11vw, 9rem);
-  line-height: 0.96;
-  letter-spacing: -0.035em;
-  color: var(--text-dark);
-}
-.t-hero__words span { display: block; }
-.t-hero__words .accent { color: var(--accent-caramel); }
-.t-hero__tag {
-  margin-top: 2rem;
-  font-family: var(--font-body);
-  font-size: clamp(1.1rem, 2vw, 1.5rem);
-  font-weight: 500;
-  color: var(--text-soft);
-  max-width: 38ch;
-  line-height: 1.4;
-}
-.t-hero__cta {
-  margin-top: 3rem;
-  display: inline-flex;
+.hero__inner { position: relative; z-index: 2; max-width: 1100px; }
+.hero__supra { display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem; font-family: var(--mono); font-size: 0.78rem; color: var(--bone); letter-spacing: 0.08em; text-transform: uppercase; }
+.hero__supra span { color: var(--orange); }
+.hero h1 { font-size: clamp(3rem, 11vw, 9.5rem); margin-top: 1.5rem; color: var(--white); }
+.hero h1 em { font-style: normal; color: var(--orange); display: inline-block; -webkit-text-stroke: 1px var(--orange); color: transparent; }
+.hero__sub { margin-top: 1.5rem; font-size: clamp(1rem, 1.6vw, 1.25rem); max-width: 62ch; color: var(--bone); line-height: 1.45; }
+.hero__ctas { margin-top: 2.5rem; display: flex; flex-wrap: wrap; gap: 1rem; }
+.btn { display: inline-flex; align-items: center; gap: 0.6rem; padding: 1.1rem 1.8rem; font-family: var(--display); font-size: 0.92rem; letter-spacing: 0.06em; text-transform: uppercase; transition: background 220ms ease, color 220ms ease, transform 220ms ease; cursor: pointer; border: 0; }
+.btn--primary { background: var(--orange); color: var(--black); clip-path: polygon(0 0, 100% 0, calc(100% - 16px) 100%, 0 100%); padding-right: 2.4rem; }
+.btn--primary:hover { background: var(--acid); transform: translate(-3px, -3px); }
+.btn--ghost { background: transparent; color: var(--white); border: 2px solid var(--white); }
+.btn--ghost:hover { background: var(--white); color: var(--black); }
+.hero__stats { margin-top: 4rem; display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; max-width: 720px; }
+@media (min-width: 700px) { .hero__stats { grid-template-columns: repeat(4, 1fr); } }
+.hero__stat { padding: 1.2rem 1.4rem; background: rgba(20,20,20,0.7); border-left: 3px solid var(--orange); backdrop-filter: blur(6px); }
+.hero__stat strong { display: block; font-family: var(--display); font-size: clamp(1.8rem, 3vw, 2.6rem); color: var(--white); line-height: 1; }
+.hero__stat span { display: block; margin-top: 0.4rem; font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--bone); }
+
+/* ============= marquee strip ============= */
+.marquee { background: var(--orange); color: var(--black); padding: 1.5rem 0; overflow: hidden; position: relative; }
+.marquee__track { display: flex; gap: 2.5rem; white-space: nowrap; animation: marqueeRoll 28s linear infinite; font-family: var(--display); font-size: 1.3rem; letter-spacing: 0.02em; text-transform: uppercase; }
+.marquee__track span { display: inline-flex; align-items: center; gap: 2.5rem; }
+.marquee__track span::after { content:'/'; color: rgba(10,10,10,0.45); margin-left: 2.5rem; }
+@keyframes marqueeRoll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* ============= manifesto ============= */
+.manifesto { padding: 8rem 0; background: var(--black); position: relative; }
+.manifesto__inner { display: grid; grid-template-columns: 1fr; gap: 4rem; align-items: start; }
+@media (min-width: 900px) { .manifesto__inner { grid-template-columns: 1.4fr 1fr; gap: 5rem; } }
+.manifesto h2 { font-size: clamp(2.4rem, 6vw, 4.4rem); color: var(--white); }
+.manifesto h2 em { font-style: normal; color: var(--orange); }
+.manifesto__body { margin-top: 2.5rem; font-size: 1.1rem; color: var(--bone); line-height: 1.65; max-width: 60ch; }
+.manifesto__body p { margin-bottom: 1.3rem; }
+.manifesto__body strong { color: var(--white); font-weight: 700; }
+.manifesto__rules { padding: 2.5rem; background: var(--carbon); border: 1px solid var(--graphite); }
+.manifesto__rules h3 { font-family: var(--mono); font-size: 0.78rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--orange); font-weight: 500; }
+.manifesto__rules ol { margin-top: 1.5rem; list-style: none; counter-reset: rule; }
+.manifesto__rules li { counter-increment: rule; padding: 1rem 0; border-top: 1px solid var(--graphite); display: grid; grid-template-columns: 36px 1fr; gap: 1rem; align-items: baseline; font-size: 0.95rem; color: var(--bone); line-height: 1.45; }
+.manifesto__rules li::before { content: '0' counter(rule); font-family: var(--display); font-size: 1rem; color: var(--orange); }
+
+/* ============= programs ============= */
+.programs { padding: 8rem 0; background: var(--carbon); }
+.programs__head { display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 2rem; margin-bottom: 4rem; }
+.programs__head h2 { font-size: clamp(2.4rem, 6vw, 4.4rem); color: var(--white); max-width: 14ch; }
+.programs__head h2 em { font-style: normal; color: var(--orange); }
+.programs__head p { color: var(--bone); max-width: 38ch; }
+.programs__grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+@media (min-width: 700px) { .programs__grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1100px) { .programs__grid { grid-template-columns: repeat(3, 1fr); } }
+.prog { position: relative; padding: 2.5rem 2rem; background: var(--graphite); border: 1px solid var(--steel); overflow: hidden; transition: border-color 220ms ease, transform 220ms ease; }
+.prog:hover { border-color: var(--orange); transform: translateY(-3px); }
+.prog::before { content:''; position: absolute; top: 0; right: 0; width: 60px; height: 60px; background: var(--orange); clip-path: polygon(100% 0, 0 0, 100% 100%); transition: width 220ms ease, height 220ms ease; }
+.prog:hover::before { width: 90px; height: 90px; }
+.prog__num { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.18em; color: var(--ash); text-transform: uppercase; }
+.prog__name { font-family: var(--display); font-size: 1.6rem; color: var(--white); margin-top: 0.5rem; line-height: 1; }
+.prog__lead { margin-top: 1rem; font-size: 0.94rem; color: var(--bone); }
+.prog__meta { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid var(--steel); display: grid; grid-template-columns: 1fr 1fr; gap: 0.6rem; font-family: var(--mono); font-size: 0.74rem; color: var(--bone); }
+.prog__meta strong { display: block; color: var(--orange); font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 0.2rem; font-weight: 500; }
+
+/* ============= about ============= */
+.about { padding: 8rem 0; background: var(--black); }
+.about__grid { display: grid; grid-template-columns: 1fr; gap: 4rem; align-items: center; }
+@media (min-width: 900px) { .about__grid { grid-template-columns: 1fr 1.1fr; gap: 5rem; } }
+.about__img { aspect-ratio: 4/5; background-size: cover; background-position: center; background-image: url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1400&q=80&auto=format&fit=crop'); position: relative; }
+.about__img::after { content: ''; position: absolute; inset: -12px -12px 12px 12px; border: 2px solid var(--orange); z-index: -1; }
+.about h2 { font-size: clamp(2.4rem, 5.5vw, 4rem); color: var(--white); }
+.about h2 em { font-style: normal; color: var(--orange); }
+.about__body { margin-top: 2rem; font-size: 1.05rem; color: var(--bone); line-height: 1.65; }
+.about__body p { margin-bottom: 1.2rem; }
+.about__credentials { margin-top: 2.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem 2rem; }
+.about__credentials div { padding: 1rem 1.2rem; background: var(--carbon); border-left: 2px solid var(--orange); }
+.about__credentials strong { display: block; font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.16em; color: var(--orange); text-transform: uppercase; margin-bottom: 0.3rem; }
+.about__credentials span { font-family: var(--display); font-size: 1rem; color: var(--white); line-height: 1.25; text-transform: none; letter-spacing: 0.01em; }
+
+/* ============= prices ============= */
+.prices { padding: 8rem 0; background: var(--carbon); }
+.prices__head { text-align: center; max-width: 720px; margin: 0 auto 4rem; }
+.prices__head h2 { font-size: clamp(2.4rem, 6vw, 4.4rem); margin-top: 1rem; color: var(--white); }
+.prices__head h2 em { font-style: normal; color: var(--orange); }
+.prices__head p { color: var(--bone); margin-top: 1.5rem; }
+.prices__grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+@media (min-width: 800px) { .prices__grid { grid-template-columns: repeat(3, 1fr); gap: 2rem; } }
+.plan { padding: 2.5rem 2rem; background: var(--graphite); border: 1px solid var(--steel); display: flex; flex-direction: column; transition: border-color 220ms ease; }
+.plan:hover { border-color: var(--orange); }
+.plan--feat { background: linear-gradient(165deg, rgba(255,87,34,0.18) 0%, var(--graphite) 70%); border-color: var(--orange); position: relative; }
+.plan--feat::before { content: 'BELIEBT'; position: absolute; top: -1px; right: 2rem; padding: 0.3rem 0.8rem; background: var(--orange); color: var(--black); font-family: var(--display); font-size: 0.72rem; letter-spacing: 0.16em; }
+.plan__name { font-family: var(--display); font-size: 1rem; letter-spacing: 0.08em; color: var(--orange); }
+.plan__amount { font-family: var(--display); font-size: clamp(2.6rem, 5vw, 3.6rem); color: var(--white); margin-top: 1rem; line-height: 1; letter-spacing: -0.03em; }
+.plan__amount small { font-size: 0.35em; color: var(--bone); display: block; margin-top: 0.7rem; font-family: var(--mono); letter-spacing: 0.04em; text-transform: none; }
+.plan__list { margin-top: 1.8rem; list-style: none; flex: 1; }
+.plan__list li { padding: 0.7rem 0; border-top: 1px solid var(--steel); font-size: 0.92rem; color: var(--bone); display: flex; gap: 0.7rem; line-height: 1.4; }
+.plan__list li::before { content:'■'; color: var(--orange); font-size: 0.65em; margin-top: 0.45em; }
+.plan__cta { margin-top: 2rem; padding: 0.95rem 1.4rem; background: transparent; color: var(--white); border: 2px solid var(--white); font-family: var(--display); font-size: 0.84rem; letter-spacing: 0.08em; text-transform: uppercase; text-align: center; transition: background 220ms ease, color 220ms ease; }
+.plan__cta:hover { background: var(--white); color: var(--black); }
+.plan--feat .plan__cta { background: var(--orange); color: var(--black); border-color: var(--orange); }
+.plan--feat .plan__cta:hover { background: var(--acid); border-color: var(--acid); }
+
+/* ============= schedule ============= */
+.schedule { padding: 8rem 0; background: var(--black); }
+.schedule__head { display: flex; align-items: end; justify-content: space-between; gap: 2rem; flex-wrap: wrap; margin-bottom: 3rem; }
+.schedule__head h2 { font-size: clamp(2.2rem, 5vw, 3.6rem); color: var(--white); }
+.schedule__head h2 em { font-style: normal; color: var(--orange); }
+.schedule__head p { color: var(--bone); max-width: 36ch; font-family: var(--mono); font-size: 0.86rem; }
+.schedule__table { display: grid; grid-template-columns: 90px repeat(7, 1fr); gap: 1px; background: var(--graphite); border: 1px solid var(--graphite); font-family: var(--mono); font-size: 0.78rem; }
+.schedule__cell { background: var(--carbon); padding: 0.9rem 0.7rem; min-height: 78px; display: flex; flex-direction: column; gap: 0.3rem; }
+.schedule__cell.head { background: var(--black); color: var(--orange); text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700; font-size: 0.72rem; min-height: auto; justify-content: center; }
+.schedule__cell.time { background: var(--black); color: var(--ash); justify-content: center; font-weight: 500; }
+.schedule__cell strong { display: block; font-family: var(--display); font-size: 0.78rem; color: var(--white); letter-spacing: 0.04em; line-height: 1.1; }
+.schedule__cell small { font-size: 0.66rem; color: var(--bone); letter-spacing: 0.04em; }
+.schedule__cell.full { background: rgba(255,87,34,0.18); border-left: 2px solid var(--orange); }
+.schedule__cell.full small { color: var(--orange); }
+.schedule__cell.open small { color: var(--acid); }
+@media (max-width: 900px) {
+  .schedule__table { grid-template-columns: 60px repeat(3, 1fr); overflow-x: auto; font-size: 0.7rem; }
+  .schedule__cell { min-height: 64px; padding: 0.6rem 0.5rem; }
 }
 
-/* Services — pinned horizontal scroll */
-.t-services {
-  background: var(--bg-warm);
-  padding: 7rem 0;
-  border-top: 4px solid var(--accent-caramel);
-}
-@media (min-width: 768px) { .t-services { padding: 10rem 0; } }
-.t-services h2 {
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: clamp(2rem, 5vw, 4rem);
-  letter-spacing: -0.022em;
-  margin-bottom: 4rem;
-  max-width: 18ch;
-  line-height: 1.02;
-}
-.t-services h2 .accent { color: var(--accent-caramel); }
-.t-services__grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.5rem;
-}
-@media (min-width: 700px) { .t-services__grid { grid-template-columns: repeat(2, 1fr); } }
-@media (min-width: 1100px) { .t-services__grid { grid-template-columns: repeat(4, 1fr); } }
-.t-svc {
-  background: var(--bg-cream);
-  border: 1px solid var(--text-faint);
-  padding: 2.5rem 2rem;
-  position: relative;
-  transition: transform 280ms ease, background 280ms ease, border-color 280ms ease;
-}
-.t-svc:hover {
-  transform: translate(-3px, -3px);
-  background: var(--accent-caramel);
-  border-color: var(--accent-caramel);
-  color: var(--bg-cream);
-  box-shadow: 6px 6px 0 var(--text-dark);
-}
-.t-svc:hover * { color: var(--bg-cream); }
-.t-svc__num {
-  font-family: var(--font-display);
-  font-weight: 300;
-  font-size: 3.5rem;
-  color: var(--accent-caramel);
-  line-height: 0.9;
-  margin-bottom: 1.5rem;
-  letter-spacing: -0.035em;
-}
-.t-svc__title {
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: 1.2rem;
-  letter-spacing: -0.01em;
-  margin-bottom: 1rem;
-}
-.t-svc__desc {
-  font-size: 0.95rem;
-  color: var(--text-soft);
-  line-height: 1.6;
-}
+/* ============= results ============= */
+.results { padding: 8rem 0; background: var(--carbon); }
+.results__head { max-width: 720px; margin-bottom: 4rem; }
+.results__head h2 { font-size: clamp(2.4rem, 5.5vw, 4rem); color: var(--white); margin-top: 1rem; }
+.results__head h2 em { font-style: normal; color: var(--orange); }
+.results__grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+@media (min-width: 800px) { .results__grid { grid-template-columns: repeat(3, 1fr); } }
+.res { padding: 2rem; background: var(--graphite); border: 1px solid var(--steel); display: flex; flex-direction: column; gap: 1.2rem; }
+.res__img { aspect-ratio: 5/4; background-size: cover; background-position: center; filter: grayscale(0.2) contrast(1.05); }
+.res__name { font-family: var(--display); font-size: 1.05rem; color: var(--white); letter-spacing: 0.04em; }
+.res__goal { font-family: var(--mono); font-size: 0.74rem; color: var(--orange); text-transform: uppercase; letter-spacing: 0.14em; }
+.res__numbers { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; padding: 1rem 0; border-top: 1px solid var(--steel); border-bottom: 1px solid var(--steel); }
+.res__numbers div { text-align: center; }
+.res__numbers strong { display: block; font-family: var(--display); font-size: 1.5rem; color: var(--orange); line-height: 1; }
+.res__numbers span { display: block; margin-top: 0.3rem; font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em; color: var(--bone); text-transform: uppercase; }
+.res__quote { font-size: 0.88rem; color: var(--bone); line-height: 1.55; font-style: italic; }
+.res__quote::before { content: '"'; color: var(--orange); margin-right: 0.3rem; }
 
-/* About — split screen */
-.t-about { padding: 7rem 0; border-top: 1px solid var(--text-faint); }
-@media (min-width: 768px) { .t-about { padding: 10rem 0; } }
-.t-about__inner {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 3rem;
-  align-items: center;
-}
-@media (min-width: 900px) { .t-about__inner { grid-template-columns: 5fr 7fr; gap: 5rem; } }
-.t-about__portrait {
-  aspect-ratio: 3/4;
-  width: 100%;
-  max-width: 420px;
-  background:
-    linear-gradient(135deg, var(--accent-caramel) 0%, transparent 50%),
-    linear-gradient(45deg, var(--bg-deep) 0%, var(--bg-warm) 100%);
-  position: relative;
-}
-.t-about__portrait::after {
-  content: 'MAX';
-  position: absolute;
-  bottom: 1.5rem; left: 1.5rem;
-  font-family: var(--font-display);
-  font-size: 4rem;
-  color: var(--text-dark);
-  letter-spacing: -0.04em;
-  line-height: 1;
-}
-.t-about__copy h2 {
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: clamp(2rem, 5vw, 4rem);
-  line-height: 1.02;
-  letter-spacing: -0.022em;
-  margin-bottom: 2rem;
-}
-.t-about__copy h2 .accent { color: var(--accent-caramel); }
-.t-about__copy p {
-  font-size: 1.1rem;
-  line-height: 1.6;
-  color: var(--text-soft);
-  margin-bottom: 1.4rem;
-  max-width: 52ch;
-}
+/* ============= faq ============= */
+.faq { padding: 8rem 0; background: var(--black); }
+.faq__inner { max-width: 880px; margin: 0 auto; }
+.faq h2 { font-size: clamp(2.4rem, 5vw, 3.6rem); color: var(--white); text-align: center; margin: 1rem auto 4rem; }
+.faq h2 em { font-style: normal; color: var(--orange); }
+.faq__item { border-top: 1px solid var(--graphite); padding: 1.5rem 0; }
+.faq__item:last-child { border-bottom: 1px solid var(--graphite); }
+.faq__q { font-family: var(--display); font-size: clamp(1.05rem, 1.6vw, 1.3rem); color: var(--white); display: flex; align-items: baseline; gap: 1rem; line-height: 1.3; cursor: pointer; }
+.faq__q::before { content:'+'; color: var(--orange); font-size: 1.3rem; }
+.faq__a { margin-top: 1rem; padding-left: 2rem; font-size: 0.95rem; color: var(--bone); line-height: 1.65; }
 
-/* Pricing */
-.t-pricing { padding: 7rem 0; background: var(--bg-warm); border-top: 4px solid var(--accent-caramel); }
-@media (min-width: 768px) { .t-pricing { padding: 10rem 0; } }
-.t-pricing h2 {
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: clamp(2rem, 5vw, 4rem);
-  letter-spacing: -0.022em;
-  text-align: center;
-  margin-bottom: 4rem;
+/* ============= contact ============= */
+.contact { padding: 8rem 0; background: var(--orange); color: var(--black); position: relative; overflow: hidden; }
+.contact::before { content:''; position: absolute; top: -50px; right: -50px; width: 300px; height: 300px; background: var(--acid); border-radius: 50%; opacity: 0.6; filter: blur(80px); }
+.contact__inner { position: relative; z-index: 2; display: grid; grid-template-columns: 1fr; gap: 4rem; align-items: start; }
+@media (min-width: 900px) { .contact__inner { grid-template-columns: 1fr 1fr; gap: 5rem; } }
+.contact h2 { font-size: clamp(2.8rem, 6vw, 5rem); color: var(--black); margin-top: 1rem; }
+.contact .eyebrow { color: var(--black); }
+.contact .eyebrow::before { color: var(--black); }
+.contact__intro { margin-top: 1.5rem; font-size: 1.1rem; color: var(--black); max-width: 50ch; }
+.contact__addr { margin-top: 2.5rem; padding: 1.5rem 1.7rem; background: var(--black); color: var(--white); }
+.contact__addr strong { display: block; font-family: var(--display); font-size: 1.2rem; color: var(--orange); letter-spacing: 0.04em; }
+.contact__addr p { margin-top: 0.6rem; font-family: var(--mono); font-size: 0.88rem; line-height: 1.5; }
+.contact__addr a { color: var(--acid); text-decoration: underline; }
+.form { display: grid; gap: 1rem; background: var(--black); color: var(--white); padding: 2.5rem; }
+.form .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.field { display: flex; flex-direction: column; gap: 0.4rem; }
+.field label { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--orange); }
+.field input, .field select, .field textarea {
+  background: var(--carbon); border: 1px solid var(--steel);
+  padding: 0.9rem 1rem; font-family: var(--sans); font-size: 0.95rem; color: var(--white);
+  transition: border-color 200ms ease;
 }
-.t-pricing h2 .accent { color: var(--accent-caramel); }
-.t-pricing__grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.5rem;
-}
-@media (min-width: 800px) { .t-pricing__grid { grid-template-columns: repeat(3, 1fr); } }
-.t-pack {
-  background: var(--bg-cream);
-  border: 1px solid var(--text-faint);
-  padding: 3rem 2.2rem;
-  display: flex; flex-direction: column;
-}
-.t-pack--feat {
-  background: var(--accent-caramel);
-  color: var(--bg-cream);
-  border-color: var(--accent-caramel);
-  transform: scale(1.03);
-  position: relative;
-}
-.t-pack--feat .t-pack__price { color: var(--bg-cream); }
-.t-pack--feat ul li::before { color: var(--bg-cream); }
-.t-pack__label {
-  font-family: var(--font-body);
-  font-weight: 700;
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.16em;
-  color: var(--accent-caramel);
-  margin-bottom: 1rem;
-}
-.t-pack--feat .t-pack__label { color: var(--bg-cream); opacity: 0.85; }
-.t-pack__price {
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: clamp(2.5rem, 5vw, 4rem);
-  color: var(--text-dark);
-  letter-spacing: -0.03em;
-  line-height: 1;
-  margin-bottom: 0.4rem;
-}
-.t-pack__unit {
-  font-family: var(--font-body);
-  font-size: 0.9rem;
-  color: var(--text-muted);
-  margin-bottom: 2rem;
-}
-.t-pack--feat .t-pack__unit { color: var(--bg-cream); opacity: 0.85; }
-.t-pack ul {
-  list-style: none;
-  display: grid; gap: 0.8rem;
-  margin-bottom: 2rem;
-  flex: 1;
-  font-size: 0.95rem;
-}
-.t-pack li { padding-left: 1.4rem; position: relative; line-height: 1.45; }
-.t-pack li::before {
-  content: '+';
-  position: absolute;
-  left: 0;
-  color: var(--accent-caramel);
-  font-weight: 700;
-}
+.field input:focus, .field select:focus, .field textarea:focus { outline: 0; border-color: var(--orange); }
+.field textarea { min-height: 110px; resize: vertical; }
+.form button { background: var(--orange); color: var(--black); padding: 1.1rem 1.5rem; border: 0; font-family: var(--display); font-size: 0.95rem; cursor: pointer; letter-spacing: 0.08em; text-transform: uppercase; transition: background 220ms ease; justify-self: stretch; }
+.form button:hover { background: var(--acid); }
 
-/* Final CTA */
-.t-final {
-  background: var(--accent-caramel);
-  color: var(--bg-cream);
-  padding: 5rem 0;
-  text-align: center;
-}
-.t-final h2 {
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: clamp(2.2rem, 6vw, 4.5rem);
-  letter-spacing: -0.025em;
-  line-height: 1.02;
-  margin-bottom: 2rem;
-}
-.t-final .btn {
-  background: var(--bg-cream);
-  color: var(--accent-caramel);
-}
-.t-final .btn:hover {
-  background: var(--text-dark);
-  color: var(--accent-caramel);
-}
-
-/* WMW credit — adjusted for dark theme */
-.wmw-credit { background: var(--bg-cream); border-top: 1px solid var(--text-faint); }
-.wmw-credit p { color: var(--text-soft); }
-.wmw-credit .italic-accent { color: var(--accent-caramel); }
+/* ============= footer ============= */
+.footer { padding: 5rem 0 2.5rem; background: var(--black); color: var(--ash); border-top: 1px solid var(--graphite); }
+.footer__grid { display: grid; grid-template-columns: 1fr; gap: 3rem; padding-bottom: 3rem; border-bottom: 1px solid var(--graphite); }
+@media (min-width: 800px) { .footer__grid { grid-template-columns: 1.6fr 1fr 1fr 1fr; } }
+.footer h4 { font-family: var(--mono); font-size: 0.74rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--orange); margin-bottom: 1rem; }
+.footer__col p, .footer__col li { font-size: 0.88rem; line-height: 1.7; }
+.footer__col ul { list-style: none; }
+.footer__col a:hover { color: var(--white); }
+.footer__logo { font-family: var(--display); font-size: 1.8rem; color: var(--white); margin-bottom: 1rem; letter-spacing: -0.02em; }
+.footer__bottom { margin-top: 2.5rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; font-size: 0.76rem; color: var(--ash); font-family: var(--mono); }
+.footer__bottom a { color: var(--orange); }
 </style>
 </head>
 <body>
 
-<div class="demo-strip" style="background:var(--bg-cream);border-color:var(--text-faint);color:var(--text-muted)">
-  <div class="demo-strip__inner">
-    <span>DEMO · DESIGNSTUDIE FÜR PERSONAL TRAINER</span>
-    <a href="/" style="color:var(--accent-caramel)">← WMW SERVICES</a>
-  </div>
-</div>
+<div class="demo-banner">DEMO STUDIE · TRAINER-KONZEPT VON <a href="/">daylens / WMW Services</a> · fiktives Unternehmen</div>
 
-<!-- Hero -->
-<section class="t-hero shell">
-  <div class="t-hero__inner">
-    <div class="t-hero__words reveal">
-      <span>Körper</span>
-      <span>baut</span>
-      <span>man</span>
-      <span class="accent">nicht.</span>
-      <span style="font-size:0.5em;font-family:var(--font-body);text-transform:none;font-weight:500;color:var(--text-soft);margin-top:0.6em">Man trainiert ihn.</span>
+<nav class="nav" aria-label="Hauptnavigation">
+  <div class="shell nav__inner">
+    <a href="#top" class="logo"><span class="logo__bar"></span>MAX BERLIN</a>
+    <ul class="nav__links">
+      <li><a href="#programs">Programme</a></li>
+      <li><a href="#about">Über Max</a></li>
+      <li><a href="#prices">Preise</a></li>
+      <li><a href="#schedule">Termine</a></li>
+      <li><a href="#contact">Buchen</a></li>
+    </ul>
+    <a href="#contact" class="nav__cta">Probetraining</a>
+  </div>
+</nav>
+
+<!-- ============================ HERO ============================ -->
+<header class="hero" id="top">
+  <div class="shell hero__inner">
+    <div class="hero__supra"><span>■</span>Personal Training<span>·</span>Berlin-Kreuzberg<span>·</span>Seit 2018</div>
+    <h1>NO HYPE.<br><em>NUR ARBEIT.</em></h1>
+    <p class="hero__sub">Krafttraining, Hypertrophie, HIIT und Mobility für Menschen, die ihren Körper ernst nehmen — vom ersten Kniebeugen-Tag bis zum Powerlifting-Meet. Eins-zu-eins in einem privaten Studio in der Skalitzer Straße.</p>
+    <div class="hero__ctas">
+      <a href="#contact" class="btn btn--primary">Probetraining buchen →</a>
+      <a href="#programs" class="btn btn--ghost">Programme ansehen</a>
     </div>
-    <div class="t-hero__cta reveal" data-delay="2">
-      <a href="#buchen" class="btn btn--primary">Probetraining buchen →</a>
+    <div class="hero__stats">
+      <div class="hero__stat"><strong>8 J.</strong><span>Erfahrung</span></div>
+      <div class="hero__stat"><strong>240+</strong><span>Klienten</span></div>
+      <div class="hero__stat"><strong>1:1</strong><span>Betreuung</span></div>
+      <div class="hero__stat"><strong>4–6×</strong><span>Wöchentl. Plätze</span></div>
     </div>
   </div>
-</section>
+</header>
 
-<!-- Services -->
-<section class="t-services" id="leistungen">
-  <div class="shell">
-    <span class="eyebrow reveal">Was ich anbiete</span>
-    <h2 class="reveal" data-delay="1" style="margin-top:1.5rem">Vier Wege, <span class="accent">hart zu werden.</span></h2>
-    <div class="t-services__grid">
-      <article class="t-svc reveal">
-        <div class="t-svc__num">01</div>
-        <div class="t-svc__title">1:1 Personal Training</div>
-        <p class="t-svc__desc">Studio in Friedrichshain. 60 Minuten pure Fokussierung. Plan, Kontrolle, Progression.</p>
-      </article>
-      <article class="t-svc reveal" data-delay="1">
-        <div class="t-svc__num">02</div>
-        <div class="t-svc__title">Gruppenkurse</div>
-        <p class="t-svc__desc">Funktionelles Training in Kleingruppen. Max. 6 Personen. Sieben Termine pro Woche.</p>
-      </article>
-      <article class="t-svc reveal" data-delay="2">
-        <div class="t-svc__num">03</div>
-        <div class="t-svc__title">Online-Coaching</div>
-        <p class="t-svc__desc">Plan per App, Video-Calls für Check-ins. Für Leute, die nicht in Berlin sind oder Schicht arbeiten.</p>
-      </article>
-      <article class="t-svc reveal" data-delay="3">
-        <div class="t-svc__num">04</div>
-        <div class="t-svc__title">Ernährungsberatung</div>
-        <p class="t-svc__desc">Ehrliche Pläne. Kein Pulver, keine Wunder. Was du isst, wie viel, warum.</p>
-      </article>
-    </div>
+<!-- ============================ MARQUEE ============================ -->
+<section class="marquee" aria-hidden="true">
+  <div class="marquee__track">
+    <span>Krafttraining</span><span>Hypertrophie</span><span>HIIT</span><span>Mobility</span><span>Powerlifting</span><span>Functional</span><span>Rehab</span>
+    <span>Krafttraining</span><span>Hypertrophie</span><span>HIIT</span><span>Mobility</span><span>Powerlifting</span><span>Functional</span><span>Rehab</span>
   </div>
 </section>
 
-<!-- About -->
-<section class="t-about">
-  <div class="shell t-about__inner">
-    <div class="t-about__portrait reveal" aria-hidden="true"></div>
-    <div class="t-about__copy reveal" data-delay="1">
-      <span class="eyebrow">Über mich</span>
-      <h2 style="margin-top:1.5rem">Ich bin Max. <span class="accent">Ich kenne das Gefühl.</span></h2>
-      <p>
-        Bundeswehr. Marathon. Niederlage. Ich kenne, was du gerade fühlst — wenn nichts mehr geht,
-        wenn der Spiegel sich falsch anfühlt, wenn alle „macht ihr das mal" sagen.
-      </p>
-      <p>
-        Ich coache seit 2019 Menschen, die wieder einen Anfang brauchen. Keine Quick-Fixes. Kein
-        Lifestyle-Content. Nur ein Plan, eine Stimme, und jemand, der dich wirklich kennt.
-      </p>
-      <p style="font-family:var(--font-display);font-weight:500;font-size:clamp(1.25rem,2.5vw,1.8rem);color:var(--accent-caramel);line-height:1.25;letter-spacing:-0.018em;margin-top:2rem">
-        „Du kommst zu mir, wenn du müde bist. Du gehst, wenn du angefangen hast."
-      </p>
-    </div>
-  </div>
-</section>
-
-<!-- Pricing -->
-<section class="t-pricing" id="buchen">
-  <div class="shell">
-    <h2 class="reveal">Drei Pakete. <span class="accent">Eine Wahl.</span></h2>
-    <div class="t-pricing__grid">
-      <div class="t-pack reveal">
-        <div class="t-pack__label">Probetraining</div>
-        <div class="t-pack__price">0 €</div>
-        <div class="t-pack__unit">einmalig · 60 Min</div>
-        <ul>
-          <li>60 Min Einzeltraining</li>
-          <li>Erstgespräch + Anamnese</li>
-          <li>Kostenlos, einmalig</li>
-          <li>Du entscheidest danach</li>
-        </ul>
-        <a href="#" class="btn btn--ghost">Termin buchen</a>
-      </div>
-      <div class="t-pack t-pack--feat reveal" data-delay="1">
-        <div class="t-pack__label">Empfohlen</div>
-        <div class="t-pack__price">450 €</div>
-        <div class="t-pack__unit">10er-Karte · 8 Wochen gültig</div>
-        <ul>
-          <li>10 × 60 Min Einzeltraining</li>
-          <li>Trainingsplan in der App</li>
-          <li>Wöchentliche Reflexion</li>
-          <li>Ernährungs-Check inklusive</li>
-        </ul>
-        <a href="#" class="btn btn--primary" style="background:var(--bg-cream);color:var(--accent-caramel)">Paket buchen</a>
-      </div>
-      <div class="t-pack reveal" data-delay="2">
-        <div class="t-pack__label">Monatsabo</div>
-        <div class="t-pack__price">180 €</div>
-        <div class="t-pack__unit">monatlich · jederzeit kündbar</div>
-        <ul>
-          <li>2 × Gruppenkurs / Woche</li>
-          <li>App-Plan + Video-Library</li>
-          <li>Monats-Check-in via Video</li>
-          <li>Community-Access</li>
-        </ul>
-        <a href="#" class="btn btn--ghost">Abo starten</a>
+<!-- ============================ MANIFESTO ============================ -->
+<section class="manifesto">
+  <div class="shell manifesto__inner">
+    <div>
+      <span class="eyebrow">Manifest</span>
+      <h2 style="margin-top:1rem">Training ohne <em>Bullshit.</em> Ergebnisse mit System.</h2>
+      <div class="manifesto__body">
+        <p>Ich verkaufe keine 12-Wochen-Wunder. Ich verkaufe Programme, die du in zwei Jahren noch machst, weil sie funktionieren. Wenn du auf der Suche nach schneller, einfacher Transformation bist, bin ich der falsche Trainer.</p>
+        <p>Wenn du <strong>verstehen willst, was du tust</strong> — wie progressive Overload funktioniert, warum Schlaf wichtiger ist als das fünfte Supplement, wie du dich auch ohne mich weiterbringen kannst — dann reden wir.</p>
+        <p>Mein Versprechen: 1:1-Sessions, datenbasiert, jede Übung individuell auf dich angepasst. Kein „one size fits all".</p>
       </div>
     </div>
+    <aside class="manifesto__rules">
+      <h3>// Studio-Regeln</h3>
+      <ol>
+        <li>Pünktlich. Sessions starten und enden zur Minute.</li>
+        <li>Jede Session wird dokumentiert. Du bekommst dein Logbuch.</li>
+        <li>Form vor Last. Immer. Auch im Meet.</li>
+        <li>Schlaf, Ernährung, Stress — wir reden über alles, was Performance beeinflusst.</li>
+        <li>Wenn etwas weh tut (nicht brennt), sagst du es sofort.</li>
+        <li>Keine Handys an den Geräten. 60 Minuten gehören dem Training.</li>
+        <li>Niemand wird ausgelacht. Anfängerinnen sind hier so willkommen wie Wettkämpfer.</li>
+      </ol>
+    </aside>
   </div>
 </section>
 
-<!-- Final CTA -->
-<section class="t-final">
+<!-- ============================ PROGRAMS ============================ -->
+<section class="programs" id="programs">
   <div class="shell">
-    <h2 class="reveal">Bereit? <br>Dann fang an.</h2>
-    <a href="mailto:max@example.de" class="btn btn--primary reveal" data-delay="1">Jetzt schreiben →</a>
+    <div class="programs__head">
+      <div>
+        <span class="eyebrow">Programme</span>
+        <h2 style="margin-top:1rem">Sechs Wege. <em>Ein Studio.</em></h2>
+      </div>
+      <p>Jedes Programm beginnt mit einer Bestandsaufnahme: Bewegungs-Screening, Kraftbaseline, Zielklärung. Daraus baue ich dir ein 12-Wochen-Programm. Danach evaluieren wir.</p>
+    </div>
+
+    <div class="programs__grid">
+      <article class="prog">
+        <div class="prog__num">01 / Foundations</div>
+        <div class="prog__name">Krafttraining für Einsteiger</div>
+        <p class="prog__lead">Kniebeuge, Kreuzheben, Bankdrücken, Klimmzug — von der ersten Wiederholung an mit guter Technik. Für Menschen, die noch nie ernsthaft trainiert haben oder lange aus dem Training sind.</p>
+        <div class="prog__meta">
+          <div><strong>Dauer</strong>12 Wochen</div>
+          <div><strong>Frequenz</strong>2×/Woche</div>
+          <div><strong>Level</strong>Anfänger</div>
+          <div><strong>Ergebnis</strong>+30% Grundkraft</div>
+        </div>
+      </article>
+
+      <article class="prog">
+        <div class="prog__num">02 / Hypertrophy</div>
+        <div class="prog__name">Muskelaufbau strukturiert</div>
+        <p class="prog__lead">Periodisierter Trainingsplan mit Block-Periodisierung: Volumen-Phase, Intensitäts-Phase, Deload. Plus Ernährungs-Tracking und wöchentliche Anpassungen.</p>
+        <div class="prog__meta">
+          <div><strong>Dauer</strong>16 Wochen</div>
+          <div><strong>Frequenz</strong>3×/Woche</div>
+          <div><strong>Level</strong>Fortgeschritten</div>
+          <div><strong>Ergebnis</strong>+3–5 kg LBM</div>
+        </div>
+      </article>
+
+      <article class="prog">
+        <div class="prog__num">03 / HIIT &amp; Conditioning</div>
+        <div class="prog__name">Ausdauer &amp; Fettverbrennung</div>
+        <p class="prog__lead">Intervalltraining nach Tabata, HIIT-Pyramiden, Rower-Conditioning. Effizient für Menschen, die wenig Zeit haben, aber maximale metabolische Reize wollen.</p>
+        <div class="prog__meta">
+          <div><strong>Dauer</strong>8 Wochen</div>
+          <div><strong>Frequenz</strong>3×/Woche</div>
+          <div><strong>Level</strong>Alle</div>
+          <div><strong>Dauer/Session</strong>45 Min</div>
+        </div>
+      </article>
+
+      <article class="prog">
+        <div class="prog__num">04 / Mobility &amp; Reha</div>
+        <div class="prog__name">Beweglichkeit &amp; Rehabilitation</div>
+        <p class="prog__lead">Auf physiotherapeutischer Basis: Schulter, Hüfte, Wirbelsäule. Für Menschen mit Bandscheibenvorfall, Knieproblemen oder nach OP. Mit Hausaufgaben für Zuhause.</p>
+        <div class="prog__meta">
+          <div><strong>Dauer</strong>n. Bedarf</div>
+          <div><strong>Frequenz</strong>1–2×/Woche</div>
+          <div><strong>Level</strong>Alle</div>
+          <div><strong>Voraus.</strong>Ärztl. Freigabe</div>
+        </div>
+      </article>
+
+      <article class="prog">
+        <div class="prog__num">05 / Powerlifting</div>
+        <div class="prog__name">Meet-Vorbereitung</div>
+        <p class="prog__lead">Kniebeuge, Bankdrücken, Kreuzheben — periodisiert auf Wettkampf-Datum. Inkl. Form-Check per Video, Attempt-Selection und Mental-Training für den Tag selbst.</p>
+        <div class="prog__meta">
+          <div><strong>Dauer</strong>16 Wochen</div>
+          <div><strong>Frequenz</strong>3–4×/Woche</div>
+          <div><strong>Level</strong>Fortgeschritten</div>
+          <div><strong>Ziel</strong>BPV-/IPF-Meet</div>
+        </div>
+      </article>
+
+      <article class="prog">
+        <div class="prog__num">06 / Performance</div>
+        <div class="prog__name">Sportler &amp; Kletterer</div>
+        <p class="prog__lead">Sportartspezifisches Krafttraining für Läufer, Fußballer, Tennisspieler und Kletterer. Verletzungsprävention, Explosivkraft, sportartspezifische Belastbarkeit.</p>
+        <div class="prog__meta">
+          <div><strong>Dauer</strong>n. Saison</div>
+          <div><strong>Frequenz</strong>2–3×/Woche</div>
+          <div><strong>Level</strong>Sportler</div>
+          <div><strong>Voraus.</strong>Aktiv im Sport</div>
+        </div>
+      </article>
+    </div>
   </div>
 </section>
 
-<!-- WMW Credit -->
-<section class="wmw-credit">
+<!-- ============================ ABOUT ============================ -->
+<section class="about" id="about">
+  <div class="shell about__grid">
+    <div class="about__img" aria-hidden="true"></div>
+    <div>
+      <span class="eyebrow">Über Max</span>
+      <h2 style="margin-top:1rem">8 Jahre Studio. <em>Über 240 Klienten.</em> Eine Methode.</h2>
+      <div class="about__body">
+        <p>Ich bin Max Heuer, 31, gebürtig aus Köln. Bis 2017 habe ich Sportwissenschaft an der DSHS Köln studiert und nebenher in einem kommerziellen Fitnessstudio gearbeitet — wo ich ziemlich schnell gemerkt habe: dort hilft niemand wirklich.</p>
+        <p>2018 bin ich nach Berlin gezogen und habe mein eigenes Studio aufgemacht. Klein, privat, ohne Schnickschnack. Über die Jahre habe ich mit ehemaligen Profisportlern, mit 60-Jährigen nach Schlaganfall, mit Berufstätigen in 60-Stunden-Wochen gearbeitet. Was sie verbindet: sie wollen verstehen, was sie tun.</p>
+        <p>Wenn du Lust hast, dein Training ernst zu nehmen — komm vorbei. Erste Session ist kostenlos.</p>
+      </div>
+      <div class="about__credentials">
+        <div><strong>Ausbildung</strong><span>M.Sc. Sportwissenschaft, DSHS Köln (2017)</span></div>
+        <div><strong>Lizenz</strong><span>A-Lizenz Trainer DOSB · BVDG</span></div>
+        <div><strong>Spezialisierung</strong><span>Powerlifting · Strength Coach NSCA-CSCS</span></div>
+        <div><strong>Reha-Cert.</strong><span>Functional Range Conditioning (FRC)</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ PRICES ============================ -->
+<section class="prices" id="prices">
   <div class="shell">
-    <p>Dieses Konzept entstand bei <span class="italic-accent">WMW Services</span>. Möchtest du eine ähnliche Website?</p>
-    <a href="/#contact" class="btn btn--primary" style="background:var(--accent-caramel);color:var(--bg-cream)">Anfrage stellen →</a>
+    <div class="prices__head">
+      <span class="eyebrow">Preise</span>
+      <h2>Drei Pakete. <em>Keine versteckten Kosten.</em></h2>
+      <p>Alle Preise inklusive Studio, Programm-Design, schriftlichem Trainingsplan und Logbuch. Keine Mitgliedschaft, kein Abo-Lock-in.</p>
+    </div>
+    <div class="prices__grid">
+      <article class="plan">
+        <div class="plan__name">Einzel-Session</div>
+        <div class="plan__amount">95&nbsp;€<small>pro 60 Minuten · einmalig buchbar</small></div>
+        <ul class="plan__list">
+          <li>1:1 Personal Training, 60 Min</li>
+          <li>Schriftliche Übungsempfehlungen</li>
+          <li>Erste Form-Korrektur</li>
+          <li>Per WhatsApp Fragen klären</li>
+          <li>Ideal: kurzfristig, ausprobieren</li>
+        </ul>
+        <a href="#contact" class="plan__cta">Einzeln buchen</a>
+      </article>
+
+      <article class="plan plan--feat">
+        <div class="plan__name">10er-Block</div>
+        <div class="plan__amount">820&nbsp;€<small>10× 60 Min · 12 Monate gültig</small></div>
+        <ul class="plan__list">
+          <li>10 Einheiten 1:1 Personal Training</li>
+          <li>Individueller 8–12 Wochen Plan</li>
+          <li>Wöchentliche Anpassung</li>
+          <li>Logbuch &amp; Foto-Form-Checks</li>
+          <li>WhatsApp-Support an Trainings­tagen</li>
+          <li>Ernährungs-Check auf Wunsch</li>
+        </ul>
+        <a href="#contact" class="plan__cta">10er buchen</a>
+      </article>
+
+      <article class="plan">
+        <div class="plan__name">Coaching 3 Mo.</div>
+        <div class="plan__amount">980&nbsp;€<small>pro Monat · mind. 3 Monate</small></div>
+        <ul class="plan__list">
+          <li>2–3 Sessions pro Woche</li>
+          <li>Vollständig periodisierter Plan</li>
+          <li>Inkl. Ernährungs-Coaching</li>
+          <li>Schlaf- &amp; Stress-Tracking</li>
+          <li>Wöchentliches Check-in (15 Min)</li>
+          <li>Best für Wettkampf-Vorbereitung</li>
+        </ul>
+        <a href="#contact" class="plan__cta">Coaching anfragen</a>
+      </article>
+    </div>
+    <p style="text-align:center;margin-top:2.5rem;font-family:var(--mono);font-size:0.84rem;color:var(--bone)">Probetraining 30 Min · kostenlos · unverbindlich</p>
   </div>
 </section>
 
-<script src="/assets/wmw.js" defer></script>
-<div class="demo-watermark">Demo · Fiktive Inhalte</div>
+<!-- ============================ SCHEDULE ============================ -->
+<section class="schedule" id="schedule">
+  <div class="shell">
+    <div class="schedule__head">
+      <div>
+        <span class="eyebrow">Wochen-Plan</span>
+        <h2 style="margin-top:1rem">Freie Slots <em>diese Woche.</em></h2>
+      </div>
+      <p>Stand: Aktualisiert montags. Slot blockiert? Trag dich auf die Warteliste — Stornos kommen vor.</p>
+    </div>
+
+    <div class="schedule__table">
+      <div class="schedule__cell head">Uhrzeit</div>
+      <div class="schedule__cell head">Mo</div>
+      <div class="schedule__cell head">Di</div>
+      <div class="schedule__cell head">Mi</div>
+      <div class="schedule__cell head">Do</div>
+      <div class="schedule__cell head">Fr</div>
+      <div class="schedule__cell head">Sa</div>
+      <div class="schedule__cell head">So</div>
+
+      <div class="schedule__cell time">07:00</div>
+      <div class="schedule__cell full"><strong>Anna L.</strong><small>belegt</small></div>
+      <div class="schedule__cell open"><strong>frei</strong><small>verfügbar</small></div>
+      <div class="schedule__cell full"><strong>Anna L.</strong><small>belegt</small></div>
+      <div class="schedule__cell open"><strong>frei</strong><small>verfügbar</small></div>
+      <div class="schedule__cell full"><strong>Anna L.</strong><small>belegt</small></div>
+      <div class="schedule__cell"><small>—</small></div>
+      <div class="schedule__cell"><small>—</small></div>
+
+      <div class="schedule__cell time">08:30</div>
+      <div class="schedule__cell full"><strong>Tobias R.</strong><small>belegt</small></div>
+      <div class="schedule__cell full"><strong>Felix M.</strong><small>belegt</small></div>
+      <div class="schedule__cell full"><strong>Tobias R.</strong><small>belegt</small></div>
+      <div class="schedule__cell open"><strong>frei</strong><small>verfügbar</small></div>
+      <div class="schedule__cell full"><strong>Tobias R.</strong><small>belegt</small></div>
+      <div class="schedule__cell open"><strong>frei</strong><small>verfügbar</small></div>
+      <div class="schedule__cell"><small>—</small></div>
+
+      <div class="schedule__cell time">10:00</div>
+      <div class="schedule__cell open"><strong>frei</strong><small>verfügbar</small></div>
+      <div class="schedule__cell full"><strong>Sara P.</strong><small>belegt</small></div>
+      <div class="schedule__cell open"><strong>frei</strong><small>verfügbar</small></div>
+      <div class="schedule__cell full"><strong>Sara P.</strong><small>belegt</small></div>
+      <div class="schedule__cell open"><strong>frei</strong><small>verfügbar</small></div>
+      <div class="schedule__cell full"><strong>Coach-Pause</strong><small>—</small></div>
+      <div class="schedule__cell"><small>—</small></div>
+
+      <div class="schedule__cell time">17:00</div>
+      <div class="schedule__cell full"><strong>Jakob W.</strong><small>belegt</small></div>
+      <div class="schedule__cell full"><strong>Lara K.</strong><small>belegt</small></div>
+      <div class="schedule__cell full"><strong>Jakob W.</strong><small>belegt</small></div>
+      <div class="schedule__cell full"><strong>Lara K.</strong><small>belegt</small></div>
+      <div class="schedule__cell open"><strong>frei</strong><small>verfügbar</small></div>
+      <div class="schedule__cell"><small>—</small></div>
+      <div class="schedule__cell"><small>—</small></div>
+
+      <div class="schedule__cell time">18:30</div>
+      <div class="schedule__cell open"><strong>frei</strong><small>verfügbar</small></div>
+      <div class="schedule__cell full"><strong>David T.</strong><small>belegt</small></div>
+      <div class="schedule__cell open"><strong>frei</strong><small>verfügbar</small></div>
+      <div class="schedule__cell full"><strong>David T.</strong><small>belegt</small></div>
+      <div class="schedule__cell open"><strong>frei</strong><small>verfügbar</small></div>
+      <div class="schedule__cell"><small>—</small></div>
+      <div class="schedule__cell"><small>—</small></div>
+
+      <div class="schedule__cell time">20:00</div>
+      <div class="schedule__cell full"><strong>Marc S.</strong><small>belegt</small></div>
+      <div class="schedule__cell open"><strong>frei</strong><small>verfügbar</small></div>
+      <div class="schedule__cell full"><strong>Marc S.</strong><small>belegt</small></div>
+      <div class="schedule__cell open"><strong>frei</strong><small>verfügbar</small></div>
+      <div class="schedule__cell"><small>—</small></div>
+      <div class="schedule__cell"><small>—</small></div>
+      <div class="schedule__cell"><small>—</small></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ RESULTS ============================ -->
+<section class="results">
+  <div class="shell">
+    <div class="results__head">
+      <span class="eyebrow">Klienten-Beispiele</span>
+      <h2>Echte Zahlen, <em>echte Programme.</em></h2>
+    </div>
+    <div class="results__grid">
+      <article class="res">
+        <div class="res__img" style="background-image:url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=900&q=80&auto=format&fit=crop')"></div>
+        <div class="res__goal">Foundations · 12 Wochen</div>
+        <div class="res__name">M., 34 · Software-Entwicklerin</div>
+        <div class="res__numbers">
+          <div><strong>+38%</strong><span>Squat</span></div>
+          <div><strong>+45%</strong><span>Deadlift</span></div>
+          <div><strong>−4,2 kg</strong><span>Körperfett</span></div>
+        </div>
+        <p class="res__quote">Erste Mal in 15 Jahren wieder ohne Rückenschmerzen aufgewacht."</p>
+      </article>
+
+      <article class="res">
+        <div class="res__img" style="background-image:url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=900&q=80&auto=format&fit=crop')"></div>
+        <div class="res__goal">Powerlifting · 16 Wochen</div>
+        <div class="res__name">J., 27 · Erstes Meet</div>
+        <div class="res__numbers">
+          <div><strong>167,5</strong><span>Squat (kg)</span></div>
+          <div><strong>122,5</strong><span>Bench (kg)</span></div>
+          <div><strong>200</strong><span>Deadlift (kg)</span></div>
+        </div>
+        <p class="res__quote">490 kg Total beim ersten Meet, alle 9 Versuche gültig. Danke für die Vorbereitung."</p>
+      </article>
+
+      <article class="res">
+        <div class="res__img" style="background-image:url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=900&q=80&auto=format&fit=crop')"></div>
+        <div class="res__goal">Reha · 6 Monate</div>
+        <div class="res__name">F., 58 · nach Bandscheiben-OP</div>
+        <div class="res__numbers">
+          <div><strong>0</strong><span>Schmerz-Tage/Mt</span></div>
+          <div><strong>+12 cm</strong><span>Hip-Hinge</span></div>
+          <div><strong>2×/Wo</strong><span>weiter trainiert</span></div>
+        </div>
+        <p class="res__quote">Mein Orthopäde war beeindruckt. Ich auch."</p>
+      </article>
+    </div>
+    <p style="margin-top:2rem;font-family:var(--mono);font-size:0.78rem;color:var(--ash);text-align:center">Demo-Inhalt · Beispiel-Klienten für Konzept-Studie</p>
+  </div>
+</section>
+
+<!-- ============================ FAQ ============================ -->
+<section class="faq">
+  <div class="shell faq__inner">
+    <span class="eyebrow" style="display:flex;justify-content:center">FAQ</span>
+    <h2>Häufige <em>Fragen.</em></h2>
+
+    <div class="faq__item">
+      <div class="faq__q">Bin ich fit genug, um anzufangen?</div>
+      <div class="faq__a">Ja. Ich arbeite mit Menschen, die noch nie eine Langhantel angefasst haben — und mit Wettkampf-Athleten. Das erste Programm ist immer auf deinem Level. Wir starten dort, wo du jetzt stehst, nicht wo du gerne wärst.</div>
+    </div>
+    <div class="faq__item">
+      <div class="faq__q">Kann ich erst probieren, bevor ich buche?</div>
+      <div class="faq__a">Klar. Erste Session ist 30 Minuten und kostenfrei: Bewegungs-Screening, kurzer Kraftcheck, Zielklärung. Danach entscheidest du. Keine Verkaufspräsentation, kein Druck.</div>
+    </div>
+    <div class="faq__item">
+      <div class="faq__q">Was ist mit Verletzungen oder Vor­erkrankungen?</div>
+      <div class="faq__a">Reha-Klienten brauchen eine ärztliche Freigabe. Mit der können wir arbeiten — ich habe Erfahrung mit Bandscheibenvorfällen, Knie-OPs, Schlaganfall-Rehab. Ich arbeite eng mit Physiotherapeuten in Kreuzberg zusammen.</div>
+    </div>
+    <div class="faq__item">
+      <div class="faq__q">Wie oft muss ich kommen, um Ergebnisse zu sehen?</div>
+      <div class="faq__a">Realistisch: 2× pro Woche, konstant, über 12 Wochen. Wer einmal pro Monat kommt, kauft sich Aufmerksamkeit, keine Resultate. Ich bin offen darüber, wenn deine Frequenz und dein Ziel nicht zusammenpassen.</div>
+    </div>
+    <div class="faq__item">
+      <div class="faq__q">Macht ihr auch Online-Coaching?</div>
+      <div class="faq__a">Nein. Mein Wert ist 1:1 Form-Korrektur in Echtzeit. Online-Programme gibt's gut von anderen — frag mich, ich empfehle dir gerne jemanden.</div>
+    </div>
+    <div class="faq__item">
+      <div class="faq__q">Stornierung möglich?</div>
+      <div class="faq__a">Bis 24h vor Termin kostenfrei. Danach 50%. Krankheit ist immer Ausnahme — sag einfach Bescheid.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ CONTACT ============================ -->
+<section class="contact" id="contact">
+  <div class="shell contact__inner">
+    <div>
+      <span class="eyebrow">Probetraining</span>
+      <h2>30 Minuten. <br>Kostenlos. Unverbindlich.</h2>
+      <p class="contact__intro">Schreib mir kurz, worum es geht. Ich melde mich innerhalb von 24 Stunden mit drei Terminvorschlägen.</p>
+      <div class="contact__addr">
+        <strong>STUDIO MAX BERLIN</strong>
+        <p>Skalitzer Straße 124 · 10999 Berlin<br>
+        U-Bahn: Görlitzer Bahnhof (U1)<br>
+        <a href="tel:+491728889430">+49 172 888 9430</a> · <a href="mailto:hi@maxberlin.training">hi@maxberlin.training</a></p>
+      </div>
+    </div>
+    <form class="form" onsubmit="event.preventDefault(); this.innerHTML='<p style=&quot;font-family:var(--display);font-size:1.4rem;color:var(--orange);letter-spacing:0.04em&quot;>EINGEGANGEN.<br><span style=&quot;font-family:var(--mono);font-size:0.86rem;color:var(--bone);letter-spacing:0.04em;text-transform:none&quot;>Ich melde mich innerhalb von 24 Stunden zurück.</span></p>';">
+      <div class="row2">
+        <div class="field"><label for="tName">Name</label><input id="tName" type="text" required></div>
+        <div class="field"><label for="tPhone">Telefon</label><input id="tPhone" type="tel"></div>
+      </div>
+      <div class="field"><label for="tMail">E-Mail</label><input id="tMail" type="email" required></div>
+      <div class="row2">
+        <div class="field"><label for="tProg">Programm</label>
+          <select id="tProg" required>
+            <option>Probetraining (30 Min)</option>
+            <option>Foundations (Einsteiger)</option>
+            <option>Hypertrophy</option>
+            <option>HIIT &amp; Conditioning</option>
+            <option>Mobility &amp; Reha</option>
+            <option>Powerlifting</option>
+            <option>Performance Sportler</option>
+            <option>Unsicher</option>
+          </select>
+        </div>
+        <div class="field"><label for="tLevel">Level</label>
+          <select id="tLevel"><option>Anfänger</option><option>1–2 Jahre Training</option><option>Fortgeschritten</option><option>Wettkampf-Sportler</option></select>
+        </div>
+      </div>
+      <div class="field"><label for="tGoal">Dein Ziel in 6 Monaten?</label><textarea id="tGoal" placeholder="In 1–2 Sätzen: was möchtest du erreichen?"></textarea></div>
+      <button type="submit">Termin anfragen →</button>
+    </form>
+  </div>
+</section>
+
+<!-- ============================ FOOTER ============================ -->
+<footer class="footer">
+  <div class="shell">
+    <div class="footer__grid">
+      <div class="footer__col">
+        <div class="footer__logo">MAX BERLIN</div>
+        <p>Personal Training Studio in Berlin-Kreuzberg. Krafttraining, Hypertrophie, Conditioning, Mobility &amp; Powerlifting. 1:1 seit 2018.</p>
+      </div>
+      <div class="footer__col">
+        <h4>// Studio</h4>
+        <ul>
+          <li>Skalitzer Straße 124</li>
+          <li>10999 Berlin · Kreuzberg</li>
+          <li><a href="tel:+491728889430">+49 172 888 9430</a></li>
+          <li><a href="mailto:hi@maxberlin.training">hi@maxberlin.training</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h4>// Öffnungszeiten</h4>
+        <ul>
+          <li>Mo – Fr · 07:00 – 21:00</li>
+          <li>Sa · 09:00 – 14:00</li>
+          <li>So · geschlossen</li>
+          <li>Termine nur n.&nbsp;V.</li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h4>// Folgen</h4>
+        <ul>
+          <li><a href="#">Instagram · @maxberlin.training</a></li>
+          <li><a href="#">YouTube · Form-Checks</a></li>
+          <li><a href="/">← daylens / WMW Services</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© 2026 MAX BERLIN · DEMO-KONZEPT · FIKTIVES UNTERNEHMEN</span>
+      <span>BUILT BY <a href="/">daylens / WMW Services</a></span>
+    </div>
+  </div>
+</footer>
+
 </body>
 </html>

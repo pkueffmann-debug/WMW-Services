@@ -3,485 +3,511 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Café Halbmond Kreuzberg — Demo von WMW Services</title>
-<meta name="description" content="Konzept für eine Café-Website, entwickelt von WMW Services Berlin." />
-<meta name="theme-color" content="#f4f5f7" />
-<link rel="stylesheet" href="/assets/fonts/fonts.css">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%23f4f5f7'/%3E%3Ccircle cx='16' cy='16' r='8' fill='none' stroke='%233a4654' stroke-width='2'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="/assets/wmw.css">
+<title>Café Halbmond — Spezialitätenkaffee & Pâtisserie in Berlin-Kreuzberg</title>
+<meta name="description" content="Spezialitätenkaffee, hausgemachte Pâtisserie und ehrliches Frühstück. Bergmannstraße, Kreuzberg. Täglich ab 7:30 geöffnet." />
+<meta name="theme-color" content="#2a1810" />
+<link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,300;1,9..144,400&family=Inter:wght@300;400;500;600&family=Caveat:wght@500;600&display=swap" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%232a1810'/%3E%3Cpath d='M16 8a8 8 0 0 0 0 16V8z' fill='%23d4a574'/%3E%3C/svg%3E">
 <style>
-/* ============================================
-   Café Halbmond — espresso warm cinematic
-   ============================================ */
 :root {
-  /* Café page inherits the editorial palette from wmw.css. */
-  --hand: 'Caveat', cursive;
+  --bean:      #1c1108;
+  --espresso:  #2a1810;
+  --mocha:     #3d2818;
+  --hazelnut:  #5d3a1f;
+  --caramel:   #8b5a2b;
+  --milk:      #d4a574;
+  --cream:     #ebe2d4;
+  --foam:      #f5efe5;
+  --paper:     #faf6ef;
+  --ink:       #1a0f08;
+  --serif:  'Fraunces', Georgia, serif;
+  --sans:   'Inter', system-ui, sans-serif;
+  --hand:   'Caveat', cursive;
 }
-body { background: var(--bg-cream); color: var(--text-dark); font-family: var(--font-body); }
-.h-display, .serif { font-family: var(--font-display); }
-.italic-accent { color: var(--accent-cognac); }
-.eyebrow { color: var(--accent-cognac); }
-.eyebrow::before { background: var(--accent-cognac); }
-.btn--primary { background: var(--accent-cognac); color: var(--bg-cream); box-shadow: 0 14px 36px -16px rgba(58,70,84,0.32); }
-.btn--primary:hover { background: var(--text-dark); }
-.btn--ghost { color: var(--accent-cognac); border-color: var(--border-strong); }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--sans); background: var(--paper); color: var(--ink); -webkit-font-smoothing: antialiased; line-height: 1.6; }
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+.shell { width: 100%; max-width: 1240px; margin: 0 auto; padding: 0 1.5rem; }
+.eyebrow { font-family: var(--sans); font-size: 0.72rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--caramel); display: inline-flex; align-items: center; gap: 0.7rem; }
+.eyebrow::before { content:''; width: 28px; height: 1px; background: var(--caramel); display: inline-block; }
+.hand { font-family: var(--hand); color: var(--caramel); }
+h1,h2,h3,h4 { font-family: var(--serif); font-weight: 400; letter-spacing: -0.02em; line-height: 1.05; }
 
-/* Hero */
-.cafe-hero {
+/* ============= demo banner ============= */
+.demo-banner { background: var(--bean); color: var(--cream); font-size: 0.74rem; letter-spacing: 0.06em; padding: 0.55rem 1rem; text-align: center; }
+.demo-banner a { color: var(--milk); text-decoration: underline; text-underline-offset: 3px; }
+
+/* ============= nav ============= */
+.nav { position: sticky; top: 0; z-index: 50; background: rgba(250, 246, 239, 0.86); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid rgba(60, 35, 20, 0.08); }
+.nav__inner { display: flex; align-items: center; justify-content: space-between; padding: 1rem 0; }
+.logo { font-family: var(--serif); font-size: 1.35rem; font-weight: 500; letter-spacing: -0.01em; color: var(--bean); }
+.logo em { font-style: italic; color: var(--caramel); font-weight: 400; }
+.nav__links { display: flex; gap: 2.2rem; list-style: none; font-size: 0.86rem; font-weight: 500; }
+.nav__links a { color: var(--mocha); transition: color 220ms ease; }
+.nav__links a:hover { color: var(--caramel); }
+.nav__cta { padding: 0.6rem 1.1rem; background: var(--bean); color: var(--foam); border-radius: 999px; font-size: 0.82rem; font-weight: 500; transition: background 240ms ease; }
+.nav__cta:hover { background: var(--mocha); }
+@media (max-width: 800px) { .nav__links { display: none; } }
+
+/* ============= hero ============= */
+.hero {
   position: relative;
   min-height: 92vh;
-  display: flex; align-items: center;
-  padding: 8rem 0 5rem;
-  overflow: hidden;
-}
-.cafe-hero__grid {
-  display: grid; grid-template-columns: 1fr; gap: 3rem;
-  align-items: center;
-}
-@media (min-width: 900px) {
-  .cafe-hero__grid { grid-template-columns: 6fr 5fr; gap: 4rem; }
-}
-.cafe-hero__copy .badge {
-  display: inline-block;
-  font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.28em;
-  padding: 0.45rem 0.95rem;
-  border: 1px solid var(--border-strong);
-  border-radius: 999px;
-  color: var(--accent-cognac);
-  background: rgba(255,255,255,0.4);
-}
-.cafe-hero__title {
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-size: clamp(2.5rem, 7vw, 5.5rem);
-  line-height: 1.02;
-  letter-spacing: -0.02em;
-  margin-top: 1.75rem;
-  color: var(--text-dark);
-  max-width: 14ch;
-}
-.cafe-hero__title .accent { font-style: italic; font-weight: 300; color: var(--accent-cognac); }
-.cafe-hero__lead {
-  margin-top: 1.75rem; max-width: 42ch;
-  font-size: clamp(1rem, 1.3vw, 1.18rem);
-  color: var(--text-soft); line-height: 1.55;
-}
-.cafe-hero__ctas { margin-top: 2.5rem; display: flex; flex-wrap: wrap; gap: 1rem; }
-
-/* Coffee cup illustration */
-.cup-stage {
-  position: relative;
-  aspect-ratio: 4/5;
-  width: 100%;
-  max-width: 460px;
-  margin: 0 auto;
-  background: radial-gradient(ellipse at center top, #dee1e7 0%, #5a6470 55%, #3a4654 100%);
-  border-radius: 24px;
-  overflow: hidden;
-  box-shadow: 0 50px 110px -40px rgba(20,24,32,0.25);
-}
-.cup-stage::before { /* warm window glow */
-  content: '';
-  position: absolute; inset: 0;
-  background: radial-gradient(circle at 30% 25%, rgba(244,245,247,0.25) 0%, transparent 60%);
-  pointer-events: none;
-}
-.cup {
-  position: absolute; bottom: 12%; left: 50%;
-  width: 58%; aspect-ratio: 1.2/1;
-  transform: translateX(-50%);
-}
-.cup__saucer {
-  position: absolute; bottom: 0; left: 0; right: 0;
-  height: 22%;
-  background: radial-gradient(ellipse at center top, #2a3340 0%, #1a1a1c 100%);
-  border-radius: 50%;
-  box-shadow: 0 12px 22px -6px rgba(0,0,0,0.35);
-}
-.cup__body {
-  position: absolute; left: 8%; right: 8%; bottom: 11%;
-  height: 70%;
-  background: linear-gradient(180deg, #f4f5f7 0%, #eceef2 100%);
-  border-radius: 18% 18% 8% 8% / 24% 24% 12% 12%;
-  box-shadow:
-    inset 0 -14px 22px -10px rgba(20,24,32,0.18),
-    inset 4px 0 12px -8px rgba(0,0,0,0.18),
-    0 18px 32px -16px rgba(0,0,0,0.3);
-}
-.cup__handle {
-  position: absolute; right: -3%; top: 30%;
-  width: 22%; height: 40%;
-  border: 6px solid #f4f5f7;
-  border-left-color: transparent;
-  border-radius: 0 50% 50% 0;
-  box-shadow: 0 6px 12px -6px rgba(0,0,0,0.3);
-}
-.cup__coffee {
-  position: absolute; top: 12%; left: 14%; right: 14%;
-  height: 18%;
-  background: radial-gradient(ellipse at center, #2a3340 0%, #1a2026 100%);
-  border-radius: 50%;
-  box-shadow: inset 0 4px 6px rgba(0,0,0,0.5);
-}
-.cup__art {
-  position: absolute; top: 12%; left: 50%;
-  width: 24%; height: 10%;
-  transform: translateX(-50%);
-  border: 1.5px solid rgba(244,245,247,0.6);
-  border-radius: 50% 50% 50% 50% / 80% 80% 20% 20%;
-}
-
-/* Steam wisps */
-.steam {
-  position: absolute; left: 50%; bottom: 78%;
-  width: 3px; height: 80px;
-  transform: translateX(-50%);
-}
-.steam span {
-  position: absolute; left: 0; bottom: 0;
-  width: 3px; height: 80px;
-  background: linear-gradient(to top, rgba(255,255,255,0.65), transparent);
-  border-radius: 2px;
-  filter: blur(2px);
-  animation: steam-rise 4s ease-out infinite;
-}
-.steam span:nth-child(1) { left: -12px; animation-delay: 0s; }
-.steam span:nth-child(2) { left: 0;    animation-delay: 0.8s; }
-.steam span:nth-child(3) { left: 12px; animation-delay: 1.6s; }
-@keyframes steam-rise {
-  0%   { transform: translateY(0) scaleY(0.4) translateX(0); opacity: 0; }
-  20%  { opacity: 0.8; }
-  60%  { transform: translateY(-60px) scaleY(1) translateX(-6px); }
-  100% { transform: translateY(-110px) scaleY(0.8) translateX(8px); opacity: 0; }
-}
-
-/* Daily specials */
-.specials {
-  background: var(--bg-warm);
-  padding: 6rem 0;
-}
-@media (min-width: 768px) { .specials { padding: 9rem 0; } }
-.specials__head {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.5rem;
-  margin-bottom: 4rem;
-}
-@media (min-width: 900px) { .specials__head { grid-template-columns: 1fr 1fr; align-items: end; } }
-.specials__head h2 {
-  font-family: var(--font-display); font-weight: 400;
-  font-size: clamp(2rem, 5vw, 3.75rem);
-  line-height: 1.05; max-width: 14ch;
-  letter-spacing: -0.02em;
-}
-.specials__date {
-  font-family: var(--hand);
-  font-size: 1.6rem;
-  color: var(--accent-cognac);
-  align-self: end;
-}
-.specials__list { display: grid; gap: 1.25rem; grid-template-columns: 1fr; }
-@media (min-width: 900px) { .specials__list { grid-template-columns: repeat(3, 1fr); } }
-
-.special {
-  display: flex; flex-direction: column;
-  background: var(--bg-cream);
-  border: 1px solid var(--border-warm);
-  border-radius: 16px;
-  padding: 1.6rem;
-  transition: transform 380ms var(--ease-out), box-shadow 380ms var(--ease-out);
-}
-.special:hover { transform: translateY(-4px); box-shadow: 0 30px 50px -28px rgba(20,24,32,0.25); }
-.special__img {
-  aspect-ratio: 4/3;
-  border-radius: 12px;
-  margin-bottom: 1.4rem;
-  position: relative; overflow: hidden;
-}
-.special__img--toast { background: radial-gradient(circle at 50% 60%, #dee1e7 0%, #5a6470 50%, #2a3340 100%); }
-.special__img--curry { background: radial-gradient(circle at 40% 50%, #5a6470 0%, #3a4654 60%, #2a3340 100%); }
-.special__img--kuchen { background: radial-gradient(circle at 50% 40%, #dee1e7 0%, #5a6470 60%, #2a3340 100%); }
-.special__img::after {
-  content: '';
-  position: absolute; inset: 0;
-  background: radial-gradient(circle at 30% 30%, rgba(244,245,247,0.2), transparent 60%);
-}
-.special__cat {
-  font-family: var(--hand);
-  font-size: 1.35rem;
-  color: var(--accent-cognac);
-  margin-bottom: 0.4rem;
-}
-.special__name {
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: 1.3rem;
-  line-height: 1.2;
-  color: var(--text-dark);
-}
-.special__desc {
-  margin-top: 0.7rem;
-  font-size: 0.93rem;
-  color: var(--text-soft);
-  line-height: 1.55;
-  flex: 1;
-}
-.special__price {
-  margin-top: 1.2rem;
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: 1.05rem;
-  color: var(--accent-cognac);
-}
-
-/* Reserve */
-.reserve {
-  padding: 6rem 0;
-}
-@media (min-width: 768px) { .reserve { padding: 9rem 0; } }
-.reserve__inner {
-  max-width: 620px; margin: 0 auto;
-  text-align: center;
-}
-.reserve h2 {
-  font-family: var(--font-display); font-weight: 400;
-  font-size: clamp(2rem, 5vw, 3.5rem);
-  margin-top: 1.5rem;
-  letter-spacing: -0.02em;
-  max-width: 14ch; margin-left: auto; margin-right: auto;
-}
-.reserve form {
-  display: grid;
-  gap: 1.2rem;
-  margin-top: 2.5rem;
-  text-align: left;
-}
-.reserve .row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
-@media (max-width: 600px) { .reserve .row { grid-template-columns: 1fr; } }
-.reserve label {
-  display: block;
-  font-size: 0.7rem;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  margin-bottom: 0.45rem;
-}
-.reserve input, .reserve select {
-  width: 100%;
-  background: var(--bg-warm);
-  border: 1px solid var(--border-warm);
-  border-radius: 12px;
-  padding: 0.9rem 1rem;
-  font-family: var(--font-body);
-  font-size: 1rem;
-  color: var(--text-dark);
-}
-.reserve input:focus, .reserve select:focus {
-  outline: none; border-color: var(--accent-cognac); background: #fff;
-}
-.reserve__phone {
-  margin-top: 2rem;
-  font-size: 0.95rem; color: var(--text-soft);
-}
-.reserve__phone strong { color: var(--accent-cognac); font-family: var(--font-display); font-weight: 500; }
-
-/* Hours + address */
-.hours-addr {
-  background: var(--bg-deep);
-  padding: 6rem 0;
-}
-@media (min-width: 768px) { .hours-addr { padding: 8rem 0; } }
-.hours-addr__inner {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 3rem;
-}
-@media (min-width: 768px) { .hours-addr__inner { grid-template-columns: 1fr 1fr; gap: 4rem; } }
-.hours-addr h3 {
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-style: italic;
-  font-size: 1.1rem;
-  color: var(--accent-cognac);
-  margin-bottom: 1rem;
-}
-.hours-addr p {
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-size: clamp(1.2rem, 2vw, 1.5rem);
-  color: var(--text-dark);
-  line-height: 1.5;
-}
-.map-illu {
-  margin-top: 1.5rem;
-  aspect-ratio: 16/10;
-  border-radius: 12px;
+  display: flex; align-items: flex-end;
   background:
-    linear-gradient(45deg, transparent 48%, rgba(58,70,84,0.13) 49%, rgba(58,70,84,0.13) 51%, transparent 52%),
-    linear-gradient(-45deg, transparent 48%, rgba(58,70,84,0.13) 49%, rgba(58,70,84,0.13) 51%, transparent 52%),
-    linear-gradient(90deg, transparent 48%, rgba(58,70,84,0.08) 49%, rgba(58,70,84,0.08) 51%, transparent 52%),
-    radial-gradient(circle at 50% 50%, #5a6470 0%, transparent 8%),
-    var(--bg-cream);
-  background-size: 60px 60px, 60px 60px, 40px 40px, auto;
-  border: 1px solid var(--border-warm);
-  position: relative;
+    linear-gradient(180deg, rgba(28,17,8,0.05) 0%, rgba(28,17,8,0.25) 40%, rgba(28,17,8,0.75) 100%),
+    url('https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=2000&q=80&auto=format&fit=crop') center/cover no-repeat;
+  color: var(--foam);
+  padding: 7rem 0 4rem;
 }
-.map-illu::after {
-  content: '📍';
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 1.5rem;
+.hero__copy { max-width: 720px; }
+.hero h1 { font-size: clamp(2.8rem, 7vw, 5.6rem); margin-top: 1.25rem; }
+.hero h1 em { font-style: italic; color: var(--milk); }
+.hero__sub { margin-top: 1.5rem; font-size: 1.1rem; max-width: 56ch; color: rgba(245,239,229,0.85); }
+.hero__meta { margin-top: 2.5rem; display: flex; flex-wrap: wrap; gap: 2.5rem; font-size: 0.84rem; color: rgba(245,239,229,0.78); }
+.hero__meta strong { color: var(--milk); font-weight: 500; display: block; font-size: 0.74rem; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 0.3rem; }
+.hero__ctas { margin-top: 2.5rem; display: flex; flex-wrap: wrap; gap: 1rem; }
+.btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.95rem 1.7rem; border-radius: 999px; font-weight: 500; font-size: 0.95rem; transition: transform 240ms ease, background 240ms ease; cursor: pointer; border: none; font-family: var(--sans); }
+.btn--primary { background: var(--milk); color: var(--bean); }
+.btn--primary:hover { background: var(--cream); transform: translateY(-1px); }
+.btn--ghost { background: transparent; color: var(--foam); border: 1px solid rgba(245,239,229,0.4); }
+.btn--ghost:hover { border-color: var(--foam); }
+
+/* ============= intro pair ============= */
+.intro { padding: 7rem 0; background: var(--foam); }
+.intro__grid { display: grid; grid-template-columns: 1fr; gap: 4rem; align-items: center; }
+@media (min-width: 900px) { .intro__grid { grid-template-columns: 1fr 1fr; gap: 5rem; } }
+.intro h2 { font-size: clamp(2rem, 4vw, 3.2rem); color: var(--bean); }
+.intro h2 em { font-style: italic; color: var(--caramel); }
+.intro p { margin-top: 1.5rem; font-size: 1.05rem; color: var(--mocha); max-width: 56ch; }
+.intro__img { aspect-ratio: 4/5; background: url('https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=1400&q=80&auto=format&fit=crop') center/cover no-repeat; border-radius: 4px; box-shadow: 0 30px 80px -30px rgba(28,17,8,0.4); }
+.intro__quote { margin-top: 2.5rem; padding-left: 1.5rem; border-left: 2px solid var(--caramel); font-family: var(--serif); font-style: italic; font-size: 1.15rem; color: var(--hazelnut); }
+.intro__quote span { display: block; margin-top: 0.6rem; font-family: var(--hand); font-style: normal; color: var(--caramel); font-size: 1.1rem; }
+
+/* ============= menu ============= */
+.menu { padding: 7rem 0; background: var(--paper); position: relative; }
+.menu__head { text-align: center; margin-bottom: 4rem; }
+.menu__head h2 { font-size: clamp(2.2rem, 5vw, 3.6rem); color: var(--bean); margin-top: 1rem; }
+.menu__head h2 em { font-style: italic; color: var(--caramel); }
+.menu__head p { margin-top: 1rem; color: var(--hazelnut); font-size: 1rem; }
+.menu__grid { display: grid; grid-template-columns: 1fr; gap: 3.5rem; }
+@media (min-width: 720px) { .menu__grid { grid-template-columns: 1fr 1fr; gap: 4rem 5rem; } }
+.menu__cat h3 { font-size: 1.5rem; color: var(--bean); border-bottom: 1px solid rgba(139,90,43,0.18); padding-bottom: 0.8rem; margin-bottom: 1.4rem; display: flex; align-items: baseline; justify-content: space-between; }
+.menu__cat h3 span { font-family: var(--hand); font-size: 1rem; color: var(--caramel); font-weight: 400; }
+.menu__items { list-style: none; }
+.menu__item { display: grid; grid-template-columns: 1fr auto; gap: 1rem; padding: 0.8rem 0; border-bottom: 1px dashed rgba(60,35,20,0.1); align-items: baseline; }
+.menu__item:last-child { border-bottom: none; }
+.menu__name { font-family: var(--serif); font-size: 1.05rem; font-weight: 500; color: var(--bean); }
+.menu__name small { display: block; font-family: var(--sans); font-weight: 400; font-size: 0.82rem; color: var(--hazelnut); margin-top: 0.2rem; letter-spacing: 0; }
+.menu__price { font-family: var(--serif); font-variant-numeric: tabular-nums; font-size: 1rem; color: var(--caramel); white-space: nowrap; }
+.menu__tag { display: inline-block; margin-left: 0.4rem; padding: 1px 6px; font-family: var(--sans); font-size: 0.62rem; letter-spacing: 0.1em; background: var(--milk); color: var(--bean); border-radius: 3px; text-transform: uppercase; vertical-align: middle; }
+
+/* ============= gallery strip ============= */
+.gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
+.gallery div { aspect-ratio: 1/1; background-size: cover; background-position: center; }
+.gallery .g1 { background-image: url('https://images.unsplash.com/photo-1509440159596-0249088772ff?w=900&q=80&auto=format&fit=crop'); }
+.gallery .g2 { background-image: url('https://images.unsplash.com/photo-1559496417-e7f25cb247f3?w=900&q=80&auto=format&fit=crop'); }
+.gallery .g3 { background-image: url('https://images.unsplash.com/photo-1521017432531-fbd92d768814?w=900&q=80&auto=format&fit=crop'); }
+.gallery .g4 { background-image: url('https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=900&q=80&auto=format&fit=crop'); }
+@media (max-width: 700px) { .gallery { grid-template-columns: repeat(2, 1fr); } }
+
+/* ============= info bar (hours + address) ============= */
+.info { padding: 7rem 0; background: var(--bean); color: var(--foam); }
+.info__grid { display: grid; grid-template-columns: 1fr; gap: 4rem; }
+@media (min-width: 900px) { .info__grid { grid-template-columns: 1.1fr 1fr; gap: 6rem; } }
+.info h2 { font-size: clamp(2rem, 4vw, 3rem); color: var(--milk); }
+.info h2 em { font-style: italic; color: var(--cream); }
+.info__lead { margin-top: 1.5rem; color: rgba(245,239,229,0.78); max-width: 50ch; }
+.hours { margin-top: 2.5rem; border-top: 1px solid rgba(245,239,229,0.18); }
+.hours__row { display: grid; grid-template-columns: 1fr 1fr; padding: 0.9rem 0; border-bottom: 1px solid rgba(245,239,229,0.12); font-size: 0.95rem; }
+.hours__day { font-family: var(--serif); color: var(--cream); }
+.hours__time { font-variant-numeric: tabular-nums; color: var(--foam); text-align: right; }
+.hours__row.closed .hours__time { color: rgba(245,239,229,0.45); font-style: italic; }
+.hours__row.today { background: rgba(212,165,116,0.06); }
+.hours__row.today .hours__day::after { content:' · heute'; font-family: var(--hand); color: var(--milk); font-size: 0.9rem; }
+.info__map { position: relative; aspect-ratio: 1/1; border-radius: 4px; overflow: hidden; background: var(--mocha); }
+.info__map iframe { width: 100%; height: 100%; border: 0; filter: grayscale(0.5) sepia(0.3) brightness(0.85); }
+.info__address { margin-top: 1.5rem; font-family: var(--serif); font-size: 1.05rem; color: var(--cream); }
+.info__address strong { color: var(--milk); }
+.info__address small { display: block; margin-top: 0.6rem; font-family: var(--sans); font-size: 0.85rem; color: rgba(245,239,229,0.7); }
+
+/* ============= story ============= */
+.story { padding: 8rem 0; background: var(--cream); }
+.story__inner { max-width: 760px; margin: 0 auto; text-align: center; }
+.story h2 { font-size: clamp(2.2rem, 5vw, 3.6rem); color: var(--bean); margin-top: 1rem; }
+.story h2 em { font-style: italic; color: var(--caramel); }
+.story__body { margin-top: 2rem; font-size: 1.1rem; color: var(--mocha); line-height: 1.75; }
+.story__body p { margin-bottom: 1.2rem; }
+.story__signature { margin-top: 2.5rem; font-family: var(--hand); font-size: 1.8rem; color: var(--caramel); }
+.story__roastery { margin-top: 4rem; display: grid; grid-template-columns: 1fr; gap: 3rem; align-items: center; text-align: left; }
+@media (min-width: 800px) { .story__roastery { grid-template-columns: 1fr 1.2fr; gap: 4rem; } }
+.story__roastery img { aspect-ratio: 5/4; object-fit: cover; border-radius: 4px; }
+.story__roastery h3 { font-size: 1.6rem; color: var(--bean); margin-bottom: 1rem; }
+.story__roastery p { font-size: 0.98rem; color: var(--hazelnut); }
+.story__roastery dl { margin-top: 1.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem 1.5rem; }
+.story__roastery dt { font-family: var(--sans); font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--caramel); }
+.story__roastery dd { font-family: var(--serif); font-size: 1rem; color: var(--bean); margin-top: 0.2rem; }
+
+/* ============= reservation ============= */
+.reserve { padding: 8rem 0; background: var(--paper); }
+.reserve__grid { display: grid; grid-template-columns: 1fr; gap: 4rem; align-items: start; }
+@media (min-width: 900px) { .reserve__grid { grid-template-columns: 0.9fr 1fr; gap: 5rem; } }
+.reserve h2 { font-size: clamp(2rem, 4.5vw, 3rem); color: var(--bean); margin-top: 1rem; }
+.reserve h2 em { font-style: italic; color: var(--caramel); }
+.reserve__intro { margin-top: 1.5rem; color: var(--mocha); }
+.reserve__phone { margin-top: 2.5rem; padding: 1.2rem 1.4rem; background: var(--cream); border-radius: 4px; border-left: 3px solid var(--caramel); }
+.reserve__phone strong { display: block; font-family: var(--serif); font-size: 1.5rem; color: var(--bean); }
+.reserve__phone small { color: var(--hazelnut); font-size: 0.85rem; }
+.form { display: grid; gap: 1.2rem; }
+.form .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.field { display: flex; flex-direction: column; gap: 0.4rem; }
+.field label { font-family: var(--sans); font-size: 0.74rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--hazelnut); }
+.field input, .field select, .field textarea {
+  background: var(--foam); border: 1px solid rgba(60,35,20,0.15); border-radius: 4px;
+  padding: 0.85rem 1rem; font-family: var(--sans); font-size: 0.95rem; color: var(--bean);
+  transition: border-color 200ms ease, background 200ms ease;
 }
+.field input:focus, .field select:focus, .field textarea:focus { outline: 0; border-color: var(--caramel); background: #fff; }
+.field textarea { min-height: 110px; resize: vertical; }
+.form button { background: var(--bean); color: var(--foam); padding: 1rem 1.5rem; border: 0; border-radius: 999px; font-family: var(--sans); font-size: 0.95rem; font-weight: 500; cursor: pointer; justify-self: start; transition: background 240ms ease; }
+.form button:hover { background: var(--mocha); }
+
+/* ============= events strip ============= */
+.events { padding: 6rem 0; background: var(--bean); color: var(--foam); }
+.events__head { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 2rem; margin-bottom: 3rem; }
+.events__head h2 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); color: var(--milk); }
+.events__head h2 em { font-style: italic; color: var(--cream); }
+.events__head a { color: var(--milk); border-bottom: 1px solid var(--milk); padding-bottom: 2px; font-size: 0.9rem; }
+.events__grid { display: grid; grid-template-columns: 1fr; gap: 1px; background: rgba(245,239,229,0.12); border-top: 1px solid rgba(245,239,229,0.12); border-bottom: 1px solid rgba(245,239,229,0.12); }
+@media (min-width: 700px) { .events__grid { grid-template-columns: repeat(3, 1fr); } }
+.event { background: var(--bean); padding: 2rem; }
+.event__date { font-family: var(--serif); font-style: italic; font-size: 0.9rem; color: var(--caramel); letter-spacing: 0.04em; }
+.event__title { font-family: var(--serif); font-size: 1.5rem; color: var(--foam); margin-top: 0.7rem; line-height: 1.15; }
+.event__body { margin-top: 0.8rem; font-size: 0.92rem; color: rgba(245,239,229,0.7); }
+.event__meta { margin-top: 1.4rem; font-size: 0.78rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--milk); }
+
+/* ============= footer ============= */
+.footer { padding: 5rem 0 2.5rem; background: #14080a; color: rgba(245,239,229,0.65); }
+.footer__grid { display: grid; grid-template-columns: 1fr; gap: 3rem; padding-bottom: 3rem; border-bottom: 1px solid rgba(245,239,229,0.1); }
+@media (min-width: 800px) { .footer__grid { grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 3rem; } }
+.footer h4 { font-family: var(--serif); font-size: 1rem; color: var(--foam); margin-bottom: 1rem; font-weight: 500; }
+.footer__col p, .footer__col li { font-size: 0.88rem; line-height: 1.75; }
+.footer__col ul { list-style: none; }
+.footer__col a:hover { color: var(--milk); }
+.footer__logo { font-family: var(--serif); font-size: 1.6rem; color: var(--foam); margin-bottom: 1rem; }
+.footer__bottom { margin-top: 2.5rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; font-size: 0.8rem; color: rgba(245,239,229,0.5); }
+.footer__bottom a { color: var(--milk); }
 </style>
 </head>
 <body>
 
-<!-- Demo strip -->
-<div class="demo-strip">
-  <div class="demo-strip__inner">
-    <span>Demo · Designstudie für ein Berliner Café</span>
-    <a href="/">← WMW Services</a>
+<div class="demo-banner">Demo-Studie · Café-Konzept entworfen von <a href="/">daylens / WMW Services</a> · fiktives Unternehmen</div>
+
+<nav class="nav" aria-label="Hauptnavigation">
+  <div class="shell nav__inner">
+    <a href="#top" class="logo">Café <em>Halbmond</em></a>
+    <ul class="nav__links">
+      <li><a href="#menu">Karte</a></li>
+      <li><a href="#info">Öffnungszeiten</a></li>
+      <li><a href="#story">Bohnen</a></li>
+      <li><a href="#events">Events</a></li>
+      <li><a href="#reserve">Reservieren</a></li>
+    </ul>
+    <a href="#reserve" class="nav__cta">Tisch reservieren</a>
   </div>
+</nav>
+
+<!-- ============================ HERO ============================ -->
+<header class="hero" id="top">
+  <div class="shell hero__copy">
+    <span class="eyebrow" style="color:var(--milk)">Seit 2019 · Bergmannstraße Kreuzberg</span>
+    <h1>Spezialitätenkaffee, <em>geröstet in Berlin.</em> Jeden Morgen frisch gemahlen.</h1>
+    <p class="hero__sub">Ein kleines Café für Menschen, die guten Kaffee schätzen — und die Zeit haben, ihn auch zu trinken. Direkte Beziehungen zu Farmen in Äthiopien, Guatemala und Kolumbien.</p>
+    <div class="hero__ctas">
+      <a href="#menu" class="btn btn--primary">Karte ansehen →</a>
+      <a href="#reserve" class="btn btn--ghost">Tisch reservieren</a>
+    </div>
+    <div class="hero__meta">
+      <div><strong>Heute</strong>7:30 – 18:00 Uhr</div>
+      <div><strong>Adresse</strong>Bergmannstraße 47, 10961 Berlin</div>
+      <div><strong>Telefon</strong>+49 30 6128 3344</div>
+    </div>
+  </div>
+</header>
+
+<!-- ============================ INTRO PAIR ============================ -->
+<section class="intro">
+  <div class="shell intro__grid">
+    <div>
+      <span class="eyebrow">Was uns wichtig ist</span>
+      <h2 style="margin-top:1rem">Drei Bohnen. <em>Drei Geschichten.</em> Eine Tasse, die schmeckt.</h2>
+      <p>Wir rösten nicht selbst — aber wir kennen unsere Röster. Single-Origin aus drei Ländern, durchgewechselt mit den Jahreszeiten. Im Februar Kolumbien, im April Guatemala, im Juli Äthiopien. So schmeckt jeder Espresso anders, wenn man wiederkommt.</p>
+      <div class="intro__quote">
+        „Wir verkaufen nicht den schnellsten Kaffee in Kreuzberg. Wir verkaufen den, bei dem du sitzen bleibst."
+        <span>— Marie & Thomas, Inhaber</span>
+      </div>
+    </div>
+    <div class="intro__img" aria-hidden="true"></div>
+  </div>
+</section>
+
+<!-- ============================ MENU ============================ -->
+<section class="menu" id="menu">
+  <div class="shell">
+    <div class="menu__head">
+      <span class="eyebrow">Speisekarte</span>
+      <h2>Karte. <em>Klein gehalten.</em></h2>
+      <p>Was wir nicht gut können, machen wir nicht. Frühstück bis 12:00, Mittag ab 12:00.</p>
+    </div>
+
+    <div class="menu__grid">
+      <div class="menu__cat">
+        <h3>Espresso-Bar <span>aus der La&nbsp;Marzocco</span></h3>
+        <ul class="menu__items">
+          <li class="menu__item"><div class="menu__name">Espresso<small>einfach · doppelt</small></div><div class="menu__price">2,40 / 3,20&nbsp;€</div></li>
+          <li class="menu__item"><div class="menu__name">Macchiato<small>mit warmer Milch</small></div><div class="menu__price">2,80&nbsp;€</div></li>
+          <li class="menu__item"><div class="menu__name">Cappuccino<small>klassisch, 160ml</small></div><div class="menu__price">3,60&nbsp;€</div></li>
+          <li class="menu__item"><div class="menu__name">Flat White<small>Doppio + Microfoam</small></div><div class="menu__price">3,90&nbsp;€</div></li>
+          <li class="menu__item"><div class="menu__name">Latte<small>0,3 l · Hafer +0,30&nbsp;€</small></div><div class="menu__price">4,20&nbsp;€</div></li>
+          <li class="menu__item"><div class="menu__name">Cortado <span class="menu__tag">Neu</span><small>Espresso 50/50 mit Milch</small></div><div class="menu__price">3,40&nbsp;€</div></li>
+          <li class="menu__item"><div class="menu__name">Mocha<small>mit Schokolade aus Bremen</small></div><div class="menu__price">4,40&nbsp;€</div></li>
+        </ul>
+      </div>
+
+      <div class="menu__cat">
+        <h3>Filter & Brüh <span>Tageskaffee</span></h3>
+        <ul class="menu__items">
+          <li class="menu__item"><div class="menu__name">Filterkaffee, Tag<small>V60, wechselnde Bohne</small></div><div class="menu__price">3,60&nbsp;€</div></li>
+          <li class="menu__item"><div class="menu__name">AeroPress<small>für eine Tasse, intensiver</small></div><div class="menu__price">4,40&nbsp;€</div></li>
+          <li class="menu__item"><div class="menu__name">Cold Brew <span class="menu__tag">Sommer</span><small>18h, ungesüßt</small></div><div class="menu__price">4,20&nbsp;€</div></li>
+          <li class="menu__item"><div class="menu__name">Bohnen 250g<small>zum Mitnehmen, ganze Bohne</small></div><div class="menu__price">14,90&nbsp;€</div></li>
+        </ul>
+        <h3 style="margin-top:2.5rem">Tee & Anderes <span>lose Blätter</span></h3>
+        <ul class="menu__items">
+          <li class="menu__item"><div class="menu__name">Earl Grey<small>Bergamotte, klassisch</small></div><div class="menu__price">3,40&nbsp;€</div></li>
+          <li class="menu__item"><div class="menu__name">Grüner Sencha<small>aus Uji, Japan</small></div><div class="menu__price">3,80&nbsp;€</div></li>
+          <li class="menu__item"><div class="menu__name">Frische Minze<small>aus eigenem Hochbeet</small></div><div class="menu__price">3,20&nbsp;€</div></li>
+          <li class="menu__item"><div class="menu__name">Hausgemachte Limonade<small>Zitrone-Thymian</small></div><div class="menu__price">3,90&nbsp;€</div></li>
+        </ul>
+      </div>
+
+      <div class="menu__cat">
+        <h3>Frühstück <span>bis 12:00 Uhr</span></h3>
+        <ul class="menu__items">
+          <li class="menu__item"><div class="menu__name">Croissant<small>klassisch, ofenwarm</small></div><div class="menu__price">2,80&nbsp;€</div></li>
+          <li class="menu__item"><div class="menu__name">Pain au Chocolat<small>dunkle Schokolade 70%</small></div><div class="menu__price">3,20&nbsp;€</div></li>
+          <li class="menu__item"><div class="menu__name">Granola-Bowl<small>Joghurt, Beeren, Honig</small></div><div class="menu__price">7,90&nbsp;€</div></li>
+          <li class="menu__item"><div class="menu__name">Avocado-Toast<small>Sauerteig, Limette, Chili</small></div><div class="menu__price">9,80&nbsp;€</div></li>
+          <li class="menu__item"><div class="menu__name">Rührei mit Lachs <span class="menu__tag">Beliebt</span><small>auf Sauerteig, Bio-Eier</small></div><div class="menu__price">12,90&nbsp;€</div></li>
+          <li class="menu__item"><div class="menu__name">Sonntagsfrühstück<small>Eier, Käse, Aufschnitt, Obst</small></div><div class="menu__price">16,50&nbsp;€</div></li>
+        </ul>
+      </div>
+
+      <div class="menu__cat">
+        <h3>Mittag & Pâtisserie <span>ab 12:00 Uhr</span></h3>
+        <ul class="menu__items">
+          <li class="menu__item"><div class="menu__name">Quiche des Tages<small>siehe Tafel, mit Salat</small></div><div class="menu__price">11,80&nbsp;€</div></li>
+          <li class="menu__item"><div class="menu__name">Tagessuppe<small>warm, mit Brot</small></div><div class="menu__price">7,40&nbsp;€</div></li>
+          <li class="menu__item"><div class="menu__name">Sandwich, klein<small>wechselnd, Sauerteig</small></div><div class="menu__price">8,90&nbsp;€</div></li>
+          <li class="menu__item"><div class="menu__name">Schokoladentarte<small>Valrhona 70%, Salzbutter</small></div><div class="menu__price">5,40&nbsp;€</div></li>
+          <li class="menu__item"><div class="menu__name">Käsekuchen<small>nach Großmutters Rezept</small></div><div class="menu__price">4,80&nbsp;€</div></li>
+          <li class="menu__item"><div class="menu__name">Cookie<small>Brown Butter, Meersalz</small></div><div class="menu__price">3,40&nbsp;€</div></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="gallery" aria-hidden="true">
+  <div class="g1"></div>
+  <div class="g2"></div>
+  <div class="g3"></div>
+  <div class="g4"></div>
 </div>
 
-<!-- Hero -->
-<section class="cafe-hero shell">
-  <div class="cafe-hero__grid">
-    <div class="cafe-hero__copy reveal">
-      <span class="badge">Berlin · Kreuzberg · Seit 2019</span>
-      <h1 class="cafe-hero__title">
-        Café Halbmond — <span class="accent">jeden Morgen frisch.</span>
-      </h1>
-      <p class="cafe-hero__lead">
-        Bistro mit Tagesgerichten, gutem Kaffee und Sonntagsbrunch in der Bergmannstraße.
-      </p>
-      <div class="cafe-hero__ctas">
-        <a href="#reservieren" class="btn btn--primary">Tisch reservieren →</a>
-        <a href="#karte" class="btn--link">Speisekarte ansehen</a>
+<!-- ============================ INFO (Hours + Address) ============================ -->
+<section class="info" id="info">
+  <div class="shell info__grid">
+    <div>
+      <span class="eyebrow" style="color:var(--milk)">Wann & Wo</span>
+      <h2 style="margin-top:1rem">Komm einfach <em>vorbei.</em></h2>
+      <p class="info__lead">Wir nehmen Reservierungen nur für Tische ab 4 Personen entgegen. Sonst gilt: Wer da ist, sitzt. Hund willkommen, WLAN gibt's, Strom auch.</p>
+      <div class="hours">
+        <div class="hours__row"><span class="hours__day">Montag</span><span class="hours__time">7:30 – 18:00</span></div>
+        <div class="hours__row today"><span class="hours__day">Dienstag</span><span class="hours__time">7:30 – 18:00</span></div>
+        <div class="hours__row"><span class="hours__day">Mittwoch</span><span class="hours__time">7:30 – 18:00</span></div>
+        <div class="hours__row"><span class="hours__day">Donnerstag</span><span class="hours__time">7:30 – 20:00</span></div>
+        <div class="hours__row"><span class="hours__day">Freitag</span><span class="hours__time">7:30 – 20:00</span></div>
+        <div class="hours__row"><span class="hours__day">Samstag</span><span class="hours__time">8:30 – 19:00</span></div>
+        <div class="hours__row"><span class="hours__day">Sonntag</span><span class="hours__time">9:00 – 17:00</span></div>
+        <div class="hours__row closed"><span class="hours__day">Feiertage</span><span class="hours__time">geschlossen</span></div>
       </div>
     </div>
-    <div class="reveal" data-delay="2">
-      <div class="cup-stage">
-        <div class="steam" aria-hidden="true"><span></span><span></span><span></span></div>
-        <div class="cup" aria-hidden="true">
-          <div class="cup__saucer"></div>
-          <div class="cup__body">
-            <div class="cup__coffee"></div>
-            <div class="cup__art"></div>
-          </div>
-          <div class="cup__handle"></div>
+    <div>
+      <div class="info__map">
+        <iframe loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Karte Bergmannstraße"
+          src="https://www.openstreetmap.org/export/embed.html?bbox=13.394%2C52.486%2C13.402%2C52.491&amp;layer=mapnik"></iframe>
+      </div>
+      <div class="info__address">
+        <strong>Café Halbmond</strong><br>
+        Bergmannstraße 47<br>
+        10961 Berlin · Kreuzberg
+        <small>U-Bahn: Gneisenaustraße (U7), 3 Minuten zu Fuß<br>Bus: M19 / 248, Haltestelle Marheinekeplatz</small>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ STORY ============================ -->
+<section class="story" id="story">
+  <div class="shell">
+    <div class="story__inner">
+      <span class="eyebrow">Unsere Geschichte</span>
+      <h2>Marie hat Kaffee in Melbourne gelernt. <em>Thomas die Patisserie in Lyon.</em></h2>
+      <div class="story__body">
+        <p>2019 sind wir zurück nach Berlin gezogen und haben in einer ehemaligen Bäckerei in der Bergmannstraße aufgemacht. Drei Tische, eine La Marzocco, ein gebrauchter Backofen. Sechs Jahre später sind aus drei Tischen zehn geworden — aber die La Marzocco steht noch.</p>
+        <p>Wir rösten unseren Kaffee nicht selbst. Stattdessen arbeiten wir seit Anfang mit der <em>Bonanza Coffee Roasters</em> in Prenzlauer Berg zusammen, die für uns drei Single-Origins jahreszeitlich anpassen. Direkte Handelsbeziehungen zu den Farmen sind ihnen wichtig, uns auch.</p>
+        <p>Die Backwaren entstehen jeden Morgen ab 5:30 Uhr in unserer kleinen Küche. Wenn etwas alle ist, ist es alle. Wir backen nicht nach.</p>
+      </div>
+      <div class="story__signature">Marie & Thomas</div>
+    </div>
+
+    <div class="story__roastery">
+      <img src="https://images.unsplash.com/photo-1559496417-e7f25cb247f3?w=1200&q=80&auto=format&fit=crop" alt="Kaffeebohnen in der Hand">
+      <div>
+        <span class="eyebrow">Unsere Bohnen 2026</span>
+        <h3 style="margin-top:1rem">Drei Single-Origins, im Quartal gewechselt.</h3>
+        <p>Wir wechseln vier Mal im Jahr die Bohnen. Jede Bohne kommt direkt vom Röster, ungeröstet liegt nichts bei uns. Die Tages-Bohne steht auf der Tafel neben der Bar — frag uns einfach, was gerade läuft.</p>
+        <dl>
+          <dt>Espresso-Blend</dt><dd>Bonanza, Berlin</dd>
+          <dt>Filter-Bohne Q1</dt><dd>Kolumbien · Huila</dd>
+          <dt>Filter-Bohne Q2</dt><dd>Guatemala · Acatenango</dd>
+          <dt>Filter-Bohne Q3</dt><dd>Äthiopien · Yirgacheffe</dd>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ EVENTS ============================ -->
+<section class="events">
+  <div class="shell">
+    <div class="events__head">
+      <div>
+        <span class="eyebrow" style="color:var(--milk)">Was los ist</span>
+        <h2 style="margin-top:0.7rem">Veranstaltungen & <em>Cupping-Abende.</em></h2>
+      </div>
+      <a href="#reserve">Alle Termine ansehen →</a>
+    </div>
+    <div class="events__grid">
+      <article class="event">
+        <div class="event__date">Donnerstag · 13.06.2026 · 19:00</div>
+        <div class="event__title">Cupping: Äthiopien Yirgacheffe</div>
+        <div class="event__body">Eine Stunde, sechs Tassen, viele Notizen. Wir probieren die neue Sommer-Bohne mit unserem Röster Aris.</div>
+        <div class="event__meta">14&nbsp;€ · 12 Plätze</div>
+      </article>
+      <article class="event">
+        <div class="event__date">Samstag · 22.06.2026 · 10:00</div>
+        <div class="event__title">Brew-Workshop: V60 für Zuhause</div>
+        <div class="event__body">Du bekommst eine V60, Filter, eine Tüte Bohnen und 90 Minuten Anleitung — danach kannst du es richtig.</div>
+        <div class="event__meta">48&nbsp;€ · 6 Plätze</div>
+      </article>
+      <article class="event">
+        <div class="event__date">Sonntag · 30.06.2026 · 16:00</div>
+        <div class="event__title">Lesung: „Kaffee — eine kleine Geschichte"</div>
+        <div class="event__body">Maja Roth liest aus ihrem neuen Buch. Wir servieren ihre Lieblings-Bohne dazu. Anmeldung empfohlen.</div>
+        <div class="event__meta">Eintritt frei · Platz reservieren</div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ RESERVATION ============================ -->
+<section class="reserve" id="reserve">
+  <div class="shell reserve__grid">
+    <div>
+      <span class="eyebrow">Reservierung</span>
+      <h2>Ab 4 Personen <em>nehmen wir gerne</em> deinen Tisch.</h2>
+      <p class="reserve__intro">Für kleinere Gruppen brauchst du nichts buchen — komm einfach vorbei. Bei größeren Tischen schreib uns oder ruf an, dann ist alles vorbereitet.</p>
+      <div class="reserve__phone">
+        <strong>+49 30 6128 3344</strong>
+        <small>Mo–Fr 9:00 – 17:00 erreichbar</small>
+      </div>
+    </div>
+    <form class="form" onsubmit="event.preventDefault(); this.innerHTML='<p style=&quot;font-family:var(--serif);font-style:italic;color:var(--caramel);font-size:1.15rem&quot;>Danke — wir melden uns innerhalb von 24 Stunden zurück.</p>';">
+      <div class="row2">
+        <div class="field"><label for="cName">Name</label><input id="cName" type="text" required></div>
+        <div class="field"><label for="cPhone">Telefon</label><input id="cPhone" type="tel"></div>
+      </div>
+      <div class="field"><label for="cMail">E-Mail</label><input id="cMail" type="email" required></div>
+      <div class="row2">
+        <div class="field"><label for="cDate">Datum</label><input id="cDate" type="date" required></div>
+        <div class="field"><label for="cPeople">Personen</label>
+          <select id="cPeople" required>
+            <option>4 Personen</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9 – 12</option><option>mehr als 12</option>
+          </select>
         </div>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- Specials -->
-<section class="specials" id="karte">
-  <div class="shell">
-    <div class="specials__head reveal">
-      <h2>Heute auf <span class="italic-accent">der Karte.</span></h2>
-      <div class="specials__date" id="todayDate">Heute</div>
-    </div>
-    <div class="specials__list">
-      <article class="special reveal">
-        <div class="special__img special__img--toast"></div>
-        <div class="special__cat">Frühstück</div>
-        <div class="special__name">Sauerteig-Toast</div>
-        <p class="special__desc">Avocado, pochiertes Ei, Chiliflocken — auf hausgebackenem Sauerteig.</p>
-        <div class="special__price">8,50 €</div>
-      </article>
-      <article class="special reveal" data-delay="1">
-        <div class="special__img special__img--curry"></div>
-        <div class="special__cat">Mittag</div>
-        <div class="special__name">Linsencurry</div>
-        <p class="special__desc">Kokosmilch, frischer Koriander, dazu warmes Naan. Vegan.</p>
-        <div class="special__price">11,90 €</div>
-      </article>
-      <article class="special reveal" data-delay="2">
-        <div class="special__img special__img--kuchen"></div>
-        <div class="special__cat">Süß</div>
-        <div class="special__name">Zitronen-Mascarpone-Kuchen</div>
-        <p class="special__desc">Hausgemacht. Mit Bio-Zitronen aus der Sizilien-Lieferung dieser Woche.</p>
-        <div class="special__price">4,50 €</div>
-      </article>
-    </div>
-  </div>
-</section>
-
-<!-- Reserve -->
-<section class="reserve" id="reservieren">
-  <div class="shell reserve__inner reveal">
-    <span class="eyebrow">Tisch reservieren</span>
-    <h2>Komm vorbei. <span class="italic-accent">Wir freuen uns.</span></h2>
-    <form onsubmit="event.preventDefault();this.style.display='none';document.getElementById('reservedToast').hidden=false;">
-      <div class="row">
-        <div><label>Datum</label><input type="date" required /></div>
-        <div><label>Uhrzeit</label><input type="time" required value="19:00" /></div>
+      <div class="row2">
+        <div class="field"><label for="cTime">Uhrzeit</label>
+          <select id="cTime" required>
+            <option>9:00</option><option>10:30</option><option>12:00</option><option>14:00</option><option>16:00</option><option>17:30</option><option>19:00</option>
+          </select>
+        </div>
+        <div class="field"><label for="cAnlass">Anlass (optional)</label>
+          <select id="cAnlass"><option>—</option><option>Geburtstag</option><option>Geschäftstreffen</option><option>Familienfeier</option><option>Sonstiges</option></select>
+        </div>
       </div>
-      <div class="row">
-        <div><label>Personen</label><input type="number" min="1" max="12" value="2" required /></div>
-        <div><label>Name</label><input type="text" placeholder="Dein Name" required /></div>
-      </div>
-      <div><label>Telefon (optional)</label><input type="tel" placeholder="+49 …" /></div>
-      <button type="submit" class="btn btn--primary" style="justify-self:start;margin-top:0.5rem">
-        Tisch anfragen →
-      </button>
+      <div class="field"><label for="cNote">Wünsche</label><textarea id="cNote" placeholder="Allergien, Sitzwünsche, alles was wir wissen sollten."></textarea></div>
+      <button type="submit">Reservierung anfragen →</button>
     </form>
-    <div id="reservedToast" hidden style="margin-top:2rem;padding:1.5rem;background:var(--bg-warm);border:1px solid var(--border-strong);border-radius:12px">
-      <p style="font-family:var(--font-display);font-style:italic;color:var(--accent-cognac);font-size:1.2rem">
-        Danke! Wir bestätigen deine Reservierung innerhalb von zwei Stunden.
-      </p>
-    </div>
-    <p class="reserve__phone">Lieber anrufen? <strong>+49 30 692 88 14</strong></p>
   </div>
 </section>
 
-<!-- Hours + address -->
-<section class="hours-addr">
-  <div class="shell hours-addr__inner">
-    <div class="reveal">
-      <h3>Öffnungszeiten</h3>
-      <p>Mo–Fr 7:30 – 17:00<br>Sa–So 9:00 – 18:00</p>
-    </div>
-    <div class="reveal" data-delay="1">
-      <h3>Wo wir sind</h3>
-      <p>Bergmannstraße 42<br>10961 Berlin-Kreuzberg</p>
-      <div class="map-illu" aria-hidden="true"></div>
-    </div>
-  </div>
-</section>
-
-<!-- WMW Credit -->
-<section class="wmw-credit">
+<!-- ============================ FOOTER ============================ -->
+<footer class="footer">
   <div class="shell">
-    <p>Dieses Konzept entstand bei <span class="italic-accent" style="font-style:italic">WMW Services</span>. Möchtest du eine ähnliche Website?</p>
-    <a href="/#contact" class="btn btn--primary">Anfrage stellen →</a>
+    <div class="footer__grid">
+      <div class="footer__col">
+        <div class="footer__logo">Café <em style="font-style:italic;color:var(--caramel)">Halbmond</em></div>
+        <p>Spezialitätenkaffee, hausgemachte Pâtisserie und ehrliches Frühstück in Berlin-Kreuzberg seit 2019.</p>
+      </div>
+      <div class="footer__col">
+        <h4>Kontakt</h4>
+        <ul>
+          <li>Bergmannstraße 47</li>
+          <li>10961 Berlin</li>
+          <li><a href="tel:+493061283344">+49 30 6128 3344</a></li>
+          <li><a href="mailto:hallo@cafe-halbmond.de">hallo@cafe-halbmond.de</a></li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h4>Öffnungszeiten</h4>
+        <ul>
+          <li>Mo–Mi · 7:30 – 18:00</li>
+          <li>Do–Fr · 7:30 – 20:00</li>
+          <li>Sa · 8:30 – 19:00</li>
+          <li>So · 9:00 – 17:00</li>
+        </ul>
+      </div>
+      <div class="footer__col">
+        <h4>Folgen</h4>
+        <ul>
+          <li><a href="#">Instagram · @cafehalbmond</a></li>
+          <li><a href="#">Newsletter abonnieren</a></li>
+          <li><a href="/">← daylens / WMW Services</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <span>© 2026 Café Halbmond · Demo-Konzept · fiktives Unternehmen</span>
+      <span>Built by <a href="/">daylens / WMW Services</a></span>
+    </div>
   </div>
-</section>
+</footer>
 
-<div class="demo-watermark">Demo · Fiktives Café</div>
-
-<script src="/assets/wmw.js" defer></script>
-<script>
-// Today's date in German — uses native Intl on capable browsers, falls back to manual.
-(function(){
-  var el = document.getElementById('todayDate');
-  if (!el) return;
-  var d = new Date();
-  try {
-    el.textContent = new Intl.DateTimeFormat('de-DE', {
-      weekday: 'long', day: 'numeric', month: 'long'
-    }).format(d);
-  } catch (_) {
-    var days = ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'];
-    var months = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
-    el.textContent = days[d.getDay()] + ', ' + d.getDate() + '. ' + months[d.getMonth()];
-  }
-})();
-</script>
 </body>
 </html>

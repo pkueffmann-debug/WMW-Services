@@ -3,465 +3,590 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Müller &amp; Partner Rechtsanwaltskanzlei — Demo von WMW Services</title>
-<meta name="description" content="Konzept für eine traditionsreiche Anwaltskanzlei, entwickelt von WMW Services Berlin." />
-<meta name="theme-color" content="#f4f5f7" />
-<link rel="stylesheet" href="/assets/fonts/fonts.css">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%23f4f5f7'/%3E%3Ctext x='16' y='22' text-anchor='middle' font-family='Inter,sans-serif' font-size='18' font-weight='500' fill='%233a4654'%3EM%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="/assets/wmw.css">
+<title>Müller & Partner Rechtsanwälte — Berlin Mitte</title>
+<meta name="description" content="Anwaltskanzlei in Berlin-Mitte. Arbeits-, Miet-, Familien- und IT-Recht. Persönliche Beratung, transparente Honorare." />
+<meta name="theme-color" content="#0f1318" />
+<link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23ffffff'/%3E%3Cpath d='M8 8h16v2H8V8zm0 6h12v2H8v-2zm0 6h16v2H8v-2z' fill='%230f1318'/%3E%3C/svg%3E">
 <style>
-/* ============================================
-   Müller & Partner — formal, restrained
-   ============================================ */
-/* Kanzlei page inherits the editorial palette from wmw.css. */
-body { background: var(--bg-cream); color: var(--text-dark); font-family: var(--font-body); }
-.h-display, .serif { font-family: var(--font-display); }
-.eyebrow { color: var(--accent-caramel); }
-.eyebrow::before { background: var(--accent-caramel); }
-.italic-accent { color: var(--accent-cognac); font-style: italic; font-weight: 400; }
-.btn--primary { background: var(--accent-cognac); color: var(--bg-cream); box-shadow: none; border-radius: 0; padding: 1rem 2rem; font-family: var(--font-body); font-weight: 500; font-size: 0.88rem; letter-spacing: 0.08em; text-transform: uppercase; }
-.btn--primary:hover { background: var(--text-dark); transform: none; box-shadow: none; }
-.btn--link { color: var(--accent-cognac); }
-
-/* Hero — minimal, formal */
-.k-hero {
-  padding: 10rem 0 6rem;
-  border-bottom: 1px solid var(--border-warm);
+:root {
+  --ink:        #0f1318;
+  --slate:      #1f2933;
+  --steel:      #3b4a5a;
+  --stone:      #6b7886;
+  --silver:     #a8b1bc;
+  --pearl:      #e8ebef;
+  --cream:      #f5f5f1;
+  --paper:      #ffffff;
+  --gold:       #8a6f3a;
+  --accent:     #2d4358;
+  --serif:  'Cormorant Garamond', Georgia, serif;
+  --sans:   'Inter', system-ui, sans-serif;
 }
-.k-hero__inner {
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--sans); background: var(--paper); color: var(--ink); -webkit-font-smoothing: antialiased; line-height: 1.6; }
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+.shell { width: 100%; max-width: 1240px; margin: 0 auto; padding: 0 1.5rem; }
+.eyebrow { font-family: var(--sans); font-size: 0.7rem; letter-spacing: 0.32em; text-transform: uppercase; color: var(--steel); display: inline-block; font-weight: 500; }
+h1,h2,h3,h4 { font-family: var(--serif); font-weight: 400; letter-spacing: -0.005em; line-height: 1.1; color: var(--ink); }
+
+/* ============= demo banner ============= */
+.demo-banner { background: var(--ink); color: var(--silver); font-size: 0.74rem; letter-spacing: 0.06em; padding: 0.55rem 1rem; text-align: center; }
+.demo-banner a { color: var(--pearl); text-decoration: underline; text-underline-offset: 3px; }
+
+/* ============= nav ============= */
+.nav { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,0.95); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--pearl); }
+.nav__inner { display: flex; align-items: center; justify-content: space-between; padding: 1.2rem 0; }
+.logo { display: flex; align-items: center; gap: 0.7rem; font-family: var(--serif); font-size: 1.4rem; font-weight: 500; color: var(--ink); letter-spacing: 0.01em; }
+.logo__mark { width: 32px; height: 32px; border: 1.5px solid var(--ink); display: grid; place-items: center; font-family: var(--serif); font-size: 0.85rem; font-weight: 600; }
+.nav__links { display: flex; gap: 2.2rem; list-style: none; font-size: 0.84rem; font-weight: 500; }
+.nav__links a { color: var(--steel); transition: color 200ms ease; position: relative; padding-bottom: 4px; }
+.nav__links a:hover { color: var(--ink); }
+.nav__links a::after { content:''; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: var(--ink); transform: scaleX(0); transform-origin: left; transition: transform 240ms ease; }
+.nav__links a:hover::after { transform: scaleX(1); }
+.nav__cta { padding: 0.7rem 1.3rem; background: var(--ink); color: var(--paper); font-size: 0.82rem; font-weight: 500; letter-spacing: 0.02em; transition: background 240ms ease; }
+.nav__cta:hover { background: var(--slate); }
+@media (max-width: 880px) { .nav__links { display: none; } }
+
+/* ============= hero ============= */
+.hero {
+  position: relative;
+  min-height: 88vh;
   display: grid;
   grid-template-columns: 1fr;
-  gap: 3rem;
-}
-@media (min-width: 900px) { .k-hero__inner { grid-template-columns: 7fr 5fr; gap: 4rem; } }
-.k-hero__eyebrow {
-  font-size: 0.72rem;
-  letter-spacing: 0.32em;
-  text-transform: uppercase;
-  color: var(--accent-caramel);
-  margin-bottom: 2rem;
-  display: block;
-}
-.k-hero__title {
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-size: clamp(2.5rem, 6vw, 5rem);
-  line-height: 1.05;
-  letter-spacing: -0.01em;
-  max-width: 18ch;
-  color: var(--text-dark);
-}
-.k-hero__title em { font-style: italic; color: var(--accent-cognac); font-weight: 500; }
-.k-hero__lead {
-  margin-top: 2rem;
-  max-width: 50ch;
-  font-size: 1.1rem;
-  line-height: 1.65;
-  color: var(--text-soft);
-}
-.k-hero__cta { margin-top: 2.5rem; }
-.k-hero__visual {
-  background: linear-gradient(165deg, #3a4654 0%, #2a3340 70%, #1a2026 100%);
-  aspect-ratio: 3/4;
-  width: 100%; max-width: 420px;
-  margin: 0 auto;
-  position: relative;
+  align-items: center;
+  background: var(--paper);
+  padding: 6rem 0 4rem;
   overflow: hidden;
 }
-.k-hero__visual::after {
-  content: 'M & P';
-  position: absolute;
-  bottom: 1.5rem; left: 1.75rem;
-  font-family: var(--font-display);
-  font-style: italic;
-  font-weight: 450;
-  font-size: 1.6rem;
-  color: var(--bg-cream);
-  letter-spacing: 0.1em;
-  opacity: 0.78;
+@media (min-width: 900px) { .hero { grid-template-columns: 1.05fr 1fr; gap: 4rem; } }
+.hero__copy { padding-right: 1.5rem; padding-left: 1.5rem; max-width: 720px; margin: 0 auto; }
+.hero h1 { font-size: clamp(2.6rem, 6.5vw, 5rem); margin-top: 1.5rem; }
+.hero h1 em { font-style: italic; color: var(--steel); }
+.hero__sub { margin-top: 2rem; font-size: 1.1rem; max-width: 52ch; color: var(--steel); }
+.hero__rule { width: 80px; height: 1px; background: var(--ink); margin: 2rem 0; }
+.hero__meta { margin-top: 2.5rem; display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; max-width: 480px; }
+.hero__meta div { padding-top: 1rem; border-top: 1px solid var(--pearl); }
+.hero__meta strong { display: block; font-family: var(--sans); font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--stone); margin-bottom: 0.4rem; font-weight: 500; }
+.hero__meta span { font-family: var(--serif); font-size: 1.1rem; color: var(--ink); }
+.hero__ctas { margin-top: 2.5rem; display: flex; flex-wrap: wrap; gap: 1.2rem; align-items: center; }
+.btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.95rem 1.7rem; font-weight: 500; font-size: 0.9rem; letter-spacing: 0.02em; transition: background 240ms ease, color 240ms ease, transform 240ms ease; cursor: pointer; border: none; font-family: var(--sans); }
+.btn--primary { background: var(--ink); color: var(--paper); }
+.btn--primary:hover { background: var(--slate); }
+.btn--ghost { background: transparent; color: var(--ink); border: 1px solid var(--ink); }
+.btn--ghost:hover { background: var(--ink); color: var(--paper); }
+.hero__img {
+  align-self: stretch;
+  background: url('https://images.unsplash.com/photo-1521791136064-7986c2920216?w=1800&q=80&auto=format&fit=crop') center/cover no-repeat;
+  min-height: 50vh;
 }
-.k-hero__visual::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: radial-gradient(circle at 30% 30%, rgba(244, 245, 247, 0.08) 0%, transparent 60%);
-}
+@media (max-width: 899px) { .hero__img { min-height: 320px; margin-top: 2rem; } }
 
-/* Sections */
-.k-section { padding: 7rem 0; border-bottom: 1px solid var(--border-warm); }
-@media (min-width: 768px) { .k-section { padding: 9rem 0; } }
-.k-section h2 {
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-size: clamp(2rem, 4vw, 3.25rem);
-  letter-spacing: -0.01em;
-  line-height: 1.1;
-  margin-bottom: 3rem;
-  max-width: 16ch;
-}
+/* ============= credentials strip ============= */
+.creds { padding: 3rem 0; background: var(--cream); border-top: 1px solid var(--pearl); border-bottom: 1px solid var(--pearl); }
+.creds__inner { display: grid; grid-template-columns: 1fr; gap: 2rem; align-items: center; text-align: center; }
+@media (min-width: 800px) { .creds__inner { grid-template-columns: repeat(4, 1fr); text-align: left; } }
+.cred { font-size: 0.86rem; color: var(--steel); display: flex; align-items: center; gap: 1rem; justify-content: center; }
+@media (min-width: 800px) { .cred { justify-content: flex-start; } }
+.cred strong { display: block; font-family: var(--serif); font-size: 1.45rem; color: var(--ink); line-height: 1; font-weight: 500; }
+.cred span { display: block; font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--stone); margin-top: 0.2rem; }
 
-/* Tätigkeitsfelder — 3 columns with dividers */
-.felder {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 2.5rem;
-}
-@media (min-width: 768px) {
-  .felder { grid-template-columns: repeat(3, 1fr); gap: 0; }
-  .felder > div + div {
-    border-left: 1px solid var(--border-warm);
-    padding-left: 2.5rem;
-  }
-  .felder > div { padding-right: 2.5rem; }
-}
-.felder h3 {
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: 1.6rem;
-  color: var(--text-dark);
-  margin-bottom: 1rem;
-}
-.felder p { color: var(--text-soft); font-size: 1rem; line-height: 1.65; }
-.felder ul {
-  list-style: none;
-  margin-top: 1.4rem;
-  display: grid; gap: 0.5rem;
-  font-size: 0.92rem; color: var(--text-muted);
-}
-.felder li::before { content: '· '; color: var(--accent-caramel); }
+/* ============= practice areas ============= */
+.practice { padding: 8rem 0; background: var(--paper); }
+.practice__head { max-width: 720px; margin-bottom: 4rem; }
+.practice__head h2 { font-size: clamp(2.2rem, 4.5vw, 3.6rem); margin-top: 1rem; }
+.practice__head h2 em { font-style: italic; color: var(--steel); }
+.practice__head p { margin-top: 1.5rem; color: var(--steel); font-size: 1.05rem; max-width: 60ch; }
+.practice__grid { display: grid; grid-template-columns: 1fr; gap: 1px; background: var(--pearl); border: 1px solid var(--pearl); }
+@media (min-width: 700px) { .practice__grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1050px) { .practice__grid { grid-template-columns: repeat(3, 1fr); } }
+.area { background: var(--paper); padding: 2.5rem 2rem; transition: background 240ms ease; cursor: pointer; }
+.area:hover { background: var(--cream); }
+.area__num { font-family: var(--serif); font-style: italic; color: var(--stone); font-size: 0.95rem; }
+.area__name { font-family: var(--serif); font-size: 1.6rem; color: var(--ink); margin-top: 0.5rem; line-height: 1.15; }
+.area__list { margin-top: 1.5rem; list-style: none; }
+.area__list li { padding: 0.55rem 0; border-top: 1px solid var(--pearl); font-size: 0.92rem; color: var(--steel); display: flex; align-items: center; gap: 0.6rem; }
+.area__list li::before { content:'·'; color: var(--gold); font-weight: 700; }
 
-/* Anwälte — 4 cards */
-.anwaelte {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 2.5rem;
-}
-@media (min-width: 700px) { .anwaelte { grid-template-columns: repeat(2, 1fr); gap: 2.5rem 3rem; } }
-@media (min-width: 1024px) { .anwaelte { grid-template-columns: repeat(4, 1fr); } }
-.anwalt__portrait {
-  width: 84px; height: 84px;
-  border-radius: 50%;
-  background: var(--accent-cognac);
-  color: var(--bg-cream);
-  display: flex; align-items: center; justify-content: center;
-  font-family: var(--font-display);
-  font-style: italic;
-  font-size: 1.6rem;
-  font-weight: 450;
-  margin-bottom: 1.4rem;
-  letter-spacing: 0.05em;
-}
-.anwalt__name {
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: 1.3rem;
-  color: var(--text-dark);
-}
-.anwalt__role {
-  margin-top: 0.4rem;
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.18em;
-  color: var(--accent-caramel);
-}
-.anwalt__spec {
-  margin-top: 0.85rem;
-  font-size: 0.95rem;
-  color: var(--text-soft);
-  line-height: 1.55;
-}
-.anwalt__cta {
-  margin-top: 1.2rem;
-  display: inline-block;
-  font-size: 0.85rem;
-  color: var(--accent-cognac);
-  font-weight: 500;
-  border-bottom: 1px solid var(--accent-cognac);
-  padding-bottom: 2px;
-}
+/* ============= approach (process) ============= */
+.approach { padding: 8rem 0; background: var(--cream); }
+.approach__head { text-align: center; max-width: 720px; margin: 0 auto 4rem; }
+.approach__head h2 { font-size: clamp(2rem, 4vw, 3.2rem); margin-top: 1rem; }
+.approach__head h2 em { font-style: italic; color: var(--steel); }
+.approach__head p { margin-top: 1.5rem; color: var(--steel); }
+.approach__grid { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+@media (min-width: 800px) { .approach__grid { grid-template-columns: repeat(4, 1fr); gap: 2.5rem; } }
+.step { padding-top: 2rem; border-top: 1px solid var(--silver); }
+.step__num { font-family: var(--serif); font-style: italic; font-size: 0.9rem; color: var(--gold); letter-spacing: 0.04em; }
+.step__title { font-family: var(--serif); font-size: 1.4rem; color: var(--ink); margin-top: 0.4rem; line-height: 1.2; }
+.step__body { margin-top: 1rem; font-size: 0.92rem; color: var(--steel); line-height: 1.65; }
 
-/* Contact form */
-.k-contact { background: var(--bg-warm); padding: 7rem 0; }
-@media (min-width: 768px) { .k-contact { padding: 9rem 0; } }
-.k-contact__inner {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 3rem;
-}
-@media (min-width: 900px) { .k-contact__inner { grid-template-columns: 5fr 7fr; gap: 5rem; } }
-.k-contact__intro h2 { margin-bottom: 1.5rem; }
-.k-contact__intro p {
-  font-size: 1.05rem; color: var(--text-soft); line-height: 1.65;
-  max-width: 38ch;
-}
-.k-contact__details {
-  margin-top: 2.5rem;
-  display: grid; gap: 1.5rem;
-  font-size: 0.95rem; color: var(--text-soft);
-}
-.k-contact__details strong {
-  display: block;
-  text-transform: uppercase;
-  letter-spacing: 0.16em;
-  font-size: 0.72rem;
-  color: var(--accent-caramel);
-  font-weight: 600;
-  margin-bottom: 0.4rem;
-}
-.k-form {
-  display: grid; gap: 1.4rem;
-}
-.k-form label {
-  display: block;
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  letter-spacing: 0.22em;
-  color: var(--accent-caramel);
-  margin-bottom: 0.5rem;
-}
-.k-form input, .k-form select, .k-form textarea {
-  width: 100%;
-  background: var(--bg-cream);
-  border: 1px solid var(--border-warm);
-  border-radius: 0;
-  padding: 1rem;
-  font-family: var(--font-body);
-  font-size: 1rem;
-  color: var(--text-dark);
-}
-.k-form input:focus, .k-form select:focus, .k-form textarea:focus {
-  outline: none; border-color: var(--accent-cognac);
-}
-.k-form .row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; }
-@media (max-width: 600px) { .k-form .row { grid-template-columns: 1fr; } }
+/* ============= team ============= */
+.team { padding: 8rem 0; background: var(--paper); }
+.team__head { max-width: 720px; margin-bottom: 4rem; }
+.team__head h2 { font-size: clamp(2.2rem, 4.5vw, 3.6rem); margin-top: 1rem; }
+.team__head h2 em { font-style: italic; color: var(--steel); }
+.team__grid { display: grid; grid-template-columns: 1fr; gap: 3rem; }
+@media (min-width: 700px) { .team__grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1000px) { .team__grid { grid-template-columns: repeat(3, 1fr); } }
+.tcard { display: flex; flex-direction: column; }
+.tcard__img { aspect-ratio: 4/5; background-size: cover; background-position: center top; filter: grayscale(0.15); }
+.tcard__role { font-family: var(--sans); font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-top: 1.5rem; }
+.tcard__name { font-family: var(--serif); font-size: 1.65rem; color: var(--ink); margin-top: 0.6rem; line-height: 1.15; }
+.tcard__title { font-family: var(--serif); font-style: italic; font-size: 1rem; color: var(--steel); margin-top: 0.25rem; }
+.tcard__bio { margin-top: 1.2rem; font-size: 0.92rem; color: var(--steel); line-height: 1.65; }
+.tcard__tags { margin-top: 1rem; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.tcard__tags span { font-size: 0.72rem; padding: 3px 9px; background: var(--cream); color: var(--steel); border: 1px solid var(--pearl); border-radius: 2px; letter-spacing: 0.04em; }
 
-/* Footer */
-.k-footer {
-  background: var(--bg-deep);
-  padding: 4rem 0 2rem;
-  font-size: 0.85rem;
-  color: var(--text-soft);
+/* ============= fees ============= */
+.fees { padding: 8rem 0; background: var(--ink); color: var(--pearl); }
+.fees__head { max-width: 720px; margin-bottom: 4rem; }
+.fees__head h2 { font-size: clamp(2.2rem, 4.5vw, 3.6rem); color: var(--paper); margin-top: 1rem; }
+.fees__head h2 em { font-style: italic; color: var(--silver); }
+.fees__head p { margin-top: 1.5rem; color: var(--silver); font-size: 1.05rem; max-width: 60ch; }
+.fees__grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+@media (min-width: 800px) { .fees__grid { grid-template-columns: repeat(3, 1fr); gap: 2rem; } }
+.fee { padding: 2.5rem 2rem; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); transition: background 240ms ease, border-color 240ms ease; }
+.fee:hover { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.2); }
+.fee__name { font-family: var(--sans); font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); }
+.fee__amount { font-family: var(--serif); font-size: clamp(2.5rem, 5vw, 3.4rem); color: var(--paper); margin-top: 1rem; line-height: 1; }
+.fee__amount small { font-size: 0.4em; color: var(--silver); font-style: italic; display: block; margin-top: 0.6rem; letter-spacing: 0.02em; }
+.fee__list { margin-top: 2rem; list-style: none; }
+.fee__list li { padding: 0.55rem 0; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.9rem; color: var(--silver); display: flex; gap: 0.7rem; align-items: flex-start; }
+.fee__list li::before { content:'+'; color: var(--gold); font-weight: 400; font-size: 1rem; line-height: 1; }
+.fees__note { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); font-family: var(--serif); font-style: italic; color: var(--silver); font-size: 1rem; max-width: 70ch; }
+
+/* ============= testimonial ============= */
+.testi { padding: 9rem 0; background: var(--paper); text-align: center; }
+.testi__inner { max-width: 820px; margin: 0 auto; }
+.testi__quote { font-family: var(--serif); font-style: italic; font-size: clamp(1.6rem, 3.2vw, 2.4rem); color: var(--ink); line-height: 1.3; letter-spacing: -0.01em; }
+.testi__attribution { margin-top: 2rem; font-family: var(--sans); font-size: 0.82rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--stone); }
+.testi__attribution strong { color: var(--ink); font-weight: 500; }
+.testi__demo-note { margin-top: 1rem; font-size: 0.75rem; color: var(--silver); font-style: italic; }
+
+/* ============= contact ============= */
+.contact { padding: 8rem 0; background: var(--cream); }
+.contact__grid { display: grid; grid-template-columns: 1fr; gap: 4rem; align-items: start; }
+@media (min-width: 900px) { .contact__grid { grid-template-columns: 1fr 1fr; gap: 5rem; } }
+.contact h2 { font-size: clamp(2rem, 4vw, 3.2rem); margin-top: 1rem; }
+.contact h2 em { font-style: italic; color: var(--steel); }
+.contact__intro { margin-top: 1.5rem; color: var(--steel); font-size: 1rem; max-width: 50ch; }
+.contact__detail { margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--silver); }
+.contact__detail dl { display: grid; grid-template-columns: 1fr 2fr; gap: 1rem 1.5rem; font-size: 0.92rem; }
+.contact__detail dt { font-family: var(--sans); font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--stone); padding-top: 0.2rem; }
+.contact__detail dd { font-family: var(--serif); font-size: 1.05rem; color: var(--ink); }
+.contact__detail dd a { border-bottom: 1px solid var(--gold); }
+.form { display: grid; gap: 1.2rem; background: var(--paper); padding: 2.5rem; border: 1px solid var(--pearl); }
+.form .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.field { display: flex; flex-direction: column; gap: 0.4rem; }
+.field label { font-family: var(--sans); font-size: 0.7rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--stone); font-weight: 500; }
+.field input, .field select, .field textarea {
+  background: var(--paper); border: 1px solid var(--pearl); border-radius: 0;
+  padding: 0.85rem 1rem; font-family: var(--sans); font-size: 0.95rem; color: var(--ink);
+  transition: border-color 200ms ease;
 }
-.k-footer__cols {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 2.5rem;
-  margin-bottom: 2rem;
-}
-@media (min-width: 700px) { .k-footer__cols { grid-template-columns: repeat(4, 1fr); } }
-.k-footer h4 {
-  font-family: var(--font-body);
-  font-size: 0.72rem;
-  text-transform: uppercase;
-  letter-spacing: 0.22em;
-  color: var(--accent-caramel);
-  margin-bottom: 1rem;
-  font-weight: 600;
-}
-.k-footer__bottom {
-  border-top: 1px solid var(--border-warm);
-  padding-top: 1.5rem;
-  font-size: 0.78rem;
-  color: var(--text-muted);
-  display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem;
-}
+.field input:focus, .field select:focus, .field textarea:focus { outline: 0; border-color: var(--ink); }
+.field textarea { min-height: 110px; resize: vertical; }
+.form button { background: var(--ink); color: var(--paper); padding: 1rem 1.5rem; border: 0; font-family: var(--sans); font-size: 0.9rem; font-weight: 500; cursor: pointer; justify-self: start; letter-spacing: 0.04em; transition: background 240ms ease; }
+.form button:hover { background: var(--slate); }
+.form__note { font-size: 0.78rem; color: var(--stone); margin-top: 0.5rem; }
+
+/* ============= map strip ============= */
+.maprow { background: var(--paper); border-top: 1px solid var(--pearl); }
+.maprow iframe { width: 100%; height: 360px; border: 0; filter: grayscale(1) contrast(0.95); display: block; }
+
+/* ============= footer ============= */
+.footer { padding: 5rem 0 2.5rem; background: var(--ink); color: var(--silver); }
+.footer__grid { display: grid; grid-template-columns: 1fr; gap: 3rem; padding-bottom: 3rem; border-bottom: 1px solid rgba(255,255,255,0.1); }
+@media (min-width: 800px) { .footer__grid { grid-template-columns: 1.5fr 1fr 1fr 1fr; } }
+.footer h4 { font-family: var(--sans); font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--pearl); margin-bottom: 1rem; font-weight: 500; }
+.footer__col p, .footer__col li { font-size: 0.88rem; line-height: 1.75; }
+.footer__col ul { list-style: none; }
+.footer__col a:hover { color: var(--paper); }
+.footer__logo { font-family: var(--serif); font-size: 1.6rem; color: var(--paper); margin-bottom: 1rem; }
+.footer__bottom { margin-top: 2.5rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; font-size: 0.78rem; color: var(--stone); }
+.footer__bottom a { color: var(--silver); text-decoration: underline; text-underline-offset: 3px; }
 </style>
 </head>
 <body>
 
-<div class="demo-strip">
-  <div class="demo-strip__inner">
-    <span>Demo · Designstudie für eine Anwaltskanzlei</span>
-    <a href="/">← WMW Services</a>
-  </div>
-</div>
+<div class="demo-banner">Demo-Studie · Kanzlei-Konzept entworfen von <a href="/">daylens / WMW Services</a> · fiktives Unternehmen</div>
 
-<!-- Hero -->
-<section class="k-hero shell">
-  <div class="k-hero__inner">
-    <div>
-      <span class="k-hero__eyebrow">Berlin-Mitte · Seit 1962</span>
-      <h1 class="k-hero__title">Müller &amp; Partner — <em>Rechtsanwaltskanzlei.</em></h1>
-      <p class="k-hero__lead">
-        Spezialisiert auf Wirtschaftsrecht, Steuerrecht und Erbrecht.
-        Drei Generationen, eine Praxis, eine Haltung.
-      </p>
-      <div class="k-hero__cta">
-        <a href="#kontakt" class="btn btn--primary">Erstgespräch anfragen</a>
+<nav class="nav" aria-label="Hauptnavigation">
+  <div class="shell nav__inner">
+    <a href="#top" class="logo"><span class="logo__mark">M&amp;P</span>Müller &amp; Partner</a>
+    <ul class="nav__links">
+      <li><a href="#practice">Rechtsgebiete</a></li>
+      <li><a href="#approach">Vorgehen</a></li>
+      <li><a href="#team">Team</a></li>
+      <li><a href="#fees">Honorar</a></li>
+      <li><a href="#contact">Kontakt</a></li>
+    </ul>
+    <a href="#contact" class="nav__cta">Erstgespräch buchen</a>
+  </div>
+</nav>
+
+<!-- ============================ HERO ============================ -->
+<header class="hero" id="top">
+  <div class="hero__copy">
+    <span class="eyebrow">Rechtsanwälte · Berlin Mitte</span>
+    <h1>Klare Beratung, <em>verlässliche Vertretung</em> — seit 1998.</h1>
+    <div class="hero__rule"></div>
+    <p class="hero__sub">Eine mittelständische Kanzlei mit fünf spezialisierten Anwältinnen und Anwälten. Wir nehmen Mandate an, bei denen wir wirklich helfen können. Was wir nicht können, sagen wir Ihnen — und empfehlen den richtigen Kollegen.</p>
+    <div class="hero__ctas">
+      <a href="#contact" class="btn btn--primary">Erstgespräch vereinbaren →</a>
+      <a href="#practice" class="btn btn--ghost">Rechtsgebiete ansehen</a>
+    </div>
+    <div class="hero__meta">
+      <div><strong>Gegründet</strong><span>1998 · 27 Jahre</span></div>
+      <div><strong>Anwälte</strong><span>5 Berufsträger</span></div>
+      <div><strong>Erstberatung</strong><span>30 Min. kostenfrei</span></div>
+      <div><strong>Sprachen</strong><span>DE · EN · FR</span></div>
+    </div>
+  </div>
+  <div class="hero__img" aria-hidden="true"></div>
+</header>
+
+<!-- ============================ CREDS ============================ -->
+<section class="creds">
+  <div class="shell creds__inner">
+    <div class="cred"><div><strong>27</strong><span>Jahre Praxis</span></div></div>
+    <div class="cred"><div><strong>1.800+</strong><span>Mandate begleitet</span></div></div>
+    <div class="cred"><div><strong>5</strong><span>Anwältinnen & Anwälte</span></div></div>
+    <div class="cred"><div><strong>4,9 / 5</strong><span>anwalt.de Bewertung*</span></div></div>
+  </div>
+</section>
+
+<!-- ============================ PRACTICE ============================ -->
+<section class="practice" id="practice">
+  <div class="shell">
+    <div class="practice__head">
+      <span class="eyebrow">Rechtsgebiete</span>
+      <h2>Sechs Schwerpunkte. <em>Keine Verzettelung.</em></h2>
+      <p>Wir vertreten Mandantinnen und Mandanten in klar umrissenen Rechtsgebieten. Außerhalb dieser Themen verweisen wir an spezialisierte Kollegen — ohne Reibungsverluste, mit klarer Übergabe.</p>
+    </div>
+
+    <div class="practice__grid">
+      <article class="area">
+        <div class="area__num">01 / Arbeitsrecht</div>
+        <h3 class="area__name">Arbeits- und Dienstvertragsrecht</h3>
+        <ul class="area__list">
+          <li>Kündigungsschutzklagen, fristlos und ordentlich</li>
+          <li>Aufhebungs- und Abfindungsverhandlungen</li>
+          <li>Arbeitsverträge prüfen und gestalten</li>
+          <li>Mobbing- und Diskriminierungsfälle</li>
+          <li>Befristungs- und Probezeitstreitigkeiten</li>
+          <li>Vertretung vor dem Arbeitsgericht Berlin</li>
+        </ul>
+      </article>
+      <article class="area">
+        <div class="area__num">02 / Mietrecht</div>
+        <h3 class="area__name">Wohnungs- und Gewerbemietrecht</h3>
+        <ul class="area__list">
+          <li>Mieterhöhungen und Mietspiegel-Prüfung</li>
+          <li>Kündigungen und Räumungsschutz</li>
+          <li>Modernisierungsumlagen abwehren</li>
+          <li>Nebenkostenabrechnungen prüfen</li>
+          <li>Mängelanzeige und Mietminderung</li>
+          <li>Vermieterberatung bei Übergaben</li>
+        </ul>
+      </article>
+      <article class="area">
+        <div class="area__num">03 / Familienrecht</div>
+        <h3 class="area__name">Familien- und Erbrecht</h3>
+        <ul class="area__list">
+          <li>Scheidung, einvernehmlich oder streitig</li>
+          <li>Unterhalt, Zugewinn, Versorgungsausgleich</li>
+          <li>Sorge- und Umgangsrecht</li>
+          <li>Eheverträge und Trennungsfolgen</li>
+          <li>Testament, Erbschein, Pflichtteil</li>
+          <li>Mediation und außergerichtliche Lösungen</li>
+        </ul>
+      </article>
+      <article class="area">
+        <div class="area__num">04 / IT-Recht</div>
+        <h3 class="area__name">IT-, Datenschutz- &amp; Medienrecht</h3>
+        <ul class="area__list">
+          <li>DSGVO-Beratung und Datenschutz-Folgenabschätzung</li>
+          <li>Softwarelizenzen und SaaS-Verträge</li>
+          <li>Abmahnungen wegen Urheberrechtsverletzung</li>
+          <li>Impressum, AGB, Cookie-Banner</li>
+          <li>Online-Bewertungen und Persönlichkeitsrecht</li>
+          <li>Auftragsverarbeitungs­verträge prüfen</li>
+        </ul>
+      </article>
+      <article class="area">
+        <div class="area__num">05 / Verkehrsrecht</div>
+        <h3 class="area__name">Verkehrsrecht &amp; Bußgeld</h3>
+        <ul class="area__list">
+          <li>Unfallregulierung gegen Versicherungen</li>
+          <li>Verteidigung bei Geschwindigkeits- und Abstandsverstößen</li>
+          <li>Führerscheinentzug und MPU-Vorbereitung</li>
+          <li>Bußgeld- und Punkteverfahren</li>
+          <li>Personenschäden und Schmerzensgeld</li>
+          <li>Kostenfreie Prüfung Ihrer Rechtsschutz-Deckung</li>
+        </ul>
+      </article>
+      <article class="area">
+        <div class="area__num">06 / Wirtschaft</div>
+        <h3 class="area__name">Vertrags- und Wirtschaftsrecht</h3>
+        <ul class="area__list">
+          <li>Allgemeine Geschäftsbedingungen (AGB)</li>
+          <li>Werk-, Dienst- und Kaufverträge</li>
+          <li>Gesellschaftsverträge und Gründungsberatung</li>
+          <li>Geschäftsführer-Haftung</li>
+          <li>Forderungsmanagement und Mahnverfahren</li>
+          <li>Außergerichtliche Streitbeilegung</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ APPROACH ============================ -->
+<section class="approach" id="approach">
+  <div class="shell">
+    <div class="approach__head">
+      <span class="eyebrow">Wie wir arbeiten</span>
+      <h2>Vier Schritte. <em>Keine Überraschungen.</em></h2>
+      <p>Sie wissen vor dem Mandat, was es kostet, wie lange es dauert und welche Schritte folgen. Schriftlich, vor Beginn.</p>
+    </div>
+    <div class="approach__grid">
+      <div class="step">
+        <div class="step__num">01 — Erstgespräch</div>
+        <div class="step__title">30 Minuten, kostenfrei.</div>
+        <div class="step__body">Per Telefon oder vor Ort. Wir prüfen, ob wir helfen können, schätzen Aufwand und Erfolgsaussichten ein. Sie entscheiden danach in Ruhe.</div>
+      </div>
+      <div class="step">
+        <div class="step__num">02 — Mandatierung</div>
+        <div class="step__title">Vergütungsvereinbarung schriftlich.</div>
+        <div class="step__body">Pauschale, Stundenhonorar oder RVG — Sie wählen das Modell. Vor Beginn schriftlich, mit konkreter Aufgaben­beschreibung.</div>
+      </div>
+      <div class="step">
+        <div class="step__num">03 — Bearbeitung</div>
+        <div class="step__title">Sie wissen, wo wir stehen.</div>
+        <div class="step__body">Status-Updates per E-Mail nach jedem Bearbeitungs­schritt. Telefonisch erreichbar an Werktagen 9 – 18 Uhr.</div>
+      </div>
+      <div class="step">
+        <div class="step__num">04 — Abschluss</div>
+        <div class="step__title">Schluss­bericht und Ausblick.</div>
+        <div class="step__body">Mit Vergleich, Urteil oder Vergleichsangebot. Inklusive Hinweisen zu Fristen und möglicher Berufung — schriftlich, nachvollziehbar.</div>
       </div>
     </div>
-    <div class="k-hero__visual" aria-hidden="true"></div>
   </div>
 </section>
 
-<!-- Tätigkeitsfelder -->
-<section class="k-section shell">
-  <span class="k-hero__eyebrow" style="margin-bottom:2rem">Tätigkeitsfelder</span>
-  <h2>Drei Felder. Eine Sorgfalt.</h2>
-  <div class="felder">
-    <div>
-      <h3>Wirtschaftsrecht</h3>
-      <p>Begleitung mittelständischer Unternehmen in Vertragsgestaltung, Gesellschaftsrecht, M&amp;A-Transaktionen und Compliance.</p>
-      <ul>
-        <li>Gesellschaftsverträge</li>
-        <li>M&amp;A &amp; Due Diligence</li>
-        <li>Vertragsmanagement</li>
-        <li>Compliance &amp; Governance</li>
-      </ul>
+<!-- ============================ TEAM ============================ -->
+<section class="team" id="team">
+  <div class="shell">
+    <div class="team__head">
+      <span class="eyebrow">Team</span>
+      <h2>Fünf Anwälte, <em>eine Kanzlei.</em></h2>
     </div>
-    <div>
-      <h3>Steuerrecht</h3>
-      <p>Steuerliche Gestaltung für Unternehmen und Privatpersonen. Vertretung in Betriebsprüfungen und Einspruchsverfahren.</p>
-      <ul>
-        <li>Steuergestaltung</li>
-        <li>Betriebsprüfung</li>
-        <li>Einspruch &amp; Klage</li>
-        <li>Internationales Steuerrecht</li>
-      </ul>
-    </div>
-    <div>
-      <h3>Erbrecht</h3>
-      <p>Nachfolgeplanung mit Diskretion. Testamentsgestaltung, Erbauseinandersetzung, Pflichtteilsrecht und Stiftungsgründungen.</p>
-      <ul>
-        <li>Testament &amp; Erbvertrag</li>
-        <li>Nachlassabwicklung</li>
-        <li>Pflichtteilsrecht</li>
-        <li>Stiftungsgründungen</li>
-      </ul>
+    <div class="team__grid">
+      <article class="tcard">
+        <div class="tcard__img" style="background-image:url('https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=1000&q=80&auto=format&fit=crop')"></div>
+        <div class="tcard__role">Partnerin</div>
+        <h3 class="tcard__name">Dr. Katharina Müller</h3>
+        <div class="tcard__title">Rechtsanwältin · Fachanwältin für Arbeitsrecht</div>
+        <p class="tcard__bio">Gründungspartnerin. Promovierte am Arbeitsrecht-Lehrstuhl der HU Berlin, davor Referendariat am Kammergericht. Vertritt Arbeitnehmer und Führungskräfte vor allen Berliner Arbeitsgerichten.</p>
+        <div class="tcard__tags"><span>Arbeitsrecht</span><span>Kündigungsschutz</span><span>EN · DE</span></div>
+      </article>
+      <article class="tcard">
+        <div class="tcard__img" style="background-image:url('https://images.unsplash.com/photo-1560250097-0b93528c311a?w=1000&q=80&auto=format&fit=crop')"></div>
+        <div class="tcard__role">Partner</div>
+        <h3 class="tcard__name">Andreas Partner</h3>
+        <div class="tcard__title">Rechtsanwalt · Fachanwalt für Mietrecht</div>
+        <p class="tcard__bio">Spezialist für Wohnungs- und Gewerbemietrecht in Berlin. 20 Jahre Erfahrung mit Modernisierungs­ankündigungen, Mietspiegelfragen und gewerblichen Mietverträgen in Mitte und Charlottenburg.</p>
+        <div class="tcard__tags"><span>Mietrecht</span><span>Gewerbemiete</span><span>DE</span></div>
+      </article>
+      <article class="tcard">
+        <div class="tcard__img" style="background-image:url('https://images.unsplash.com/photo-1580489944761-15a19d654956?w=1000&q=80&auto=format&fit=crop')"></div>
+        <div class="tcard__role">Anwältin</div>
+        <h3 class="tcard__name">Maria Schäfer</h3>
+        <div class="tcard__title">Rechtsanwältin · Fachanwältin für Familienrecht</div>
+        <p class="tcard__bio">Mediatorin (BAFM) und Familienrechtlerin. Begleitet Trennungs- und Scheidungs­verfahren vorzugsweise einvernehmlich. Schwerpunkt: Patchwork-Familien, Unternehmer-Scheidungen, internationale Sorgerechtsfragen.</p>
+        <div class="tcard__tags"><span>Familienrecht</span><span>Mediation</span><span>FR · DE · EN</span></div>
+      </article>
+      <article class="tcard">
+        <div class="tcard__img" style="background-image:url('https://images.unsplash.com/photo-1556157382-97eda2d62296?w=1000&q=80&auto=format&fit=crop')"></div>
+        <div class="tcard__role">Anwalt</div>
+        <h3 class="tcard__name">Jonas Becker</h3>
+        <div class="tcard__title">Rechtsanwalt · Schwerpunkt IT-Recht</div>
+        <p class="tcard__bio">LL.M. Information Technology Law (Edinburgh). Berät mittelständische Unternehmen zu DSGVO, Softwarelizenzen und IT-Verträgen. Häufig auch in Abmahnungs- und Persönlichkeitsrechtsverfahren.</p>
+        <div class="tcard__tags"><span>IT-Recht</span><span>Datenschutz</span><span>EN · DE</span></div>
+      </article>
+      <article class="tcard">
+        <div class="tcard__img" style="background-image:url('https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=1000&q=80&auto=format&fit=crop')"></div>
+        <div class="tcard__role">Anwältin</div>
+        <h3 class="tcard__name">Dr. Lena Hartmann</h3>
+        <div class="tcard__title">Rechtsanwältin · Verkehrs- und Strafrecht</div>
+        <p class="tcard__bio">Verteidigung im Bußgeld- und Strafverfahren, Schwerpunkt Verkehrsdelikte. Engagiert sich zusätzlich pro bono in der Strafverteidigung für mittellose Mandanten über die Stiftung Berliner Rechtshilfe.</p>
+        <div class="tcard__tags"><span>Verkehrsrecht</span><span>Strafverteidigung</span><span>DE</span></div>
+      </article>
+      <article class="tcard">
+        <div class="tcard__img" style="background-image:url('https://images.unsplash.com/photo-1521791136064-7986c2920216?w=1000&q=80&auto=format&fit=crop')"></div>
+        <div class="tcard__role">Of Counsel</div>
+        <h3 class="tcard__name">Prof. Dr. Erich Lindner</h3>
+        <div class="tcard__title">Wirtschafts- und Gesellschaftsrecht</div>
+        <p class="tcard__bio">Honorarprofessor an der FU Berlin, ehemaliger Partner einer Großkanzlei. Berät uns als Of Counsel bei wirtschafts- und gesellschaftsrechtlichen Spezialfragen — insbesondere Geschäftsführerhaftung und Unternehmenskauf.</p>
+        <div class="tcard__tags"><span>Wirtschaftsrecht</span><span>Gesellschaftsrecht</span><span>EN · DE</span></div>
+      </article>
     </div>
   </div>
 </section>
 
-<!-- Anwälte -->
-<section class="k-section shell">
-  <span class="k-hero__eyebrow" style="margin-bottom:2rem">Team-Struktur</span>
-  <h2>Vier Rollen. Eine Sorgfalt.</h2>
-  <p style="max-width:50ch;color:var(--text-soft);margin-bottom:2.5rem;font-size:1rem;line-height:1.65">
-    Demonstrations-Ansicht der typischen Kanzlei-Struktur. In der echten Implementierung
-    stehen hier Namen, Bilder und Schwerpunkte des jeweiligen Mandanten-Teams.
-  </p>
-  <div class="anwaelte">
-    <article>
-      <div class="anwalt__portrait" aria-hidden="true">·</div>
-      <div class="anwalt__name">Senior Partner</div>
-      <div class="anwalt__role">Wirtschaftsrecht</div>
-      <p class="anwalt__spec">M&amp;A, Gesellschaftsverträge, Stiftungen.</p>
-    </article>
-    <article>
-      <div class="anwalt__portrait" aria-hidden="true">·</div>
-      <div class="anwalt__name">Partner:in</div>
-      <div class="anwalt__role">Steuerrecht</div>
-      <p class="anwalt__spec">Gestaltung, Betriebsprüfung, Einspruchsverfahren.</p>
-    </article>
-    <article>
-      <div class="anwalt__portrait" aria-hidden="true">·</div>
-      <div class="anwalt__name">Partner:in</div>
-      <div class="anwalt__role">Gesellschaftsrecht</div>
-      <p class="anwalt__spec">Vertragsgestaltung, Compliance, Due Diligence.</p>
-    </article>
-    <article>
-      <div class="anwalt__portrait" aria-hidden="true">·</div>
-      <div class="anwalt__name">Associate</div>
-      <div class="anwalt__role">Erbrecht</div>
-      <p class="anwalt__spec">Testament, Pflichtteil, Nachlassabwicklung.</p>
-    </article>
+<!-- ============================ TESTIMONIAL ============================ -->
+<section class="testi">
+  <div class="shell testi__inner">
+    <div class="testi__quote">„Wir sind nach 15 Jahren mit demselben Vermieter erstmals zur Anwältin gegangen — und haben in einem Gespräch verstanden, wo wir stehen. Klar, ruhig, ohne juristisches Geschwurbel."</div>
+    <div class="testi__attribution"><strong>Familie K.</strong> · Mandanten seit 2023 · Mietrecht</div>
+    <div class="testi__demo-note">Demo-Inhalt · Beispielzitat für Konzept-Studie</div>
   </div>
 </section>
 
-<!-- Contact -->
-<section class="k-contact" id="kontakt">
-  <div class="shell k-contact__inner">
-    <div class="k-contact__intro">
-      <span class="k-hero__eyebrow" style="margin-bottom:2rem">Erstgespräch</span>
-      <h2>Erstgespräch vereinbaren.</h2>
-      <p>
-        Wir nehmen uns für jeden Mandanten Zeit. Schildern Sie uns Ihr Anliegen — wir antworten
-        innerhalb von zwei Werktagen mit einem Terminvorschlag.
-      </p>
-      <div class="k-contact__details">
-        <div>
-          <strong>Anschrift</strong>
-          Friedrichstraße 122<br>10117 Berlin-Mitte
-        </div>
-        <div>
-          <strong>Telefon</strong>
-          +49 30 209 14 88
-        </div>
-        <div>
-          <strong>Telefax</strong>
-          +49 30 209 14 89
-        </div>
-        <div>
-          <strong>E-Mail</strong>
-          mandanten@mueller-partner.de
-        </div>
+<!-- ============================ FEES ============================ -->
+<section class="fees" id="fees">
+  <div class="shell">
+    <div class="fees__head">
+      <span class="eyebrow" style="color:var(--gold)">Honorar</span>
+      <h2>Drei Honorar­modelle. <em>Vor Beginn transparent.</em></h2>
+      <p>Sie wählen das Modell, das zu Ihrem Anliegen passt. Wir schlagen Ihnen das aus unserer Sicht günstigste vor — schriftlich, vor Mandatsbeginn.</p>
+    </div>
+    <div class="fees__grid">
+      <article class="fee">
+        <div class="fee__name">Erstberatung</div>
+        <div class="fee__amount">0&nbsp;€<small>30 Minuten · einmalig pro Anliegen</small></div>
+        <ul class="fee__list">
+          <li>Telefon oder vor Ort, nach Wahl</li>
+          <li>Einschätzung der Erfolgsaussichten</li>
+          <li>Aufwand- und Kostenschätzung</li>
+          <li>Empfehlung: weitere Schritte oder Verzicht</li>
+          <li>Keine Verpflichtung zur Mandatierung</li>
+        </ul>
+      </article>
+      <article class="fee">
+        <div class="fee__name">Pauschalhonorar</div>
+        <div class="fee__amount">ab 480&nbsp;€<small>für klar umrissene Aufgaben · zzgl. USt</small></div>
+        <ul class="fee__list">
+          <li>AGB-Prüfung, Vertragsentwurf, Abmahnungs-Antwort</li>
+          <li>Fester Endpreis, keine Stundenrechnung</li>
+          <li>Schriftliche Aufgabenbeschreibung vorab</li>
+          <li>Ergebnis innerhalb von 7–14 Werktagen</li>
+          <li>Beispiele: Mietvertrag ab 280 €, DSGVO-Audit ab 1.200 €</li>
+        </ul>
+      </article>
+      <article class="fee">
+        <div class="fee__name">Stundenhonorar</div>
+        <div class="fee__amount">220&nbsp;€<small>je angefangene Stunde · zzgl. USt</small></div>
+        <ul class="fee__list">
+          <li>Bei laufender Beratung oder komplexen Verfahren</li>
+          <li>Abrechnung im 6-Minuten-Takt</li>
+          <li>Monatliche Zwischenabrechnung mit Tätigkeitsnachweis</li>
+          <li>RVG-Abrechnung wo möglich (Rechtsschutz)</li>
+          <li>Rechtsschutz-Deckungsanfrage übernehmen wir</li>
+        </ul>
+      </article>
+    </div>
+    <p class="fees__note">In gerichtlichen Verfahren rechnen wir grundsätzlich nach dem RVG ab, sofern keine andere Vereinbarung getroffen wurde. Bei Rechtsschutzversicherung übernehmen wir die Deckungsanfrage in Ihrem Namen — kostenfrei.</p>
+  </div>
+</section>
+
+<!-- ============================ CONTACT ============================ -->
+<section class="contact" id="contact">
+  <div class="shell contact__grid">
+    <div>
+      <span class="eyebrow">Erstgespräch</span>
+      <h2>30 Minuten. <em>Kostenfrei.</em> Sie entscheiden danach.</h2>
+      <p class="contact__intro">Schildern Sie uns Ihr Anliegen kurz. Wir rufen innerhalb eines Werktags zurück und schlagen drei Termine vor — telefonisch oder vor Ort in unserer Kanzlei in der Friedrichstraße.</p>
+      <div class="contact__detail">
+        <dl>
+          <dt>Adresse</dt><dd>Friedrichstraße 137<br>10117 Berlin · Mitte</dd>
+          <dt>Telefon</dt><dd><a href="tel:+493028049870">+49 30 280 498 70</a></dd>
+          <dt>E-Mail</dt><dd><a href="mailto:kanzlei@mueller-partner.de">kanzlei@mueller-partner.de</a></dd>
+          <dt>Sprechzeit</dt><dd>Mo–Fr · 9:00 – 18:00<br>Termine n.&nbsp;V. auch außerhalb</dd>
+          <dt>U-Bahn</dt><dd>Friedrichstraße (U6 / S-Bahn) · 4 Min. zu Fuß</dd>
+        </dl>
       </div>
     </div>
-
-    <form class="k-form" onsubmit="event.preventDefault();this.style.display='none';document.getElementById('kSent').hidden=false;">
-      <div>
-        <label>Sehr geehrte Damen und Herren, ich möchte mich beraten lassen zum Thema</label>
-        <select required>
-          <option value="" disabled selected>Bitte wählen</option>
+    <form class="form" onsubmit="event.preventDefault(); this.innerHTML='<p style=&quot;font-family:var(--serif);font-style:italic;color:var(--ink);font-size:1.2rem&quot;>Danke. Wir melden uns innerhalb eines Werktags zurück.</p>';">
+      <div class="row2">
+        <div class="field"><label for="kName">Name</label><input id="kName" type="text" required></div>
+        <div class="field"><label for="kPhone">Telefon</label><input id="kPhone" type="tel"></div>
+      </div>
+      <div class="field"><label for="kMail">E-Mail</label><input id="kMail" type="email" required></div>
+      <div class="field"><label for="kArea">Rechtsgebiet</label>
+        <select id="kArea" required>
+          <option value="">— bitte wählen —</option>
+          <option>Arbeitsrecht</option>
+          <option>Mietrecht</option>
+          <option>Familienrecht</option>
+          <option>IT-/Datenschutzrecht</option>
+          <option>Verkehrsrecht</option>
           <option>Wirtschaftsrecht</option>
-          <option>Steuerrecht</option>
-          <option>Erbrecht</option>
-          <option>Sonstiges</option>
+          <option>Unsicher / Anderes</option>
         </select>
       </div>
-      <div class="row">
-        <div><label>Name</label><input type="text" required /></div>
-        <div><label>E-Mail</label><input type="email" required /></div>
+      <div class="field"><label for="kMsg">Worum geht es?</label><textarea id="kMsg" required placeholder="In 2–3 Sätzen: was ist passiert, was möchten Sie erreichen?"></textarea></div>
+      <div class="field"><label for="kInsurance">Rechtsschutzversicherung</label>
+        <select id="kInsurance"><option>Habe keine</option><option>Habe eine, Deckung unklar</option><option>Habe eine, Deckung bestätigt</option><option>Weiß nicht</option></select>
       </div>
-      <div><label>Telefon (optional)</label><input type="tel" /></div>
-      <div><label>Worum geht es?</label><textarea rows="5" required></textarea></div>
-      <button class="btn btn--primary" type="submit" style="justify-self:start">Anfrage senden</button>
+      <button type="submit">Rückruf anfordern →</button>
+      <p class="form__note">Vertraulich behandelt. Mandatsverhältnis entsteht erst nach beidseitiger schriftlicher Bestätigung.</p>
     </form>
-    <div id="kSent" hidden style="padding:2rem;border:1px solid var(--border-strong);background:var(--bg-cream)">
-      <strong style="font-family:var(--font-display);font-style:italic;font-size:1.25rem;color:var(--accent-cognac)">
-        Vielen Dank. Wir melden uns innerhalb von zwei Werktagen.
-      </strong>
-    </div>
   </div>
 </section>
 
-<!-- WMW Credit -->
-<section class="wmw-credit">
-  <div class="shell">
-    <p>Dieses Konzept entstand bei <span class="italic-accent" style="font-style:italic">WMW Services</span>. Möchtest du eine ähnliche Website?</p>
-    <a href="/#contact" class="btn btn--primary">Anfrage stellen →</a>
-  </div>
-</section>
+<!-- ============================ MAP ============================ -->
+<div class="maprow">
+  <iframe loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Karte Friedrichstraße"
+    src="https://www.openstreetmap.org/export/embed.html?bbox=13.385%2C52.518%2C13.395%2C52.523&amp;layer=mapnik"></iframe>
+</div>
 
-<!-- Formal footer -->
-<footer class="k-footer">
+<!-- ============================ FOOTER ============================ -->
+<footer class="footer">
   <div class="shell">
-    <div class="k-footer__cols">
-      <div>
+    <div class="footer__grid">
+      <div class="footer__col">
+        <div class="footer__logo">Müller &amp; Partner</div>
+        <p>Rechtsanwaltskanzlei in Berlin-Mitte. Spezialisiert auf Arbeits-, Miet-, Familien-, IT- und Verkehrsrecht. Seit 1998.</p>
+      </div>
+      <div class="footer__col">
         <h4>Kanzlei</h4>
-        <p>Müller &amp; Partner Rechtsanwaltskanzlei<br>Friedrichstraße 122<br>10117 Berlin-Mitte</p>
+        <ul>
+          <li>Friedrichstraße 137</li>
+          <li>10117 Berlin</li>
+          <li><a href="tel:+493028049870">+49 30 280 498 70</a></li>
+          <li><a href="mailto:kanzlei@mueller-partner.de">kanzlei@mueller-partner.de</a></li>
+        </ul>
       </div>
-      <div>
-        <h4>Tätigkeitsfelder</h4>
-        <p>Wirtschaftsrecht<br>Steuerrecht<br>Erbrecht</p>
+      <div class="footer__col">
+        <h4>Sprechzeiten</h4>
+        <ul>
+          <li>Mo – Fr · 9:00 – 18:00</li>
+          <li>Termine n.&nbsp;V.</li>
+          <li>Notfallnummer für Mandanten 24/7</li>
+        </ul>
       </div>
-      <div>
-        <h4>Berufsrecht</h4>
-        <p>Rechtsanwaltskammer Berlin<br>BORA, BRAO, RVG<br>Schlichtungsstelle der RAK</p>
-      </div>
-      <div>
-        <h4>Rechtliches</h4>
-        <p><a href="/impressum">Impressum</a></p>
-        <p><a href="/datenschutz">Datenschutz</a></p>
+      <div class="footer__col">
+        <h4>Hinweise</h4>
+        <ul>
+          <li><a href="#fees">Honorar &amp; RVG</a></li>
+          <li><a href="/impressum">Impressum &amp; Berufsrecht</a></li>
+          <li><a href="/datenschutz">Datenschutz</a></li>
+          <li><a href="/">← daylens / WMW Services</a></li>
+        </ul>
       </div>
     </div>
-    <div class="k-footer__bottom">
-      <span>© 2026 Müller &amp; Partner Rechtsanwaltskanzlei · Berlin</span>
-      <span>Konzept: WMW Services</span>
+    <div class="footer__bottom">
+      <span>© 2026 Müller &amp; Partner Rechtsanwälte · Demo-Konzept · fiktives Unternehmen · *Bewertung exemplarisch</span>
+      <span>Built by <a href="/">daylens / WMW Services</a></span>
     </div>
   </div>
 </footer>
 
-<script src="/assets/wmw.js" defer></script>
-<div class="demo-watermark">Demo · Fiktive Inhalte</div>
 </body>
 </html>
