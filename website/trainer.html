@@ -279,7 +279,7 @@ h1,h2,h3,h4 { font-family: var(--display); font-weight: 900; letter-spacing: -0.
     <h1>NO HYPE.<br><em>NUR ARBEIT.</em></h1>
     <p class="hero__sub">Krafttraining, Hypertrophie, HIIT und Mobility für Menschen, die ihren Körper ernst nehmen — vom ersten Kniebeugen-Tag bis zum Powerlifting-Meet. Eins-zu-eins in einem privaten Studio in der Demoweg.</p>
     <div class="hero__ctas">
-      <a href="#contact" class="btn btn--primary">Probetraining buchen →</a>
+      <a href="#contact" class="btn btn--primary" data-package="Probetraining" data-price="kostenlos · 30 Min">Probetraining buchen →</a>
       <a href="#programs" class="btn btn--ghost">Programme ansehen</a>
     </div>
     <div class="hero__stats">
@@ -454,7 +454,7 @@ h1,h2,h3,h4 { font-family: var(--display); font-weight: 900; letter-spacing: -0.
           <li>Per WhatsApp Fragen klären</li>
           <li>Ideal: kurzfristig, ausprobieren</li>
         </ul>
-        <a href="#contact" class="plan__cta">Einzeln buchen</a>
+        <a href="#contact" class="plan__cta" data-package="Einzel-Session" data-price="95 €">Einzeln buchen</a>
       </article>
 
       <article class="plan plan--feat">
@@ -468,7 +468,7 @@ h1,h2,h3,h4 { font-family: var(--display); font-weight: 900; letter-spacing: -0.
           <li>WhatsApp-Support an Trainings­tagen</li>
           <li>Ernährungs-Check auf Wunsch</li>
         </ul>
-        <a href="#contact" class="plan__cta">10er buchen</a>
+        <a href="#contact" class="plan__cta" data-package="10er-Block" data-price="820 €">10er buchen</a>
       </article>
 
       <article class="plan">
@@ -482,10 +482,11 @@ h1,h2,h3,h4 { font-family: var(--display); font-weight: 900; letter-spacing: -0.
           <li>Wöchentliches Check-in (15 Min)</li>
           <li>Best für Wettkampf-Vorbereitung</li>
         </ul>
-        <a href="#contact" class="plan__cta">Coaching anfragen</a>
+        <a href="#contact" class="plan__cta" data-package="Coaching 3 Monate" data-price="980 € / Monat">Coaching anfragen</a>
       </article>
     </div>
     <p style="text-align:center;margin-top:2.5rem;font-family:var(--mono);font-size:0.84rem;color:var(--bone)">Probetraining 30 Min · kostenlos · unverbindlich</p>
+    <p style="text-align:center;margin-top:1rem;font-family:var(--mono);font-size:0.72rem;color:var(--bone);opacity:0.6;max-width:62ch;margin-left:auto;margin-right:auto;line-height:1.55">Hinweis: Ernährungs-Coaching ist kein Ersatz für medizinische Ernährungsberatung. Bei Erkrankungen, Schwangerschaft oder Allergien bitte ärztlich abklären.</p>
   </div>
 </section>
 
@@ -662,32 +663,45 @@ h1,h2,h3,h4 { font-family: var(--display); font-weight: 900; letter-spacing: -0.
         <a href="tel:+4915255501234">+49 152 555 0 12 34</a> · <a href="mailto:hi@maxberlin.example">hi@maxberlin.example</a></p>
       </div>
     </div>
-    <form class="form" onsubmit="event.preventDefault(); this.innerHTML='<p style=&quot;font-family:var(--display);font-size:1.4rem;color:var(--orange);letter-spacing:0.04em&quot;>EINGEGANGEN.<br><span style=&quot;font-family:var(--mono);font-size:0.86rem;color:var(--bone);letter-spacing:0.04em;text-transform:none&quot;>Ich melde mich innerhalb von 24 Stunden zurück.</span></p>';">
-      <div class="row2">
-        <div class="field"><label for="tName">Name</label><input id="tName" type="text" required></div>
-        <div class="field"><label for="tPhone">Telefon</label><input id="tPhone" type="tel"></div>
-      </div>
-      <div class="field"><label for="tMail">E-Mail</label><input id="tMail" type="email" required></div>
-      <div class="row2">
-        <div class="field"><label for="tProg">Programm</label>
-          <select id="tProg" required>
-            <option>Probetraining (30 Min)</option>
-            <option>Foundations (Einsteiger)</option>
-            <option>Hypertrophy</option>
-            <option>HIIT &amp; Conditioning</option>
-            <option>Mobility &amp; Reha</option>
-            <option>Powerlifting</option>
-            <option>Performance Sportler</option>
-            <option>Unsicher</option>
-          </select>
+    <div class="contact__form-wrap">
+      <div id="tPackageHeader" hidden style="margin-bottom:1.4rem;padding:0.9rem 1.1rem;background:var(--orange);color:#0d0d0d;font-family:var(--mono);font-size:0.84rem;letter-spacing:0.04em;text-transform:uppercase">DU BUCHST: <strong id="tPackageName"></strong> · <span id="tPackagePrice"></span></div>
+      <form id="trainerForm" class="form" novalidate>
+        <input type="hidden" name="paket" id="tPaket">
+        <div class="row2">
+          <div class="field"><label for="tName">Name</label><input id="tName" name="name" type="text" required></div>
+          <div class="field"><label for="tPhone">Telefon</label><input id="tPhone" name="phone" type="tel"></div>
         </div>
-        <div class="field"><label for="tLevel">Level</label>
-          <select id="tLevel"><option>Anfänger</option><option>1–2 Jahre Training</option><option>Fortgeschritten</option><option>Wettkampf-Sportler</option></select>
+        <div class="field"><label for="tMail">E-Mail</label><input id="tMail" name="email" type="email" required></div>
+        <div class="row2">
+          <div class="field"><label for="tProg">Programm</label>
+            <select id="tProg" name="program" required>
+              <option>Probetraining (30 Min)</option>
+              <option>Foundations (Einsteiger)</option>
+              <option>Hypertrophy</option>
+              <option>HIIT &amp; Conditioning</option>
+              <option>Mobility &amp; Reha</option>
+              <option>Powerlifting</option>
+              <option>Performance Sportler</option>
+              <option>Unsicher</option>
+            </select>
+          </div>
+          <div class="field"><label for="tLevel">Level</label>
+            <select id="tLevel" name="level"><option>Anfänger</option><option>1–2 Jahre Training</option><option>Fortgeschritten</option><option>Wettkampf-Sportler</option></select>
+          </div>
         </div>
+        <div class="field"><label for="tGoal">Dein Ziel in 6 Monaten?</label><textarea id="tGoal" name="goal" required minlength="10" placeholder="In 1–2 Sätzen: was möchtest du erreichen?"></textarea></div>
+        <div class="field"><label for="tHealth">Vorerkrankungen / Einschränkungen <small style="opacity:0.6">(optional)</small></label><textarea id="tHealth" name="health" placeholder="Hilft mir, sicher zu programmieren."></textarea></div>
+        <label style="display:flex;gap:0.6rem;align-items:flex-start;margin:1rem 0;font-size:0.84rem;color:var(--bone)"><input type="checkbox" id="tConsent" required style="margin-top:0.3rem"><span>Ich habe die <a href="/datenschutz" style="color:var(--orange)">Datenschutzerklärung</a> gelesen und akzeptiere die Verarbeitung meiner Daten zur Anfrage-Beantwortung.</span></label>
+        <p id="tFormError" role="alert" style="display:none;color:#ff5a5a;font-size:0.88rem;margin:0.4rem 0 0.6rem;font-family:var(--mono)"></p>
+        <button type="submit">Anfrage senden →</button>
+      </form>
+      <div id="trainerSuccess" hidden style="padding:2rem 1.6rem;background:rgba(255,90,31,0.08);border-left:3px solid var(--orange)">
+        <p style="font-family:var(--display);font-size:1.4rem;color:var(--orange);letter-spacing:0.04em;margin:0 0 0.8rem">DANKE, <span id="tSuccessName">—</span>.</p>
+        <p style="font-family:var(--mono);font-size:0.92rem;color:var(--bone);line-height:1.65;margin:0 0 0.4rem">Du hast <strong id="tSuccessPkg" style="color:var(--orange)">—</strong> angefragt. Ich melde mich innerhalb von 24 Stunden mit einem Terminvorschlag.</p>
+        <p style="font-family:var(--mono);font-size:0.84rem;color:var(--bone);margin:0 0 1.4rem">Bis dahin: kein Stress.</p>
+        <button type="button" id="trainerReset" style="background:transparent;border:1px solid var(--orange);color:var(--orange);padding:0.6rem 1.2rem;cursor:pointer;font-family:var(--mono);font-size:0.82rem;letter-spacing:0.06em;text-transform:uppercase">Andere Anfrage</button>
       </div>
-      <div class="field"><label for="tGoal">Dein Ziel in 6 Monaten?</label><textarea id="tGoal" placeholder="In 1–2 Sätzen: was möchtest du erreichen?"></textarea></div>
-      <button type="submit">Termin anfragen →</button>
-    </form>
+    </div>
   </div>
 </section>
 
@@ -720,8 +734,8 @@ h1,h2,h3,h4 { font-family: var(--display); font-weight: 900; letter-spacing: -0.
       <div class="footer__col">
         <h4>// Folgen</h4>
         <ul>
-          <li><a href="#">Instagram · @maxberlin.training</a></li>
-          <li><a href="#">YouTube · Form-Checks</a></li>
+          <li>Instagram · @maxberlin.training</li>
+          <li>YouTube · Form-Checks</li>
           <li><a href="/">← daylens / WMW Services</a></li>
         </ul>
       </div>
@@ -736,5 +750,79 @@ h1,h2,h3,h4 { font-family: var(--display); font-weight: 900; letter-spacing: -0.
 
 <link rel="stylesheet" href="/assets/chatbot-widget.css">
 <script src="/assets/chatbot-widget.js" defer></script>
+<script>
+(function(){
+  var form = document.getElementById('trainerForm');
+  if (!form) return;
+  var success = document.getElementById('trainerSuccess');
+  var errBox = document.getElementById('tFormError');
+  var resetBtn = document.getElementById('trainerReset');
+  var paketInput = document.getElementById('tPaket');
+  var pkgHeader = document.getElementById('tPackageHeader');
+  var pkgName = document.getElementById('tPackageName');
+  var pkgPrice = document.getElementById('tPackagePrice');
+
+  function applyPackage(name, price){
+    if (!name) return;
+    paketInput.value = name;
+    pkgName.textContent = name;
+    pkgPrice.textContent = price || '';
+    pkgHeader.hidden = false;
+  }
+
+  // CTA prefill
+  document.querySelectorAll('[data-package]').forEach(function(el){
+    el.addEventListener('click', function(e){
+      applyPackage(el.dataset.package, el.dataset.price);
+    });
+  });
+
+  // URL query support: /trainer?paket=10er-Block
+  var params = new URLSearchParams(location.search);
+  if (params.get('paket')) {
+    var fromUrl = params.get('paket');
+    var match = document.querySelector('[data-package="' + fromUrl + '"]');
+    applyPackage(fromUrl, match ? match.dataset.price : '');
+  }
+
+  function setErr(field, msg){
+    if (field) field.style.borderColor = '#ff5a5a';
+    errBox.textContent = msg;
+    errBox.style.display = 'block';
+  }
+  function clearErr(){
+    errBox.style.display = 'none';
+    Array.prototype.forEach.call(form.querySelectorAll('input,select,textarea'), function(el){ el.style.borderColor = ''; });
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    clearErr();
+    var name = form.name.value.trim();
+    var email = form.email.value.trim();
+    var goal = form.goal.value.trim();
+    var consent = document.getElementById('tConsent').checked;
+    if (!name) return setErr(form.name, 'Bitte gib deinen Namen an.');
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return setErr(form.email, 'Bitte prüf die E-Mail-Adresse.');
+    if (goal.length < 10) return setErr(form.goal, 'Bitte beschreib dein Ziel in mindestens 10 Zeichen.');
+    if (!consent) return setErr(null, 'Bitte stimme der Datenverarbeitung zu.');
+    document.getElementById('tSuccessName').textContent = name.toUpperCase();
+    document.getElementById('tSuccessPkg').textContent = paketInput.value || 'eine Session';
+    form.hidden = true;
+    pkgHeader.hidden = true;
+    success.hidden = false;
+    success.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+
+  if (resetBtn) resetBtn.addEventListener('click', function(){
+    form.reset();
+    clearErr();
+    paketInput.value = '';
+    pkgHeader.hidden = true;
+    success.hidden = true;
+    form.hidden = false;
+  });
+})();
+</script>
 </body>
 </html>
