@@ -123,11 +123,19 @@ function wireAuthForm() {
     statusEl.className = 'auth-status';
     statusEl.textContent = 'Verifying…';
     try {
-      await verifyOtpCode(pendingEmail, code);
-      statusEl.textContent = 'Signed in.';
+      const data = await verifyOtpCode(pendingEmail, code);
+      statusEl.textContent = 'Signed in. Loading your day…';
       statusEl.className = 'auth-status success';
-      // onAuthChange will swap to app shell
+      // Don't wait for onAuthStateChange — drive the swap ourselves.
+      const user = data?.user || getUser();
+      if (user) {
+        showApp(user);
+      } else {
+        // Last-resort fallback: hard reload, the persisted session will pick up
+        setTimeout(() => window.location.reload(), 400);
+      }
     } catch (err) {
+      console.error('[auth] verify failed', err);
       statusEl.textContent = err?.message || 'Invalid or expired code';
       statusEl.className = 'auth-status error';
       btn.disabled = false;

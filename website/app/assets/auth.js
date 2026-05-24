@@ -78,13 +78,49 @@ export async function signInWithEmail(email) {
 
 export async function verifyOtpCode(email, token) {
   if (!supabaseClient) throw new Error('Auth not initialized');
-  const { data, error } = await supabaseClient.auth.verifyOtp({
-    email,
-    token: String(token).trim(),
-    type: 'email',
-  });
-  if (error) throw error;
-  return data;
+  const cleanToken = String(token).trim().replace(/\s+/g, '');
+
+  // Some Supabase project configs accept type:'email', others need
+  // type:'magiclink'. Try both with a hard 12s timeout so the UI never
+  // hangs silently.
+  const TIMEOUT_MS = 12000;
+
+  function withTimeout(promise, label) {
+    return Promise.race([
+      promise,
+      new Promise((_, reject) =>
+        setTimeout(() => reject(new Error(`${label} timed out after ${TIMEOUT_MS / 1000}s`)), TIMEOUT_MS)
+      ),
+    ]);
+  }
+
+  console.log('[auth] verifyOtp attempt: type=email');
+  try {
+    const r = await withTimeout(
+      supabaseClient.auth.verifyOtp({ email, token: cleanToken, type: 'email' }),
+      'verifyOtp(email)'
+    );
+    if (r.error) {
+      console.warn('[auth] type=email failed:', r.error.message);
+      throw r.error;
+    }
+    console.log('[auth] type=email ok');
+    return r.data;
+  } catch (e1) {
+    console.log('[auth] verifyOtp attempt: type=magiclink');
+    try {
+      const r2 = await withTimeout(
+        supabaseClient.auth.verifyOtp({ email, token: cleanToken, type: 'magiclink' }),
+        'verifyOtp(magiclink)'
+      );
+      if (r2.error) throw r2.error;
+      console.log('[auth] type=magiclink ok');
+      return r2.data;
+    } catch (e2) {
+      console.error('[auth] both verify attempts failed', e1, e2);
+      throw new Error(`Code invalid or expired. (${e1?.message || e1}; ${e2?.message || e2})`);
+    }
+  }
 }
 
 export async function signOut() {
