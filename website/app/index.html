@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<meta name="theme-color" content="#050409" />
+<title>Aurelys — Intelligence, for the rhythm of a day.</title>
+<meta name="description" content="A calm AI for journaling, daily planning, and gentle reflection." />
+<link rel="manifest" href="/app/manifest.json">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23060509'/%3E%3Ccircle cx='16' cy='16' r='6' fill='none' stroke='%23c89870' stroke-width='1.3'/%3E%3Ccircle cx='16' cy='16' r='1.6' fill='%23efe6d4'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="/app/icon-192.png">
+<link rel="stylesheet" href="/app/assets/app.css">
+</head>
+<body>
+
+<!-- ─── Auth gate ─────────────────────────────────────────────────────── -->
+<div id="auth-gate" class="auth-gate" hidden>
+  <div class="auth-card">
+    <div class="auth-logo">
+      <svg width="44" height="44" viewBox="0 0 32 32" aria-hidden="true">
+        <circle cx="16" cy="16" r="9" fill="none" stroke="#c89870" stroke-width="1.2"/>
+        <circle cx="16" cy="16" r="2" fill="#efe6d4"/>
+      </svg>
+    </div>
+    <h1 class="auth-title">Aurelys</h1>
+    <p class="auth-tagline">Sign in to begin your practice.</p>
+    <form id="auth-form" class="auth-form" novalidate>
+      <input id="auth-email" type="email" required placeholder="your email" autocomplete="email" />
+      <button type="submit" class="auth-submit">Send magic link →</button>
+      <p id="auth-status" class="auth-status" aria-live="polite"></p>
+    </form>
+    <p class="auth-foot">We email you a one-tap sign-in link. No password.</p>
+  </div>
+</div>
+
+<!-- ─── Main app shell ────────────────────────────────────────────────── -->
+<div id="app-shell" class="app-shell" hidden>
+
+  <header class="app-header">
+    <div class="app-brand">
+      <svg width="22" height="22" viewBox="0 0 32 32" aria-hidden="true">
+        <circle cx="16" cy="16" r="9" fill="none" stroke="#c89870" stroke-width="1.4"/>
+        <circle cx="16" cy="16" r="2" fill="#efe6d4"/>
+      </svg>
+      <span>Aurelys</span>
+    </div>
+    <nav class="app-nav">
+      <a href="#/today"        class="nav-link" data-route="today">Today</a>
+      <a href="#/constellation" class="nav-link" data-route="constellation">Constellation</a>
+      <a href="#/settings"     class="nav-link" data-route="settings">Settings</a>
+    </nav>
+    <div class="app-user">
+      <span id="user-email" class="user-email"></span>
+      <button id="signout-btn" class="signout-btn" type="button" title="Sign out">↪</button>
+    </div>
+  </header>
+
+  <main id="app-main" class="app-main"></main>
+
+  <div id="toast" class="toast" aria-live="polite"></div>
+</div>
+
+<!-- ─── Supabase SDK (CDN) ──────────────────────────────────────────── -->
+<script type="module">
+  // Bootstrap: lazy-load Supabase, then start app
+  import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.45.4';
+  window.__supabaseFactory = createClient;
+  const evt = new Event('supabase:ready');
+  window.dispatchEvent(evt);
+</script>
+
+<script type="module" src="/app/assets/app.js"></script>
+
+<script>
+  // Service worker registration (PWA, offline shell)
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/app/sw.js').catch(() => {});
+    });
+  }
+</script>
+
+</body>
+</html>
