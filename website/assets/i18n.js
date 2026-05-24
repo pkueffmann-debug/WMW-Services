@@ -1,163 +1,275 @@
 /* =========================================================
-   WMW Services — i18n system
-   Default lang: EN (HTML content is English).
-   DE strings live in this file; toggle replaces text in-place.
+   WMW Services — i18n (auto-translate, all pages)
+   Default: EN (source HTML). Switcher offers 25+ languages.
+   Translation via MyMemory free API + localStorage cache.
+   No data-i18n attrs required — walks all visible text nodes.
    ========================================================= */
 (function () {
   'use strict';
 
   const STORAGE_KEY = 'wmw_lang';
-  const SUPPORTED = ['en', 'de'];
+  const CACHE_PREFIX = 'wmw_t_';
 
-  // ============== DE dictionary ==============
-  // Keys reference the original English text in the HTML.
-  // When user clicks the EN→DE switcher, these replace textContent.
-  const de = {
-    // ---- Nav ----
-    'nav.services': 'Leistungen',
-    'nav.work': 'Arbeiten',
-    'nav.pricing': 'Preise',
-    'nav.pilot': 'Pilot 2026',
-    'nav.contact': 'Kontakt',
-    'nav.cta': 'Projekt anfragen',
-    'nav.about': 'Über uns',
+  // [code, native label]
+  const LANGS = [
+    ['en', 'English'],   ['de', 'Deutsch'],   ['fr', 'Français'],
+    ['es', 'Español'],   ['it', 'Italiano'],  ['pt', 'Português'],
+    ['nl', 'Nederlands'],['pl', 'Polski'],    ['ru', 'Русский'],
+    ['uk', 'Українська'],['tr', 'Türkçe'],    ['ar', 'العربية'],
+    ['zh-CN', '中文'],   ['ja', '日本語'],    ['ko', '한국어'],
+    ['hi', 'हिन्दी'],     ['id', 'Indonesia'], ['vi', 'Tiếng Việt'],
+    ['th', 'ไทย'],       ['sv', 'Svenska'],   ['da', 'Dansk'],
+    ['no', 'Norsk'],     ['fi', 'Suomi'],     ['cs', 'Čeština'],
+    ['el', 'Ελληνικά'],  ['he', 'עברית'],     ['ro', 'Română'],
+    ['hu', 'Magyar'],    ['ja', '日本語']
+  ];
 
-    // ---- Index Hero ----
-    'index.eyebrow': 'WMW Services · Berlin',
-    'index.hero.headline': 'Maßgeschneiderte Websites für Berliner Geschäfte.',
-    'index.hero.headlineEm': 'Live in 7–21 Werktagen.',
-    'index.hero.sub': 'AI-Integration für Café, Kanzlei, Trainer & lokale Dienstleister. Festpreis, kein Stundenkonto. Ab 490 €.',
-    'index.hero.ctaPrimary': 'Kostenloses Erstgespräch →',
-    'index.hero.ctaSecondary': 'Arbeiten ansehen',
+  const SKIP_TAGS = new Set(['SCRIPT', 'STYLE', 'NOSCRIPT', 'CODE', 'PRE', 'TEXTAREA']);
+  const RTL = new Set(['ar', 'he']);
 
-    // ---- Index Services ----
-    'index.services.eyebrow': 'Leistungen',
-    'index.services.headline': 'Vom Konzept bis Live-Schaltung.',
-    'index.services.s01.title': 'Web Design + Build',
-    'index.services.s01.detail': 'Custom-Designs mit Festpreis. Mobile-optimiert, performant, modern. Du gibst Material, wir gestalten und entwickeln.',
-    'index.services.s02.title': 'AI Chatbot Integration',
-    'index.services.s02.detail': 'Chatbot auf deiner Speisekarte oder Preisliste trainiert. Beantwortet echte Kundenfragen — direkt in der Website.',
-    'index.services.s05.title': 'Hosting & Bug-Fixes auf Abruf',
-    'index.services.s05.detail': 'Vercel-Hosting mit SSL und automatischen Plattform-Updates. Bei kritischen Bugs schreib uns — wir reagieren so schnell wir können. Content-Änderungen abrufbar nach Stundensatz.',
-
-    // ---- Index About ----
-    'index.about.headline.text': 'Ein Studio, vier Schüler,',
-    'index.about.headline.em': 'ein Anspruch.',
-    'index.about.p1': 'WMW Services ist ein junges Berliner Studio für Web Design mit optionaler AI-Integration. Wir bauen, was wir selbst nutzen würden. Festpreis, klare Lieferzeit, kein Stundenkonto.',
-    'index.about.p2': 'Paul (Engineering & AI), Jannis (3D & Motion), Tom (Client Strategy) und Justus (Visual Direction). Vier Berliner Schüler, jeder mit eigener Spezialisierung.',
-    'index.about.cta': 'About Us lesen →',
-
-    // ---- Index Contact ----
-    'index.contact.eyebrow': 'Kontakt',
-    'index.contact.consent': 'Ich willige ein, dass meine Angaben zur Bearbeitung meiner Anfrage gespeichert werden.',
-    'index.contact.submit': 'Angebot anfordern →',
-    'index.contact.sent': 'Danke! Wir melden uns innerhalb von 48 Stunden persönlich bei dir.',
-
-    // ---- About Page ----
-    'about.eyebrow': 'About Us',
-    'about.h1.text': 'Vier Schüler aus Berlin.',
-    'about.h1.em': 'Vier Spezialisierungen.',
-    'about.lead.p1': 'WMW Services ist ein Berliner Web-Studio. Wir sind vier — Paul, Tom, Jannis und Justus. Jeder von uns macht etwas anderes besonders gut: Engineering, Client Strategy, 3D & Motion, Visual Direction. Zusammengenommen bauen wir Festpreis-Websites mit optionaler AI-Integration für Berliner KMU. Ohne Stundenkonto. In 7–21 Werktagen.',
-    'about.lead.p2': 'Wir sind kein Konzern, keine Agentur, kein Hobby-Projekt. Wir sind vier Leute aus derselben Schule, die seit Jahren mit Code, Design und Bildern arbeiten — und die irgendwann beschlossen haben, das auch für andere zu tun.',
-    'about.team.heading': 'Das Team',
-    'about.history.heading': 'Wie WMW entstanden ist',
-    'about.history.p': 'Wir kennen uns aus der Schule. Über Monate haben wir nebenher an eigenen Projekten gearbeitet — Paul an JARVIS, Jannis an Blender-Animationen, Justus an Schülerzeitungs-Layouts, Tom an Schülervertretungs-Briefs. Irgendwann fiel uns auf, dass wir vier zusammen genau das abdecken, was ein kleines Web-Studio ausmacht. WMW Services entstand 2025 als ehrlicher Versuch, das, was wir sowieso schon können, gegen Geld anzubieten — zum Festpreis, mit klarer Lieferzeit, ohne Agentur-Theater.',
-    'about.built.heading': 'Was wir bisher gebaut haben',
-    'about.search.heading': 'Was wir suchen',
-    'about.cta.primary': 'Erstgespräch anfragen →',
-    'about.cta.secondary': 'Pilot-Konditionen ansehen',
-
-    // ---- Common / Footer ----
-    'footer.backToTop': '↑ Nach oben',
-    'lang.switcherLabel': 'EN',
-  };
-
-  // ============== Core ==============
-  function detect() {
-    const stored = (function () {
-      try { return localStorage.getItem(STORAGE_KEY); } catch (e) { return null; }
-    })();
-    if (stored && SUPPORTED.indexOf(stored) !== -1) return stored;
-    return 'en'; // default
+  // ---- Storage ----
+  function getStored() {
+    try { return localStorage.getItem(STORAGE_KEY) || 'en'; } catch (e) { return 'en'; }
+  }
+  function setStored(v) {
+    try { localStorage.setItem(STORAGE_KEY, v); } catch (e) {}
+  }
+  function hash(s) {
+    let h = 0;
+    for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0;
+    return h.toString(36);
+  }
+  function cacheGet(lang, text) {
+    try { return localStorage.getItem(CACHE_PREFIX + lang + ':' + hash(text)); } catch (e) { return null; }
+  }
+  function cacheSet(lang, text, tr) {
+    try { localStorage.setItem(CACHE_PREFIX + lang + ':' + hash(text), tr); } catch (e) {}
   }
 
-  function persist(lang) {
-    try { localStorage.setItem(STORAGE_KEY, lang); } catch (e) { /* private mode */ }
+  // ---- DOM scan ----
+  let textNodes = null; // [{ node, original }]
+  let attrNodes = null; // [{ node, attr, original }]
+
+  function isTranslatable(text) {
+    const t = text.trim();
+    if (t.length < 2) return false;
+    if (/^[\d\s.,:;€$%+\-*/()|·•→←↑↓#@]+$/.test(t)) return false;
+    if (/^[\w.+-]+@[\w-]+\.[\w.-]+$/.test(t)) return false;
+    if (/^https?:\/\//.test(t)) return false;
+    return true;
   }
 
-  // Walks DOM, replaces [data-i18n="key"] text with translation.
-  // For DE: uses dictionary. For EN: restores the data-i18n-en cache.
-  function applyLang(lang) {
+  function collect() {
+    if (textNodes) return;
+    textNodes = [];
+    attrNodes = [];
+
+    const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+      acceptNode: function (n) {
+        const p = n.parentNode;
+        if (!p || SKIP_TAGS.has(p.tagName)) return NodeFilter.FILTER_REJECT;
+        if (p.closest && p.closest('[data-no-translate]')) return NodeFilter.FILTER_REJECT;
+        if (p.closest && p.closest('.lang-switch-select')) return NodeFilter.FILTER_REJECT;
+        if (!isTranslatable(n.nodeValue)) return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    let n;
+    while ((n = walker.nextNode())) {
+      textNodes.push({ node: n, original: n.nodeValue });
+    }
+
+    const ATTRS = ['placeholder', 'title', 'aria-label', 'alt'];
+    document.querySelectorAll('[placeholder],[title],[aria-label],[alt]').forEach(function (el) {
+      if (el.closest('[data-no-translate]')) return;
+      if (el.closest('.lang-switch-select')) return;
+      ATTRS.forEach(function (attr) {
+        const v = el.getAttribute(attr);
+        if (v && isTranslatable(v)) {
+          attrNodes.push({ node: el, attr: attr, original: v });
+        }
+      });
+    });
+  }
+
+  function restoreEnglish() {
+    collect();
+    textNodes.forEach(function (it) { it.node.nodeValue = it.original; });
+    attrNodes.forEach(function (it) { it.node.setAttribute(it.attr, it.original); });
+    document.documentElement.lang = 'en';
+    document.documentElement.dir = 'ltr';
+  }
+
+  // ---- Translation API (MyMemory, free, no key) ----
+  async function fetchOne(text, lang) {
+    const url = 'https://api.mymemory.translated.net/get?q=' +
+      encodeURIComponent(text) + '&langpair=en|' + lang;
+    try {
+      const r = await fetch(url);
+      if (!r.ok) return null;
+      const j = await r.json();
+      const t = j && j.responseData && j.responseData.translatedText;
+      if (!t) return null;
+      // MyMemory sometimes returns warnings like "MYMEMORY WARNING:..." — skip those
+      if (/MYMEMORY WARNING/i.test(t)) return null;
+      return t;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  async function fetchAll(texts, lang, onProgress) {
+    const CONCURRENT = 5;
+    const result = {};
+    let done = 0;
+    for (let i = 0; i < texts.length; i += CONCURRENT) {
+      const slice = texts.slice(i, i + CONCURRENT);
+      await Promise.all(slice.map(async function (t) {
+        const tr = await fetchOne(t, lang);
+        if (tr) { result[t] = tr; cacheSet(lang, t, tr); }
+        done++;
+        if (onProgress) onProgress(done, texts.length);
+      }));
+    }
+    return result;
+  }
+
+  // ---- Apply translation ----
+  let busy = false;
+
+  async function translate(lang) {
+    if (busy) return;
+    if (lang === 'en') { restoreEnglish(); return; }
+
+    busy = true;
+    showLoading(true);
+    collect();
+
     document.documentElement.lang = lang;
-    const nodes = document.querySelectorAll('[data-i18n]');
-    nodes.forEach(function (node) {
-      const key = node.getAttribute('data-i18n');
-      if (lang === 'de') {
-        // Cache English on first switch
-        if (!node.hasAttribute('data-i18n-en')) {
-          node.setAttribute('data-i18n-en', node.textContent);
-        }
-        if (de[key] != null) node.textContent = de[key];
-      } else {
-        // Restore English from cache
-        const en = node.getAttribute('data-i18n-en');
-        if (en != null) node.textContent = en;
+    document.documentElement.dir = RTL.has(lang) ? 'rtl' : 'ltr';
+
+    const uniques = new Set();
+    textNodes.forEach(function (it) { uniques.add(it.original.trim()); });
+    attrNodes.forEach(function (it) { uniques.add(it.original.trim()); });
+
+    const map = {};
+    const toFetch = [];
+    uniques.forEach(function (t) {
+      const c = cacheGet(lang, t);
+      if (c != null) map[t] = c; else toFetch.push(t);
+    });
+
+    if (toFetch.length) {
+      const fetched = await fetchAll(toFetch, lang, function (d, n) {
+        updateLoading(d, n);
+      });
+      Object.assign(map, fetched);
+    }
+
+    textNodes.forEach(function (it) {
+      const orig = it.original;
+      const tr = map[orig.trim()];
+      if (tr) {
+        const lead = orig.match(/^\s*/)[0];
+        const tail = orig.match(/\s*$/)[0];
+        it.node.nodeValue = lead + tr + tail;
       }
     });
-
-    // Attributes (placeholder, aria-label, title)
-    document.querySelectorAll('[data-i18n-attr]').forEach(function (node) {
-      const spec = node.getAttribute('data-i18n-attr'); // "placeholder:contact.name"
-      const parts = spec.split(':');
-      if (parts.length !== 2) return;
-      const attr = parts[0];
-      const key = parts[1];
-      if (lang === 'de') {
-        if (!node.hasAttribute('data-i18n-attr-en-' + attr)) {
-          node.setAttribute('data-i18n-attr-en-' + attr, node.getAttribute(attr) || '');
-        }
-        if (de[key] != null) node.setAttribute(attr, de[key]);
-      } else {
-        const en = node.getAttribute('data-i18n-attr-en-' + attr);
-        if (en != null) node.setAttribute(attr, en);
-      }
+    attrNodes.forEach(function (it) {
+      const tr = map[it.original.trim()];
+      if (tr) it.node.setAttribute(it.attr, tr);
     });
 
-    // Update switcher state
-    document.querySelectorAll('.lang-switch').forEach(function (btn) {
-      btn.textContent = lang === 'en' ? 'DE' : 'EN';
-      btn.setAttribute('aria-label', lang === 'en' ? 'Sprache auf Deutsch umschalten' : 'Switch language to English');
-    });
+    showLoading(false);
+    busy = false;
   }
 
-  function setLang(lang) {
-    if (SUPPORTED.indexOf(lang) === -1) return;
-    persist(lang);
-    applyLang(lang);
+  // ---- UI: dropdown + loading indicator ----
+  function injectStyles() {
+    if (document.getElementById('wmw-i18n-style')) return;
+    const st = document.createElement('style');
+    st.id = 'wmw-i18n-style';
+    st.textContent =
+      '.lang-switch-select{font:inherit;font-size:13px;padding:6px 28px 6px 10px;border-radius:6px;' +
+      'border:1px solid rgba(255,255,255,.25);background:rgba(0,0,0,.65);color:#fff;cursor:pointer;' +
+      '-webkit-appearance:none;appearance:none;' +
+      'background-image:url("data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'10\' height=\'6\' viewBox=\'0 0 10 6\'><path fill=\'%23fff\' d=\'M0 0l5 6 5-6z\'/></svg>");' +
+      'background-repeat:no-repeat;background-position:right 8px center;background-size:8px}' +
+      '.lang-switch-select option{background:#111;color:#fff}' +
+      '.lang-switch-select--inline{margin-right:8px}' +
+      '.lang-switch-select--floating{position:fixed;top:14px;right:14px;z-index:99999;backdrop-filter:blur(6px)}' +
+      '#wmw-i18n-loader{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:99999;' +
+      'background:rgba(0,0,0,.85);color:#fff;font:13px/1.2 system-ui,sans-serif;padding:10px 16px;' +
+      'border-radius:999px;border:1px solid rgba(255,255,255,.15);display:none}' +
+      '#wmw-i18n-loader.on{display:block}' +
+      '@media (max-width:640px){.lang-switch-select{font-size:12px;padding:5px 24px 5px 8px}' +
+      '.lang-switch-select--floating{top:8px;right:8px}}';
+    document.head.appendChild(st);
   }
 
-  function toggle() {
-    const current = document.documentElement.lang || 'en';
-    setLang(current === 'en' ? 'de' : 'en');
-  }
-
-  // Inject switcher into nav if not already present
   function injectSwitcher() {
-    if (document.querySelector('.lang-switch')) return;
+    if (document.querySelector('.lang-switch-select')) return;
+    const sel = document.createElement('select');
+    sel.className = 'lang-switch-select';
+    sel.setAttribute('aria-label', 'Change language');
+    const seen = new Set();
+    LANGS.forEach(function (l) {
+      if (seen.has(l[0])) return; seen.add(l[0]);
+      const o = document.createElement('option');
+      o.value = l[0];
+      o.textContent = l[1];
+      sel.appendChild(o);
+    });
+    sel.value = getStored();
+    sel.addEventListener('change', function () {
+      const v = sel.value;
+      setStored(v);
+      translate(v);
+    });
+
+    // Remove any legacy switcher button
+    document.querySelectorAll('.lang-switch').forEach(function (b) { b.remove(); });
+
     const actions = document.querySelector('.nav__actions');
-    if (!actions) return;
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'lang-switch';
-    btn.textContent = 'DE';
-    btn.addEventListener('click', toggle);
-    actions.insertBefore(btn, actions.firstChild);
+    if (actions) {
+      sel.classList.add('lang-switch-select--inline');
+      actions.insertBefore(sel, actions.firstChild);
+    } else {
+      sel.classList.add('lang-switch-select--floating');
+      document.body.appendChild(sel);
+    }
   }
 
-  // Bootstrap
+  function injectLoader() {
+    if (document.getElementById('wmw-i18n-loader')) return;
+    const d = document.createElement('div');
+    d.id = 'wmw-i18n-loader';
+    d.textContent = 'Translating…';
+    document.body.appendChild(d);
+  }
+
+  function showLoading(on) {
+    const d = document.getElementById('wmw-i18n-loader');
+    if (!d) return;
+    if (on) { d.textContent = 'Translating…'; d.classList.add('on'); }
+    else d.classList.remove('on');
+  }
+  function updateLoading(done, total) {
+    const d = document.getElementById('wmw-i18n-loader');
+    if (!d) return;
+    d.textContent = 'Translating… ' + done + ' / ' + total;
+  }
+
+  // ---- Bootstrap ----
   function init() {
+    injectStyles();
     injectSwitcher();
-    applyLang(detect());
+    injectLoader();
+    const cur = getStored();
+    if (cur !== 'en') {
+      // defer so initial paint completes
+      setTimeout(function () { translate(cur); }, 50);
+    }
   }
 
   if (document.readyState === 'loading') {
@@ -166,6 +278,10 @@
     init();
   }
 
-  // Expose
-  window.WMW_i18n = { setLang: setLang, toggle: toggle, detect: detect };
+  window.WMW_i18n = {
+    translate: translate,
+    getStored: getStored,
+    setStored: setStored,
+    languages: LANGS
+  };
 })();
