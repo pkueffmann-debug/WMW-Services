@@ -61,7 +61,7 @@
       ],
       responses: [
         { rx: /(preis|kost|wie viel|wieviel|price|cost|tarif|pauschal)/i,
-          reply: 'Drei Festpreis-Pakete: <em>Starter</em> ab 1.490&nbsp;€ (7 Werktage), <em>Studio</em> ab 2.890&nbsp;€ (14 Werktage), <em>Studio+</em> ab 4.490&nbsp;€ mit AI-Chatbot. Endpreis nach 15-Min-Call.' },
+          reply: 'Drei Festpreis-Pakete: <em>Starter</em> ab 490&nbsp;€ (7 Werktage), <em>Studio</em> ab 1.490&nbsp;€ (14 Werktage), <em>Studio+</em> ab 3.290&nbsp;€ mit AI-Chatbot. Endpreis nach 15-Min-Call.' },
         { rx: /(pilot|reduziert|rabatt|discount|kondition)/i,
           reply: 'Drei Pilot-Plätze 2026 mit <em>−40 % gegen Listenpreis</em> im Tausch für das Recht, das fertige Projekt als Referenz zu führen. Zwei Plätze noch offen.' },
         { rx: /(demo|beispiel|portfolio|arbeit|reference|case)/i,

@@ -26,7 +26,7 @@
     'index.eyebrow': 'WMW Services · Berlin',
     'index.hero.headline': 'Maßgeschneiderte Websites für Berliner Geschäfte.',
     'index.hero.headlineEm': 'Live in 7–21 Werktagen.',
-    'index.hero.sub': 'AI-Integration für Café, Kanzlei, Trainer & lokale Dienstleister. Festpreis, kein Stundenkonto. Ab 1.490 €.',
+    'index.hero.sub': 'AI-Integration für Café, Kanzlei, Trainer & lokale Dienstleister. Festpreis, kein Stundenkonto. Ab 490 €.',
     'index.hero.ctaPrimary': 'Kostenloses Erstgespräch →',
     'index.hero.ctaSecondary': 'Arbeiten ansehen',
 
