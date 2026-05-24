@@ -647,7 +647,12 @@ em { font-style: italic; color: var(--copper); }
   <div class="hero__vignette" aria-hidden="true"></div>
 
   <div class="hero__copy">
-    <div class="hero__mark">Aurelys · <em>concept v1</em></div>
+    <div class="hero__mark">Aurelys · <em>concept v1</em> <span class="wip-pill" aria-label="In progress"><span class="wip-dot"></span>Entsteht gerade</span></div>
+    <style>
+      .wip-pill{display:inline-flex;align-items:center;gap:6px;margin-left:10px;padding:3px 10px 3px 8px;border:1px solid rgba(199,158,116,.45);border-radius:999px;background:rgba(184,137,92,.08);color:var(--copper,#c89870);font-family:'Fraunces',serif;font-style:italic;font-size:.78em;letter-spacing:.02em;vertical-align:middle}
+      .wip-dot{width:6px;height:6px;border-radius:50%;background:var(--copper,#c89870);box-shadow:0 0 8px rgba(200,152,112,.7);animation:wip-pulse 2s ease-in-out infinite}
+      @keyframes wip-pulse{0%,100%{opacity:.55;transform:scale(.85)}50%{opacity:1;transform:scale(1.1)}}
+    </style>
     <h1>
       <span class="line">An intelligence —</span>
       <span class="line">for the <em>rhythm of a day.</em></span>

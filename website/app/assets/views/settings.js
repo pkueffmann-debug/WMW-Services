@@ -11,12 +11,32 @@ const PROVIDERS = {
   claude: {
     label: 'Claude (Anthropic)',
     models: ['claude-haiku-4-5', 'claude-sonnet-4-6', 'claude-opus-4-7'],
-    hint: 'Best quality and warmth. Server-hosted key by default; paste your own to bypass.',
+    hint: 'Warm, observant, careful. Server-hosted key by default; paste your own to bypass.',
   },
   openai: {
     label: 'OpenAI',
     models: ['gpt-4o-mini', 'gpt-4o', 'gpt-4-turbo'],
     hint: 'Fast and inexpensive. Server-hosted key by default; paste your own to bypass.',
+  },
+  gemini: {
+    label: 'Gemini (Google)',
+    models: ['gemini-2.0-flash', 'gemini-2.0-flash-thinking-exp', 'gemini-1.5-pro'],
+    hint: 'Fast and free-tier-friendly. Server-hosted key by default.',
+  },
+  groq: {
+    label: 'Groq (extremely fast Llama/Mixtral)',
+    models: ['llama-3.3-70b-versatile', 'llama-3.1-8b-instant', 'mixtral-8x7b-32768'],
+    hint: 'Hardware-accelerated open-weights inference. Lightning quick, decent quality.',
+  },
+  mistral: {
+    label: 'Mistral',
+    models: ['mistral-small-latest', 'mistral-large-latest', 'open-mistral-nemo'],
+    hint: 'European LLM provider. Server-hosted key by default.',
+  },
+  cerebras: {
+    label: 'Cerebras (fastest inference)',
+    models: ['llama-3.3-70b', 'llama3.1-8b'],
+    hint: 'Wafer-scale chips. Faster than Groq for Llama-3.3-70B.',
   },
   ollama: {
     label: 'Ollama (local, private)',

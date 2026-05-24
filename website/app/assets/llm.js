@@ -8,9 +8,13 @@
 import { getSetting } from './storage.js';
 
 const DEFAULT_MODELS = {
-  claude: 'claude-haiku-4-5',
-  openai: 'gpt-4o-mini',
-  ollama: 'llama3.2',
+  claude:   'claude-haiku-4-5',
+  openai:   'gpt-4o-mini',
+  gemini:   'gemini-2.0-flash',
+  groq:     'llama-3.3-70b-versatile',
+  mistral:  'mistral-small-latest',
+  cerebras: 'llama-3.3-70b',
+  ollama:   'llama3.2',
 };
 
 export async function getLLMConfig() {
