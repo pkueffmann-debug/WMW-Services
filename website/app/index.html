@@ -26,10 +26,19 @@
     <p class="auth-tagline">Sign in to begin your practice.</p>
     <form id="auth-form" class="auth-form" novalidate>
       <input id="auth-email" type="email" required placeholder="your email" autocomplete="email" />
-      <button type="submit" class="auth-submit">Send magic link →</button>
+      <button type="submit" class="auth-submit">Send code →</button>
       <p id="auth-status" class="auth-status" aria-live="polite"></p>
     </form>
-    <p class="auth-foot">We email you a one-tap sign-in link. No password.</p>
+
+    <form id="auth-code-form" class="auth-form" novalidate hidden style="margin-top:14px">
+      <input id="auth-code" type="text" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code"
+             maxlength="6" required placeholder="6-digit code" />
+      <button type="submit" class="auth-submit">Verify →</button>
+      <p id="auth-code-status" class="auth-status" aria-live="polite"></p>
+      <button type="button" id="auth-back" class="auth-foot" style="background:none;border:none;cursor:pointer;text-decoration:underline;margin-top:4px">use a different email</button>
+    </form>
+
+    <p class="auth-foot">We email you a 6-digit code. No password.</p>
   </div>
 </div>
 

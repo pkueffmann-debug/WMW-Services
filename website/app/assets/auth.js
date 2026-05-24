@@ -65,12 +65,26 @@ export function onAuthChange(cb) { listeners.add(cb); return () => listeners.del
 export async function signInWithEmail(email) {
   if (!supabaseClient) throw new Error('Auth not initialized');
   const redirect = `${window.location.origin}/app/`;
+  // Sends both link AND token; user can use either. Whether the email
+  // shows a code, a link, or both is controlled by the Supabase
+  // 'Magic Link' email template (use {{ .Token }} for a 6-digit code).
   const { error } = await supabaseClient.auth.signInWithOtp({
     email,
-    options: { emailRedirectTo: redirect },
+    options: { emailRedirectTo: redirect, shouldCreateUser: true },
   });
   if (error) throw error;
   return true;
+}
+
+export async function verifyOtpCode(email, token) {
+  if (!supabaseClient) throw new Error('Auth not initialized');
+  const { data, error } = await supabaseClient.auth.verifyOtp({
+    email,
+    token: String(token).trim(),
+    type: 'email',
+  });
+  if (error) throw error;
+  return data;
 }
 
 export async function signOut() {

@@ -2,7 +2,7 @@
    Aurelys — App entry: auth gate, router, view loader
    ========================================================= */
 
-import { initAuth, getUser, onAuthChange, signInWithEmail, signOut } from './auth.js';
+import { initAuth, getUser, onAuthChange, signInWithEmail, verifyOtpCode, signOut } from './auth.js';
 import { syncAllDown, syncAllUp } from './storage.js';
 
 const VIEWS = {
@@ -85,6 +85,8 @@ function showApp(user) {
 }
 
 function wireAuthForm() {
+  let pendingEmail = '';
+
   $('#auth-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     const email = $('#auth-email').value.trim();
@@ -93,16 +95,53 @@ function wireAuthForm() {
     const btn = e.target.querySelector('button[type=submit]');
     btn.disabled = true;
     statusEl.className = 'auth-status';
-    statusEl.textContent = 'Sending link…';
+    statusEl.textContent = 'Sending code…';
     try {
       await signInWithEmail(email);
-      statusEl.textContent = `Check ${email} for your sign-in link.`;
+      pendingEmail = email;
+      statusEl.textContent = `Code sent to ${email}.`;
       statusEl.className = 'auth-status success';
+      // Reveal code-entry step
+      $('#auth-form').hidden = true;
+      const codeForm = $('#auth-code-form');
+      codeForm.hidden = false;
+      setTimeout(() => $('#auth-code').focus(), 50);
     } catch (err) {
-      statusEl.textContent = err?.message || 'Could not send link';
+      statusEl.textContent = err?.message || 'Could not send code';
       statusEl.className = 'auth-status error';
       btn.disabled = false;
     }
+  });
+
+  $('#auth-code-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const code = $('#auth-code').value.trim();
+    if (!code || !pendingEmail) return;
+    const statusEl = $('#auth-code-status');
+    const btn = e.target.querySelector('button[type=submit]');
+    btn.disabled = true;
+    statusEl.className = 'auth-status';
+    statusEl.textContent = 'Verifying…';
+    try {
+      await verifyOtpCode(pendingEmail, code);
+      statusEl.textContent = 'Signed in.';
+      statusEl.className = 'auth-status success';
+      // onAuthChange will swap to app shell
+    } catch (err) {
+      statusEl.textContent = err?.message || 'Invalid or expired code';
+      statusEl.className = 'auth-status error';
+      btn.disabled = false;
+    }
+  });
+
+  $('#auth-back').addEventListener('click', () => {
+    pendingEmail = '';
+    $('#auth-code-form').hidden = true;
+    $('#auth-form').hidden = false;
+    $('#auth-code').value = '';
+    $('#auth-status').textContent = '';
+    const btn = $('#auth-form').querySelector('button[type=submit]');
+    btn.disabled = false;
   });
 
   $('#signout-btn').addEventListener('click', async () => {
