@@ -3,7 +3,7 @@
    - App shell + assets: cache-first with network fallback (offline-capable)
    - API + Supabase: always network (no caching of dynamic data)
 */
-const CACHE = 'aurelys-shell-v2';
+const CACHE = 'aurelys-shell-v4';
 const SHELL = [
   '/app/',
   '/app/index.html',

@@ -5,6 +5,8 @@
 import { initAuth, getUser, onAuthChange, signInWithEmail, verifyOtpCode, signOut } from './auth.js';
 import { syncAllDown, syncAllUp } from './storage.js';
 
+console.log('[app] boot script v3 loaded', new Date().toISOString());
+
 const VIEWS = {
   today: () => import('./views/today.js'),
   constellation: () => import('./views/constellation.js'),
@@ -86,9 +88,15 @@ function showApp(user) {
 
 function wireAuthForm() {
   let pendingEmail = '';
+  console.log('[app] wireAuthForm: forms found?', {
+    emailForm: !!$('#auth-form'),
+    codeForm: !!$('#auth-code-form'),
+    codeInput: !!$('#auth-code'),
+  });
 
   $('#auth-form').addEventListener('submit', async (e) => {
     e.preventDefault();
+    console.log('[app] email-form submit');
     const email = $('#auth-email').value.trim();
     if (!email) return;
     const statusEl = $('#auth-status');
@@ -116,7 +124,9 @@ function wireAuthForm() {
   $('#auth-code-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     const code = $('#auth-code').value.trim();
-    if (!code || !pendingEmail) return;
+    console.log('[app] code-form submit', { codeLen: code.length, pendingEmail: !!pendingEmail });
+    if (!code) { alert('Bitte den 6-stelligen Code eintippen.'); return; }
+    if (!pendingEmail) { alert('Bitte erst Email eingeben und Code anfordern.'); return; }
     const statusEl = $('#auth-code-status');
     const btn = e.target.querySelector('button[type=submit]');
     btn.disabled = true;
