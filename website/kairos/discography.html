@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en" data-page="discography">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>KAIROS — Discography</title>
+<meta name="description" content="KAIROS discography — sixteen releases spanning 2019–2025. Browse by year. MONOLITH, NULLZONE, STRATA, ENTROPY and more.">
+<meta name="theme-color" content="#0a0a0c" />
+<link rel="canonical" href="https://www.daylens.dev/kairos/discography">
+<meta property="og:title" content="KAIROS Discography">
+<meta property="og:url" content="https://www.daylens.dev/kairos/discography">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%230a0a0c'/%3E%3Ctext x='16' y='23' font-family='Inter,sans-serif' font-size='20' font-weight='700' text-anchor='middle' fill='%23b8ff00'%3EK%3C/text%3E%3C/svg%3E">
+
+<link rel="stylesheet" href="/kairos/assets/kairos.css">
+</head>
+<body>
+
+<!-- ═════════════ SHARED HEADER ═════════════ -->
+<header class="kairos-header">
+  <a href="/kairos" class="kairos-header__logo" data-magnetic>KAIROS</a>
+  <nav class="kairos-header__nav">
+    <a href="/kairos/discography" class="active" data-magnetic>Discography</a>
+    <a href="/kairos/live" data-magnetic>Live</a>
+    <a href="/kairos/about" data-magnetic>About</a>
+  </nav>
+  <a href="/kairos/live#booking" class="kairos-header__cta" data-magnetic>Booking →</a>
+  <button class="kairos-hamburger" aria-label="Open menu"><span></span><span></span><span></span></button>
+</header>
+
+<div class="kairos-mobile-menu" aria-hidden="true">
+  <a href="/kairos">Home</a>
+  <a href="/kairos/discography" class="active">Discography</a>
+  <a href="/kairos/live">Live</a>
+  <a href="/kairos/about">About</a>
+  <div class="secondary">booking@kairos.example</div>
+</div>
+
+<!-- ═════════════ PAGE HERO ═════════════ -->
+<section class="kairos-page-hero">
+  <div class="kairos-page-hero__eyebrow">Catalog · 16 Releases</div>
+  <h1 class="kairos-page-hero__title">Discography</h1>
+  <p class="kairos-page-hero__subtitle">Eight years. Three labels. One signature.</p>
+</section>
+
+<!-- ═════════════ FEATURED RELEASE ═════════════ -->
+<section class="kairos-section" style="padding-top:40px">
+  <div class="kairos-section__inner">
+    <div class="kairos-section-eyebrow">Latest release</div>
+
+    <div class="kairos-featured">
+      <div class="kairos-featured__cover">
+        <span class="label">01</span>
+      </div>
+      <div class="kairos-featured__meta">
+        <span class="featured-eyebrow">EP · November 2025</span>
+        <h3>MONOLITH</h3>
+        <p style="color:var(--kairos-ash);font-size:15px;line-height:1.65;margin:0;max-width:36ch">
+          Four tracks built around a single sub-bass frequency, recorded over
+          nineteen consecutive nights. The first KAIROS release to use no
+          digital synthesis — every voice is hardware.
+        </p>
+        <dl>
+          <dt>Catalog</dt><dd>NULLZONE-008</dd>
+          <dt>Label</dt><dd>NULLZONE</dd>
+          <dt>Format</dt><dd>Vinyl 12" · Digital · Cassette (Ltd.)</dd>
+          <dt>BPM</dt><dd>132 — 138</dd>
+          <dt>Pressing</dt><dd>500 copies black wax · 100 acid-green</dd>
+        </dl>
+        <div class="kairos-featured__tracklist">
+          <ol>
+            <li><span>Container Theory</span><span class="dur">08:14</span></li>
+            <li><span>Monolith I (Concrete)</span><span class="dur">09:42</span></li>
+            <li><span>Monolith II (Felt)</span><span class="dur">11:08</span></li>
+            <li><span>Hollow Exit</span><span class="dur">06:50</span></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════ FILTER + FULL GRID ═════════════ -->
+<section class="kairos-section kairos-section--steel">
+  <div class="kairos-section__inner">
+    <div class="kairos-section-eyebrow">Full catalog</div>
+    <h2 class="kairos-section-title">Sixteen containers.</h2>
+
+    <div class="kairos-filter" id="kairos-filter">
+      <button class="active" data-year="all">All</button>
+      <button data-year="2025">2025</button>
+      <button data-year="2024">2024</button>
+      <button data-year="2023">2023</button>
+      <button data-year="2022">2022</button>
+      <button data-year="2021">2021</button>
+      <button data-year="2020">2020</button>
+      <button data-year="2019">2019</button>
+    </div>
+
+    <div class="kairos-disco__grid" id="disco-grid"></div>
+  </div>
+</section>
+
+<!-- ═════════════ SHARED FOOTER ═════════════ -->
+<footer class="kairos-footer">
+  <div class="kairos-footer__inner">
+    <div class="kairos-footer__wordmark">KAIROS</div>
+    <div class="kairos-footer__cols">
+      <div class="kairos-footer__col">
+        <h5>Statement</h5>
+        <div class="tagline">Time is not linear. Sound is.</div>
+      </div>
+      <div class="kairos-footer__col">
+        <h5>Pages</h5>
+        <ul>
+          <li><a href="/kairos/discography">Discography</a></li>
+          <li><a href="/kairos/live">Live</a></li>
+          <li><a href="/kairos/about">About</a></li>
+        </ul>
+      </div>
+      <div class="kairos-footer__col">
+        <h5>Contact</h5>
+        <ul>
+          <li><a href="mailto:booking@kairos.example">Booking</a></li>
+          <li><a href="mailto:press@nullzone.example">Press</a></li>
+          <li><a href="#">NULLZONE Mgmt</a></li>
+        </ul>
+      </div>
+      <div class="kairos-footer__col">
+        <h5>Listen</h5>
+        <ul>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">SoundCloud</a></li>
+          <li><a href="#">Beatport</a></li>
+          <li><a href="#">Resident Advisor</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="kairos-footer__bottom">
+      <div>
+        <span class="kairos-footer__monogram">K</span>
+        &nbsp;&nbsp;<strong style="color:var(--kairos-bone)">Demo Concept</strong> · All content fictional ·
+        Built by <a href="/">daylens / WMW Services</a>
+      </div>
+      <div><a href="/impressum">Impressum</a> · <a href="/datenschutz">Datenschutz</a></div>
+    </div>
+  </div>
+</footer>
+
+<!-- ═════════════ DEPS + LOGIC ═════════════ -->
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+<script src="/kairos/assets/kairos.js"></script>
+
+<script>
+(function () {
+  'use strict';
+  const RELEASES = [
+    { t: 'MONOLITH',         y: 2025, h: 130 },
+    { t: 'NULLZONE',         y: 2025, h: 215 },
+    { t: 'CHRONOS DRIFT',    y: 2025, h: 30  },
+    { t: 'VERTIGO STACK',    y: 2024, h: 280 },
+    { t: 'HARDCORE FRAME',   y: 2024, h: 0   },
+    { t: 'RESONATE/REFRACT', y: 2024, h: 195 },
+    { t: 'ENTROPY',          y: 2024, h: 250 },
+    { t: 'KNULL',            y: 2023, h: 170 },
+    { t: 'STRATA',           y: 2023, h: 100 },
+    { t: 'HOLLOW POINT',     y: 2023, h: 320 },
+    { t: 'KESSEL',           y: 2022, h: 60  },
+    { t: 'BAUKASTEN',        y: 2022, h: 230 },
+    { t: '12HZ MEDITATION',  y: 2021, h: 290 },
+    { t: 'NORD/OST',         y: 2021, h: 150 },
+    { t: 'CONTAINER',        y: 2020, h: 200 },
+    { t: 'FIRST CONTACT',    y: 2019, h: 340 },
+  ];
+
+  const grid = document.getElementById('disco-grid');
+  RELEASES.forEach((r, i) => {
+    const num = String(i + 1).padStart(2, '0');
+    const card = document.createElement('a');
+    card.href = '#';
+    card.className = 'kairos-track-card';
+    card.dataset.year = r.y;
+    card.setAttribute('data-magnetic', '');
+    card.innerHTML = `
+      <div class="kairos-track-cover">
+        <div class="kairos-track-cover__base" style="background: linear-gradient(135deg, hsl(${r.h},6%,12%), hsl(${r.h},12%,22%));">
+          <span class="kairos-track-num">${num}</span>
+        </div>
+        <div class="kairos-track-cover__hover" style="background: linear-gradient(135deg, #b8ff00, #2a3000);">
+          <span class="kairos-track-num">${num}</span>
+        </div>
+      </div>
+      <div class="kairos-track-meta">
+        <span class="kairos-track-title">${r.t}</span>
+        <span class="kairos-track-year">${r.y}</span>
+      </div>`;
+    grid.appendChild(card);
+    if (window.KAIROS.bindMagnetic) window.KAIROS.bindMagnetic(card);
+  });
+
+  // Filter
+  const filter = document.getElementById('kairos-filter');
+  filter.querySelectorAll('button').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      filter.querySelectorAll('button').forEach((b) => b.classList.remove('active'));
+      btn.classList.add('active');
+      const year = btn.dataset.year;
+      grid.querySelectorAll('.kairos-track-card').forEach((card) => {
+        const match = year === 'all' || card.dataset.year === year;
+        card.classList.toggle('is-hidden', !match);
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>

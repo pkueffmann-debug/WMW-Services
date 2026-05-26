@@ -51,6 +51,21 @@
     <changefreq>monthly</changefreq>
   </url>
   <url>
+    <loc>https://www.daylens.dev/kairos/discography</loc>
+    <priority>0.5</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://www.daylens.dev/kairos/live</loc>
+    <priority>0.5</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
+    <loc>https://www.daylens.dev/kairos/about</loc>
+    <priority>0.5</priority>
+    <changefreq>monthly</changefreq>
+  </url>
+  <url>
     <loc>https://www.daylens.dev/chatbot</loc>
     <priority>0.6</priority>
     <changefreq>monthly</changefreq>
