@@ -12,6 +12,7 @@
 
   /* ===== 1. Lenis Smooth Scroll ===== */
   function initLenis() {
+    return null; // disabled: native scroll only — duplicate Lenis instances caused lag
     if (reduced || typeof window.Lenis !== 'function') return null;
     const lenis = new window.Lenis({
       duration: 1.15,

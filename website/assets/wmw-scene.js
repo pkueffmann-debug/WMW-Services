@@ -12,12 +12,7 @@
 
   if (reduced) return;
 
-  /* Lenis loads lazily — only on this page, only when motion is allowed */
-  const s = document.createElement('script');
-  s.src = '/assets/vendor/lenis.min.js';
-  s.defer = true;
-  s.onload = initLenis;
-  document.head.appendChild(s);
+  /* Lenis disabled — native scroll only. Duplicate instances caused lag. */
 
   function initLenis() {
     const lenis = new Lenis({
