@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>KAIROS — Time is not linear. Sound is.</title>
+<meta name="description" content="KAIROS — Berlin-based techno producer. Hypnotic industrial 132–138 BPM. Concept demo by daylens / WMW Services." />
+<meta name="theme-color" content="#0a0a0c" />
+<link rel="canonical" href="https://www.daylens.dev/kairos">
+<meta property="og:title" content="KAIROS — Berlin Techno">
+<meta property="og:description" content="Hypnotic industrial 132–138 BPM. Next show: 13.12.2025, Berghain.">
+<meta property="og:url" content="https://www.daylens.dev/kairos">
+<meta property="og:type" content="website">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%230a0a0c'/%3E%3Ctext x='16' y='23' font-family='Inter,sans-serif' font-size='20' font-weight='700' text-anchor='middle' fill='%23b8ff00'%3EK%3C/text%3E%3C/svg%3E">
+
+<style>
+/* ═══════════════════════════════════════════════════
+   KAIROS — Cinematic concept page
+   Demo by daylens / WMW Services
+   ═══════════════════════════════════════════════════ */
+
+:root {
+  --kairos-void:   #0a0a0c;
+  --kairos-steel:  #16181d;
+  --kairos-fog:    #2a2d35;
+  --kairos-ash:    #6e7178;
+  --kairos-bone:   #d4d6db;
+  --kairos-pure:   #ffffff;
+  --kairos-acid:   #b8ff00;
+  --kairos-blood:  #ff2d2d;
+
+  --font-display: 'Fraunces', 'Times New Roman', serif;
+  --font-ui:      'Inter', -apple-system, system-ui, sans-serif;
+  --font-mono:    'JetBrains Mono', ui-monospace, monospace;
+
+  --ease: cubic-bezier(.2,.7,.2,1);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { background: var(--kairos-void); scroll-behavior: auto; }
+body {
+  font-family: var(--font-ui);
+  background: var(--kairos-void);
+  color: var(--kairos-bone);
+  font-size: 16px;
+  line-height: 1.5;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+body.locked { overflow: hidden; }
+
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; height: auto; }
+::selection { background: var(--kairos-acid); color: var(--kairos-void); }
+
+/* ─── Magnetic Cursor ──────────────────────────────── */
+
+.kairos-cursor {
+  position: fixed;
+  top: 0; left: 0;
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: var(--kairos-acid);
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: difference;
+  transition: width 0.25s var(--ease), height 0.25s var(--ease);
+  will-change: transform;
+}
+.kairos-cursor.expanded { width: 64px; height: 64px; }
+@media (pointer: coarse) { .kairos-cursor { display: none; } }
+@media (pointer: fine) {
+  html { cursor: none; }
+  a, button, input, textarea { cursor: none; }
+}
+
+/* ─── Preloader ────────────────────────────────────── */
+
+.kairos-preloader {
+  position: fixed; inset: 0; z-index: 10000;
+  background: var(--kairos-void);
+  display: grid; place-items: center;
+  transition: opacity 0.8s var(--ease);
+}
+.kairos-preloader__inner {
+  display: flex; flex-direction: column; align-items: center; gap: 28px;
+}
+.kairos-pulse {
+  width: 88px; height: 88px;
+  border-radius: 50%;
+  background: var(--kairos-acid);
+  transition: transform 0.09s var(--ease), opacity 0.09s var(--ease);
+  box-shadow: 0 0 60px rgba(184, 255, 0, .25);
+}
+.kairos-pulse.beating { transform: scale(1.55); opacity: .55; }
+.kairos-preloader__bar {
+  width: 220px; height: 1px; background: var(--kairos-fog);
+  position: relative; overflow: hidden;
+}
+.kairos-preloader__bar::after {
+  content: ''; position: absolute; top: 0; left: 0; height: 100%;
+  width: 0; background: var(--kairos-acid);
+  animation: loadBar 1.9s var(--ease) forwards;
+}
+@keyframes loadBar { to { width: 100%; } }
+.kairos-preloader__label {
+  font-family: var(--font-mono); font-size: 11px;
+  letter-spacing: 0.25em; color: var(--kairos-ash); text-transform: uppercase;
+}
+.kairos-preloader.done { opacity: 0; pointer-events: none; }
+
+/* ─── Top Nav ──────────────────────────────────────── */
+
+.kairos-nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: grid; grid-template-columns: auto 1fr auto;
+  align-items: center; gap: 28px;
+  padding: 22px 36px;
+  background: linear-gradient(to bottom, rgba(10,10,12,.92), rgba(10,10,12,0));
+  pointer-events: none;
+}
+.kairos-nav > * { pointer-events: auto; }
+.kairos-nav__logo {
+  font-family: var(--font-display);
+  font-weight: 400; font-size: 22px;
+  letter-spacing: 0.18em;
+  color: var(--kairos-pure);
+}
+.kairos-nav__menu { display: flex; gap: 28px; justify-content: center; }
+.kairos-nav__menu a {
+  font-family: var(--font-mono); font-size: 11px;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--kairos-bone);
+  transition: color 0.2s var(--ease);
+}
+.kairos-nav__menu a:hover { color: var(--kairos-acid); }
+.kairos-nav__cta {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 18px;
+  border: 1px solid var(--kairos-acid);
+  font-family: var(--font-mono); font-size: 11px;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--kairos-acid);
+  transition: background 0.25s var(--ease), color 0.25s var(--ease);
+}
+.kairos-nav__cta:hover { background: var(--kairos-acid); color: var(--kairos-void); }
+
+@media (max-width: 768px) {
+  .kairos-nav { grid-template-columns: auto auto; padding: 16px 20px; }
+  .kairos-nav__menu { display: none; }
+}
+
+/* ─── Hero ─────────────────────────────────────────── */
+
+.kairos-hero {
+  position: relative;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  align-items: center;
+  padding: 120px 36px 80px;
+  overflow: hidden;
+}
+.kairos-hero::before {
+  content: ''; position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 30%, rgba(184,255,0,.04), transparent 50%),
+    radial-gradient(ellipse at 80% 70%, rgba(255,45,45,.04), transparent 50%);
+  pointer-events: none;
+}
+.kairos-hero__copy { position: relative; z-index: 2; }
+.kairos-hero__eyebrow {
+  font-family: var(--font-mono); font-size: 11px;
+  letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--kairos-ash);
+  margin-bottom: 24px;
+}
+.kairos-hero-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(5rem, 18vw, 24rem);
+  letter-spacing: -0.06em;
+  line-height: 0.85;
+  color: var(--kairos-pure);
+  perspective: 1000px;
+}
+.kairos-hero-title .char {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(0.4em) rotateX(-30deg);
+  animation: charReveal 1.2s var(--ease) forwards;
+}
+@keyframes charReveal {
+  to { opacity: 1; transform: translateY(0) rotateX(0); }
+}
+.kairos-hero__subtitle {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--kairos-bone);
+  margin-top: 28px;
+}
+
+.kairos-hero__portrait-wrap {
+  position: relative;
+  aspect-ratio: 3/4;
+  overflow: hidden;
+  border-left: 1px solid var(--kairos-fog);
+}
+.kairos-hero__portrait {
+  position: absolute; inset: -5%;
+  width: 110%; height: 110%;
+  background-image: url('https://images.unsplash.com/photo-1518609878373-06d740f60d8b?w=1200&q=80&auto=format&fit=crop');
+  background-size: cover; background-position: center;
+  filter: grayscale(.5) contrast(1.15) brightness(.7);
+  transition: transform 0.4s var(--ease);
+  will-change: transform;
+}
+
+.kairos-hero__meta {
+  position: absolute; bottom: 36px; left: 36px; right: 36px;
+  display: flex; justify-content: space-between; align-items: end;
+  font-family: var(--font-mono); font-size: 11px;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--kairos-ash);
+  z-index: 3;
+}
+.kairos-hero__meta .live-dot {
+  display: inline-block;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--kairos-blood);
+  margin-right: 8px;
+  vertical-align: middle;
+  animation: blink 1.2s infinite;
+}
+@keyframes blink { 50% { opacity: .25; } }
+
+.kairos-hero__scroll {
+  position: absolute; bottom: 36px; left: 50%; transform: translateX(-50%);
+  font-family: var(--font-mono); font-size: 10px;
+  letter-spacing: 0.32em; color: var(--kairos-ash);
+  text-transform: uppercase;
+  z-index: 3;
+  opacity: .8;
+  animation: scrollFade 2.4s ease-in-out infinite;
+}
+@keyframes scrollFade { 50% { opacity: .25; transform: translateX(-50%) translateY(6px); } }
+
+@media (max-width: 900px) {
+  .kairos-hero { grid-template-columns: 1fr; padding: 110px 22px 70px; }
+  .kairos-hero__portrait-wrap { display: none; }
+  .kairos-hero__meta { position: static; flex-direction: column; align-items: flex-start; gap: 12px; margin-top: 60px; }
+}
+
+/* ─── Origins ──────────────────────────────────────── */
+
+.kairos-origins {
+  background: var(--kairos-steel);
+  padding: 140px 36px;
+}
+.kairos-origins__inner {
+  max-width: 1280px; margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 80px;
+}
+.kairos-section-eyebrow {
+  font-family: var(--font-mono); font-size: 11px;
+  letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--kairos-acid);
+  margin-bottom: 32px;
+}
+.kairos-origins h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  letter-spacing: -0.03em;
+  line-height: 1.02;
+  color: var(--kairos-pure);
+  margin-bottom: 48px;
+  max-width: 14ch;
+}
+.kairos-origins p {
+  font-size: 17px; line-height: 1.7;
+  color: var(--kairos-bone);
+  max-width: 56ch;
+  margin-bottom: 22px;
+}
+.kairos-pullquote {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-style: italic;
+  font-size: clamp(1.6rem, 3.4vw, 2.6rem);
+  line-height: 1.2;
+  color: var(--kairos-pure);
+  border-left: 2px solid var(--kairos-acid);
+  padding-left: 28px;
+  margin: 60px 0 20px;
+  max-width: 32ch;
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 1.4s var(--ease);
+}
+.kairos-pullquote.in { clip-path: inset(0 0 0 0); }
+.kairos-pullquote-attr {
+  font-family: var(--font-mono); font-size: 11px;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--kairos-ash);
+  margin-top: 14px;
+}
+.kairos-origins__images {
+  display: flex; flex-direction: column; gap: 22px;
+}
+.kairos-origins__images figure {
+  position: relative; aspect-ratio: 4/5; overflow: hidden;
+}
+.kairos-origins__images img {
+  width: 100%; height: 100%; object-fit: cover;
+  filter: grayscale(.45) contrast(1.1) brightness(.78);
+}
+@media (max-width: 900px) {
+  .kairos-origins { padding: 90px 22px; }
+  .kairos-origins__inner { grid-template-columns: 1fr; gap: 48px; }
+  .kairos-origins h2 { margin-bottom: 32px; }
+}
+
+/* ─── Moments — horizontal scroll ──────────────────── */
+
+.kairos-moments {
+  position: relative;
+  overflow: hidden;
+  background: var(--kairos-void);
+}
+.kairos-moments__heading {
+  position: relative;
+  padding: 120px 36px 60px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+.kairos-moments__heading h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(3rem, 7vw, 7rem);
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+  color: var(--kairos-pure);
+}
+.kairos-moments__track-wrap {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+.kairos-moments__track {
+  display: flex;
+  gap: 42px;
+  padding: 0 36px;
+  will-change: transform;
+}
+.kairos-moment-card {
+  flex: 0 0 auto;
+  width: 460px; max-width: 75vw;
+  aspect-ratio: 3/4;
+  position: relative;
+  overflow: hidden;
+  background: var(--kairos-steel);
+  transform: rotate(var(--rot, 0deg));
+}
+.kairos-moment-card img {
+  width: 100%; height: 100%; object-fit: cover;
+  filter: grayscale(.5) contrast(1.1) brightness(.72);
+  transition: transform 1.2s var(--ease), filter 0.6s var(--ease);
+}
+.kairos-moment-card:hover img { transform: scale(1.04); filter: grayscale(.2) contrast(1.15) brightness(.85); }
+.kairos-moment-card__cap {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 28px 24px 22px;
+  background: linear-gradient(to top, rgba(10,10,12,.94), transparent);
+  display: flex; flex-direction: column; gap: 6px;
+}
+.kairos-moment-card__cap .when {
+  font-family: var(--font-mono); font-size: 10px;
+  letter-spacing: 0.28em; text-transform: uppercase;
+  color: var(--kairos-acid);
+}
+.kairos-moment-card__cap .where {
+  font-family: var(--font-display); font-size: 22px;
+  color: var(--kairos-pure);
+  letter-spacing: -0.01em;
+}
+
+@media (max-width: 900px) {
+  .kairos-moments__heading { padding: 70px 22px 30px; }
+  .kairos-moments__track-wrap { height: auto; overflow-x: auto; scroll-snap-type: x mandatory; }
+  .kairos-moments__track { padding: 20px 22px 70px; }
+  .kairos-moment-card { width: 78vw; scroll-snap-align: center; transform: none; }
+}
+
+/* ─── Process ──────────────────────────────────────── */
+
+.kairos-process {
+  background: var(--kairos-void);
+  padding: 160px 36px 120px;
+}
+.kairos-process__inner {
+  max-width: 720px; margin: 0 auto;
+}
+.kairos-process h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2.4rem, 5.5vw, 4.2rem);
+  letter-spacing: -0.03em;
+  line-height: 1; color: var(--kairos-pure);
+  margin-bottom: 48px;
+}
+.kairos-process p {
+  font-size: 17px; line-height: 1.75;
+  color: var(--kairos-bone);
+  margin-bottom: 22px;
+  max-width: 60ch;
+}
+.kairos-process__image {
+  width: 100vw; margin-left: calc(50% - 50vw);
+  margin-top: 90px;
+  aspect-ratio: 16/9; overflow: hidden;
+}
+.kairos-process__image img {
+  width: 100%; height: 100%; object-fit: cover;
+  filter: grayscale(.4) contrast(1.05) brightness(.78);
+}
+.kairos-waveform {
+  display: block;
+  width: 100%; height: 100px;
+  margin-top: 80px;
+}
+.kairos-waveform path {
+  stroke: var(--kairos-acid);
+  stroke-width: 2;
+  fill: none;
+  stroke-dasharray: 2400;
+  stroke-dashoffset: 2400;
+  transition: stroke-dashoffset 2.4s var(--ease);
+}
+.kairos-waveform.visible path { stroke-dashoffset: 0; }
+
+/* ─── Discography ──────────────────────────────────── */
+
+.kairos-disco {
+  background: var(--kairos-steel);
+  padding: 140px 36px;
+}
+.kairos-disco__inner { max-width: 1400px; margin: 0 auto; }
+.kairos-disco h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(3rem, 7vw, 7rem);
+  letter-spacing: -0.04em;
+  line-height: .95;
+  color: var(--kairos-pure);
+  margin-bottom: 64px;
+}
+.kairos-disco__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+}
+.kairos-track-card {
+  position: relative;
+  display: flex; flex-direction: column;
+  gap: 14px;
+  transition: transform 0.35s var(--ease);
+}
+.kairos-track-card:hover { transform: translateY(-6px); }
+.kairos-track-cover {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: var(--kairos-void);
+  box-shadow: 0 6px 0 transparent;
+  transition: box-shadow 0.35s var(--ease);
+}
+.kairos-track-card:hover .kairos-track-cover {
+  box-shadow: 0 22px 50px rgba(0,0,0,.55);
+}
+.kairos-track-cover__base, .kairos-track-cover__hover {
+  position: absolute; inset: 0;
+  display: grid; place-items: center;
+  transition: opacity 0.45s var(--ease);
+}
+.kairos-track-cover__hover { opacity: 0; }
+.kairos-track-card:hover .kairos-track-cover__base { opacity: 0; }
+.kairos-track-card:hover .kairos-track-cover__hover { opacity: 1; }
+.kairos-track-num {
+  font-family: var(--font-mono);
+  font-size: clamp(36px, 5.5vw, 88px);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--kairos-bone);
+  mix-blend-mode: overlay;
+}
+.kairos-track-cover__hover .kairos-track-num { color: var(--kairos-void); }
+.kairos-track-meta {
+  display: flex; justify-content: space-between; align-items: baseline;
+}
+.kairos-track-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 17px;
+  color: var(--kairos-pure);
+  letter-spacing: -0.01em;
+}
+.kairos-track-year {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--kairos-ash);
+  letter-spacing: 0.18em;
+}
+@media (max-width: 1100px) { .kairos-disco__grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 760px)  { .kairos-disco { padding: 90px 22px; } .kairos-disco__grid { grid-template-columns: repeat(2, 1fr); gap: 16px; } }
+
+/* ─── Store ────────────────────────────────────────── */
+
+.kairos-store {
+  background: var(--kairos-void);
+  padding: 140px 36px;
+}
+.kairos-store__inner { max-width: 1280px; margin: 0 auto; }
+.kairos-store__head {
+  display: flex; justify-content: space-between; align-items: end;
+  margin-bottom: 60px;
+}
+.kairos-store h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2.4rem, 5.5vw, 4.6rem);
+  letter-spacing: -0.03em; line-height: 1;
+  color: var(--kairos-pure);
+}
+.kairos-store__cta {
+  font-family: var(--font-mono); font-size: 11px;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--kairos-acid);
+  display: inline-flex; align-items: center; gap: 8px;
+  border-bottom: 1px solid var(--kairos-acid);
+  padding-bottom: 6px;
+}
+.kairos-store__cta .arrow { transition: transform 0.3s var(--ease); }
+.kairos-store__cta:hover .arrow { transform: translateX(6px); }
+.kairos-store__grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px;
+}
+.kairos-product {
+  background: var(--kairos-steel);
+  padding: 24px;
+  display: flex; flex-direction: column; gap: 14px;
+  transition: background 0.3s var(--ease);
+}
+.kairos-product:hover { background: #1c1f26; }
+.kairos-product__image {
+  aspect-ratio: 1;
+  background: linear-gradient(135deg, var(--kairos-fog), var(--kairos-void));
+  position: relative; overflow: hidden;
+}
+.kairos-product__image::after {
+  content: attr(data-label);
+  position: absolute; inset: 0;
+  display: grid; place-items: center;
+  font-family: var(--font-mono); font-size: 10px;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--kairos-ash);
+}
+.kairos-product__title {
+  font-family: var(--font-display); font-size: 17px;
+  color: var(--kairos-pure); margin-top: 4px;
+}
+.kairos-product__price {
+  font-family: var(--font-mono); font-size: 13px;
+  color: var(--kairos-acid); letter-spacing: 0.05em;
+}
+.kairos-product__note {
+  font-family: var(--font-mono); font-size: 10px;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--kairos-ash);
+}
+@media (max-width: 900px) { .kairos-store__grid { grid-template-columns: repeat(2, 1fr); } .kairos-store { padding: 90px 22px; } }
+
+/* ─── Labels / Collaborations ──────────────────────── */
+
+.kairos-labels {
+  background: var(--kairos-steel);
+  padding: 140px 36px;
+}
+.kairos-labels__inner { max-width: 1280px; margin: 0 auto; }
+.kairos-labels h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2rem, 4.5vw, 3.6rem);
+  letter-spacing: -0.03em; line-height: 1;
+  color: var(--kairos-pure);
+  margin-bottom: 48px;
+}
+.kairos-labels__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--kairos-fog);
+  border: 1px solid var(--kairos-fog);
+}
+.kairos-label {
+  background: var(--kairos-steel);
+  padding: 48px 24px;
+  display: grid; place-items: center;
+  font-family: var(--font-display);
+  font-size: 22px; letter-spacing: 0.02em;
+  color: var(--kairos-bone);
+  position: relative;
+  transition: background 0.3s var(--ease), color 0.3s var(--ease);
+}
+.kairos-label:hover { background: var(--kairos-void); color: var(--kairos-acid); }
+.kairos-label[data-tip]::after {
+  content: attr(data-tip);
+  position: absolute; bottom: 14px; left: 50%; transform: translateX(-50%);
+  font-family: var(--font-mono); font-size: 10px;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--kairos-ash);
+  opacity: 0;
+  transition: opacity 0.3s var(--ease);
+  white-space: nowrap;
+}
+.kairos-label:hover[data-tip]::after { opacity: 1; }
+@media (max-width: 760px) {
+  .kairos-labels { padding: 80px 22px; }
+  .kairos-labels__grid { grid-template-columns: repeat(2, 1fr); }
+  .kairos-label { padding: 32px 18px; font-size: 17px; }
+}
+
+/* ─── Social / Inside ──────────────────────────────── */
+
+.kairos-social { background: var(--kairos-void); padding: 140px 36px; }
+.kairos-social__inner { max-width: 1400px; margin: 0 auto; }
+.kairos-social__head {
+  display: flex; justify-content: space-between; align-items: end;
+  margin-bottom: 60px; gap: 24px; flex-wrap: wrap;
+}
+.kairos-social h2 {
+  font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(2.6rem, 6vw, 5rem);
+  letter-spacing: -0.04em; line-height: .95;
+  color: var(--kairos-pure);
+}
+.kairos-social__follow { display: flex; gap: 18px; }
+.kairos-social__follow a {
+  font-family: var(--font-mono); font-size: 11px;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--kairos-bone);
+  border-bottom: 1px solid transparent;
+  padding-bottom: 4px;
+  transition: color 0.25s var(--ease), border-color 0.25s var(--ease);
+}
+.kairos-social__follow a:hover { color: var(--kairos-acid); border-color: var(--kairos-acid); }
+
+.kairos-social__grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-auto-rows: 160px;
+  gap: 14px;
+}
+.kairos-tile {
+  position: relative; overflow: hidden;
+  background: var(--kairos-steel);
+}
+.kairos-tile img {
+  width: 100%; height: 100%; object-fit: cover;
+  filter: grayscale(.5) brightness(.7) contrast(1.1);
+  transition: transform 0.6s var(--ease), filter 0.4s var(--ease);
+}
+.kairos-tile:hover img { transform: scale(1.06); filter: grayscale(.2) brightness(.85); }
+.kairos-tile__cap {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 14px 14px 12px;
+  font-family: var(--font-mono); font-size: 10px;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--kairos-bone);
+  background: linear-gradient(to top, rgba(10,10,12,.9), transparent);
+}
+.kairos-tile.t-wide { grid-column: span 3; grid-row: span 2; }
+.kairos-tile.t-tall { grid-column: span 2; grid-row: span 2; }
+.kairos-tile.t-sq   { grid-column: span 1; grid-row: span 1; }
+.kairos-tile.t-2x1  { grid-column: span 2; grid-row: span 1; }
+@media (max-width: 900px) {
+  .kairos-social { padding: 80px 22px; }
+  .kairos-social__grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 180px; }
+  .kairos-tile.t-wide, .kairos-tile.t-tall, .kairos-tile.t-2x1 { grid-column: span 2; grid-row: span 1; }
+}
+
+/* ─── Footer ───────────────────────────────────────── */
+
+.kairos-footer {
+  background: var(--kairos-void);
+  padding: 120px 36px 60px;
+  border-top: 1px solid var(--kairos-fog);
+}
+.kairos-footer__inner {
+  max-width: 1280px; margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 60px;
+  align-items: end;
+}
+.kairos-footer h2 {
+  font-family: var(--font-display); font-weight: 400;
+  font-size: clamp(2rem, 4.5vw, 3.6rem);
+  letter-spacing: -0.03em; line-height: 1;
+  color: var(--kairos-pure);
+  margin-bottom: 26px;
+}
+.kairos-footer__contact {
+  display: grid; gap: 14px;
+  font-family: var(--font-mono); font-size: 13px;
+  letter-spacing: 0.05em;
+  color: var(--kairos-bone);
+}
+.kairos-footer__contact .label {
+  display: block;
+  font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase;
+  color: var(--kairos-ash);
+  margin-bottom: 4px;
+}
+.kairos-footer__mark {
+  display: grid; place-items: center;
+  font-family: var(--font-display);
+  font-size: clamp(8rem, 18vw, 18rem);
+  font-weight: 400;
+  color: var(--kairos-acid);
+  line-height: 0.85;
+  letter-spacing: -0.08em;
+}
+.kairos-footer__bottom {
+  margin-top: 80px;
+  padding-top: 28px;
+  border-top: 1px solid var(--kairos-fog);
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px;
+  font-family: var(--font-mono); font-size: 10px;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--kairos-ash);
+}
+.kairos-footer__bottom a { color: var(--kairos-ash); border-bottom: 1px solid transparent; }
+.kairos-footer__bottom a:hover { color: var(--kairos-bone); border-color: var(--kairos-fog); }
+@media (max-width: 760px) {
+  .kairos-footer__inner { grid-template-columns: 1fr; gap: 40px; }
+  .kairos-footer__mark { justify-self: start; }
+}
+
+/* ─── Reduced motion ───────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  .kairos-preloader { display: none; }
+  body.locked { overflow: auto; }
+}
+</style>
+</head>
+<body class="locked">
+
+<!-- ═════════════ PRELOADER ═════════════ -->
+<div class="kairos-preloader" id="kairos-preloader" aria-hidden="true">
+  <div class="kairos-preloader__inner">
+    <div class="kairos-pulse" id="kairos-pulse"></div>
+    <div class="kairos-preloader__bar"></div>
+    <div class="kairos-preloader__label">138 BPM · LOADING</div>
+  </div>
+</div>
+
+<!-- ═════════════ MAGNETIC CURSOR ═════════════ -->
+<div class="kairos-cursor" id="kairos-cursor" aria-hidden="true"></div>
+
+<!-- ═════════════ NAV ═════════════ -->
+<header class="kairos-nav">
+  <a href="#" class="kairos-nav__logo" data-magnetic>KAIROS</a>
+  <nav class="kairos-nav__menu">
+    <a href="#origins" data-magnetic>Origins</a>
+    <a href="#moments" data-magnetic>Moments</a>
+    <a href="#disco" data-magnetic>Discography</a>
+    <a href="#store" data-magnetic>Store</a>
+  </nav>
+  <a href="#footer" class="kairos-nav__cta" data-magnetic>Booking →</a>
+</header>
+
+<!-- ═════════════ HERO ═════════════ -->
+<section class="kairos-hero" id="hero">
+  <div class="kairos-hero__copy">
+    <div class="kairos-hero__eyebrow">Berlin · Based · 2018</div>
+    <h1 class="kairos-hero-title" id="hero-title">KAIROS</h1>
+    <div class="kairos-hero__subtitle">Producer &amp; DJ · Time is not linear. Sound is.</div>
+  </div>
+
+  <div class="kairos-hero__portrait-wrap">
+    <div class="kairos-hero__portrait" id="hero-portrait"></div>
+  </div>
+
+  <div class="kairos-hero__meta">
+    <div>Berlin · Based · 2018</div>
+    <div><span class="live-dot"></span>Next Show · 13.12.2025 · Berghain</div>
+  </div>
+
+  <div class="kairos-hero__scroll">↓ Scroll</div>
+</section>
+
+<!-- ═════════════ ORIGINS ═════════════ -->
+<section class="kairos-origins" id="origins">
+  <div class="kairos-origins__inner">
+    <div>
+      <div class="kairos-section-eyebrow">01 · Origins</div>
+      <h2>Leipzig born. <em style="font-style:italic">Berlin built.</em></h2>
+      <p>
+        Born Leipzig, 1993. Moved to Berlin 2018 with a sampler and forty
+        hours of recorded subway sound. The first track came out six months
+        later. He hasn't slept much since.
+      </p>
+      <p>
+        There was a particular point in 2019 — Berghain, his first set, six
+        in the morning, ninety minutes into a four-hour block. He remembers
+        nothing of it. But the recording came back at 138 BPM and it sounded
+        like a city breathing.
+      </p>
+      <p>
+        He doesn't write tracks. He builds containers. Each release is an
+        attempt to make a room where time behaves differently — slower,
+        denser, more honest about its own weight. Some work. Some don't.
+        That's the work.
+      </p>
+
+      <div class="kairos-pullquote" data-reveal-quote>
+        I'm not making music. I'm building containers for time.
+      </div>
+      <div class="kairos-pullquote-attr">— KAIROS, NULLZONE interview, 2024</div>
+    </div>
+
+    <div class="kairos-origins__images">
+      <figure><img src="https://images.unsplash.com/photo-1571266028243-d220bc4a0d62?w=800&q=80&auto=format&fit=crop" alt="" loading="lazy"></figure>
+      <figure><img src="https://images.unsplash.com/photo-1574154894072-18ba0d48cc63?w=800&q=80&auto=format&fit=crop" alt="" loading="lazy"></figure>
+      <figure><img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&q=80&auto=format&fit=crop" alt="" loading="lazy"></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════ MOMENTS — horizontal scroll ═════════════ -->
+<section class="kairos-moments" id="moments">
+  <div class="kairos-moments__heading">
+    <div class="kairos-section-eyebrow">02 · Moments</div>
+    <h2>Eight nights. <em style="font-style:italic">One arc.</em></h2>
+  </div>
+
+  <div class="kairos-moments__track-wrap" id="moments-wrap">
+    <div class="kairos-moments__track" id="moments-track">
+      <article class="kairos-moment-card" style="--rot:-2deg">
+        <img src="https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=900&q=80&auto=format&fit=crop" alt="" loading="lazy">
+        <div class="kairos-moment-card__cap"><span class="when">03:47 · February 2022</span><span class="where">Tresor, Berlin</span></div>
+      </article>
+      <article class="kairos-moment-card" style="--rot:1.5deg">
+        <img src="https://images.unsplash.com/photo-1571266028243-d220bc4a0d62?w=900&q=80&auto=format&fit=crop" alt="" loading="lazy">
+        <div class="kairos-moment-card__cap"><span class="when">First Set · August 2019</span><span class="where">Berghain, Berlin</span></div>
+      </article>
+      <article class="kairos-moment-card" style="--rot:-1deg">
+        <img src="https://images.unsplash.com/photo-1493676304819-0d7a8d026dcf?w=900&q=80&auto=format&fit=crop" alt="" loading="lazy">
+        <div class="kairos-moment-card__cap"><span class="when">April 2023</span><span class="where">Time Warp, Mannheim</span></div>
+      </article>
+      <article class="kairos-moment-card" style="--rot:2.5deg">
+        <img src="https://images.unsplash.com/photo-1518972559570-7cc1309f3229?w=900&q=80&auto=format&fit=crop" alt="" loading="lazy">
+        <div class="kairos-moment-card__cap"><span class="when">Late 2023</span><span class="where">Studio, Kreuzberg</span></div>
+      </article>
+      <article class="kairos-moment-card" style="--rot:-2deg">
+        <img src="https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=900&q=80&auto=format&fit=crop" alt="" loading="lazy">
+        <div class="kairos-moment-card__cap"><span class="when">June 2024</span><span class="where">Awakenings, Amsterdam</span></div>
+      </article>
+      <article class="kairos-moment-card" style="--rot:1deg">
+        <img src="https://images.unsplash.com/photo-1506157786151-b8491531f063?w=900&q=80&auto=format&fit=crop" alt="" loading="lazy">
+        <div class="kairos-moment-card__cap"><span class="when">June 2024</span><span class="where">Sónar, Barcelona</span></div>
+      </article>
+      <article class="kairos-moment-card" style="--rot:-1.5deg">
+        <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=900&q=80&auto=format&fit=crop" alt="" loading="lazy">
+        <div class="kairos-moment-card__cap"><span class="when">October 2024</span><span class="where">Studio Coast, Tokyo</span></div>
+      </article>
+      <article class="kairos-moment-card" style="--rot:2deg">
+        <img src="https://images.unsplash.com/photo-1574154894072-18ba0d48cc63?w=900&q=80&auto=format&fit=crop" alt="" loading="lazy">
+        <div class="kairos-moment-card__cap"><span class="when">December 2024</span><span class="where">Funkhaus, Berlin · Live Stream</span></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════ PROCESS ═════════════ -->
+<section class="kairos-process" id="process">
+  <div class="kairos-process__inner">
+    <div class="kairos-section-eyebrow">03 · Process</div>
+    <h2>Four walls. <em style="font-style:italic">Felt panels.</em></h2>
+    <p>
+      The studio is in Kreuzberg, four walls treated with felt panels salvaged
+      from an old theater. A Moog Subharmonicon. A Korg Wavestate. A modular
+      cabinet with four rows. No DAW until the final week — everything starts
+      in hardware.
+    </p>
+    <p>
+      He writes at night, mixes at dawn, sleeps when he can. The process is
+      closed to nobody. Most days he posts a snippet to his Subscribers
+      thirty seconds long, raw, unfinished.
+    </p>
+  </div>
+
+  <div class="kairos-process__image">
+    <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=2000&q=80&auto=format&fit=crop" alt="" loading="lazy">
+  </div>
+
+  <svg viewBox="0 0 2400 100" class="kairos-waveform" id="kairos-waveform" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,50 Q60,12 120,50 T240,50 T360,50 T480,50 T600,50 T720,50 T840,50 T960,50 T1080,50 T1200,50 T1320,50 T1440,50 T1560,50 T1680,50 T1800,50 T1920,50 T2040,50 T2160,50 T2280,50 T2400,50"/>
+  </svg>
+</section>
+
+<!-- ═════════════ DISCOGRAPHY ═════════════ -->
+<section class="kairos-disco" id="disco">
+  <div class="kairos-disco__inner">
+    <div class="kairos-section-eyebrow">04 · Discography</div>
+    <h2>Sixteen containers.</h2>
+
+    <div class="kairos-disco__grid" id="disco-grid">
+      <!-- Cards injected by JS for compactness -->
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════ STORE ═════════════ -->
+<section class="kairos-store" id="store">
+  <div class="kairos-store__inner">
+    <div class="kairos-store__head">
+      <div>
+        <div class="kairos-section-eyebrow">05 · Merch</div>
+        <h2>Out now.</h2>
+      </div>
+      <a href="#" class="kairos-store__cta" data-magnetic>Store <span class="arrow">→</span></a>
+    </div>
+    <div class="kairos-store__grid">
+      <a href="#" class="kairos-product" data-magnetic>
+        <div class="kairos-product__image" data-label="MONOLITH"></div>
+        <span class="kairos-product__title">MONOLITH · Vinyl 12&quot;</span>
+        <span class="kairos-product__price">€34</span>
+        <span class="kairos-product__note">Black wax · 180g</span>
+      </a>
+      <a href="#" class="kairos-product" data-magnetic>
+        <div class="kairos-product__image" data-label="HOODIE"></div>
+        <span class="kairos-product__title">KAIROS Hoodie · Charcoal</span>
+        <span class="kairos-product__price">€89</span>
+        <span class="kairos-product__note">Heavyweight cotton</span>
+      </a>
+      <a href="#" class="kairos-product" data-magnetic>
+        <div class="kairos-product__image" data-label="TOTE"></div>
+        <span class="kairos-product__title">NULLZONE Tote</span>
+        <span class="kairos-product__price">€29</span>
+        <span class="kairos-product__note">Screen-printed Berlin</span>
+      </a>
+      <a href="#" class="kairos-product" data-magnetic>
+        <div class="kairos-product__image" data-label="138 BPM"></div>
+        <span class="kairos-product__title">138 BPM Cap</span>
+        <span class="kairos-product__price">€38</span>
+        <span class="kairos-product__note">Coming soon · Waitlist</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════ LABELS ═════════════ -->
+<section class="kairos-labels" id="labels">
+  <div class="kairos-labels__inner">
+    <div class="kairos-section-eyebrow">06 · Labels &amp; Collaborations</div>
+    <h2>Trusted. <em style="font-style:italic">Selectively.</em></h2>
+    <div class="kairos-labels__grid">
+      <div class="kairos-label" data-tip="MONOLITH · 2025">NULLZONE</div>
+      <div class="kairos-label" data-tip="STRATA · 2023">Ostgut Ton</div>
+      <div class="kairos-label" data-tip="KESSEL · 2022">Tresor Records</div>
+      <div class="kairos-label" data-tip="ENTROPY · 2024">Stroboscopic Artefacts</div>
+      <div class="kairos-label" data-tip="RESONATE · 2024">Mute</div>
+      <div class="kairos-label" data-tip="CONTAINER · 2020">Intec Digital</div>
+      <div class="kairos-label" data-tip="HOLLOW POINT · 2023">FFKR</div>
+      <div class="kairos-label" data-tip="NORD/OST · 2021">Drumcode</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════ SOCIAL / INSIDE ═════════════ -->
+<section class="kairos-social" id="inside">
+  <div class="kairos-social__inner">
+    <div class="kairos-social__head">
+      <div>
+        <div class="kairos-section-eyebrow">07 · Inside</div>
+        <h2>From the studio.</h2>
+      </div>
+      <div class="kairos-social__follow">
+        <a href="#" data-magnetic>Instagram ↗</a>
+        <a href="#" data-magnetic>SoundCloud ↗</a>
+        <a href="#" data-magnetic>Beatport ↗</a>
+      </div>
+    </div>
+    <div class="kairos-social__grid">
+      <a href="#" class="kairos-tile t-wide">
+        <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=1200&q=80&auto=format&fit=crop" alt="" loading="lazy">
+        <div class="kairos-tile__cap">Studio session · Kreuzberg</div>
+      </a>
+      <a href="#" class="kairos-tile t-tall">
+        <img src="https://images.unsplash.com/photo-1571266028243-d220bc4a0d62?w=900&q=80&auto=format&fit=crop" alt="" loading="lazy">
+        <div class="kairos-tile__cap">Berghain warmup</div>
+      </a>
+      <a href="#" class="kairos-tile t-sq">
+        <img src="https://images.unsplash.com/photo-1518972559570-7cc1309f3229?w=600&q=80&auto=format&fit=crop" alt="" loading="lazy">
+        <div class="kairos-tile__cap">Modular</div>
+      </a>
+      <a href="#" class="kairos-tile t-sq">
+        <img src="https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=600&q=80&auto=format&fit=crop" alt="" loading="lazy">
+        <div class="kairos-tile__cap">Field rec · Müggelsee</div>
+      </a>
+      <a href="#" class="kairos-tile t-2x1">
+        <img src="https://images.unsplash.com/photo-1493676304819-0d7a8d026dcf?w=1000&q=80&auto=format&fit=crop" alt="" loading="lazy">
+        <div class="kairos-tile__cap">Time Warp · Mannheim</div>
+      </a>
+      <a href="#" class="kairos-tile t-sq">
+        <img src="https://images.unsplash.com/photo-1574154894072-18ba0d48cc63?w=600&q=80&auto=format&fit=crop" alt="" loading="lazy">
+        <div class="kairos-tile__cap">Funkhaus</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════════ FOOTER ═════════════ -->
+<footer class="kairos-footer" id="footer">
+  <div class="kairos-footer__inner">
+    <div>
+      <div class="kairos-section-eyebrow">08 · Booking &amp; Management</div>
+      <h2>Get in touch.</h2>
+      <div class="kairos-footer__contact">
+        <div>
+          <span class="label">Booking · Worldwide</span>
+          booking@kairos.example
+        </div>
+        <div>
+          <span class="label">Management</span>
+          NULLZONE Management · Berlin
+        </div>
+        <div>
+          <span class="label">Press</span>
+          press@nullzone.example
+        </div>
+      </div>
+    </div>
+    <div class="kairos-footer__mark">K</div>
+  </div>
+  <div class="kairos-footer__bottom">
+    <div>
+      <strong style="color:var(--kairos-bone)">Demo Concept</strong> · All content fictional ·
+      Built by <a href="/">daylens / WMW Services</a>
+    </div>
+    <div>
+      <a href="/impressum">Impressum</a> · <a href="/datenschutz">Datenschutz</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ═════════════ DEPS + LOGIC ═════════════ -->
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+
+<script>
+(function () {
+  'use strict';
+
+  const isCoarse = matchMedia('(pointer: coarse)').matches;
+  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ─── Preloader ────────────────────────────────────
+  (function preloader() {
+    const root = document.getElementById('kairos-preloader');
+    const pulse = document.getElementById('kairos-pulse');
+    if (reducedMotion) {
+      root.classList.add('done');
+      document.body.classList.remove('locked');
+      setTimeout(() => root.remove(), 100);
+      return;
+    }
+    const bpm = 138;
+    const beat = 60000 / bpm;
+    const beatInt = setInterval(() => {
+      pulse.classList.add('beating');
+      setTimeout(() => pulse.classList.remove('beating'), 110);
+    }, beat);
+    setTimeout(() => {
+      clearInterval(beatInt);
+      root.classList.add('done');
+      document.body.classList.remove('locked');
+      setTimeout(() => root.remove(), 900);
+    }, 2000);
+  })();
+
+  // ─── Magnetic Cursor ──────────────────────────────
+  if (!isCoarse) (function cursor() {
+    const el = document.getElementById('kairos-cursor');
+    let x = 0, y = 0, tx = 0, ty = 0;
+    window.addEventListener('mousemove', (e) => { tx = e.clientX; ty = e.clientY; });
+    document.querySelectorAll('[data-magnetic]').forEach((m) => {
+      m.addEventListener('mouseenter', () => el.classList.add('expanded'));
+      m.addEventListener('mouseleave', () => el.classList.remove('expanded'));
+    });
+    function tick() {
+      x += (tx - x) * 0.18;
+      y += (ty - y) * 0.18;
+      el.style.transform = `translate(${x - 12}px, ${y - 12}px)`;
+      requestAnimationFrame(tick);
+    }
+    tick();
+  })();
+
+  // ─── Hero character reveal ────────────────────────
+  (function heroReveal() {
+    const h = document.getElementById('hero-title');
+    if (!h) return;
+    const txt = h.textContent;
+    h.innerHTML = '';
+    [...txt].forEach((ch, i) => {
+      const span = document.createElement('span');
+      span.className = 'char';
+      span.textContent = ch;
+      span.style.animationDelay = (i * 80) + 'ms';
+      h.appendChild(span);
+    });
+  })();
+
+  // ─── Hero parallax on mouse-move ──────────────────
+  if (!isCoarse) (function heroParallax() {
+    const hero = document.querySelector('.kairos-hero');
+    const portrait = document.getElementById('hero-portrait');
+    if (!hero || !portrait) return;
+    hero.addEventListener('mousemove', (e) => {
+      const r = hero.getBoundingClientRect();
+      const dx = (e.clientX - r.left) / r.width - 0.5;
+      const dy = (e.clientY - r.top) / r.height - 0.5;
+      portrait.style.transform = `translate(${dx * -22}px, ${dy * -22}px) scale(1.06)`;
+    });
+    hero.addEventListener('mouseleave', () => {
+      portrait.style.transform = 'translate(0,0) scale(1.05)';
+    });
+  })();
+
+  // ─── Discography grid (16 fictional releases) ────
+  (function disco() {
+    const grid = document.getElementById('disco-grid');
+    if (!grid) return;
+    const releases = [
+      { t: 'MONOLITH',         y: 2025, h: 130 },
+      { t: 'NULLZONE',         y: 2025, h: 215 },
+      { t: 'CHRONOS DRIFT',    y: 2025, h: 30  },
+      { t: 'VERTIGO STACK',    y: 2024, h: 280 },
+      { t: 'HARDCORE FRAME',   y: 2024, h: 0   },
+      { t: 'RESONATE/REFRACT', y: 2024, h: 195 },
+      { t: 'ENTROPY',          y: 2024, h: 250 },
+      { t: 'KNULL',            y: 2023, h: 170 },
+      { t: 'STRATA',           y: 2023, h: 100 },
+      { t: 'HOLLOW POINT',     y: 2023, h: 320 },
+      { t: 'KESSEL',           y: 2022, h: 60  },
+      { t: 'BAUKASTEN',        y: 2022, h: 230 },
+      { t: '12HZ MEDITATION',  y: 2021, h: 290 },
+      { t: 'NORD/OST',         y: 2021, h: 150 },
+      { t: 'CONTAINER',        y: 2020, h: 200 },
+      { t: 'FIRST CONTACT',    y: 2019, h: 340 },
+    ];
+    releases.forEach((r, i) => {
+      const baseHsl = `hsl(${r.h}, 6%, 12%)`;
+      const baseHsl2 = `hsl(${r.h}, 12%, 22%)`;
+      const num = String(i + 1).padStart(2, '0');
+      const card = document.createElement('a');
+      card.href = '#';
+      card.className = 'kairos-track-card';
+      card.setAttribute('data-magnetic', '');
+      card.innerHTML = `
+        <div class="kairos-track-cover">
+          <div class="kairos-track-cover__base" style="background: linear-gradient(135deg, ${baseHsl}, ${baseHsl2});">
+            <span class="kairos-track-num">${num}</span>
+          </div>
+          <div class="kairos-track-cover__hover" style="background: linear-gradient(135deg, #b8ff00, #2a3000);">
+            <span class="kairos-track-num">${num}</span>
+          </div>
+        </div>
+        <div class="kairos-track-meta">
+          <span class="kairos-track-title">${r.t}</span>
+          <span class="kairos-track-year">${r.y}</span>
+        </div>`;
+      grid.appendChild(card);
+    });
+    // Re-wire magnetic targets after dynamic insert
+    if (!isCoarse) {
+      const cur = document.getElementById('kairos-cursor');
+      document.querySelectorAll('.kairos-track-card').forEach((m) => {
+        m.addEventListener('mouseenter', () => cur.classList.add('expanded'));
+        m.addEventListener('mouseleave', () => cur.classList.remove('expanded'));
+      });
+    }
+  })();
+
+  // ─── GSAP + Lenis + horizontal scroll + reveals ──
+  (function gsapWiring() {
+    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Lenis smooth scroll (skip on coarse + reduced motion)
+    if (!isCoarse && !reducedMotion && typeof Lenis !== 'undefined') {
+      const lenis = new Lenis({ duration: 1.05, smoothWheel: true });
+      function raf(t) { lenis.raf(t); requestAnimationFrame(raf); }
+      requestAnimationFrame(raf);
+      lenis.on('scroll', ScrollTrigger.update);
+    }
+
+    // Pull-quote reveal
+    document.querySelectorAll('[data-reveal-quote]').forEach((q) => {
+      ScrollTrigger.create({
+        trigger: q, start: 'top 80%',
+        onEnter: () => q.classList.add('in'),
+      });
+    });
+
+    // Waveform reveal
+    const wf = document.getElementById('kairos-waveform');
+    if (wf) {
+      ScrollTrigger.create({
+        trigger: wf, start: 'top 78%',
+        onEnter: () => wf.classList.add('visible'),
+      });
+    }
+
+    // Horizontal scroll for Moments (desktop only)
+    if (!isCoarse && !reducedMotion) {
+      const wrap = document.getElementById('moments-wrap');
+      const track = document.getElementById('moments-track');
+      if (wrap && track) {
+        const cards = track.querySelectorAll('.kairos-moment-card');
+        const scrollDistance = () => track.scrollWidth - window.innerWidth;
+        gsap.to(track, {
+          x: () => -scrollDistance(),
+          ease: 'none',
+          scrollTrigger: {
+            trigger: wrap,
+            pin: true,
+            scrub: 1,
+            invalidateOnRefresh: true,
+            end: () => '+=' + scrollDistance(),
+          },
+        });
+      }
+    }
+  })();
+
+})();
+</script>
+</body>
+</html>
