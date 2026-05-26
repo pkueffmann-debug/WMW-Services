@@ -7,6 +7,19 @@
 (function () {
   'use strict';
 
+  // ─── Dead-link guard ──────────────────────────────
+  // Any <a href="#"> without a real fragment target is a demo placeholder.
+  // Prevent default so it doesn't jump to top, and mark for a11y.
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('a[href="#"]');
+    if (!a) return;
+    e.preventDefault();
+  });
+  document.querySelectorAll('a[href="#"]').forEach((a) => {
+    if (!a.hasAttribute('aria-disabled')) a.setAttribute('aria-disabled', 'true');
+    if (!a.hasAttribute('title')) a.setAttribute('title', 'Demo — fiktiver Link');
+  });
+
   const isCoarse = matchMedia('(pointer: coarse)').matches;
   const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
